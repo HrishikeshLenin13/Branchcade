@@ -22,6 +22,7 @@ export default function Settings() {
     [pending, setPending] = useState<AppExport | null>(null)
   const settings = data.profile?.settings ?? DEFAULT_SETTINGS
   const update = async (patch: Partial<AppSettings>) => {
+    setNotice('Saving preferences…')
     await start()
     const current = useSession.getState().data
     if (current.profile)
@@ -29,7 +30,11 @@ export default function Settings() {
         ...current,
         profile: { ...current.profile, settings: { ...current.profile.settings, ...patch } },
       })
-    setNotice('Preferences saved on this device.')
+    setNotice(
+      useSession.getState().ephemeral
+        ? 'Preferences kept in memory; export before closing.'
+        : 'Preferences saved on this device.',
+    )
   }
   return (
     <main className="page narrow">

@@ -4,11 +4,13 @@ import { DEFAULT_SETTINGS, emptyData } from '../storage/migrations'
 import { loadData, saveData, clearData } from '../storage/repositories'
 import { opaqueId } from '../domain/invariants'
 let writeQueue = Promise.resolve()
+let initialization: Promise<void> | undefined
 type Session = {
   data: AppExport
   ready: boolean
   notice: string
   ephemeral: boolean
+  pendingWrites: number
   initialize: () => Promise<void>
   replace: (data: AppExport) => Promise<void>
   start: () => Promise<LearnerProfile>
@@ -19,30 +21,42 @@ export const useSession = create<Session>((set, get) => ({
   ready: false,
   notice: '',
   ephemeral: false,
-  initialize: async () => {
-    try {
-      set({ data: await loadData(), ready: true })
-    } catch {
-      set({
-        ready: true,
-        ephemeral: true,
-        notice:
-          'Local storage is unavailable or unreadable. This session still works in memory. Export before closing to keep your work.',
-      })
-    }
+  pendingWrites: 0,
+  initialize: () => {
+    if (get().ready) return Promise.resolve()
+    return (initialization ??= (async () => {
+      try {
+        set({ data: await loadData(), ready: true })
+      } catch {
+        set({
+          ready: true,
+          ephemeral: true,
+          notice:
+            'Local storage is unavailable or unreadable. This session still works in memory. Export before closing to keep your work.',
+        })
+      } finally {
+        initialization = undefined
+      }
+    })())
   },
   replace: async (data) => {
     set({ data })
     if (get().ephemeral) return
-    writeQueue = writeQueue
-      .then(() => saveData(data))
+    set((s) => ({ pendingWrites: s.pendingWrites + 1 }))
+    const operation = writeQueue
+      .then(() => (get().ephemeral ? undefined : saveData(data)))
       .catch(() => {
         set({
           ephemeral: true,
           notice: 'Saving failed. Your current work stays in memory; export it before closing.',
         })
       })
-    await writeQueue
+    writeQueue = operation
+    try {
+      await operation
+    } finally {
+      set((s) => ({ pendingWrites: Math.max(0, s.pendingWrites - 1) }))
+    }
   },
   start: async () => {
     const existing = get().data.profile

@@ -13,3 +13,7 @@ Scope: Parts A–C foundation, not whole-product shipping.
 - Lazy Blockly chunk warning (~790KB minified) remains; Home excludes it. No real-time animation or worker is claimed.
 
 Final exact command evidence will replace this intermediate report after complete reruns.
+
+## Durable-save regression found by the first GitHub CI run
+
+Run39893940001 on4c170a9 passed install/format/secret/spec/unit/build gates, then reported50/52 browser tests: immediate reload raced pending IndexedDB writes for team rotation and settings in Chromium. Local prior runs had not exposed it. No test was skipped. The repair adds an explicit ordered pending-write count, a truthful save acknowledgment, a beforeunload guard, deduplicated initialization, and clears stale preference success messages. Reload assertions now wait for the observable durable-save acknowledgment rather than assuming a browser click synchronously commits IndexedDB. A new real IndexedDB queue regression test verifies the acknowledgment only reaches zero after both writes finish. The local production-preview rerun passed54/54; unit/component suite86/86. The next GitHub run must verify the repair remotely.

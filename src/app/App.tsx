@@ -31,6 +31,8 @@ function Shell() {
   const ready = useSession((s) => s.ready),
     data = useSession((s) => s.data),
     notice = useSession((s) => s.notice),
+    pendingWrites = useSession((s) => s.pendingWrites),
+    ephemeral = useSession((s) => s.ephemeral),
     initialize = useSession((s) => s.initialize),
     [menu, setMenu] = useState(false),
     [shortcuts, setShortcuts] = useState(false),
@@ -39,6 +41,15 @@ function Shell() {
   useEffect(() => {
     void initialize()
   }, [initialize])
+  useEffect(() => {
+    if (!pendingWrites) return
+    const guard = (event: BeforeUnloadEvent) => {
+      event.preventDefault()
+      event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', guard)
+    return () => window.removeEventListener('beforeunload', guard)
+  }, [pendingWrites])
   useEffect(() => {
     const mq = matchMedia('(prefers-color-scheme: dark)')
     const apply = () => {
@@ -92,6 +103,13 @@ function Shell() {
           ))}
         </nav>
         <div className="header-actions">
+          <span className="save-indicator" role="status" aria-label="Local save status">
+            {pendingWrites
+              ? 'Saving changes locally…'
+              : ephemeral
+                ? 'In-memory session'
+                : 'Saved locally.'}
+          </span>
           <Link className="how-link" to="/how-it-works">
             How it works
           </Link>

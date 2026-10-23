@@ -122,6 +122,7 @@ test('three teammates predict privately, run actual goals and rotate roles after
   await page.getByRole('button', { name: 'Run the shared program' }).click()
   await expect(page.getByText('Actual goals met.', { exact: false })).toBeVisible()
   await page.getByRole('button', { name: 'Rotate roles & start next round' }).click()
+  await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
   await page.reload()
   await expect(
     page.getByRole('heading', { name: 'Round 2: The 20 cm question', exact: true }),
@@ -135,6 +136,8 @@ test('settings persist; export/import checked before replacement; malicious impo
   await page.getByLabel('Theme', { exact: true }).selectOption('dark')
   await page.getByRole('checkbox', { name: 'High contrast', exact: true }).check()
   await page.getByRole('checkbox', { name: 'Reduce motion', exact: true }).check()
+  await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
+  await expect(page.getByText('Preferences saved on this device.', { exact: true })).toBeVisible()
   await page.reload()
   await expect(page.getByRole('checkbox', { name: 'Reduce motion', exact: true })).toBeChecked()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
@@ -283,4 +286,12 @@ test('real pointer drag changes the same obstacle; keyboard position and world i
     'aria-label',
     'Robot world: distance 32.0 centimeters, heading 0 degrees',
   )
+})
+
+test('Chromebook primary run action is fully visible before scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 768 })
+  await page.goto('/missions/m01')
+  await expect(
+    page.getByRole('button', { name: 'Lock prediction & run', exact: true }),
+  ).toBeInViewport({ ratio: 1 })
 })
