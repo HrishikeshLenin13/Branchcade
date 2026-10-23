@@ -1,0 +1,12 @@
+# Local privacy and security model
+
+- No registration, age, real name, email, advertising, tracking, public identity, cloud classroom or third-party learner inference. Alias IDs use crypto.randomUUID. New aliases are randomly generated. Learners should not enter personal details in optional reasoning.
+- IndexedDB is origin/browser/device-specific, not encrypted storage or a remote backup. People using the same browser profile can inspect local learning records. Instructor review shows only this browser, not an entire class. Do not use a shared school profile as though it were confidential per-child storage.
+- Exported JSON/CSV contains aliases, predictions, optional reasoning and programs. Keep exports private and delete copies separately. In-app erase removes its IndexedDB envelope, not downloaded files or hosting access logs.
+- Imports cap at 500,000 bytes, depth 32, structural nodes 20,000, 200 attempts, 100 obstacles, bounded trace sizes and strict schema v1. Future versions fail without overwriting current work. Prototype keys, invalid geometry and executable AST shapes are rejected. Goal claims and execution identities are checked against replay before replacement.
+- Interpreter inputs are data, not arbitrary JS or Python. Numeric/type checks, safe division, 10,000-instruction budget, 2,400-tick budget, 2,000-event cap and 16-level calls bound execution. Error paths remain visible; no unbounded user loop runs.
+- React renders imported text as text, never HTML. No dangerous HTML insertion or generated-code execution is used. CSV quotes cells and neutralizes formula-leading characters.
+- Locally bundled fonts/assets; browser journeys assert no learner-content transmission. Static hosts can log ordinary requested page paths/IP addresses. That is distinct from this application sending learner content.
+- Settings provide explicit export and validated import confirmation. Instructor offers an explicit irreversible erase confirmation. Storage corruption, blocked storage or quota failure gives a visible in-memory warning and export path.
+- No service worker/PWA offline installation, remote classroom, cross-device synchronization or formal privacy compliance certification is claimed in this foundation. Already-loaded screens work without a server roundtrip; unloaded chunks may require the network/cache.
+- AI-assisted work and student review obligations are tracked separately. No student data or study results were fabricated.

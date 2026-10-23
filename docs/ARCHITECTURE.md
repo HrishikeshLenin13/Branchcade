@@ -1,0 +1,43 @@
+# Architecture: Parts A–C
+
+## One-way state flow
+
+```text
+Blockly JSON or authored mission
+           ↓ typed adapter + bounded validation
+Validated Program AST + validated World (centimeters)
+           ↓ pure bounded interpreter
+50ms robot steps → passive ray/floor sensors → ExecutionEvent[]
+           ↓                         ↓
+SVG stage / trace replay        actual goal predicates
+           ↓                         ↓
+locked prediction → compare → probes → evidence rules
+           ↓
+bounded executed counterexample → distinct transfer → local records
+           ↓
+Zod-validated IndexedDB envelope → progress / local instructor / exports
+```
+
+`src/domain/schemas.ts` owns external and persistence shapes. `types.ts` derives public types; only the recursive AST is declared independently in `interpreter/ast.ts` and validated by typed recursive schemas. There are no domain→engine or storage→UI imports. Schemas never import React, Blockly, or browser rendering code.
+
+## Geometry and execution
+
+Positions, radii and distances are centimeters. The SVG viewBox applies camera scaling only. Ray/axis-aligned rectangle intersections use slabs, circle intersections use the quadratic equation. Closed floor-zone edges count as inside; highest priority wins, then lexicographic ID. Spawns/obstacles must fit and cannot intersect solid objects. Movement uses 50ms ticks with substeps no longer than half a radius, so a long movement cannot jump through a thin wall. Headings normalize to [0,360). Sensors do not mutate motion. Default max range is 100cm; out of range is null, never zero. Seeded measurement perturbations are stateless per-tick and bounded to ±0.05cm; default runs have no noise. Sampling is fixed at 20Hz in schema v1.
+
+The interpreter accepts typed literals, sensors, variables, arithmetic, numeric/color comparisons and boolean logic; move/turn/stop/wait, conditions, bounded loops, variable assignment, function declarations/calls and inspection. It never executes code strings. Expression types, stable IDs and missing inputs are checked first. Division by zero, missing variables/functions, instruction/trace/tick/call-depth budgets and cancellation produce explicit errors. Definitions alone never invoke functions. The initial Blockly toolbox intentionally exposes a subset; the AST contract is broader.
+
+A run is computed synchronously within hard budgets. The initial UI reveals its actual completed trace and lets users step through snapshots; it does not yet have a real-time play/pause animator or a worker. Engine pause/reset invariants are unit-tested. Later-phase debugging/worker features must not be claimed complete.
+
+## Learning
+
+A prediction is hashed against canonical program/world JSON, frozen and recorded before execution is revealed. Completed attempts append; only append-only diagnostic/transfer annotations may be added, never rewritten execution facts. One incorrect initial prediction leaves multiple hypotheses possible. Two explicit probes distinguish reversed comparison and autonomous sensor action. Supporting/contradicting observations use bounded heuristic weights, not statistical confidence. Contradictions reduce support. Counterexamples use a finite candidate bank and execute baseline/changed programs; checksums record the actual traces. Correct initial predictions can skip remediation. A transfer variant uses a different world and threshold. Repeated identical transfers do not add independent mastery evidence; one answer never proves mastery.
+
+## Local persistence and recovery
+
+`idb` opens one versioned IndexedDB store. A strict envelope contains profile, attempts and local teams; UI orchestration uses Zustand, not a second physics model. Writes are ordered and atomic at envelope level. Storage denied/corrupt/quota failures preserve a usable in-memory session and a visible export notice. Import validates byte size, structure depth, keys, record schema versions, IDs and replay checksums before an explicit replace confirmation. Unknown versions are rejected, not partially imported. Only a documented pre-release v0 alias shape migrates. Exports are JSON; instructor CSV neutralizes formula prefixes.
+
+No remote learner service, network synchronization, analytics, account registration or inference API exists. Fonts and artwork are bundled. Core navigation and features are static-host compatible. Vercel/Netlify SPA fallback configurations are supplied; no public deployment is claimed.
+
+## Extension seams
+
+Future features belong in the directories prescribed by C2. Current diagnosis/experiments are integrated in `features/lab/LabLesson.tsx`; module-level algorithms already live in `learning/`. See STATUS for separate gates on phases 01–11. Shared contracts change only with a version/migration/test decision recorded in ADR.

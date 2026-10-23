@@ -1,12 +1,14 @@
 # Branchcade working instructions
 
 ## Scope and source of truth
+
 - Read docs/HANDOFF.md, docs/STATUS.json, docs/SPEC.md, architecture, design system and tests before editing.
 - Current user request: implement master-prompt Parts A–C. Do not claim Parts D–L or phases 01–11 complete without their own gates.
 - Work only on main. The user's single-branch request overrides the prompt's phase-branch preference. Never force-push or discard user work.
 - Start with pwd, git status, remotes, fetch --all --prune, log, source tree and scripts; pull --ff-only only when clean.
 
 ## Product and contracts
+
 Branchcade helps beginner roboticists discover why their code behaves as it does. Observe → predict → execute → compare → investigate → experiment → reassess. Derive explanations and goals from actual execution. One wrong answer is not a diagnosis; evidence scores are heuristics, not probabilities. No fabricated outcomes or student contributions.
 
 - Strict TypeScript. Shared types in src/domain/types.ts; runtime boundaries in schemas.ts and invariants.ts. Version persistent data. Coordinates in centimeters; fixed 50ms steps.
@@ -17,6 +19,7 @@ Branchcade helps beginner roboticists discover why their code behaves as it does
 - Document limitations honestly. Maintain keyboard, reduced motion, high contrast and recovery. Inspect desktop and Chromebook screenshots.
 
 ## Commands and checkpoints
+
 - Maintained Node 24 LTS (see .nvmrc); npm with committed lockfile. npm ci, npm run dev, npm run check, npm run test:e2e.
 - Check includes lint, typecheck, unit/integration tests and production build. No hiding failures or blanket skipping tests.
 - At tested checkpoints update HANDOFF, STATUS, TEST_REPORT and AI_ASSISTANCE_LOG; scan for secrets; stage relevant files; commit and push main. Verify remote SHA. Do not claim CI/deployment without evidence.
@@ -25,4 +28,5 @@ Branchcade helps beginner roboticists discover why their code behaves as it does
 - Student review of algorithms and AI disclosure stays explicitly uncompleted until performed by the student.
 
 ## Reusable continuation prompt
+
 Read AGENTS.md and docs/HANDOFF.md, fetch main, verify status against source and tests, then implement the next unfinished user-authorized scope. Preserve working code and honest evidence. Run gates, inspect the browser, update docs, commit and push only main.
