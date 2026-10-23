@@ -1,6 +1,6 @@
 import type { AppExport, Attempt, LearnerProfile } from '../domain/types'
 import { MISSION_CATALOG } from '../missions/catalog'
-import { execute } from '../interpreter/interpreter'
+import { executeRecorded } from '../interpreter/interpreter'
 import { actualAction } from '../interpreter/trace'
 /** Necessary recorded evidence for independent credit; hashes are never accepted merely from a label. */
 export function supportedConceptHashes(
@@ -17,7 +17,8 @@ export function supportedConceptHashes(
         a.prediction.uncertain ||
         a.hintIds?.length ||
         a.experimentUsed ||
-        a.prediction.action !== actualAction(execute(a.world, a.program).events)
+        a.prediction.action !==
+          actualAction(executeRecorded(a.world, a.program, a.engineVersion).events)
       )
         return []
       return [...(a.reassessment ? [a.reassessment] : []), ...(a.transferRetries ?? [])]

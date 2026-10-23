@@ -1,11 +1,11 @@
 import { LIMITS } from './constants'
 /** Inspect shape iteratively before recursive validation: never let untrusted depth reach Zod. */
-export function assertBounded(data: unknown): void {
+export function assertBounded(data: unknown, maxNodes = 20_000): void {
   const pending: { value: unknown; depth: number }[] = [{ value: data, depth: 0 }]
   let count = 0
   while (pending.length) {
     const { value, depth } = pending.pop()!
-    if (++count > 20_000 || depth > LIMITS.depth)
+    if (++count > maxNodes || depth > LIMITS.depth)
       throw new Error('Input exceeds safe structure limits')
     if (typeof value === 'number' && !Number.isFinite(value))
       throw new Error('Numbers must be finite')
@@ -19,7 +19,9 @@ export function assertBounded(data: unknown): void {
   }
 }
 export function canonicalJson(data: unknown): string {
-  assertBounded(data)
+  // Bounded trusted execution traces can contain up to 5,000 events. Import boundaries
+  // still use the stricter 20,000-node preflight before schema validation.
+  assertBounded(data, 1_000_000)
   const normalize = (x: unknown): unknown =>
     Array.isArray(x)
       ? x.map(normalize)

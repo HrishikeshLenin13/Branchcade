@@ -106,3 +106,9 @@ This session’s source, original SVGs, docs and tests are AI-assisted. Student 
 - Loop budget reached: reduce repeats or make the condition change; do not disable the budget.
 - Port in use: choose another dev port; E2E expects 4173, so keep its configuration and preview consistent.
 - Shared-computer continuation: fetch/pull clean main, read HANDOFF and run gates. Do not infer completion from chat history or a stale marker.
+
+## Part F robotics/debugger
+
+New runs use continuous swept-circle contact, bounded small-step interpretation, source-linked sensor/comparison/loop/function traces, distinct **Step code**/**Step tick**,1–4× outcome-invariant replay and **Stop & Edit** locking. Nominal Free Lab is600×360cm with a16cm robot; explicit authored mission worlds retain their original scale. Null distance comparisons are errors unless guarded with **is detected AND**. Noise is off by default and seed-labeled when enabled. Stage camera pan and SVG snapshot downloads are local.
+
+Existing A–E attempts retain their original execution-version checksums. New attempts/team results record engineVersion2; missing/1 means historical replay. See [Part F acceptance](docs/PART_F_ACCEPTANCE.md) for exact limits, numerical tests and intentional semantics. The reusable continuation prompt in AGENTS.md/HANDOFF.md preserves main-only commits and honest verification.

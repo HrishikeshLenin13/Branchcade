@@ -1,13 +1,16 @@
 import { useMemo, useState } from 'react'
 import type { Attempt } from '../../domain/types'
-import { execute } from '../../interpreter/interpreter'
+import { executeRecorded } from '../../interpreter/interpreter'
 import { actualAction, branchFacts } from '../../interpreter/trace'
 import { initialRobot } from '../../engine/robot'
 import { Stage } from '../../components/illustration/Stage'
 import { TraceView } from '../inspector/TraceView'
 import { PROBES } from '../../learning/probes'
 export function AttemptReview({ attempt }: { attempt: Attempt }) {
-  const result = useMemo(() => execute(attempt.world, attempt.program), [attempt]),
+  const result = useMemo(
+      () => executeRecorded(attempt.world, attempt.program, attempt.engineVersion),
+      [attempt],
+    ),
     [cursor, setCursor] = useState(0)
   const robot = result.events[cursor - 1]?.after ?? initialRobot(attempt.world)
   return (
@@ -28,8 +31,19 @@ export function AttemptReview({ attempt }: { attempt: Attempt }) {
       <p>{attempt.prediction.reasoning || 'No prediction reasoning recorded.'}</p>
       <p className="fact">{branchFacts(result.events)}</p>
       <p>{attempt.goalOutcome.facts.join('. ')}</p>
-      <Stage world={attempt.world} robot={robot} events={result.events} cursor={cursor} />
-      <TraceView events={result.events} cursor={cursor} onCursor={setCursor} />
+      <Stage
+        world={attempt.world}
+        robot={robot}
+        events={result.events}
+        cursor={cursor}
+        engineVersion={attempt.engineVersion ?? 1}
+      />
+      <TraceView
+        events={result.events}
+        cursor={cursor}
+        onCursor={setCursor}
+        engineVersion={attempt.engineVersion ?? 1}
+      />
       <h3>Diagnostic timeline</h3>
       <ol>
         <li>Prediction locked: {new Date(attempt.prediction.recordedAt).toLocaleString()}</li>

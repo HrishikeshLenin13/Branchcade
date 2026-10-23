@@ -1,13 +1,14 @@
 {
   "schemaVersion": 1,
-  "scope": "Master prompt Parts D and E, extending verified A-C foundation",
+  "scope": "Master prompt Part F on the updated A-E main foundation",
   "branchPolicy": "main only",
   "parts": {
     "A": "verified",
     "B": "verified representative learning slice",
     "C": "verified; static build supplied, hosting authorization pending",
     "D": "verified visual/responsive implementation; tested browser viewport and accessibility evidence",
-    "E": "verified implemented screen flows: 158 unit/component/integration tests, 80 production browser tests across Chromium/Firefox, successful GitHub CI"
+    "E": "verified implemented screen flows: 158 unit/component/integration tests, 80 production browser tests across Chromium/Firefox, successful GitHub CI",
+    "F": "Implemented F1-F6; local checkpoint:199 unit/component/integration tests,48 Chromium browser checks. Cross-browser CI pending."
   },
   "phases": [
     {
@@ -77,20 +78,13 @@
     "status": "not_deployed",
     "reason": "Vercel CLI identity check returned invalid token; deploy-ready static build supplied."
   },
-  "scopeNote": "Requested D/E surfaces implemented and tested locally. This does not certify later F-L chronological phase gates. Counterexamples use a bounded executed threshold bank with honest no-candidate fallback for other concepts. No public deployment or human study claimed.",
+  "scopeNote": "F1-F6 implementation and local regressions verified. G-L and remaining chronological phase gates are not newly certified. Historical execution versions preserved. No deployment or human study claimed.",
   "currentCheckpoint": {
-    "sourceCommit": "fda537a9dda59104f79d3283c91aafea40ab0fe7",
-    "unitTests": 158,
-    "chromiumBrowserTests": 40,
-    "firefoxLocal": "profile-folder startup error; all40 Firefox checks passed on Ubuntu CI",
+    "baseCommit": "bc4c9c0d6b9d8fe7e472ee22382ee959c5e2f353",
+    "unitTests": 199,
+    "chromiumBrowserTests": 48,
     "build": "passed",
-    "auditVulnerabilities": 0,
-    "firstRemoteRun": {
-      "url": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40033671253",
-      "browserResults": "77 passed, 1 Chromium scrollbar layout assertion failed; all39 Firefox passed; source fix and local 40-browser-test regression verified"
-    },
-    "ciUrl": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40034287198",
-    "ciConclusion": "success",
-    "browserTests": 80
+    "ciConclusion": "pending push",
+    "legacyFingerprints": 40
   }
 }

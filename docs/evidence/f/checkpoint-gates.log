@@ -1,0 +1,144 @@
+
+> branchcade@0.1.0 check
+> npm run lint && npm run typecheck && npm run test -- --run && npm run build
+
+
+> branchcade@0.1.0 lint
+> eslint . --max-warnings 0
+
+
+> branchcade@0.1.0 typecheck
+> tsc -b --pretty false
+
+
+> branchcade@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.0.5 /Users/HrishiL/Desktop/Branchcade
+
+
+ Test Files  18 passed (18)
+      Tests  199 passed (199)
+   Start at  18:11:54
+   Duration  8.24s (environment 54%, tests 17%, import 14%, setup 8%, transform 7%)
+
+Environment  jsdom was created 18 times · 27.76s total, 54% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+
+
+> branchcade@0.1.0 build
+> tsc -b && vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2175 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                     0.79 kB │ gzip:   0.44 kB
+dist/assets/ibm-plex-mono-vietnamese-400-normal-DDuiU_S-.woff       5.62 kB
+dist/assets/ibm-plex-mono-cyrillic-ext-400-normal-DMdlQ8Kv.woff     5.82 kB
+dist/assets/ibm-plex-mono-vietnamese-400-normal-BulugwFq.woff2      5.86 kB
+dist/assets/ibm-plex-mono-cyrillic-ext-400-normal-xuaO2J-f.woff2    6.91 kB
+dist/assets/ibm-plex-mono-cyrillic-400-normal-CEL4l2ZJ.woff         7.20 kB
+dist/assets/geist-cyrillic-ext-wght-normal-DjL33-gN.woff2           7.42 kB
+dist/assets/geist-vietnamese-wght-normal-6IgcOCM7.woff2             8.00 kB
+dist/assets/ibm-plex-mono-cyrillic-400-normal-BSMlKf0J.woff2        8.35 kB
+dist/assets/ibm-plex-mono-latin-ext-400-normal-D3D2R8hC.woff       11.76 kB
+dist/assets/ibm-plex-mono-latin-400-normal-CvHOgSBP.woff           13.14 kB
+dist/assets/ibm-plex-mono-latin-ext-400-normal-BmRBH3aV.woff2      13.34 kB
+dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2          14.70 kB
+dist/assets/geist-cyrillic-wght-normal-BEAKL7Jp.woff2              15.08 kB
+dist/assets/geist-latin-ext-wght-normal-DC-KSUi6.woff2             16.51 kB
+dist/assets/geist-latin-wght-normal-BgDaEnEv.woff2                 29.40 kB
+dist/assets/local-records-ChLpOl_j.css                              2.15 kB │ gzip:   0.81 kB
+dist/assets/LabLesson-D_P17Qjw.css                                 10.15 kB │ gzip:   2.36 kB
+dist/assets/index-DHFKHjtt.css                                     53.17 kB │ gzip:  11.76 kB
+dist/assets/predictions-2A44oJcx.js                                 0.37 kB │ gzip:   0.29 kB
+dist/assets/roles-D19AydaQ.js                                       0.79 kB │ gzip:   0.40 kB
+dist/assets/pseudocode-DSndTcv5.js                                  1.15 kB │ gzip:   0.49 kB
+dist/assets/AttemptReview-Be4EDzeV.js                               2.63 kB │ gzip:   1.08 kB
+dist/assets/LocalImport-GqqXsBjj.js                                 3.37 kB │ gzip:   1.48 kB
+dist/assets/About-BMQXXlJg.js                                       5.56 kB │ gzip:   2.09 kB
+dist/assets/TraceView-BmelQbkz.js                                   6.99 kB │ gzip:   2.65 kB
+dist/assets/Progress-7_fIADiY.js                                    7.80 kB │ gzip:   2.66 kB
+dist/assets/Settings-DJ_vfvdX.js                                    8.11 kB │ gzip:   3.06 kB
+dist/assets/Instructor-CTgr_2fh.js                                 11.97 kB │ gzip:   3.84 kB
+dist/assets/Team-DZOiN1s6.js                                       18.13 kB │ gzip:   5.71 kB
+dist/assets/LabLesson-yV9FR1Ke.js                                  63.22 kB │ gzip:  19.41 kB
+dist/assets/button-kWnokjm4.js                                    171.33 kB │ gzip:  50.49 kB
+dist/assets/index-DD54aLAr.js                                     379.98 kB │ gzip: 121.32 kB
+dist/assets/BlocklyEditor-CmbqN1R4.js                             798.60 kB │ gzip: 213.86 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 618ms
+
+> branchcade@0.1.0 test:e2e
+> playwright test --project=chromium
+
+
+Running 48 tests using 4 workers
+
+(node:65317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65315) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:65316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › e2e/foundation.spec.ts:75:1 › same first wrong answer can lead to comparison-targeted practice (2.9s)
+  ✓   1 [chromium] › e2e/foundation.spec.ts:46:1 › wrong prediction, distinguishing probes, real counterexample and fresh transfer (3.8s)
+  ✓   4 [chromium] › e2e/foundation.spec.ts:89:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (4.8s)
+  ✓   3 [chromium] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (5.0s)
+  ✓   5 [chromium] › e2e/foundation.spec.ts:118:1 › three teammates predict privately, run actual goals and rotate roles after refresh (3.6s)
+  ✓   7 [chromium] › e2e/foundation.spec.ts:177:1 › keyboard dialog focus, navigation and not-found recovery (1.7s)
+  ✓   6 [chromium] › e2e/foundation.spec.ts:148:1 › settings persist; export/import checked before replacement; malicious import preserves current data (2.9s)
+  ✓   8 [chromium] › e2e/foundation.spec.ts:191:1 › no learner-content requests during prediction, run and diagnosis (2.1s)
+  ✓  10 [chromium] › e2e/foundation.spec.ts:208:3 › layout 1366 has no global overflow and working navigation (1.2s)
+  ✓   9 [chromium] › e2e/foundation.spec.ts:208:3 › layout 1440 has no global overflow and working navigation (1.4s)
+  ✓  11 [chromium] › e2e/foundation.spec.ts:208:3 › layout 1024 has no global overflow and working navigation (1.4s)
+  ✓  12 [chromium] › e2e/foundation.spec.ts:208:3 › layout 390 has no global overflow and working navigation (1.7s)
+  ✓  14 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /start (2.6s)
+  ✓  13 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility / (3.1s)
+  ✓  15 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /missions (2.9s)
+  ✓  16 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /missions/m01 (3.1s)
+  ✓  18 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /team (2.0s)
+  ✓  17 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /lab (2.6s)
+  ✓  19 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /progress (2.2s)
+  ✓  20 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /instructor (2.3s)
+  ✓  21 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /settings (1.7s)
+  ✓  22 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /how-it-works (1.8s)
+  ✓  23 [chromium] › e2e/foundation.spec.ts:239:3 › accessibility /not-found (1.8s)
+  ✓  24 [chromium] › e2e/foundation.spec.ts:247:1 › storage blocked stays usable in an explicit in-memory session (1.2s)
+  ✓  27 [chromium] › e2e/foundation.spec.ts:320:1 › Chromebook primary run action is fully visible before scrolling (947ms)
+  ✓  26 [chromium] › e2e/foundation.spec.ts:287:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (2.2s)
+  ✓  25 [chromium] › e2e/foundation.spec.ts:264:1 › six-person team completes one real round without any account (3.1s)
+  ✓  28 [chromium] › e2e/physics-debugger.spec.ts:40:1 › F code/tick steps, pause, rewind, exact explanation and4x replay preserve one attempt (4.2s)
+  ✓  29 [chromium] › e2e/physics-debugger.spec.ts:69:1 › F pause permits inspection only; Stop & Edit resets before code/world changes (3.8s)
+  ✓  30 [chromium] › e2e/physics-debugger.spec.ts:93:1 › F null comparisons stop at source block and guarded conditions run correctly (3.5s)
+  ✓  31 [chromium] › e2e/physics-debugger.spec.ts:111:1 › F nominal world, seeded noise and boundary options persist through world export/import (2.6s)
+  ✓  32 [chromium] › e2e/physics-debugger.spec.ts:141:1 › F panning/zoom hit transforms and SVG snapshot preserve actual world measurements (2.3s)
+  ✓  35 [chromium] › e2e/physics-debugger.spec.ts:231:1 › F Stop & Edit cancels active computation and unlocks editing in one action (2.3s)
+  ✓  33 [chromium] › e2e/physics-debugger.spec.ts:166:1 › F a large looping run remains cancellable and returns to usable editing (3.0s)
+  ✓  34 [chromium] › e2e/physics-debugger.spec.ts:193:1 › F turn/wait programs expose every50ms tick instead of action-sized jumps (3.5s)
+  ✓  36 [chromium] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors (2.8s)
+  ✓  37 [chromium] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors (2.5s)
+  ✓  38 [chromium] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors (2.7s)
+  ✓  39 [chromium] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors (2.6s)
+  ✓  40 [chromium] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors (2.6s)
+  ✓  41 [chromium] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors (2.4s)
+  ✓  42 [chromium] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors (2.8s)
+  ✓  43 [chromium] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors (2.6s)
+  ✓  44 [chromium] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery (2.1s)
+  ✓  45 [chromium] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview (2.2s)
+  ✓  46 [chromium] › e2e/product.spec.ts:95:1 › replay, speed and camera controls preserve one attempt and exact branch evidence (2.2s)
+  ✓  48 [chromium] › e2e/product.spec.ts:166:1 › Chromebook keeps prediction action visible with reserved scrollbar space (1.1s)
+  ✓  47 [chromium] › e2e/product.spec.ts:113:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable (3.1s)
+
+  48 passed (34.8s)

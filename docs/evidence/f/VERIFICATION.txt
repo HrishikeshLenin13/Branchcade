@@ -1,0 +1,49 @@
+Branch: main. Base: bc4c9c0d6b9d8fe7e472ee22382ee959c5e2f353.
+Changed fields: LIMITS.events 2000→5000; instructions10000→5000; ticks2400→20000;
+new callDepth8, stackFrames64, traceBytes4000000. Execution selector: absent/1 legacy,2 new.
+MODIFIED_FILE=/Users/HrishiL/Desktop/Branchcade/src/domain/constants.ts
+DIFF_FILE=/Users/HrishiL/Desktop/Branchcade/docs/evidence/f/DIFF_FILE.patch
+VERIFICATION=/Users/HrishiL/Desktop/Branchcade/docs/evidence/f/VERIFICATION.txt
+ROLLBACK=/Users/HrishiL/Desktop/Branchcade/docs/evidence/f/ROLLBACK.sh
+Original=/Users/HrishiL/Desktop/Branchcade/docs/evidence/f/constants.original.ts
+Original SHA256=c949c4ccce424cbbdd6ac50ed04f51e13635b99414f2b6c3125f90811bf13478
+All commands below ran with cwd=/Users/HrishiL/Desktop/Branchcade.
+
+BASELINE command: npm exec --yes --package=node@24.22.1 -- node scripts/verify-f-limits.mjs baseline docs/evidence/f/constants.original.ts
+Input: byte-preserved bc4c9c0 constants.original.ts.
+Literal output: BASELINE PASS: original hash restored; events=2000 ticks=2400
+Exit status:0.
+BASELINE application command: npm exec --yes --package=node@24.22.1 -- sh -c 'node --version && npm ci && npm run check'
+Input: fetched clean bc4c9c0 source and committed lockfile.
+Literal result excerpts: Test Files  14 passed (14); Tests  158 passed (158).
+Exit status:0. Full output: baseline-check.log.
+BASELINE browser command: npm exec --yes --package=node@24.22.1 -- npm run test:e2e -- --project=chromium
+Input: baseline production preview http://127.0.0.1:4173/.
+Literal result: 40 passed (29.2s)
+Exit status:0. Full output: baseline-browser.log.
+
+MODIFIED command: npm exec --yes --package=node@24.22.1 -- node scripts/verify-f-limits.mjs modified src/domain/constants.ts
+Input: changed live source constants.
+Literal output: MODIFIED PASS: events=5000 ticks=20000 callDepth=8 traceBytes=4000000
+Exit status:0.
+MODIFIED integrated command: npm exec --yes --package=node@24.22.1 -- sh -c 'npm run check && npm run test:e2e -- --project=chromium'
+Input: Part F source and persistent regression suites.
+Literal result excerpts: Test Files  18 passed (18); Tests  199 passed (199).
+Exit status:0. Lint/typecheck/build passed; checkpoint-gates.log contains full output.
+MODIFIED browser command: npm exec --yes --package=node@24.22.1 -- npm run test:e2e -- --project=chromium
+Input: modified production preview http://127.0.0.1:4173/.
+Literal result: 48 passed (34.8s)
+Exit status:0. Final integrated output: checkpoint-gates.log. Previous48-pass browser-only output: checkpoint-browser.log.
+
+ROLLBACK preparation command: cp src/domain/constants.ts /tmp/branchcade-f-rollback.ts
+Input: changed source. Literal result: no stdout. Exit status:0.
+ROLLBACK command: docs/evidence/f/ROLLBACK.sh /tmp/branchcade-f-rollback.ts
+Input: separate disposable copy; live source was not a target.
+Literal output: ROLLBACK COPIED: original constants restored on disposable target
+Exit status:0.
+ROLLBACK verification command: npm exec --yes --package=node@24.22.1 -- node scripts/verify-f-limits.mjs rollback /tmp/branchcade-f-rollback.ts
+Input: restored disposable copy.
+Literal output: ROLLBACK PASS: original hash restored; events=2000 ticks=2400
+Exit status:0.
+Restored behavior/status: original events2000/ticks2400 and exact original hash on the copy.
+Live MODIFIED_FILE remains changed at events5000/ticks20000/callDepth8/traceBytes4000000.

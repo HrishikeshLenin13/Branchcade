@@ -46,6 +46,7 @@ async function sampleAttempt(): Promise<Attempt> {
     completedAt: new Date().toISOString(),
     world,
     program,
+    engineVersion: 2,
     traceHash: await stableHash(result.events),
     diagnosticResponses: [],
     reassessment: null,

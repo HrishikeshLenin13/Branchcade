@@ -1,0 +1,57 @@
+
+> branchcade@0.1.0 test:e2e
+> playwright test --project=chromium
+
+
+Running 40 tests using 4 workers
+
+(node:58696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58697) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58698) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58699) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium] › e2e/foundation.spec.ts:75:1 › same first wrong answer can lead to comparison-targeted practice (2.9s)
+  ✓   2 [chromium] › e2e/foundation.spec.ts:46:1 › wrong prediction, distinguishing probes, real counterexample and fresh transfer (4.3s)
+  ✓   4 [chromium] › e2e/foundation.spec.ts:89:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (4.2s)
+  ✓   1 [chromium] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (4.8s)
+  ✓   7 [chromium] › e2e/foundation.spec.ts:175:1 › keyboard dialog focus, navigation and not-found recovery (1.3s)
+  ✓   8 [chromium] › e2e/foundation.spec.ts:189:1 › no learner-content requests during prediction, run and diagnosis (1.6s)
+  ✓   6 [chromium] › e2e/foundation.spec.ts:146:1 › settings persist; export/import checked before replacement; malicious import preserves current data (2.3s)
+  ✓   9 [chromium] › e2e/foundation.spec.ts:206:3 › layout 1440 has no global overflow and working navigation (865ms)
+  ✓  10 [chromium] › e2e/foundation.spec.ts:206:3 › layout 1366 has no global overflow and working navigation (1.3s)
+  ✓  12 [chromium] › e2e/foundation.spec.ts:206:3 › layout 390 has no global overflow and working navigation (1.2s)
+  ✓  11 [chromium] › e2e/foundation.spec.ts:206:3 › layout 1024 has no global overflow and working navigation (1.3s)
+  ✓   5 [chromium] › e2e/foundation.spec.ts:116:1 › three teammates predict privately, run actual goals and rotate roles after refresh (4.9s)
+  ✓  15 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /start (2.5s)
+  ✓  13 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility / (2.6s)
+  ✓  14 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /missions (2.9s)
+  ✓  16 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /missions/m01 (3.0s)
+  ✓  18 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /team (2.2s)
+  ✓  19 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /progress (1.9s)
+  ✓  20 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /instructor (2.6s)
+  ✓  17 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /lab (3.2s)
+  ✓  21 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /settings (2.1s)
+  ✓  24 [chromium] › e2e/foundation.spec.ts:245:1 › storage blocked stays usable in an explicit in-memory session (1.1s)
+  ✓  22 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /how-it-works (2.2s)
+  ✓  23 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /not-found (1.8s)
+  ✓  27 [chromium] › e2e/foundation.spec.ts:318:1 › Chromebook primary run action is fully visible before scrolling (1.2s)
+  ✓  26 [chromium] › e2e/foundation.spec.ts:285:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (2.4s)
+  ✓  28 [chromium] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors (2.6s)
+  ✓  25 [chromium] › e2e/foundation.spec.ts:262:1 › six-person team completes one real round without any account (3.4s)
+  ✓  29 [chromium] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors (2.2s)
+  ✓  30 [chromium] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors (2.6s)
+  ✓  31 [chromium] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors (2.5s)
+  ✓  32 [chromium] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors (2.4s)
+  ✓  33 [chromium] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors (2.3s)
+  ✓  34 [chromium] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors (2.4s)
+  ✓  36 [chromium] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery (2.1s)
+  ✓  35 [chromium] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors (2.6s)
+  ✓  37 [chromium] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview (2.3s)
+  ✓  40 [chromium] › e2e/product.spec.ts:161:1 › Chromebook keeps prediction action visible with reserved scrollbar space (985ms)
+  ✓  38 [chromium] › e2e/product.spec.ts:90:1 › replay, speed and camera controls preserve one attempt and exact branch evidence (1.8s)
+  ✓  39 [chromium] › e2e/product.spec.ts:108:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable (3.0s)
+
+  40 passed (29.2s)

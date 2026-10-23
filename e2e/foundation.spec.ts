@@ -102,10 +102,12 @@ test('lab parameter changes, real Blockly editor, undo/redo, validated world exp
   await page.getByRole('button', { name: 'Open block editor' }).click()
   await expect(page.locator('.blocklySvg')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Undo', exact: true })).toBeDisabled()
+  await page.getByRole('button', { name: 'Stop & Edit', exact: true }).click()
   await page.getByRole('button', { name: 'Apply blocks', exact: true }).click()
   await expect(page.getByText('Validated block program applied.')).toBeVisible()
   await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
   await expect(page.getByTestId('branch-facts')).toContainText('32 < 40 is true')
+  await page.getByRole('button', { name: 'Stop & Edit', exact: true }).click()
   await page.locator('input[type=file]').setInputFiles({
     name: 'invalid.json',
     mimeType: 'application/json',
@@ -285,7 +287,7 @@ test('six-person team completes one real round without any account', async ({ pa
 test('real pointer drag changes the same obstacle; keyboard position and world import roundtrip', async ({
   page,
 }) => {
-  await page.goto('/lab')
+  await page.goto('/lab?example=24')
   const shape = page.locator('.draggable').first(),
     box = await shape.boundingBox()
   expect(box).not.toBeNull()

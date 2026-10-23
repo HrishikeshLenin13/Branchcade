@@ -14,7 +14,7 @@ import { rotateRoles } from '../../collaboration/rotation'
 import { ROLE_NAMES, ROLE_TASKS } from '../../collaboration/roles'
 import type { Prediction, TeamSession } from '../../domain/types'
 import { recordPrediction } from '../../learning/predictions'
-import { execute } from '../../interpreter/interpreter'
+import { execute, executeRecorded } from '../../interpreter/interpreter'
 import { branchFacts } from '../../interpreter/trace'
 import { MISSION_CATALOG } from '../../missions/catalog'
 import { judgeGoals } from '../../missions/goals'
@@ -74,7 +74,10 @@ export default function Team() {
     locked =
       !team && mission.prerequisiteIds.some((id) => !data.profile?.completedMissions.includes(id))
   const teamProgram = team?.program ?? mission.starterProgram
-  const runResult = team?.phase === 'result' ? execute(mission.world, teamProgram) : null
+  const runResult =
+    team?.phase === 'result'
+      ? executeRecorded(mission.world, teamProgram, team.results.at(-1)?.engineVersion)
+      : null
   const save = async (next: TeamSession) => {
     const current = useSession.getState().data
     await replace({
@@ -130,6 +133,7 @@ export default function Team() {
           ...team.results,
           {
             round: team.rotationIndex,
+            engineVersion: 2,
             traceHash: await stableHash(result.events),
             goalPassed: goal.passed,
             recordedAt,

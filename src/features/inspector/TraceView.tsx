@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { ExecutionEvent, World, Program, RobotState } from '../../domain/types'
 import { readSensors } from '../../engine/sensors'
+import { readSensors as legacySensors } from '../../interpreter/legacy/sensors'
 import { pseudocode } from '../../interpreter/pseudocode'
 import { LIMITS } from '../../domain/constants'
 import { Button } from '../../components/ui/button'
@@ -14,6 +15,7 @@ export function TraceView({
   program,
   runId,
   error,
+  engineVersion = 2,
 }: {
   events: ExecutionEvent[]
   cursor: number
@@ -23,6 +25,7 @@ export function TraceView({
   program?: Program
   runId?: string
   error?: string | null
+  engineVersion?: 1 | 2
 }) {
   const [tab, setTab] = useState<(typeof TABS)[number]>('Timeline'),
     [query, setQuery] = useState(''),
@@ -31,7 +34,10 @@ export function TraceView({
   const current = events[cursor - 1],
     branch = events.slice(0, cursor).findLast((event) => event.kind === 'branch'),
     state = robot ?? current?.after,
-    sensor = world && state ? readSensors(world, state) : current?.sensor,
+    sensor =
+      world && state
+        ? (engineVersion === 1 ? legacySensors : readSensors)(world, state)
+        : current?.sensor,
     filtered = events.filter(
       (event) =>
         (kind === 'all' || event.kind === kind) &&
@@ -43,6 +49,17 @@ export function TraceView({
     pages = Math.max(1, Math.ceil(filtered.length / pageSize)),
     safePage = Math.min(page, pages - 1)
   const variables = Object.entries(current?.variables ?? {})
+  const previousBranch = branch
+    ? events.slice(0, branch.seq).findLast((e) => e.kind === 'branch')
+    : undefined
+  const comparison =
+    current?.kind === 'compare'
+      ? current
+      : branch
+        ? events
+            .slice((previousBranch?.seq ?? -1) + 1, branch.seq)
+            .findLast((e) => e.kind === 'compare')
+        : undefined
   return (
     <section className="trace-panel" aria-label="Execution inspector">
       <div className="panel-header">
@@ -77,6 +94,22 @@ export function TraceView({
         ))}
       </div>
       <div className="button-row trace-steps">
+        <Button
+          variant="outline"
+          disabled={!comparison && !branch}
+          onClick={() => {
+            const target = comparison ?? branch
+            if (target) {
+              onCursor(target.seq + 1)
+              setTab('Timeline')
+              setQuery('')
+              setKind('all')
+              setPage(Math.floor(target.seq / 60))
+            }
+          }}
+        >
+          Why did that happen?
+        </Button>
         <Button
           variant="outline"
           disabled={cursor === 0}
@@ -214,9 +247,9 @@ export function TraceView({
               </div>
             )}
             <p className="muted">
-              Each row is a preserved event. Movement rows are 50 ms ticks; a turn or wait may span
-              several ticks. Select a row to restore its exact snapshot and highlight its program
-              node.
+              Each row is a preserved event. New movement, turn and wait rows each advance one 50 ms
+              tick. Legacy attempts retain their original action snapshots. Select a row to restore
+              its exact snapshot and highlight its program node.
             </p>
           </>
         )}
@@ -282,7 +315,8 @@ export function TraceView({
             <p>
               {error ? `Execution issue: ${error}` : 'Bounded interpreter completed.'}{' '}
               {events.length} / {LIMITS.events} events; {events.at(-1)?.tick ?? 0} / {LIMITS.ticks}{' '}
-              ticks. Instruction budget {LIMITS.instructions}; call depth limit {LIMITS.stack}.
+              ticks. Instruction budget {LIMITS.instructions}; call depth limit {LIMITS.callDepth}.
+              Trace cap {LIMITS.traceBytes / 1_000_000} MB.
             </p>
             {program && <pre className="code-preview">{pseudocode(program)}</pre>}
           </div>

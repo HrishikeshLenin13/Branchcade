@@ -57,6 +57,7 @@ async function attempt(
     prediction,
     world: mission.world,
     program: mission.starterProgram,
+    engineVersion: 2,
     traceHash: await stableHash(run.events),
     diagnosticResponses: [],
     reassessment: null,
@@ -239,6 +240,7 @@ describe('safe local records and scoped exports', () => {
       results: [
         {
           round: 0,
+          engineVersion: 2,
           traceHash: await stableHash(run.events),
           goalPassed: goal.passed,
           recordedAt: new Date().toISOString(),

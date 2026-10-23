@@ -23,7 +23,12 @@ describe('world authoring uses authoritative validation and sensor geometry', ()
     it(`${preset} produces a legal, executable initial world`, () => {
       const world = presetWorld(preset)
       expect(WorldSchema.safeParse(world).success).toBe(true)
-      expect(execute(world, thresholdProgram()).error).toBeNull()
+      const run = execute(world, thresholdProgram())
+      expect(run.error).toBe(
+        readSensors(world, initialRobot(world)).distanceCm === null
+          ? 'No distance return at condition. Guard the comparison with is detected AND your condition.'
+          : null,
+      )
     })
   it('positions circles by their radius, rejects spawn overlap and keeps actual distance accurate', () => {
     const world = makeWorld(),
@@ -57,7 +62,7 @@ describe('world authoring uses authoritative validation and sensor geometry', ()
     expect(readSensors(limited, initialRobot(limited)).distanceCm).toBeNull()
     const program = editDemoCondition(thresholdProgram(), 20, '>')
     expect(actualAction(execute(world, program).events)).toBe('stop')
-    expect(actualAction(execute(limited, program).events)).toBe('move')
+    expect(execute(limited, program).error).toContain('No distance return')
   })
   it('changes only the designated first comparison and never silently replaces a custom program', () => {
     const before = thresholdProgram(),

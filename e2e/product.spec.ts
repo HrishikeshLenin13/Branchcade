@@ -77,14 +77,19 @@ test('lab edits retain physical sensor truth across world history and import pre
   )
   await page.getByRole('button', { name: 'Redo world edit', exact: true }).click()
   await page.getByRole('button', { name: 'Run freely without prediction', exact: true }).click()
-  await expect(page.getByTestId('branch-facts')).toContainText('null < 20 is false')
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'No distance return' }).first(),
+  ).toBeVisible()
+  await page.getByRole('button', { name: 'Stop & Edit', exact: true }).click()
   const file = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Export world', exact: true }).click()
   const path = await (await file).path()
   await page.locator('input[type=file]').setInputFiles(path!)
   await expect(page.getByRole('dialog', { name: 'Preview imported world' })).toBeVisible()
   await page.getByRole('button', { name: 'Cancel import', exact: true }).click()
-  await expect(page.getByTestId('branch-facts')).toContainText('null < 20 is false')
+  await page.getByRole('button', { name: 'Undo world edit', exact: true }).click()
+  await page.getByRole('button', { name: 'Run freely without prediction', exact: true }).click()
+  await expect(page.getByTestId('branch-facts')).toContainText('24 < 20 is false')
 })
 
 test('replay, speed and camera controls preserve one attempt and exact branch evidence', async ({
@@ -94,7 +99,7 @@ test('replay, speed and camera controls preserve one attempt and exact branch ev
   await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
   await page.getByRole('button', { name: 'Replay', exact: true }).click()
   await page.getByRole('button', { name: 'Pause', exact: true }).click()
-  await page.getByRole('button', { name: 'Step action', exact: true }).click()
+  await page.getByRole('button', { name: 'Step code', exact: true }).click()
   await page.getByRole('combobox', { name: 'Simulation speed', exact: true }).selectOption('4')
   await page.getByRole('button', { name: 'Zoom in', exact: true }).click()
   await page.getByRole('button', { name: 'Fit world', exact: true }).click()

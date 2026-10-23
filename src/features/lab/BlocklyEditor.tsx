@@ -4,15 +4,19 @@ import type { Program } from '../../domain/types'
 import { pseudocode } from '../../interpreter/pseudocode'
 import { thresholdProgram } from '../../missions/catalog'
 import { Button } from '../../components/ui/button'
-import { editableProgram, FULL_TOOLBOX, programWorkspace } from './program-workspace'
+import { editableProgram, FULL_TOOLBOX, programWorkspace, blockForNode } from './program-workspace'
 export default function BlocklyEditor({
   onProgram,
   program = thresholdProgram(),
   activeNodeId,
+  readOnly = false,
+  focusNonce = 0,
 }: {
   onProgram: (program: Program) => void
   program?: Program
   activeNodeId?: string
+  readOnly?: boolean
+  focusNonce?: number
 }) {
   const container = useRef<HTMLDivElement>(null),
     workspace = useRef<Blockly.WorkspaceSvg | null>(null),
@@ -89,8 +93,14 @@ export default function BlocklyEditor({
     }
   }, [program])
   useEffect(() => {
-    workspace.current?.highlightBlock(activeNodeId ?? null)
-  }, [activeNodeId])
+    const ws = workspace.current
+    const block = ws && activeNodeId ? blockForNode(ws, activeNodeId) : null
+    ws?.highlightBlock(block?.id ?? null)
+    if (block) ws?.centerOnBlock(block.id)
+  }, [activeNodeId, focusNonce])
+  useEffect(() => {
+    workspace.current?.getAllBlocks(false).forEach((block) => block.setMovable(!readOnly))
+  }, [readOnly])
   const apply = () => {
     try {
       if (!workspace.current) return
@@ -136,7 +146,9 @@ export default function BlocklyEditor({
           >
             Redo
           </Button>
-          <Button onClick={apply}>Apply blocks</Button>
+          <Button onClick={apply} disabled={readOnly}>
+            Apply blocks
+          </Button>
         </div>
       </div>
       <div className="button-row">
@@ -185,6 +197,21 @@ export default function BlocklyEditor({
       {error && (
         <p role="alert" className="error">
           {error}
+          <Button
+            variant="outline"
+            onClick={() => {
+              const id = /(?:at |block )([\w.-]+)/.exec(error)?.[1]
+              const ws = workspace.current,
+                block = ws && id ? blockForNode(ws, id) : null
+              if (ws && block) {
+                setTab('blocks')
+                ws.centerOnBlock(block.id)
+                ws.highlightBlock(block.id)
+              }
+            }}
+          >
+            Go to block
+          </Button>
         </p>
       )}
     </section>

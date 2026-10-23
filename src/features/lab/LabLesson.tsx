@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Play, Pause, RotateCcw, ScanLine, ShieldCheck } from 'lucide-react'
 import type {
@@ -14,11 +14,19 @@ import type {
 import { LEARNING_CYCLE } from '../../domain/constants'
 import { WorldSchema } from '../../domain/schemas'
 import { immutable, opaqueId, stableHash } from '../../domain/invariants'
-import { makeWorld } from '../../engine/world'
+import { makeDefaultWorld, makeWorld } from '../../engine/world'
 import { initialRobot } from '../../engine/robot'
-import { replayAt } from '../../engine/replay'
 import { readSensors } from '../../engine/sensors'
-import { execute, type RunResult } from '../../interpreter/interpreter'
+import { readSensors as legacySensors } from '../../interpreter/legacy/sensors'
+import { nearestLegalSpawn } from '../../engine/placement'
+import { nextCodeCursor, nextTickCursor, ReplayTimeline } from '../../interpreter/debugger'
+import { useTracePlayback } from './useTracePlayback'
+import {
+  execute,
+  executeAsync,
+  executeRecorded,
+  type RunResult,
+} from '../../interpreter/interpreter'
 import { pseudocode, expressionText } from '../../interpreter/pseudocode'
 import { actualAction, branchFacts } from '../../interpreter/trace'
 import {
@@ -101,7 +109,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           .sort((a, b) => a.completedAt.localeCompare(b.completedAt))
           .at(-1)
       : undefined
-  const worldHistory = useEditHistory<World>(draft?.world ?? saved?.world ?? mission.world),
+  const worldHistory = useEditHistory<World>(
+      draft?.world ??
+        saved?.world ??
+        (free && new URLSearchParams(window.location.search).get('example') !== '24'
+          ? makeDefaultWorld()
+          : mission.world),
+    ),
     programHistory = useEditHistory<Program>(
       draft?.program ?? saved?.program ?? mission.starterProgram,
     )
@@ -114,20 +128,27 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     [uncertain, setUncertain] = useState(false)
   const [prediction, setPrediction] = useState<Prediction | null>(saved?.prediction ?? null),
     [result, setResult] = useState<RunResult | null>(() =>
-      saved ? execute(saved.world, saved.program) : null,
+      saved ? executeRecorded(saved.world, saved.program, saved.engineVersion) : null,
     ),
     [attemptId, setAttemptId] = useState(saved?.id ?? ''),
     [cursor, setCursor] = useState(() =>
       saved
         ? Math.min(
-            draft?.cursor ?? execute(saved.world, saved.program).events.length,
-            execute(saved.world, saved.program).events.length,
+            draft?.cursor ??
+              executeRecorded(saved.world, saved.program, saved.engineVersion).events.length,
+            executeRecorded(saved.world, saved.program, saved.engineVersion).events.length,
           )
         : 0,
     ),
     [playing, setPlaying] = useState(false),
-    [speed, setSpeed] = useState(1)
+    [speed, setSpeed] = useState(1),
+    [stepTarget, setStepTarget] = useState<number | undefined>(),
+    [editLocked, setEditLocked] = useState(Boolean(saved)),
+    [focusedNode, setFocusedNode] = useState<string | undefined>(),
+    [errorNode, setErrorNode] = useState<string | undefined>(),
+    [focusNonce, setFocusNonce] = useState(0)
   const [busy, setBusy] = useState(false),
+    [executing, setExecuting] = useState(false),
     [error, setError] = useState(''),
     [notice, setNotice] = useState(''),
     [showEditor, setShowEditor] = useState(false),
@@ -181,7 +202,8 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         Boolean(
           saved &&
           !saved.prediction.uncertain &&
-          saved.prediction.action !== actualAction(execute(saved.world, saved.program).events),
+          saved.prediction.action !==
+            actualAction(executeRecorded(saved.world, saved.program, saved.engineVersion).events),
         ),
     ),
     [assessmentSkipped, setAssessmentSkipped] = useState(saved?.assessmentSkipped ?? false),
@@ -207,8 +229,21 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     [transferIndex, setTransferIndex] = useState(
       draft?.transferIndex ?? saved?.transferRetries?.length ?? 0,
     )
-  const robot = result ? replayAt(world, result.events, cursor) : initialRobot(world),
-    sensor = readSensors(world, initialRobot(world)),
+  const stopPlayback = useCallback(() => setPlaying(false), [])
+  const animated = useTracePlayback(
+    world,
+    result?.events,
+    cursor,
+    playing,
+    speed,
+    setCursor,
+    stopPlayback,
+    Boolean(data.profile?.settings.reducedMotion),
+    stepTarget,
+  )
+  const timeline = useMemo(() => new ReplayTimeline(world, result?.events ?? []), [world, result])
+  const robot = result ? timeline.at(cursor) : initialRobot(world),
+    sensor = (result && !result.status ? legacySensors : readSensors)(world, initialRobot(world)),
     correct = Boolean(
       prediction &&
       !prediction.uncertain &&
@@ -216,6 +251,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       prediction.action === actualAction(result.events),
     ),
     transferVariant = mission.variants[transferIndex % Math.max(1, mission.variants.length)]
+  const tickTarget = result ? nextTickCursor(result.events, cursor) : 0
   const cycleIndex =
     showTransfer || transfer ? 6 : showExperiment ? 5 : showInvestigation ? 4 : result ? 3 : 1
   const stage = complete ? 'complete' : LEARNING_CYCLE[cycleIndex]!.toLowerCase()
@@ -253,6 +289,9 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     experimentThreshold,
     transferIndex,
   ])
+  const runControl = useRef<AbortController | null>(null),
+    editAfterCancel = useRef(false)
+  useEffect(() => () => runControl.current?.abort(), [])
   const saveRef = useRef(saveDraft),
     draftDirty = useRef(false)
   useEffect(() => {
@@ -293,19 +332,6 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     window.history.replaceState(window.history.state, '', url)
   }, [fresh])
   useEffect(() => {
-    if (!playing || !result) return
-    const event = result.events[cursor],
-      previousTime = result.events[cursor - 1]?.elapsedMs ?? 0
-    const timer = window.setTimeout(
-      () => {
-        if (cursor >= result.events.length) setPlaying(false)
-        else setCursor(cursor + 1)
-      },
-      Math.max(50, (event?.elapsedMs ?? previousTime + 50) - previousTime) / speed,
-    )
-    return () => window.clearTimeout(timer)
-  }, [playing, cursor, result, speed])
-  useEffect(() => {
     if (!showExperiment || example) return
     let active = true
     void generateCounterexample(nextHypothesis(hypotheses))
@@ -321,10 +347,15 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     }
   }, [showExperiment, example, hypotheses])
   const reset = () => {
+    runControl.current?.abort()
     setPrediction(null)
     setResult(null)
     setCursor(0)
     setPlaying(false)
+    setEditLocked(false)
+    setStepTarget(undefined)
+    setFocusedNode(undefined)
+    setErrorNode(undefined)
     setAttemptId('')
     setResponses([])
     setHypotheses(initialHypotheses(mission.conceptGoals))
@@ -342,21 +373,38 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     setNotice('New attempt ready. Your previous result stays saved locally.')
   }
   const changeWorld = (next: World) => {
-    worldHistory.set(WorldSchema.parse(next))
+    if (editLocked || busy) return
+    const checked = WorldSchema.safeParse(next)
+    if (!checked.success) {
+      const alternative = checked.error.issues.some((issue) => issue.message.includes('Spawn'))
+        ? nearestLegalSpawn(next, next.spawn.position)
+        : null
+      throw new Error(
+        `World edit rejected. ${alternative ? `Nearest legal 1 cm-grid spawn: (${alternative.xCm}, ${alternative.yCm}) cm. Enter it explicitly to apply.` : (checked.error.issues[0]?.message ?? 'Invalid geometry.')}`,
+      )
+    }
+    worldHistory.set(checked.data)
     reset()
   }
   const changeProgram = (next: Program) => {
+    if (editLocked || busy) return
     programHistory.set(next)
     reset()
   }
   const selectCursor = (next: number) => {
     setPlaying(false)
+    setStepTarget(undefined)
+    setFocusedNode(undefined)
     setCursor(next)
   }
   const run = async (skip = false) => {
     if (busy || prediction) return
     setBusy(true)
     setError('')
+    setEditLocked(true)
+    setExecuting(true)
+    const controller = new AbortController()
+    runControl.current = controller
     try {
       const profile = await start(),
         startedAt = new Date().toISOString(),
@@ -369,15 +417,18 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           reasoning,
         ),
         p = immutable({ ...recorded, branch: branchChoice, uncertain: uncertain || skip })
-      const runResult = execute(world, program)
+      const runResult = await executeAsync(world, program, controller.signal)
+      setExecuting(false)
       if (runResult.error) {
         setError(runResult.error)
+        setErrorNode(runResult.errorNodeId ?? undefined)
         setResult(runResult)
         setCursor(runResult.events.length)
         return
       }
       const attempt: Attempt = {
         schemaVersion: 1,
+        engineVersion: 2,
         id: opaqueId(),
         learnerId: profile.id,
         missionId,
@@ -430,8 +481,15 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       )
     } catch (error) {
       setError(error instanceof Error ? error.message : 'The run did not complete')
+      setErrorNode(error instanceof Error ? /at ([\w.-]+)/.exec(error.message)?.[1] : undefined)
     } finally {
+      runControl.current = null
+      setExecuting(false)
       setBusy(false)
+      if (editAfterCancel.current) {
+        editAfterCancel.current = false
+        reset()
+      }
     }
   }
   const answerProbe = async (choiceId: string) => {
@@ -637,6 +695,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
   const mainRun = () => {
     if (result) {
       if (cursor >= result.events.length) setCursor(0)
+      setStepTarget(undefined)
       setPlaying(true)
     } else {
       document.getElementById('prediction-heading')?.focus()
@@ -645,15 +704,8 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
   }
   const stepAction = () => {
     if (!result || cursor >= result.events.length) return
-    let next = cursor + 1
-    const first = result.events[cursor]
-    while (
-      next < result.events.length &&
-      result.events[next]?.nodeId === first?.nodeId &&
-      result.events[next]?.kind === first?.kind
-    )
-      next++
-    selectCursor(next)
+    setStepTarget(nextCodeCursor(result.events, cursor))
+    setPlaying(true)
   }
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -665,6 +717,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         return
       if (event.key === ' ' && result) {
         event.preventDefault()
+        setStepTarget(undefined)
         setPlaying((value) => !value)
       }
       if (event.key === 'ArrowRight' && result) {
@@ -750,6 +803,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         </Button>
         <Button
           variant="outline"
+          disabled={editLocked || busy}
           onClick={() => {
             if (
               JSON.stringify(program) === JSON.stringify(mission.starterProgram) ||
@@ -783,11 +837,36 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <Button
           variant="outline"
           disabled={!result || cursor >= result.events.length}
-          title="Advance one interpreter action; consecutive movement ticks from the same block are grouped"
+          title="Play the next statement or branch, including its 50 ms motor ticks"
           onClick={stepAction}
         >
-          Step action
+          Step code
         </Button>
+        <Button
+          variant="outline"
+          disabled={!result?.status || tickTarget === cursor}
+          title={
+            !result?.status
+              ? 'Legacy attempts retain action snapshots; start a new run for fixed-tick stepping'
+              : 'Advance exactly one 50 ms physics tick'
+          }
+          onClick={() => result && selectCursor(tickTarget)}
+        >
+          Step tick
+        </Button>
+        <Button
+          variant="outline"
+          disabled={(busy && !executing) || (!editLocked && !executing)}
+          onClick={() => {
+            if (executing) {
+              editAfterCancel.current = true
+              runControl.current?.abort()
+            } else reset()
+          }}
+        >
+          Stop &amp; Edit
+        </Button>
+        {executing && <Button onClick={() => runControl.current?.abort()}>Cancel execution</Button>}
         <Button
           variant="outline"
           disabled={!playing}
@@ -810,6 +889,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           disabled={!result}
           onClick={() => {
             setCursor(0)
+            setStepTarget(undefined)
             setPlaying(true)
             setNotice('Replaying the exact saved trace. No new attempt or score is added.')
           }}
@@ -865,6 +945,18 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       {error && (
         <p className="error" role="alert">
           {error}
+          {errorNode && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowEditor(true)
+                setFocusedNode(errorNode)
+                setFocusNonce((value) => value + 1)
+              }}
+            >
+              Go to block {errorNode}
+            </Button>
+          )}
         </p>
       )}
       <p className="notice workbench-notice" role="status">
@@ -888,7 +980,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             <div className="button-row">
               <Button
                 variant="outline"
-                disabled={!programHistory.canUndo || playing}
+                disabled={!programHistory.canUndo || editLocked || busy}
                 onClick={() => {
                   programHistory.undo()
                   reset()
@@ -898,7 +990,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               </Button>
               <Button
                 variant="outline"
-                disabled={!programHistory.canRedo || playing}
+                disabled={!programHistory.canRedo || editLocked || busy}
                 onClick={() => {
                   programHistory.redo()
                   reset()
@@ -941,7 +1033,9 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               <Suspense fallback={<p role="status">Loading the local block editor…</p>}>
                 <BlocklyEditor
                   program={program}
-                  activeNodeId={result?.events[cursor - 1]?.nodeId}
+                  activeNodeId={focusedNode ?? result?.events[cursor - 1]?.nodeId}
+                  readOnly={editLocked || busy}
+                  focusNonce={focusNonce}
                   onProgram={(next) => {
                     changeProgram(next)
                     setNotice('Validated block program applied.')
@@ -976,13 +1070,15 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </div>
           <Stage
             world={world}
-            robot={robot}
+            robot={animated ?? robot}
+            engineVersion={result && !result.status ? 1 : 2}
+            snapshotDisabled={playing || busy}
             events={result?.events}
             cursor={cursor}
             sensorLabels={data.profile?.settings.sensorLabels !== false}
             onSelectObject={setSelectedObject}
             onZoneEdit={
-              free && !playing
+              free && !editLocked && !busy
                 ? (id, x, y, width, height) => {
                     try {
                       const next = structuredClone(world),
@@ -1001,7 +1097,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 : undefined
             }
             onRobotMove={
-              free && !playing
+              free && !editLocked && !busy
                 ? (x, y) => {
                     try {
                       changeWorld({
@@ -1009,16 +1105,14 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                         spawn: { ...world.spawn, position: { xCm: x, yCm: y } },
                       })
                       setError('')
-                    } catch {
-                      setError(
-                        'Robot placement rejected: keep it clear of solids and world boundaries.',
-                      )
+                    } catch (error) {
+                      setError(error instanceof Error ? error.message : 'Robot placement rejected.')
                     }
                   }
                 : undefined
             }
             onObstacleMove={
-              free && !playing
+              free && !editLocked && !busy
                 ? (id, x, y) => {
                     try {
                       changeWorld(positionObstacle(world, id, x, y))
@@ -1072,7 +1166,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               }}
               onError={setError}
               onNotice={setNotice}
-              disabled={playing}
+              disabled={editLocked || busy}
               savedWorlds={data.savedLabs}
               onSave={async (name) => {
                 try {
@@ -1122,6 +1216,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 <Button
                   variant="outline"
                   key={variant.id}
+                  disabled={editLocked || busy}
                   onClick={() => {
                     changeWorld(variant.world)
                     programHistory.set(variant.program)
@@ -1284,7 +1379,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 </div>
                 <span className="result-label">Actual result</span>
                 <h3>
-                  The robot $
+                  The robot{' '}
                   {
                     { move: 'moved', stop: 'stopped', turn: 'turned', wait: 'waited' }[
                       actualAction(result.events)
@@ -1388,6 +1483,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               program={program}
               runId={attemptId}
               error={result.error}
+              engineVersion={result.status ? 2 : 1}
             />
           )}
           {showTrace && !result && (

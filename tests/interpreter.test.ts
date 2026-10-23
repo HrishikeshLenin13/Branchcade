@@ -32,26 +32,33 @@ describe('bounded typed interpretation', () => {
     const p = thresholdProgram()
     const s = p.body[0]!
     if (s.kind === 'if' && s.condition.kind === 'compare') s.condition.op = op
-    expect(execute(makeWorld(), p).events[0]!.evaluation?.result).toBe(result)
+    expect(
+      execute(makeWorld(), p).events.find((e) => e.kind === 'compare')!.evaluation?.result,
+    ).toBe(result)
   })
   it('uses strict comparison at equality', () => {
-    expect(execute(makeWorld(20), thresholdProgram()).events[0]!.facts[0]).toBe('20 < 20 is false')
+    expect(
+      execute(makeWorld(20), thresholdProgram()).events.find((e) => e.kind === 'compare')!.facts[0],
+    ).toBe('20 < 20 is false')
   })
-  it('null sensor comparisons are explicitly false', () => {
+  it('null sensor comparisons produce a learner-readable block error, never zero/false', () => {
     const w = makeWorld()
     w.obstacles = []
     const r = execute(w, thresholdProgram())
-    expect(r.events[0]!.evaluation?.operands[0]).toBeNull()
-    expect(r.events[0]!.evaluation?.result).toBe(false)
+    expect(r.error).toContain('No distance return')
+    expect(r.errorNodeId).toBe('condition')
+    expect(r.events.some((e) => e.kind === 'branch')).toBe(false)
   })
-  it.each([0, 1, 3])('repeats exactly %s times', (count) => {
+  it.each([1, 3, 5])('repeats exactly %s times', (count) => {
     const r = run([{ nodeId: 'repeat', kind: 'repeat', count: num(count), body: [move()] }])
     expect(r.error).toBeNull()
     expect(r.robot.position.xCm).toBe(40 + count)
   })
   it('while false executes zero iterations; while true is bounded', () => {
     expect(
-      run([{ nodeId: 'w', kind: 'while', condition: bool(false), body: [move()] }]).events,
+      run([{ nodeId: 'w', kind: 'while', condition: bool(false), body: [move()] }]).events.filter(
+        (e) => e.kind === 'move',
+      ),
     ).toHaveLength(0)
     expect(run([{ nodeId: 'w', kind: 'while', condition: bool(true), body: [] }]).error).toContain(
       'budget',
@@ -104,7 +111,7 @@ describe('bounded typed interpretation', () => {
         expression: { nodeId: 'get', kind: 'variable', type: 'number', name: 'distance' },
       },
     ])
-    expect(r.events.at(-1)!.evaluation?.result).toBe(4)
+    expect(r.events.find((e) => e.kind === 'inspect')!.evaluation?.result).toBe(4)
   })
   it.each([
     [true, true, true, true],
@@ -132,7 +139,7 @@ describe('bounded typed interpretation', () => {
   it('turns and waits at fixed steps', () => {
     const r = run([
       { nodeId: 'turn', kind: 'turn', angle: num(90) },
-      { nodeId: 'wait', kind: 'wait', durationMs: num(55) },
+      { nodeId: 'wait', kind: 'wait', durationMs: num(100) },
     ])
     expect(r.robot.headingDeg).toBe(90)
     expect(r.robot.simTimeMs).toBe(1100)

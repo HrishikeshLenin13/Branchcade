@@ -9,6 +9,8 @@ export function expressionText(e: Expression): string {
       return e.name
     case 'not':
       return `!(${expressionText(e.operand)})`
+    case 'detected':
+      return `isDetected(${expressionText(e.operand)})`
     case 'boolean':
       return `(${expressionText(e.left)} ${e.op === 'and' ? '&&' : '||'} ${expressionText(e.right)})`
     default:

@@ -29,3 +29,11 @@ Current Blockly ESM language exports and its declarations disagree about the def
 ## 007 — No unauthorized deployment claim
 
 Vercel CLI was present, but `vercel whoami` returned an invalid-token error. No credentials were created or copied. Produce tested dist/, SPA configs and exact deployment instructions. A public URL remains an external authorization/deployment action, not a completed feature claim.
+
+## F: version execution independently of the envelope
+
+Changing collision contact, floor tie order, null handling, budgets and event granularity would invalidate A–E attempt hashes. Preserve the original runner/validator/sensors/motion/world validation under `interpreter/legacy`; add optional engineVersion1|2 to execution records without default-inserting a field into old canonical data. New attempts/results explicitly record2. Historical review/import selects the recorded version, while new authoring uses2. Verify fixed pre-F hashes and mixed-version imports. Keep the existing version1 envelope because this is an optional backward-compatible record extension, not a silent rewrite of historical facts. Unknown engine versions fail schema validation.
+
+## F: bounded cooperative stepping and replay
+
+Use explicit cursors and64-step async batches instead of adding a worker transport before it is needed. Set hard instruction, event, tick, call-depth, frame and trace-byte caps and test mid-run cancellation in a browser. Preserve every motion tick in a finite trace; cache20-tick snapshots in a64-slot ring. The rAF display clock never feeds interpolated state back into physics or scoring. Long programs stop transparently at a budget, rather than discarding the start of an evidentiary trace or retaining unbounded history.

@@ -1,6 +1,9 @@
 import { useId, useRef, useState } from 'react'
 import type { World, RobotState, ExecutionEvent } from '../../domain/types'
 import { readSensors } from '../../engine/sensors'
+import { readSensors as legacySensors } from '../../interpreter/legacy/sensors'
+import { transformOffset } from '../../engine/geometry'
+import { DEFAULT_SENSOR } from '../../engine/world'
 import { Button } from '../ui/button'
 import { Robot } from './Robot'
 import './stage.css'
@@ -15,6 +18,8 @@ export function Stage({
   controls = true,
   onZoneEdit,
   onRobotMove,
+  engineVersion = 2,
+  snapshotDisabled = false,
 }: {
   world: World
   robot: RobotState
@@ -26,6 +31,8 @@ export function Stage({
   controls?: boolean
   onZoneEdit?: (id: string, xCm: number, yCm: number, widthCm?: number, heightCm?: number) => void
   onRobotMove?: (xCm: number, yCm: number) => void
+  engineVersion?: 1 | 2
+  snapshotDisabled?: boolean
 }) {
   const svg = useRef<SVGSVGElement>(null),
     wrap = useRef<HTMLDivElement>(null),
@@ -36,17 +43,24 @@ export function Stage({
       kind: 'obstacle' | 'zone' | 'resize' | 'robot'
     } | null>(null),
     gridId = useId().replaceAll(':', ''),
-    sensors = readSensors(world, robot)
+    sensors = (engineVersion === 1 ? legacySensors : readSensors)(world, robot)
   const [zoom, setZoom] = useState(1),
     [grid, setGrid] = useState(true),
     [ray, setRay] = useState(true),
     [follow, setFollow] = useState(false),
+    [pan, setPan] = useState({ xCm: 0, yCm: 0 }),
     [details, setDetails] = useState(false),
     [robotDetails, setRobotDetails] = useState(false),
     [fullscreenError, setFullscreenError] = useState('')
   const viewWidth = world.widthCm / zoom,
     viewHeight = world.heightCm / zoom
-  const center = follow ? robot.position : { xCm: world.widthCm / 2, yCm: world.heightCm / 2 }
+  const center = follow
+    ? robot.position
+    : { xCm: world.widthCm / 2 + pan.xCm, yCm: world.heightCm / 2 + pan.yCm }
+  const panBy = (x: number, y: number) => {
+    setPan({ xCm: center.xCm - world.widthCm / 2 + x, yCm: center.yCm - world.heightCm / 2 + y })
+    setFollow(false)
+  }
   const pointAt = (clientX: number, clientY: number) => {
     const matrix = svg.current?.getScreenCTM()
     return matrix ? new DOMPoint(clientX, clientY).matrixTransform(matrix.inverse()) : null
@@ -83,6 +97,7 @@ export function Stage({
             onClick={() => {
               setZoom(1)
               setFollow(false)
+              setPan({ xCm: 0, yCm: 0 })
             }}
           >
             Fit world
@@ -99,6 +114,44 @@ export function Stage({
             onClick={() => setFollow((value) => !value)}
           >
             Follow robot
+          </Button>
+          <Button variant="ghost" aria-label="Pan left" onClick={() => panBy(-viewWidth / 10, 0)}>
+            ←
+          </Button>
+          <Button variant="ghost" aria-label="Pan right" onClick={() => panBy(viewWidth / 10, 0)}>
+            →
+          </Button>
+          <Button variant="ghost" aria-label="Pan up" onClick={() => panBy(0, -viewHeight / 10)}>
+            ↑
+          </Button>
+          <Button variant="ghost" aria-label="Pan down" onClick={() => panBy(0, viewHeight / 10)}>
+            ↓
+          </Button>
+          <Button
+            variant="ghost"
+            disabled={snapshotDisabled}
+            title={
+              snapshotDisabled
+                ? 'Pause replay before capturing an authoritative snapshot'
+                : 'Download the current authoritative stage as SVG'
+            }
+            onClick={() => {
+              if (!svg.current) return
+              const copy = svg.current.cloneNode(true) as SVGSVGElement
+              copy.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+              copy.setAttribute('width', '1200')
+              copy.setAttribute('height', String(Math.round((1200 * viewHeight) / viewWidth)))
+              const url = URL.createObjectURL(
+                new Blob([new XMLSerializer().serializeToString(copy)], { type: 'image/svg+xml' }),
+              )
+              const a = document.createElement('a')
+              a.href = url
+              a.download = `branchcade-stage-tick-${robot.tick}.svg`
+              a.click()
+              URL.revokeObjectURL(url)
+            }}
+          >
+            Snapshot stage
           </Button>
           <Button
             variant="ghost"
@@ -203,8 +256,14 @@ export function Stage({
           stroke="#3F5663"
           strokeWidth=".4"
         />
-        {[...world.floorZones]
-          .sort((a, b) => a.priority - b.priority || b.id.localeCompare(a.id))
+        {world.floorZones
+          .map((zone, index) => ({ zone, index }))
+          .sort(
+            (a, b) =>
+              a.zone.priority - b.zone.priority ||
+              (engineVersion === 1 ? b.zone.id.localeCompare(a.zone.id, 'en') : b.index - a.index),
+          )
+          .map(({ zone }) => zone)
           .map((zone) =>
             zone.kind === 'rectangle' ? (
               <g key={zone.id}>
@@ -276,6 +335,47 @@ export function Stage({
             </text>
           </g>
         ))}
+        <g fill="none" stroke="#9EE2ED" strokeWidth=".5">
+          <title>Start marker</title>
+          <circle
+            cx={world.spawn.position.xCm}
+            cy={world.spawn.position.yCm}
+            r={world.spawn.radiusCm + 2}
+            strokeDasharray="2 2"
+          />
+          <text
+            x={world.spawn.position.xCm}
+            y={world.spawn.position.yCm - world.spawn.radiusCm - 4}
+            fill="#9EE2ED"
+            stroke="none"
+            fontSize="3"
+          >
+            Start
+          </text>
+        </g>
+        {world.goals
+          .filter((g) => g.kind === 'reach')
+          .map((g, i) => (
+            <g key={`goal-${i}`}>
+              <title>Goal marker</title>
+              <circle
+                cx={g.position.xCm}
+                cy={g.position.yCm}
+                r={g.toleranceCm}
+                fill="none"
+                stroke="#A5D898"
+                strokeWidth=".5"
+              />
+              <text
+                x={g.position.xCm}
+                y={g.position.yCm - g.toleranceCm - 2}
+                fill="#A5D898"
+                fontSize="3"
+              >
+                Goal
+              </text>
+            </g>
+          ))}
         <polyline
           points={trail.map((point) => `${point.xCm},${point.yCm}`).join(' ')}
           stroke="#EDB651"
@@ -363,8 +463,35 @@ export function Stage({
               : undefined
           }
         >
-          <Robot x={robot.position.xCm} y={robot.position.yCm} heading={robot.headingDeg} />
+          <Robot
+            x={robot.position.xCm}
+            y={robot.position.yCm}
+            heading={robot.headingDeg}
+            radius={robot.radiusCm}
+          />
         </g>
+        <circle
+          cx={
+            transformOffset(
+              robot.position,
+              robot.headingDeg,
+              (world.sensorConfig ?? DEFAULT_SENSOR).colorOffset,
+            ).xCm
+          }
+          cy={
+            transformOffset(
+              robot.position,
+              robot.headingDeg,
+              (world.sensorConfig ?? DEFAULT_SENSOR).colorOffset,
+            ).yCm
+          }
+          r="1.5"
+          fill={sensors.surfaceColor}
+          stroke="#6CC4D3"
+          strokeWidth=".5"
+        >
+          <title>Floor sensor footprint (center point sample)</title>
+        </circle>
         {grid && (
           <text x="8" y={world.heightCm - 6} fill="#C4D1D7" fontSize="2.8" fontFamily="monospace">
             1 grid square = 10 cm
@@ -412,7 +539,16 @@ export function Stage({
           Distance is measured from ({sensors.ray.origin.xCm.toFixed(1)},{' '}
           {sensors.ray.origin.yCm.toFixed(1)}) cm along the heading. Range: {sensors.ray.maxRangeCm}{' '}
           cm. Sample: tick {robot.tick}, {robot.simTimeMs} ms. “Out of range” means null: no hit
-          within range, never zero. Floor sensor: {sensors.surfaceColor}.
+          within range, never zero. Floor sensor: {sensors.surfaceColor}. Boundaries{' '}
+          {world.boundaryDetectable === false
+            ? 'do not return a distance in this world'
+            : 'count as obstacles'}
+          . Floor sampling uses the shown footprint center; closed edges count inside. Overlaps use
+          highest priority, then{' '}
+          {engineVersion === 1 ? 'stable ID (legacy model)' : 'first declared zone'}. Readings
+          display 0.1 cm; comparisons use the exact operands in the trace.
+          {world.sensorConfig?.noiseSeed !== undefined &&
+            ` Simulated ±0.05 cm noise; seed ${world.sensorConfig.noiseSeed}. This is not hardware accuracy.`}
         </p>
       )}
       {robotDetails && (

@@ -69,3 +69,13 @@ Final local post-fix rerun: all 158 tests, lint/typecheck/build and 40 Chromium 
 ### Verified remote checkpoint
 
 GitHub run [40034287198](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40034287198) on source commit `fda537a9dda59104f79d3283c91aafea40ab0fe7` completed successfully. All **158 unit/integration/component tests** and **80 production browser tests (40 Chromium, 40 Firefox)** passed, with no failed or skipped tests. Format, secret/spec checks, strict typecheck, production build and full npm audit also passed. The native-scrollbar regression and the original Chromebook visibility assertion both passed on Ubuntu. Evidence: `docs/evidence/de-ci.json` and `de-ci-tests.log`. The local Firefox startup limitation remains explicitly distinguished from the successful remote Firefox checks.
+
+## Part F checkpoint,2026-10-23
+
+- Base bc4c9c0 clean/fetched/fast-forwarded; baseline158 tests and40 Chromium browser checks passed on Node24.22.1.
+- Current npm run check passed lint, strict TypeScript,199 tests across18 files and production build.48 production Chromium E2E passed,0 failed/skipped. Cross-browser CI pending push verification.
+- F suites cover numerical geometry/contact/sensors, small-step loop/function/cancellation/budgets, immutable code/tick replay,40 fixed historical trace fingerprints and mixed execution-version imports.
+- All eight authored missions and distinct transfers, local reload durability,2–6 team flows, safe imports/exports, privacy and initial route accessibility continue passing. Null comparison and edit-lock tests were updated to assert the requested F behavior, not skipped.
+- Playwright MCP verified Tick1 after Step tick, Tick10 after code action, exact comparison row24<20=false, and source error navigation with an actual highlighted Blockly condition. Chrome DevTools reported no warnings/errors and no fetch/XHR on the audited local page.
+- An initial SVG footprint aria-label produced three axe failures; it was replaced with an SVG title and all unchanged axe checks passed.
+- Limits rollback ran on /tmp/branchcade-f-rollback.ts and restored original bytes/behavior; src/domain/constants.ts remains changed. See evidence/f/VERIFICATION.txt for commands/outputs.

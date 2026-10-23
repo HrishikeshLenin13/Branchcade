@@ -26,7 +26,14 @@ export function judgeGoals(world: World, run: RunResult, goals: Goal[]) {
         return run.robot.status === 'stopped'
       case 'event': {
         const matches = run.events.filter(
-          (e) => e.kind === g.eventKind && (!g.nodeId || e.nodeId === g.nodeId),
+          (e, i) =>
+            e.kind === g.eventKind &&
+            (!g.nodeId || e.nodeId === g.nodeId) &&
+            // A turn/wait now emits every physics tick, not one event per instruction.
+            (!run.status ||
+              !['turn', 'wait'].includes(e.kind) ||
+              run.events[i - 1]?.kind !== e.kind ||
+              run.events[i - 1]?.nodeId !== e.nodeId),
         )
         return g.count === undefined ? matches.length > 0 : matches.length === g.count
       }

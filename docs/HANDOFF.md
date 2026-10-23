@@ -1,30 +1,22 @@
-# Branchcade D/E checkpoint
+# Branchcade Part F checkpoint
 
-Project: Branchcade
-Authorized scope: investigate the reported failing CI, then implement Parts D and E on the existing A–C foundation.
-Branch: main, preserving the repository’s single-branch workflow.
-Base checkpoint: 1e27f5e (A–C); its preceding application CI fix 7a9d211 and successful run 39894586457 were independently verified through GitHub API.
-Local source checkpoints: b074b27 (missions and records), f266957 (workbench/screen flows), and fda537a (cross-platform toolbar fix).
-Remote source checkpoint (verified): fda537a9dda59104f79d3283c91aafea40ab0fe7. Its GitHub CI passed at https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40034287198. A subsequent documentation/evidence checkpoint is identified by git log rather than a fabricated self-referential SHA.
-Environment: pinned Node 24.22.1 used for local final gates; npm with existing lockfile.
+Authorized scope: implement master-prompt F1–F6 on the updated A–E repository and regress previous functionality. Branch: main only.
+Fetched/fast-forwarded base: bc4c9c0d6b9d8fe7e472ee22382ee959c5e2f353. Its D/E work is preserved, not replaced with the older A/C checkout. The current commit is identified by git log; no self-referential hash is invented.
 
-## What works
+## Implemented
 
-Eight authored missions/reference programs and actual goal predicates; three-step anonymous onboarding; searchable/filterable mission library; desktop three-column workbench; validated full Blockly AST roundtrips; actual stage/world manipulation, sensor range/comparator, world history and collections; camera controls and cursor-based playback/debugging; immutable prediction→probe→experiment→transfer flow and append-only retries; meaningful local 2–6-person contributions/huddles/editable shared program/rotation; multiple local learners, evidence/replay/scoped exports; instructor real filters/local assignments/CSV/JSON/print; validated merge/replace rollback; independent clear scopes, typed erase and storage recovery.
+Continuous exact swept-circle contact,600×360cm nominal lab/radius16, deterministic ray/floor/noise semantics, legal-placement suggestion and edit locking; complete typed Blockly null guard and source lookup; explicit-stack small-step interpreter with finite budgets and actual cooperative cancellation; separate source-linked sensor/comparison/branch/loop/call/return/collision/terminal events;50ms tick stepping, animated code stepping, rAF interpolation, bounded snapshot ring, pan and SVG stage capture. New execution version2 preserves original A–E attempt/team hashes through the isolated legacy runner. See PART_F_ACCEPTANCE and ADR for precise semantics.
 
-## Actual verification
+## Verified checkpoint
 
-- npm run check: passed lint, strict TypeScript, 158 unit/integration/component tests across 14 files, and production build.
-- Production preview Chromium: 40 passed, 0 failed, 0 skipped. Covers all eight mission transfers/reloads, original save regression, both diagnosis paths, real pointer drag, Blockly apply, legal/invalid imports, team handoffs, settings persistence, storage blocked, privacy requests, four viewport widths, 11-route initial axe scans and safe budget-stop UI.
-- Format, secret scan, original-spec preservation/current-scope check and full dependency audit: passed; audit found zero vulnerabilities.
-- Local Firefox installed but its process exited before app load with “Could not find profile folder,” for both temporary and explicitly existing workspace profile paths. No local Firefox success is claimed. Ubuntu CI passed all80 production browser tests (40 each Chromium and Firefox), including the added scrollbar-width regression.
-- Manually opened screenshots include Home, onboarding, library, help, settings, instructor, progress, team and M01 workbench at desktop/Chromebook and selected 390px phone screens. Chromebook primary prediction action observed at y681.6, height44 in a 768px viewport and passes the original full-visibility regression.
-- Evidence: docs/evidence/de-check.log, de-chromium.log, de-audit.json and de-*.png. Full interaction coverage and evidence boundaries are in PARTS_DE_ACCEPTANCE and INTERACTION_AUDIT.
+Pinned Node24.22.1: npm ci; npm run check passed lint, strict TypeScript,199 tests across18 files and production build.48 production Chromium E2E checks passed, including all original40 scenario checks (with explicit F semantics), eight new F debugger/edit/cancel/snapshot flows, all eight mission transfers/reloads, team/import/privacy/layout/accessibility checks.40 fixed pre-F starter/reference/transfer fingerprints and mixed-version imports passed. Baseline before modification:158 tests and40 Chromium browser checks. CI after push is pending and must be independently checked.
 
-## Remaining boundaries
+Original specification hash remains f018432925c785df980a763f4da9c7ff9a3433d71ec54c65f2e52308a0a7244d. F guard-constant original hash is c949c4ccce424cbbdd6ac50ed04f51e13635b99414f2b6c3125f90811bf13478. Tested disposable-copy rollback preserves the modified live limits. Commands/output are in docs/evidence/f/VERIFICATION.txt.
 
-Later F–L/full release gates remain separately unverified. No deployment, physical Chromebook, WebKit, real child testing or learning efficacy is claimed. Counterexample synthesis is a bounded threshold/sensor bank; unsupported targets get executable probes and transparent no-candidate recovery into transfer. Interpreter computation is synchronous with hard budgets. Blockly’s spatial authoring may need a pointer; inert text and numeric world controls are available. Its lazy bundle remains about 798 KB minified. AI-assisted portions and uncompleted student review are recorded in AI_ASSISTANCE_LOG.
+## Remaining verification and boundaries
 
-## Continue
+Check pushed CI on Chromium and Firefox; record final visual evidence and final audit/secret/format gates. Initial F screenshots were opened and the actual result heading corrected; primary Chromebook run button y722.6/height44 remains fully visible. No deployment, physical Chromebook, child study, measured learning effect or student algorithm review is claimed. Blockly's spatial editing may require a pointer; its lazy bundle is about799KB minified. Computation uses bounded yielding main-thread batches, not a worker. Trace history stops at a disclosed4MB cap rather than streaming indefinitely. Legacy attempts retain their original action snapshots; fixed-tick stepping requires a new version2 run.
 
-Fetch main, inspect STATUS/TEST_REPORT and verify the latest CI/checkpoint. Do not automatically start later phases: the current user asked only for D and E. Use npm ci, npm run dev, npm run check and npm run test:e2e. Preserve learner data, meaningful commits and the main-only policy. Source review: missions/catalog, missions/goals, learning/probes, storage/import-export, storage/progress-records, features/lab, collaboration/session and app/session.
+## Reusable continuation prompt
+
+Read AGENTS.md, docs/HANDOFF.md, STATUS, SPEC Part F, PART_F_ACCEPTANCE and TEST_REPORT. Fetch main, inspect status/log before pulling ff-only. Preserve the latest A–F work and immutable versioned records. Run npm ci, npm run check, format/secrets/spec, audit and production browser tests. Verify CI and actual browser evidence, update handoff, commit and push main only. Do not start G–L without a new user request. Student review remains uncompleted until performed by the student.

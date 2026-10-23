@@ -1,0 +1,21 @@
+diff --git a/docs/evidence/f/constants.original.ts b/src/domain/constants.ts
+index e6c4125..c132086 100644
+--- a/docs/evidence/f/constants.original.ts
++++ b/src/domain/constants.ts
+@@ -4,10 +4,13 @@ export const LIMITS = {
+   importBytes: 500_000,
+   nodes: 2_000,
+   depth: 32,
+-  events: 2_000,
+-  instructions: 10_000,
+-  ticks: 2_400,
++  events: 5_000,
++  instructions: 5_000,
++  ticks: 20_000,
+   stack: 16,
++  callDepth: 8,
++  stackFrames: 64,
++  traceBytes: 4_000_000,
+   attempts: 200,
+   obstacles: 100,
+ } as const

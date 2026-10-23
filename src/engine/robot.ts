@@ -1,6 +1,6 @@
 import type { RobotState, World } from '../domain/types'
 import { FIXED_STEP_MS } from '../domain/constants'
-import { hitsObstacle } from './geometry'
+import { sweepCircle } from './sweep'
 export function initialRobot(world: World): RobotState {
   return {
     schemaVersion: 1,
@@ -16,35 +16,28 @@ export function initialRobot(world: World): RobotState {
     stopReason: null,
   }
 }
-/** Fixed 50ms motion with <= radius/2 substeps; no CSS or wall-clock inputs. */
+/** Fixed 50ms motion, swept to exact first contact; no wall-clock inputs. */
 export function advanceRobot(state: RobotState, world: World): RobotState {
   if (state.status !== 'running') return structuredClone(state)
   const dt = FIXED_STEP_MS / 1000
   const next = structuredClone(state)
   const distance = state.speedCmPerSec * dt
-  const segments = Math.max(1, Math.ceil(Math.abs(distance) / (state.radiusCm / 2)))
   const r = (state.headingDeg * Math.PI) / 180
-  for (let i = 0; i < segments; i++) {
-    const position = {
-      xCm: next.position.xCm + (Math.cos(r) * distance) / segments,
-      yCm: next.position.yCm + (Math.sin(r) * distance) / segments,
-    }
-    const wall =
-      position.xCm < state.radiusCm ||
-      position.yCm < state.radiusCm ||
-      position.xCm > world.widthCm - state.radiusCm ||
-      position.yCm > world.heightCm - state.radiusCm
-    const obstacle = world.obstacles.find((o) => hitsObstacle(position, state.radiusCm, o))
-    if (wall || obstacle) {
-      next.status = 'stopped'
-      next.collision = wall ? 'world-boundary' : obstacle!.id
-      next.stopReason = 'collision'
-      next.speedCmPerSec = 0
-      break
-    }
-    next.position = position
+  const delta = { xCm: Math.cos(r) * distance, yCm: Math.sin(r) * distance }
+  const { fraction, collision } = sweepCircle(state.position, delta, state.radiusCm, world)
+  next.position = {
+    xCm: state.position.xCm + delta.xCm * fraction,
+    yCm: state.position.yCm + delta.yCm * fraction,
   }
-  next.headingDeg = (((next.headingDeg + state.turnDegPerSec * dt) % 360) + 360) % 360
+  if (collision) {
+    next.status = 'stopped'
+    next.collision = collision
+    next.stopReason = 'collision'
+    next.speedCmPerSec = 0
+    next.turnDegPerSec = 0
+  }
+  next.headingDeg =
+    (((next.headingDeg + (collision ? 0 : state.turnDegPerSec * dt)) % 360) + 360) % 360
   next.tick++
   next.simTimeMs += FIXED_STEP_MS
   return next

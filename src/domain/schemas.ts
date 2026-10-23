@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import type { Expression, Statement, Program } from '../interpreter/ast'
 import { COLORS, LIMITS } from './constants'
+import { WorldSchema as LegacyWorldSchema } from '../interpreter/legacy/world-schema'
 
 const id = z
   .string()
@@ -89,8 +90,9 @@ const worldBase = z.strictObject({
   schemaVersion: v,
   id,
   sensorConfig: SensorConfigSchema.optional(),
-  widthCm: positive.max(2000),
-  heightCm: positive.max(2000),
+  boundaryDetectable: z.boolean().optional(),
+  widthCm: positive.min(100).max(2000),
+  heightCm: positive.min(100).max(2000),
   obstacles: z.array(ObstacleSchema).max(LIMITS.obstacles),
   floorZones: z.array(FloorZoneSchema).max(100),
   waypoints: z.array(Vec2Schema).max(100),
@@ -121,6 +123,18 @@ export const WorldSchema = worldBase.superRefine((w, ctx) => {
     issue('Spawn must fit inside world')
   const allIds = [...w.obstacles, ...w.floorZones].map((o) => o.id)
   if (new Set(allIds).size !== allIds.length) issue('World object IDs must be unique')
+  if (
+    new Set(w.obstacles.map((o) => `${o.position.xCm},${o.position.yCm}`)).size !==
+    w.obstacles.length
+  )
+    issue('Obstacle locations must be unique')
+  if (
+    w.sensorConfig &&
+    [w.sensorConfig.originOffset, w.sensorConfig.colorOffset].some(
+      (p) => Math.hypot(p.xCm, p.yCm) > r + 1e-9,
+    )
+  )
+    issue('Sensor sample offsets must lie within the robot footprint')
   for (const o of w.obstacles) {
     const radius = o.kind === 'circle' ? o.radiusCm : 0
     const width = o.kind === 'rectangle' ? o.widthCm : radius
@@ -253,6 +267,7 @@ export const ExpressionSchema: z.ZodType<Expression> = z.lazy(() =>
       right: ExpressionSchema,
     }),
     z.strictObject({ ...node, kind: z.literal('not'), operand: ExpressionSchema }),
+    z.strictObject({ ...node, kind: z.literal('detected'), operand: ExpressionSchema }),
   ]),
 )
 export const StatementSchema: z.ZodType<Statement> = z.lazy(() =>
@@ -302,7 +317,26 @@ export const ExecutionEventSchema = z.strictObject({
   tick,
   elapsedMs: nonnegative,
   nodeId: id,
-  kind: z.enum(['branch', 'move', 'turn', 'wait', 'stop', 'set', 'call', 'inspect', 'error']),
+  kind: z.enum([
+    'branch',
+    'move',
+    'turn',
+    'wait',
+    'stop',
+    'set',
+    'call',
+    'inspect',
+    'error',
+    'sensor_read',
+    'compare',
+    'repeat_iteration',
+    'loop_start',
+    'loop_end',
+    'function_return',
+    'function_defined',
+    'collision',
+    'program_stop',
+  ]),
   before: RobotStateSchema,
   after: RobotStateSchema,
   sensor: SensorSnapshotSchema,
@@ -479,6 +513,7 @@ export const MissionSchema = z.strictObject({
 export const AttemptSchema = z
   .strictObject({
     schemaVersion: v,
+    engineVersion: z.union([z.literal(1), z.literal(2)]).optional(),
     id,
     learnerId: id,
     missionId: id,
@@ -486,7 +521,7 @@ export const AttemptSchema = z
     startedAt: time,
     completedAt: time,
     prediction: PredictionSchema,
-    world: WorldSchema,
+    world: z.union([WorldSchema, LegacyWorldSchema]),
     program: ProgramSchema,
     traceHash: hash,
     diagnosticResponses: z
@@ -605,9 +640,10 @@ export const TeamSessionSchema = z
         z.strictObject({
           round: tick,
           traceHash: hash,
+          engineVersion: z.union([z.literal(1), z.literal(2)]).optional(),
           goalPassed: z.boolean(),
           recordedAt: time,
-          world: WorldSchema.optional(),
+          world: z.union([WorldSchema, LegacyWorldSchema]).optional(),
           program: ProgramSchema.optional(),
         }),
       )

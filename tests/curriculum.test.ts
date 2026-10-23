@@ -37,7 +37,8 @@ describe('authored mission execution', () => {
     const world = { ...makeWorld(), sensorConfig: { ...DEFAULT_SENSOR, maxRangeCm: 10 } }
     expect(readSensors(world, initialRobot(world)).distanceCm).toBeNull()
     const run = execute(world, findMission('m01')!.starterProgram)
-    expect(run.events.find((event) => event.kind === 'branch')?.evaluation?.operands[0]).toBeNull()
+    expect(run.error).toContain('No distance return')
+    expect(run.events.some((event) => event.kind === 'branch')).toBe(false)
     expect(run.events[0]?.sensor.ray.maxRangeCm).toBe(10)
   })
 })

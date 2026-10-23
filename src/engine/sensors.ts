@@ -22,8 +22,11 @@ export function readSensors(
         ? -origin.yCm / direction.yCm
         : Infinity,
   ]
-  let distance = Math.min(...wallDistances.filter((t) => t >= 0)),
-    hitId: string | null = 'world-boundary'
+  let distance =
+      world.boundaryDetectable === false
+        ? Infinity
+        : Math.min(...wallDistances.filter((t) => t >= 0)),
+    hitId: string | null = world.boundaryDetectable === false ? null : 'world-boundary'
   for (const o of world.obstacles.filter((o) => o.solid)) {
     const t =
       o.kind === 'rectangle'
@@ -44,7 +47,7 @@ export function readSensors(
     : config.maxRangeCm
   const point = transformOffset(robot.position, robot.headingDeg, config.colorOffset)
   const floor = [...world.floorZones]
-    .sort((a, b) => b.priority - a.priority || a.id.localeCompare(b.id, 'en'))
+    .sort((a, b) => b.priority - a.priority)
     .find((z) => containsZone(point, z))
   return {
     schemaVersion: 1,

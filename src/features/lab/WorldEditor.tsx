@@ -4,6 +4,8 @@ import { COLORS } from '../../domain/constants'
 import { WorldSchema } from '../../domain/schemas'
 import { opaqueId } from '../../domain/invariants'
 import { DEFAULT_SENSOR } from '../../engine/world'
+import { transformOffset } from '../../engine/geometry'
+import { nearestLegalSpawn } from '../../engine/placement'
 import { downloadFile } from '../../storage/import-export'
 import { Button } from '../../components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../../components/ui/dialog'
@@ -61,15 +63,26 @@ export function WorldEditor({
     [comparator, setComparator] = useState<'<' | '<=' | '>' | '>=' | '==' | '!='>('<'),
     [zoneColor, setZoneColor] = useState<(typeof COLORS)[number]>('blue')
   const object = world.obstacles.find((item) => item.id === selectedObject) ?? world.obstacles[0],
-    zone = world.floorZones.find((item) => item.id === selectedObject) ?? world.floorZones[0]
+    zone = world.floorZones.find((item) => item.id === selectedObject) ?? world.floorZones[0],
+    origin = transformOffset(
+      world.spawn.position,
+      world.spawn.headingDeg,
+      (world.sensorConfig ?? DEFAULT_SENSOR).originOffset,
+    )
   const commit = (mutate: (next: World) => void) => {
+    const next = structuredClone(world)
     try {
-      const next = structuredClone(world)
       mutate(next)
       onWorld(WorldSchema.parse(next))
       onError('')
     } catch (error) {
-      onError(error instanceof Error ? error.message : 'That edit is not a legal placement.')
+      const point =
+        error instanceof Error && error.message.includes('Spawn')
+          ? nearestLegalSpawn(next, next.spawn.position)
+          : null
+      onError(
+        `Edit rejected. ${point ? `Nearest legal 1 cm-grid spawn: (${point.xCm}, ${point.yCm}) cm; enter it explicitly.` : 'Keep obstacles separated and all geometry within bounds.'} ${error instanceof Error ? error.message : ''}`,
+      )
     }
   }
   const act = (callback: () => void) => {
@@ -126,13 +139,20 @@ export function WorldEditor({
             min="8"
             max="90"
             step="1"
-            disabled={disabled || !world.obstacles.some((item) => item.id === 'obstacle')}
+            disabled={
+              disabled ||
+              world.spawn.headingDeg !== 0 ||
+              !world.obstacles.some((item) => item.id === 'obstacle')
+            }
             value={
-              (world.obstacles.find((item) => item.id === 'obstacle')?.position.xCm ?? 70) - 46
+              (world.obstacles.find((item) => item.id === 'obstacle')?.position.xCm ??
+                origin.xCm + 24) - origin.xCm
             }
             onChange={(event) =>
               act(() =>
-                onWorld(positionObstacle(world, 'obstacle', 46 + Number(event.target.value))),
+                onWorld(
+                  positionObstacle(world, 'obstacle', origin.xCm + Number(event.target.value)),
+                ),
               )
             }
           />
@@ -496,9 +516,57 @@ export function WorldEditor({
               range
             </span>
           </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={world.boundaryDetectable !== false}
+              onChange={(event) =>
+                commit((next) => {
+                  next.boundaryDetectable = event.target.checked
+                })
+              }
+            />{' '}
+            Distance sensor detects world boundaries
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={world.sensorConfig?.noiseSeed !== undefined}
+              onChange={(event) =>
+                commit((next) => {
+                  const config = { ...(next.sensorConfig ?? DEFAULT_SENSOR) }
+                  if (event.target.checked) config.noiseSeed = 1
+                  else delete config.noiseSeed
+                  next.sensorConfig = config
+                })
+              }
+            />{' '}
+            Simulated bounded noise (±0.05 cm; not hardware accuracy)
+          </label>
+          {world.sensorConfig?.noiseSeed !== undefined && (
+            <label>
+              Noise seed
+              <input
+                type="number"
+                min="0"
+                max="4294967295"
+                value={world.sensorConfig.noiseSeed}
+                onChange={(event) =>
+                  commit((next) => {
+                    next.sensorConfig = {
+                      ...(next.sensorConfig ?? DEFAULT_SENSOR),
+                      noiseSeed: Number(event.target.value),
+                    }
+                  })
+                }
+              />
+            </label>
+          )}
           <p className="muted">
-            Drag solid obstacles in the stopped stage or use coordinates above. Invalid collisions
-            and out-of-bounds edits are rejected.
+            Heading 0° points right; 90° points down. Physics advances in fixed 50 ms ticks. Pause
+            permits inspection only; Stop &amp; Edit resets the run before any changes. Drag solid
+            obstacles in the stopped stage or use coordinates above. Invalid collisions and
+            out-of-bounds edits are rejected.
           </p>
         </fieldset>
       </details>

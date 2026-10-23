@@ -3,7 +3,7 @@
 ## Scope and source of truth
 
 - Read docs/HANDOFF.md, docs/STATUS.json, docs/SPEC.md, architecture, design system and tests before editing.
-- Current user request: verify the reported CI failure, then implement master-prompt Parts D and E on top of the existing A–C foundation. Parts F–L do not expand the requested scope. Do not claim later phases complete without their own gates.
+- Current user request: implement master-prompt Part F on the updated remote A–E foundation, verify earlier behavior, and push tested checkpoints. Parts G–L do not expand this scope.
 - Work only on main. The user's single-branch request overrides the prompt's phase-branch preference. Never force-push or discard user work.
 - Start with pwd, git status, remotes, fetch --all --prune, log, source tree and scripts; pull --ff-only only when clean.
 

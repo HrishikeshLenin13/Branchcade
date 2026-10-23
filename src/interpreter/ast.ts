@@ -16,6 +16,7 @@ export type Expression =
     })
   | (Node & { kind: 'boolean'; op: 'and' | 'or'; left: Expression; right: Expression })
   | (Node & { kind: 'not'; operand: Expression })
+  | (Node & { kind: 'detected'; operand: Expression })
 export type Statement = { nodeId: string } & (
   | { kind: 'move'; distance: Expression }
   | { kind: 'turn'; angle: Expression }

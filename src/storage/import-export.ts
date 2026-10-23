@@ -4,7 +4,7 @@ import { LIMITS } from '../domain/constants'
 import { canonicalJson, stableHash } from '../domain/invariants'
 import { migrateData } from './migrations'
 import { validateProgram } from '../interpreter/validate'
-import { execute } from '../interpreter/interpreter'
+import { execute, executeRecorded } from '../interpreter/interpreter'
 import { judgeGoals } from '../missions/goals'
 import { MISSION_CATALOG } from '../missions/catalog'
 import { probesForMission } from '../learning/probes'
@@ -56,7 +56,7 @@ export async function validateImport(raw: string): Promise<AppExport> {
       a.prediction.worldHash !== (await stableHash(a.world))
     )
       throw new Error('Attempt identity checksum mismatch')
-    const run = execute(a.world, a.program)
+    const run = executeRecorded(a.world, a.program, a.engineVersion)
     if (a.traceHash !== (await stableHash(run.events)))
       throw new Error('Attempt trace checksum mismatch')
     const mission = MISSION_CATALOG.find((m) => m.id === a.missionId)
@@ -143,7 +143,7 @@ export async function validateImport(raw: string): Promise<AppExport> {
       const world = r.world ?? mission.world,
         program = r.program ?? mission.starterProgram
       validateProgram(program)
-      const run = execute(world, program),
+      const run = executeRecorded(world, program, r.engineVersion),
         traceHash = await stableHash(run.events),
         goal = judgeGoals(world, run, mission.successPredicate)
       if (r.traceHash !== traceHash || r.goalPassed !== goal.passed)

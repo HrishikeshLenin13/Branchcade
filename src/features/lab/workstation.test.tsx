@@ -84,8 +84,8 @@ describe('trace inspector presents preserved evidence', () => {
         runId="actual-run"
       />,
     )
-    fireEvent.click(screen.getByRole('button', { name: /Event 1: branch/ }))
-    expect(selected).toEqual([1])
+    fireEvent.click(screen.getByRole('button', { name: /Event 3: branch/ }))
+    expect(selected).toEqual([3])
     fireEvent.click(screen.getByRole('tab', { name: 'Why?' }))
     expect(screen.getByText(/24 < 20 is false/)).toBeVisible()
     expect(screen.getByText(/Operands: 24, 20. Result: false./)).toBeVisible()
@@ -129,7 +129,7 @@ describe('trace inspector presents preserved evidence', () => {
     )
     expect(container.querySelectorAll('.trace-event')).toHaveLength(60)
     fireEvent.click(screen.getByRole('button', { name: 'More events' }))
-    expect(container.querySelectorAll('.trace-event')).toHaveLength(40)
+    expect(container.querySelectorAll('.trace-event')).toHaveLength(60)
     fireEvent.change(screen.getByRole('searchbox', { name: 'Search events' }), {
       target: { value: 'nothing matches' },
     })
@@ -156,7 +156,9 @@ it('pauses and resumes the same preserved cursor without creating another attemp
     await waitFor(() =>
       expect(screen.getByTestId('branch-facts')).toHaveTextContent('24 < 20 is false'),
     )
+    expect(screen.getByRole('heading', { name: 'The robot moved.' })).toBeVisible()
     expect(useSession.getState().data.attempts).toHaveLength(1)
+    fireEvent.click(screen.getByRole('button', { name: 'Step back' }))
     fireEvent.click(screen.getByRole('button', { name: 'Step back' }))
     fireEvent.click(screen.getByRole('button', { name: 'Step back' }))
     expect(screen.getByText('Tick 9 · Paused')).toBeVisible()

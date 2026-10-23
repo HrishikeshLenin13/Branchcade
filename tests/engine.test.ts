@@ -78,7 +78,7 @@ describe('passive measurements and fixed steps', () => {
     expect(s.ray.hitId).toBeNull()
     expect(s.ray.end.xCm - s.ray.origin.xCm).toBe(5)
   })
-  it('uses highest floor priority with stable ID tie', () => {
+  it('uses highest floor priority then declared index', () => {
     const w = makeWorld()
     w.floorZones = [
       {
@@ -100,7 +100,7 @@ describe('passive measurements and fixed steps', () => {
         priority: 1,
       },
     ]
-    expect(readSensors(w, initialRobot(w)).surfaceColor).toBe('black')
+    expect(readSensors(w, initialRobot(w)).surfaceColor).toBe('red')
   })
   it('does not move on a paused tick and reset is exact', () => {
     const w = makeWorld(),

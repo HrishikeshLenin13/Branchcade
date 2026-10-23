@@ -27,7 +27,7 @@ it('reports a disconnected input rather than executing arbitrary generated strin
   try {
     Blockly.serialization.workspaces.load(starterWorkspace(), ws)
     ws.getBlockById('condition')!.getInput('A')!.connection!.disconnect()
-    expect(() => workspaceToProgram(ws)).toThrow('Connect your blocks')
+    expect(() => workspaceToProgram(ws)).toThrow('Connect all blocks')
   } finally {
     ws.dispose()
   }

@@ -1,0 +1,842 @@
+[
+  {
+    "id": "m01-starter",
+    "hash": "9af67f53fd6044c3cc75e28dcf6efb90a14d7ede3e565ea93d2816ee25b34639",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m01-reference",
+    "hash": "9af67f53fd6044c3cc75e28dcf6efb90a14d7ede3e565ea93d2816ee25b34639",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "transfer",
+    "hash": "218801f6ba964494d138be18724b614b2b50fcc673d0d9b4a7927ac014890014",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-2",
+    "hash": "b8c27f1a7fc77b601452d5e927449bf6f76086e1850055edf743ca7a6272bda0",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-3",
+    "hash": "83c92468c2e6c5de0f3cfbd508c6c002ca243abcc0b0455de28ac37e937ad95b",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m02-starter",
+    "hash": "f34601e541fa34c9ffb74ef024c2a4918ee1ee617412aa53aaa9505d015ae99c",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 60,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1000,
+      "tick": 20,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m02-reference",
+    "hash": "f34601e541fa34c9ffb74ef024c2a4918ee1ee617412aa53aaa9505d015ae99c",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 60,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1000,
+      "tick": 20,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "transfer",
+    "hash": "40cf30f02c18981e135629461f76bb62379f0d84d12f1b3697d2a3cf84c5e94d",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 62,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1100,
+      "tick": 22,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-1",
+    "hash": "18e9c66ceafd394fa3e6f19955a39dfe543a4218d73b27453e85a6147fb8c39a",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 65,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1250,
+      "tick": 25,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-2",
+    "hash": "97df1f0855bc6aa554df72eadfbe6a7330193b8bda5170f06255e80f13f56c34",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 68,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1400,
+      "tick": 28,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m03-starter",
+    "hash": "ef029ca16a1c306d4fb91f617f965e45740e132b0e40fa77e5a4c440db30332e",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m03-reference",
+    "hash": "7c81a9d6044b3113d3f048f712a9e12d0babe7504b5251a3e99f6190bce3a7d7",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "transfer",
+    "hash": "0ab6cb70a2e246dd13f1e70c0e0adc35dd0f5207c182ea1f493e4517290f7c5c",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-1",
+    "hash": "e5e8e60bfe01cc605cca25219b7017acc0effcc6ba72284a0e32f5561dc12886",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-2",
+    "hash": "a9ab5a706c3031e8e071986fbefb38c88ef228431f6d5c4f016ebe5fad3cad86",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m04-starter",
+    "hash": "6490390ec8577fc55fd1df2ae2e26dbec36887bb424571368e4731e0005fbff7",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 6000,
+      "tick": 120,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m04-reference",
+    "hash": "b6140787b34c94cd3314908b6172c4fb29425c91be08fa430d22b0513aeb727e",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 60
+      },
+      "headingDeg": 270,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 4500,
+      "tick": 90,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "transfer",
+    "hash": "696ae0d701eb6e0a1b188dd3bcf888bcba694b494a3b593c5739af3a967d3754",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 62
+      },
+      "headingDeg": 270,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 4500,
+      "tick": 90,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-1",
+    "hash": "41c0b393e5fb3251bc38213ef294b6dd72c4299f417b02ddabd0a9682d147b36",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 64
+      },
+      "headingDeg": 270,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 4500,
+      "tick": 90,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-2",
+    "hash": "dab2725c2a6f329799d1e82be0f64e69f9caed177781b5f6e9df3246e3bb0863",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 66
+      },
+      "headingDeg": 270,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 4500,
+      "tick": 90,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m05-starter",
+    "hash": "06fe85a3a050085f81e1b87ac3006f433cbc775e7d100cc0a7de1d63a2bf6bea",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m05-reference",
+    "hash": "b378e8d4e8587898342fbac2a13e2f77b178f038a40cc69d7f39427ce7b11060",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 72,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1600,
+      "tick": 32,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "transfer",
+    "hash": "31943ffdc37bf2dd04da6eed119a6f5162ec84677d8b972314b620a869d45a96",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 72,
+        "yCm": 52
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1600,
+      "tick": 32,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-1",
+    "hash": "99fcb404e23765ff7ed81d5f9600bfea847aae996339ec56f13594d82364e181",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 72,
+        "yCm": 54
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1600,
+      "tick": 32,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-2",
+    "hash": "f97b716119307ccf2de15e2c05c03cef6573686c5716f0e1212c942e4d10f452",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 72,
+        "yCm": 56
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1600,
+      "tick": 32,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m06-starter",
+    "hash": "e1470964c5e40aba00fa32ca13fd056bef91d52ed0ad4d2d3d4eef81f36b0bd6",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m06-reference",
+    "hash": "6ac1f51c34b46ad10c1f1de82b047981a58f3c9491ef930cdd6b911e2256a6e6",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 60
+      },
+      "headingDeg": 90,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 2000,
+      "tick": 40,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "transfer",
+    "hash": "7a8ff56a1cc6ebae95c701e17a41ab0f042410115177d2d776cc1c010a9d5e11",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 62
+      },
+      "headingDeg": 90,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 2000,
+      "tick": 40,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-1",
+    "hash": "b8da423e3b98ed8ac4bc68c4f6a13867fc885ed2b7cb8590fdc7d81b55e42bfc",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 64
+      },
+      "headingDeg": 90,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 2000,
+      "tick": 40,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-2",
+    "hash": "ae79d4016659147db16fdd533fa6fc0446e426149dcfc4b956c652dfa2c57b13",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 66
+      },
+      "headingDeg": 90,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 2000,
+      "tick": 40,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m07-starter",
+    "hash": "205bba85e14601941b33bed78e0d49b4dbcea849c534baf2bc3935285251e017",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 0,
+      "tick": 0,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m07-reference",
+    "hash": "1d3d3d3381180a36ce74162291394e83ec8b77e2004ea457d0c06b61cc8c1d5c",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "transfer",
+    "hash": "690060531967b2c60b1a7cb84b7b13a90df7971d8666978d454478f31c60ae42",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 52
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-1",
+    "hash": "fd8ef748d01a96ab9e8e33ea08e692ae61a3426499a9367e1f67f409e531d00f",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 54
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-2",
+    "hash": "094dff65fa543a4ea6604539dec66c6131710695e1962cf028a8b190520f25db",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 56
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m08-starter",
+    "hash": "5f15ea1931a976bdc5a1d2c9b3addc8bf2e6708111c183769c66b06308ceed05",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 50,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 500,
+      "tick": 10,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "m08-reference",
+    "hash": "1dba28eee0aa5c7728b37b52e17ae13e89af104efd4e0b350499663868c38249",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 60
+      },
+      "headingDeg": 90,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1500,
+      "tick": 30,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "transfer",
+    "hash": "06a6708def33a920c8f12fabf0ec8cd9b09f5632e5bedf8dd68edc0b74b0ebe4",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 62
+      },
+      "headingDeg": 90,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1500,
+      "tick": 30,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-1",
+    "hash": "ddfa626673a0ad0e6d14249a6b349aaa193d2b2d618a827f48939ca349ebcb18",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 64
+      },
+      "headingDeg": 90,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1500,
+      "tick": 30,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  },
+  {
+    "id": "practice-2",
+    "hash": "544d88c077e6fe63aa198045073c0217398a22673d4b5892db8d69e5a0395904",
+    "robot": {
+      "schemaVersion": 1,
+      "position": {
+        "xCm": 40,
+        "yCm": 66
+      },
+      "headingDeg": 90,
+      "radiusCm": 6,
+      "speedCmPerSec": 0,
+      "turnDegPerSec": 0,
+      "status": "stopped",
+      "collision": null,
+      "simTimeMs": 1500,
+      "tick": 30,
+      "stopReason": "program-stop"
+    },
+    "error": null
+  }
+]
