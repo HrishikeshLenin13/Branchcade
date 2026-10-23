@@ -27,3 +27,11 @@ Default light shell/dark stage, persistent full dark preference, high contrast a
 ## Visual verification
 
 Selected actual screenshots live in docs/evidence. Browser/a11y evidence and any corrected defects are recorded in TEST_REPORT and INTERACTION_AUDIT. No Figma reference was supplied; no Figma or pixel-perfect claim is made. An initial button-link foreground issue was found by screenshot inspection and repaired before the final gate.
+
+## D/E implementation, 2026-10-23
+
+The shell now uses a complete token vocabulary for semantic surfaces, syntax, selection, spacing, typography, z-index, focus and component states. The workbench places program, physical stage and contextual learning/trace instruments in three columns at desktop width. Panel-width controls have minimums; the inspector moves below on smaller screens and the phone view has a laptop advisory and usable simplified controls.
+
+On 1366×768 the initial mission primary prediction action is fully visible: observed y=681.6, height=44. Confidence and optional reasoning use a disclosure so the core question stays in view. Camera operations alter SVG viewBox only. Real zone/robot/obstacle drag and numeric controls validate world geometry. Inline controls obey disabled states, focus and reduced motion. Blockly component themes follow the appearance tokens without modifying program state.
+
+Actual visual review included Home, Onboarding, Mission library, How it works, Settings, Instructor, Progress, Team and the M01 workbench. Home/library/onboarding/settings/instructor/team were also checked at 390px. Selected screenshots: `de-home-chromebook.png`, `de-missions-desktop.png`, `de-onboarding-phone.png`, `de-workstation-chromebook.png`. Four-width automated checks cover 1440, 1366, 1024 and 390px; these are browser viewport tests, not physical-device claims.

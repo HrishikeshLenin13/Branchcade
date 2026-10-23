@@ -1145,4 +1145,4 @@ If all phases are completed, report final functional paths, actual test counts a
 
 ## Current invocation scope
 
-Implement Parts A–C only. Work directly on main, as explicitly requested by the user. The original full specification is retained for future sessions; Parts D–L do not expand this invocation. Later phases remain unverified until their own acceptance gates are executed.
+Verify the reported CI failure, then implement Parts D and E on top of the existing verified A–C foundation. Preserve the repository's main-only workflow and existing learner data. Sections F–L are reference material for dependencies and do not authorize unrelated release work. Each implemented D/E action must use actual local state and engine output. Student review and a hosted deployment are separate work; never imply either occurred.

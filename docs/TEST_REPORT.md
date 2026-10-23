@@ -47,3 +47,15 @@ Production-preview Home console:0 warnings/errors at inspection; no fetch/XHR. L
 ## Remaining limitations
 
 Lazy Blockly chunk~790KB minified; warning retained. ESLint9 current jsx-a11y peer compatibility limits upgrade; audit0 does not erase that maintenance issue. No WebKit, physical Chromebook, formal accessibility certification, human study, learning-effectiveness statistics or public deployment. No later curriculum/phase gate is claimed. See INTERACTION_AUDIT and PARTS_ABC_ACCEPTANCE for exact current controls and scope.
+
+## D/E local gate — 2026-10-23
+
+Pinned Node24.22.1 final `npm run check`: lint and strict typecheck pass; **158/158 tests in14 files pass**, no skipped tests; production build passes. Full dependency audit: **0 vulnerabilities**. Formatting, secret scan, original-spec hash/current-scope validation and git whitespace check pass.
+
+Production-preview Chromium final suite: **39/39 pass**, zero failed/skipped. Persistent specs are foundation.spec and product.spec. New coverage includes all8 authored mission/transfer/reload journeys, OR search/filter/preview recovery, world range/null truth and history, exact replay without extra attempts, and a synthetic imported infinite-loop safety fixture that stops and leaves the editor usable. Unit/React coverage adds all8 starter/reference Blockly execution roundtrips, goal failures for faulty starters, camera invariants, live sensor config, full persistence defaults, scoped export/merge, durable import rollback, multi-learner clear isolation, immutable transfers/hints, verified concept claims, team contribution gates/historical edited-program snapshots, and actual pause/resume cursor preservation.
+
+During integration, the Chromebook primary action was found below the viewport, corrected through compact workstation spacing and optional prediction detail disclosure, and the original `toBeInViewport({ratio:1})` assertion passed. Updated E2E selectors reflect the new three-step onboarding, required role contributions/huddle, import strategy preview and typed erase; none of these new gates were bypassed.
+
+Local Firefox could not launch:39 attempts failed at process startup, before any page/app behavior, with “Could not find profile folder.” A direct temporary-profile launch and an explicitly existing workspace-profile launch reproduced this environment error. Ubuntu GitHub CI remains configured to execute both Chromium and Firefox; its final remote result will be recorded separately. This is not labeled a passing local browser run.
+
+Screenshot review: selected de-*.png files were actually opened. Desktop/Chromebook1366×768/1440×900 and phone390×844 screens were checked; automated overflow/navigation also covers1024×768. Initial WCAG A/AA axe scans pass all11 routes in Chromium. No WebKit/hardware/human study claim. Logs: de-check.log, de-chromium.log, de-audit.json.

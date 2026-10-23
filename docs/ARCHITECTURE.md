@@ -41,3 +41,13 @@ No remote learner service, network synchronization, analytics, account registrat
 ## Extension seams
 
 Future features belong in the directories prescribed by C2. Current diagnosis/experiments are integrated in `features/lab/LabLesson.tsx`; module-level algorithms already live in `learning/`. See STATUS for separate gates on phases 01–11. Shared contracts change only with a version/migration/test decision recorded in ADR.
+
+## D/E extension
+
+The v1 envelope remains backward compatible through default collections: inactive profiles, drafts, saved labs and local assignments. Drafts carry the authoritative world/program, stage, attempt ID and trace cursor; prediction/attempt execution facts remain immutable. Transfer retries and hint/experiment annotations append without rewriting earlier evidence. Independent concept claims are reconciled against distinct executed scenarios and assistance metadata.
+
+The mission catalog contains eight schema-validated activities and reference programs. Goal predicates include explicit branch, final displacement/position, event/call counts, programmed color stops and heading. Blockly can roundtrip each authored starter/reference program; arbitrary source strings remain inert. Live and interpreted sensors both honor world sensor configuration.
+
+Computation is bounded and synchronous; a separate cursor schedules presentation of recorded events at selected playback speed. Pause/resume/replay/zoom cannot change trace order, measurements or scoring. Real world edits validate geometry and reset transient execution while keeping prior attempts. Team shared programs lock after the first private prediction; later rounds retain prior predictions, contributions and immutable program/world/result snapshots.
+
+Imports replay attempts, transfers and team results and ground concept claims before a preview. Merge preserves existing immutable IDs. Durable import commits before the UI switches datasets; failed saves roll back. Scoped exports remove unrelated learner/attempt/evidence claims. No external learner service or network synchronization was added.

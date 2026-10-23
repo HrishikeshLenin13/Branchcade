@@ -1,11 +1,13 @@
 {
   "schemaVersion": 1,
-  "scope": "Master prompt Parts A-C only",
+  "scope": "Master prompt Parts D and E, extending verified A-C foundation",
   "branchPolicy": "main only",
   "parts": {
     "A": "verified",
     "B": "verified representative learning slice",
-    "C": "verified; static build supplied, hosting authorization pending"
+    "C": "verified; static build supplied, hosting authorization pending",
+    "D": "implemented; local visual, accessibility and browser checks passed",
+    "E": "implemented; local 158 tests and 39 Chromium production browser checks passed; remote cross-browser CI pending"
   },
   "phases": [
     {
@@ -70,10 +72,18 @@
       "status": "not_started"
     }
   ],
-  "lastVerifiedAt": "2026-10-23T03:26:34.123Z",
+  "lastVerifiedAt": "2026-10-23",
   "deployment": {
     "status": "not_deployed",
     "reason": "Vercel CLI identity check returned invalid token; deploy-ready static build supplied."
   },
-  "scopeNote": "Parts A-C foundation only. One actual mission demonstrates all seven stages. All later full-product phase gates remain unverified; representative engine/editor/learning code does not certify those phases."
+  "scopeNote": "Requested D/E surfaces implemented and tested locally. This does not certify later F-L chronological phase gates. Counterexamples use a bounded executed threshold bank with honest no-candidate fallback for other concepts. No public deployment or human study claimed.",
+  "currentCheckpoint": {
+    "sourceCommit": "local source commits recorded by git log",
+    "unitTests": 158,
+    "chromiumBrowserTests": 39,
+    "firefoxLocal": "launch blocked: Firefox could not find profile folder; Ubuntu CI pending",
+    "build": "passed",
+    "auditVulnerabilities": 0
+  }
 }
