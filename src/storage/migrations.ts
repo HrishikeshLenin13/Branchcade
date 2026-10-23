@@ -10,6 +10,7 @@ export const DEFAULT_SETTINGS = {
   highContrast: false,
   shortcutsOverlay: true,
   lastOpenedMission: null,
+  sensorLabels: true,
 } as const
 export function emptyData() {
   return ExportSchema.parse({

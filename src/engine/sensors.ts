@@ -5,7 +5,7 @@ import { DEFAULT_SENSOR } from './world'
 export function readSensors(
   world: World,
   robot: RobotState,
-  config: SensorConfig = DEFAULT_SENSOR,
+  config: SensorConfig = world.sensorConfig ?? DEFAULT_SENSOR,
 ): SensorSnapshot {
   const origin = transformOffset(robot.position, robot.headingDeg, config.originOffset)
   const r = (robot.headingDeg * Math.PI) / 180,

@@ -3,6 +3,7 @@ import { ExportSchema, AttemptSchema } from '../domain/schemas'
 import { immutable } from '../domain/invariants'
 import { database } from './db'
 import { emptyData, migrateData } from './migrations'
+import { reconcileConceptProgress } from './progress-records'
 export async function loadData(): Promise<AppExport> {
   const db = await database()
   const data: unknown = await db.get('app', 'state')
@@ -30,18 +31,36 @@ export async function clearData(): Promise<void> {
 export function annotateAttempt(
   data: AppExport,
   id: string,
-  patch: Pick<Attempt, 'diagnosticResponses' | 'reassessment'>,
+  patch: Pick<Attempt, 'diagnosticResponses' | 'reassessment'> &
+    Partial<Pick<Attempt, 'transferRetries' | 'hintIds' | 'experimentUsed'>>,
 ): AppExport {
   const original = data.attempts.find((a) => a.id === id)
   if (!original) throw new Error('Saved attempt not found')
-  if (original.reassessment)
-    throw new Error('A revealed transfer answer is immutable; start a new attempt')
+  if (
+    original.reassessment &&
+    JSON.stringify(original.reassessment) !== JSON.stringify(patch.reassessment)
+  )
+    throw new Error('A revealed transfer answer is immutable; append a new transfer retry')
+  if (
+    patch.transferRetries !== undefined &&
+    original.transferRetries?.some(
+      (r, i) => JSON.stringify(r) !== JSON.stringify(patch.transferRetries?.[i]),
+    )
+  )
+    throw new Error('Existing transfer retry answers cannot be edited')
   if (
     original.diagnosticResponses.some(
       (r, i) => JSON.stringify(r) !== JSON.stringify(patch.diagnosticResponses[i]),
     )
   )
     throw new Error('Existing probe responses cannot be edited')
+  if (patch.hintIds && original.hintIds?.some((id, i) => patch.hintIds![i] !== id))
+    throw new Error('Previously requested hints cannot be removed or rewritten')
+  if (patch.hintIds && new Set(patch.hintIds).size !== patch.hintIds.length)
+    throw new Error('Hint IDs must be unique')
+  if (original.experimentUsed && patch.experimentUsed === false)
+    throw new Error('Revealed experiment assistance cannot be removed')
   const updated = AttemptSchema.parse({ ...original, ...patch })
-  return { ...data, attempts: data.attempts.map((a) => (a.id === id ? updated : a)) }
+  const next = { ...data, attempts: data.attempts.map((a) => (a.id === id ? updated : a)) }
+  return patch.hintIds || patch.experimentUsed ? reconcileConceptProgress(next) : next
 }

@@ -63,10 +63,32 @@ export const GoalSchema = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('distance'), minCm: nonnegative }),
   z.strictObject({ kind: z.literal('reach'), position: Vec2Schema, toleranceCm: positive }),
   z.strictObject({ kind: z.literal('stopped') }),
+  z.strictObject({
+    kind: z.literal('event'),
+    eventKind: z.enum(['move', 'turn', 'stop', 'set', 'call', 'inspect', 'branch', 'wait']),
+    nodeId: id.optional(),
+    count: tick.optional(),
+  }),
+  z.strictObject({ kind: z.literal('color-stop'), color }),
+  z.strictObject({
+    kind: z.literal('heading'),
+    headingDeg: n.min(0).lt(360),
+    toleranceDeg: nonnegative.max(180),
+  }),
 ])
+export const SensorConfigSchema = z.strictObject({
+  schemaVersion: v,
+  maxRangeCm: positive.max(500),
+  originOffset: Vec2Schema,
+  readingHz: z.literal(20),
+  noiseSeed: z.number().int().nonnegative().max(4294967295).optional(),
+  colorOffset: Vec2Schema,
+  normalization: z.literal('null-out-of-range;heading-0-360;cm'),
+})
 const worldBase = z.strictObject({
   schemaVersion: v,
   id,
+  sensorConfig: SensorConfigSchema.optional(),
   widthCm: positive.max(2000),
   heightCm: positive.max(2000),
   obstacles: z.array(ObstacleSchema).max(LIMITS.obstacles),
@@ -184,15 +206,6 @@ export const RobotStateSchema = z.strictObject({
   simTimeMs: nonnegative,
   tick,
   stopReason: text.nullable(),
-})
-export const SensorConfigSchema = z.strictObject({
-  schemaVersion: v,
-  maxRangeCm: positive.max(500),
-  originOffset: Vec2Schema,
-  readingHz: z.literal(20),
-  noiseSeed: z.number().int().nonnegative().max(4294967295).optional(),
-  colorOffset: Vec2Schema,
-  normalization: z.literal('null-out-of-range;heading-0-360;cm'),
 })
 export const SensorSnapshotSchema = z.strictObject({
   schemaVersion: v,
@@ -330,6 +343,7 @@ export const PredictionSchema = z
     confidence: z.number().int().min(1).max(5),
     reasoning: text.optional(),
     recordedAt: time,
+    uncertain: z.boolean().optional(),
   })
   .refine(
     (p) => !p.distanceRange || p.distanceRange[0] <= p.distanceRange[1],
@@ -411,14 +425,15 @@ export const AppSettingsSchema = z.strictObject({
   highContrast: z.boolean(),
   shortcutsOverlay: z.boolean(),
   lastOpenedMission: id.nullable(),
+  sensorLabels: z.boolean().optional(),
 })
 export const ReassessmentSchema = z
   .strictObject({
     schemaVersion: v,
     worldHash: hash,
     programHash: hash,
-    predictedAction: z.enum(['move', 'stop']),
-    actualAction: z.enum(['move', 'stop']),
+    predictedAction: z.enum(['move', 'stop', 'turn', 'wait']),
+    actualAction: z.enum(['move', 'stop', 'turn', 'wait']),
     correct: z.boolean(),
     recordedAt: time,
   })
@@ -478,6 +493,10 @@ export const AttemptSchema = z
       .array(z.strictObject({ probeId: id, choiceId: id, recordedAt: time }))
       .max(20),
     reassessment: ReassessmentSchema.nullable(),
+    transferRetries: z.array(ReassessmentSchema).max(20).optional(),
+    hintIds: z.array(id).max(20).optional(),
+    assessmentSkipped: z.boolean().optional(),
+    experimentUsed: z.boolean().optional(),
     goalOutcome: z.strictObject({ passed: z.boolean(), facts: z.array(text).max(20) }),
   })
   .refine(
@@ -493,8 +512,18 @@ export const AttemptSchema = z
   .refine(
     (a) =>
       a.diagnosticResponses.every((r) => Date.parse(r.recordedAt) >= Date.parse(a.completedAt)) &&
-      (!a.reassessment || Date.parse(a.reassessment.recordedAt) >= Date.parse(a.completedAt)),
+      (!a.reassessment || Date.parse(a.reassessment.recordedAt) >= Date.parse(a.completedAt)) &&
+      (!a.transferRetries?.length || Boolean(a.reassessment)) &&
+      (a.transferRetries ?? []).every(
+        (r, i) =>
+          Date.parse(r.recordedAt) >=
+          Date.parse(i === 0 ? a.reassessment!.recordedAt : a.transferRetries![i - 1]!.recordedAt),
+      ),
     'Learning annotations must follow execution',
+  )
+  .refine(
+    (a) => !a.hintIds || new Set(a.hintIds).size === a.hintIds.length,
+    'Hint IDs must be unique',
   )
 export const TeamSessionSchema = z
   .strictObject({
@@ -519,18 +548,73 @@ export const TeamSessionSchema = z
       .max(6),
     rotationIndex: tick,
     currentMission: id,
+    program: ProgramSchema.optional(),
     evidenceBoard: z.array(text).max(100),
     predictions: z.array(PredictionSchema).max(100),
+    predictionHistory: z
+      .array(z.strictObject({ round: tick, prediction: PredictionSchema }))
+      .max(600)
+      .default([]),
     actions: z
       .array(
         z.strictObject({
           learnerId: id,
-          kind: z.enum(['predict', 'handoff', 'rotate', 'explain']),
+          kind: z.enum([
+            'predict',
+            'handoff',
+            'rotate',
+            'explain',
+            'observe',
+            'huddle',
+            'run',
+            'pause',
+            'resume',
+            'end',
+            'skip-rotation',
+          ]),
           recordedAt: time,
         }),
       )
       .max(200),
-    status: z.enum(['setup', 'active', 'completed']),
+    status: z.enum(['setup', 'active', 'paused', 'completed', 'ended']),
+    name: z.string().max(30).optional(),
+    phase: z.enum(['collecting', 'huddle', 'result']).optional(),
+    contributions: z
+      .array(
+        z.strictObject({
+          learnerId: id,
+          role: id,
+          text: z.string().min(1).max(500),
+          round: tick,
+          recordedAt: time,
+        }),
+      )
+      .max(200)
+      .default([]),
+    teamHypothesis: z.string().max(500).default(''),
+    roleHistory: z
+      .array(z.strictObject({ learnerId: id, role: id, round: tick }))
+      .max(600)
+      .default([]),
+    rotationSkips: z
+      .array(z.strictObject({ round: tick, reason: z.string().min(1).max(300), recordedAt: time }))
+      .max(100)
+      .default([]),
+    results: z
+      .array(
+        z.strictObject({
+          round: tick,
+          traceHash: hash,
+          goalPassed: z.boolean(),
+          recordedAt: time,
+          world: WorldSchema.optional(),
+          program: ProgramSchema.optional(),
+        }),
+      )
+      .max(100)
+      .default([]),
+    createdAt: time.optional(),
+    endedAt: time.optional(),
   })
   .superRefine((t, c) => {
     if (new Set(t.members.map((m) => m.learnerId)).size !== t.members.length)
@@ -552,9 +636,60 @@ export const TeamSessionSchema = z
         code: 'custom',
         message: 'Team actions must reference members in chronological order',
       })
+    if (t.contributions.some((x) => !t.members.some((m) => m.learnerId === x.learnerId)))
+      c.addIssue({ code: 'custom', message: 'Contribution is not from a team member' })
+    if (
+      new Set(t.contributions.map((x) => `${x.round}:${x.learnerId}`)).size !==
+      t.contributions.length
+    )
+      c.addIssue({ code: 'custom', message: 'A handed-off contribution cannot be replaced' })
+    if (
+      t.predictionHistory.some(
+        (p) => !t.members.some((m) => m.learnerId === p.prediction.learnerId),
+      )
+    )
+      c.addIssue({ code: 'custom', message: 'Historical prediction is not from a team member' })
+    if (
+      new Set(t.predictionHistory.map((p) => `${p.round}:${p.prediction.learnerId}`)).size !==
+      t.predictionHistory.length
+    )
+      c.addIssue({
+        code: 'custom',
+        message: 'Historical predictions must be unique per learner and round',
+      })
+    if (new Set(t.results.map((r) => r.round)).size !== t.results.length)
+      c.addIssue({ code: 'custom', message: 'Each team round can execute only once' })
     if (t.predictions.some((p) => !t.members.some((m) => m.learnerId === p.learnerId)))
       c.addIssue({ code: 'custom', message: 'Prediction is not from a team member' })
   })
+export const SavedLabSchema = z.strictObject({
+  schemaVersion: v,
+  id,
+  name: z.string().min(1).max(60),
+  world: WorldSchema,
+  program: ProgramSchema,
+  updatedAt: time,
+})
+export const DraftSchema = z.strictObject({
+  schemaVersion: v,
+  id,
+  learnerId: id,
+  missionId: id,
+  world: WorldSchema,
+  program: ProgramSchema,
+  updatedAt: time,
+  stage: z.string().max(80),
+  cursor: tick.max(LIMITS.events).optional(),
+  attemptId: id.nullable().optional(),
+  experimentThreshold: n.min(0).max(100).optional(),
+  transferIndex: tick.max(20).optional(),
+})
+export const AssignmentSchema = z.strictObject({
+  id,
+  teamId: id,
+  missionId: id,
+  assignedAt: time,
+})
 export const ExportSchema = z
   .strictObject({
     schemaVersion: v,
@@ -562,9 +697,25 @@ export const ExportSchema = z
     profile: LearnerProfileSchema.nullable(),
     attempts: z.array(AttemptSchema).max(LIMITS.attempts),
     teams: z.array(TeamSessionSchema).max(10),
+    profiles: z.array(LearnerProfileSchema).max(20).default([]),
+    savedLabs: z.array(SavedLabSchema).max(50).default([]),
+    drafts: z.array(DraftSchema).max(100).default([]),
+    assignments: z.array(AssignmentSchema).max(20).default([]),
+    sourceAppVersion: z.string().max(30).optional(),
   })
   .superRefine((data, c) => {
-    for (const list of [data.attempts, data.teams])
+    for (const list of [
+      data.attempts,
+      data.teams,
+      data.profiles,
+      data.savedLabs,
+      data.drafts,
+      data.assignments,
+    ])
       if (new Set(list.map((x) => x.id)).size !== list.length)
         c.addIssue({ code: 'custom', message: 'Duplicate imported IDs' })
+    if (data.profile && data.profiles.some((p) => p.id === data.profile!.id))
+      c.addIssue({ code: 'custom', message: 'Active learner is duplicated in saved learners' })
+    if (data.assignments.some((a) => !data.teams.some((t) => t.id === a.teamId)))
+      c.addIssue({ code: 'custom', message: 'Assignment references an unknown local team' })
   })
