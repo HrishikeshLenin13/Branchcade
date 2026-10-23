@@ -1,0 +1,101 @@
+verify	Run npm run check	2026-10-23T22:33:21.4921197Z ^[[2m Test Files ^[[22m ^[[1m^[[32m14 passed^[[39m^[[22m^[[90m (14)^[[39m
+verify	Run npm run check	2026-10-23T22:33:21.4923723Z ^[[2m      Tests ^[[22m ^[[1m^[[32m158 passed^[[39m^[[22m^[[90m (158)^[[39m
+verify	Run npm run test:e2e	﻿2026-10-23T22:33:55.9468061Z ##[group]Run npm run test:e2e
+verify	Run npm run test:e2e	2026-10-23T22:33:55.9468625Z ^[[36;1mnpm run test:e2e^[[0m
+verify	Run npm run test:e2e	2026-10-23T22:33:55.9532580Z shell: /usr/bin/bash -e {0}
+verify	Run npm run test:e2e	2026-10-23T22:33:55.9533324Z ##[endgroup]
+verify	Run npm run test:e2e	2026-10-23T22:33:56.0525799Z 
+verify	Run npm run test:e2e	2026-10-23T22:33:56.0526427Z > branchcade@0.1.0 test:e2e
+verify	Run npm run test:e2e	2026-10-23T22:33:56.0526815Z > playwright test
+verify	Run npm run test:e2e	2026-10-23T22:33:56.0526972Z 
+verify	Run npm run test:e2e	2026-10-23T22:34:03.6198149Z [WebServer] [plugin builtin:vite-reporter] 
+verify	Run npm run test:e2e	2026-10-23T22:34:03.6198824Z [WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+verify	Run npm run test:e2e	2026-10-23T22:34:03.6199453Z [WebServer] - Using dynamic import() to code-split the application
+verify	Run npm run test:e2e	2026-10-23T22:34:03.6200365Z [WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+verify	Run npm run test:e2e	2026-10-23T22:34:03.6201335Z [WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+verify	Run npm run test:e2e	2026-10-23T22:34:04.7448862Z 
+verify	Run npm run test:e2e	2026-10-23T22:34:04.7449829Z Running 80 tests using 2 workers
+verify	Run npm run test:e2e	2026-10-23T22:34:04.7450180Z 
+verify	Run npm run test:e2e	2026-10-23T22:34:07.9388204Z   ✓   2 [chromium] › e2e/foundation.spec.ts:46:1 › wrong prediction, distinguishing probes, real counterexample and fresh transfer (1.7s)
+verify	Run npm run test:e2e	2026-10-23T22:34:08.6877223Z   ✓   1 [chromium] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (2.4s)
+verify	Run npm run test:e2e	2026-10-23T22:34:09.1360233Z   ✓   3 [chromium] › e2e/foundation.spec.ts:75:1 › same first wrong answer can lead to comparison-targeted practice (1.2s)
+verify	Run npm run test:e2e	2026-10-23T22:34:10.5926703Z   ✓   4 [chromium] › e2e/foundation.spec.ts:89:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (1.9s)
+verify	Run npm run test:e2e	2026-10-23T22:34:10.9993570Z   ✓   5 [chromium] › e2e/foundation.spec.ts:116:1 › three teammates predict privately, run actual goals and rotate roles after refresh (1.8s)
+verify	Run npm run test:e2e	2026-10-23T22:34:11.7554989Z   ✓   7 [chromium] › e2e/foundation.spec.ts:175:1 › keyboard dialog focus, navigation and not-found recovery (742ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:12.1829992Z   ✓   6 [chromium] › e2e/foundation.spec.ts:146:1 › settings persist; export/import checked before replacement; malicious import preserves current data (1.6s)
+verify	Run npm run test:e2e	2026-10-23T22:34:12.7503048Z   ✓   8 [chromium] › e2e/foundation.spec.ts:189:1 › no learner-content requests during prediction, run and diagnosis (982ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:12.8584776Z   ✓   9 [chromium] › e2e/foundation.spec.ts:206:3 › layout 1440 has no global overflow and working navigation (649ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:13.3525150Z   ✓  10 [chromium] › e2e/foundation.spec.ts:206:3 › layout 1366 has no global overflow and working navigation (587ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:13.4838658Z   ✓  11 [chromium] › e2e/foundation.spec.ts:206:3 › layout 1024 has no global overflow and working navigation (590ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:13.9980478Z   ✓  12 [chromium] › e2e/foundation.spec.ts:206:3 › layout 390 has no global overflow and working navigation (624ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:14.9977647Z   ✓  13 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility / (1.5s)
+verify	Run npm run test:e2e	2026-10-23T22:34:15.3674713Z   ✓  14 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /start (1.4s)
+verify	Run npm run test:e2e	2026-10-23T22:34:16.3274196Z   ✓  15 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /missions (1.3s)
+verify	Run npm run test:e2e	2026-10-23T22:34:16.4708139Z   ✓  16 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /missions/m01 (1.1s)
+verify	Run npm run test:e2e	2026-10-23T22:34:17.5101700Z   ✓  17 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /lab (1.2s)
+verify	Run npm run test:e2e	2026-10-23T22:34:17.5550541Z   ✓  18 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /team (1.1s)
+verify	Run npm run test:e2e	2026-10-23T22:34:18.6116404Z   ✓  19 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /progress (1.1s)
+verify	Run npm run test:e2e	2026-10-23T22:34:18.6473859Z   ✓  20 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /instructor (1.1s)
+verify	Run npm run test:e2e	2026-10-23T22:34:19.6450427Z   ✓  21 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /settings (1.0s)
+verify	Run npm run test:e2e	2026-10-23T22:34:19.7172590Z   ✓  22 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /how-it-works (1.1s)
+verify	Run npm run test:e2e	2026-10-23T22:34:20.5525152Z   ✓  24 [chromium] › e2e/foundation.spec.ts:245:1 › storage blocked stays usable in an explicit in-memory session (819ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:20.6867618Z   ✓  23 [chromium] › e2e/foundation.spec.ts:237:3 › accessibility /not-found (1.0s)
+verify	Run npm run test:e2e	2026-10-23T22:34:22.2890845Z   ✓  25 [chromium] › e2e/foundation.spec.ts:262:1 › six-person team completes one real round without any account (1.7s)
+verify	Run npm run test:e2e	2026-10-23T22:34:22.4484780Z   ✓  26 [chromium] › e2e/foundation.spec.ts:285:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (1.7s)
+verify	Run npm run test:e2e	2026-10-23T22:34:23.0228983Z   ✓  27 [chromium] › e2e/foundation.spec.ts:318:1 › Chromebook primary run action is fully visible before scrolling (723ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:24.0305148Z   ✓  28 [chromium] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors (1.6s)
+verify	Run npm run test:e2e	2026-10-23T22:34:24.5064413Z   ✓  29 [chromium] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-23T22:34:25.5789921Z   ✓  30 [chromium] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-23T22:34:25.9546692Z   ✓  31 [chromium] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors (1.4s)
+verify	Run npm run test:e2e	2026-10-23T22:34:27.0698154Z   ✓  32 [chromium] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-23T22:34:27.4244560Z   ✓  33 [chromium] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-23T22:34:28.5404111Z   ✓  34 [chromium] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-23T22:34:28.9776291Z   ✓  35 [chromium] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-23T22:34:29.4345309Z   ✓  36 [chromium] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery (878ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:30.2745938Z   ✓  37 [chromium] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview (1.3s)
+verify	Run npm run test:e2e	2026-10-23T22:34:30.6675835Z   ✓  38 [chromium] › e2e/product.spec.ts:90:1 › replay, speed and camera controls preserve one attempt and exact branch evidence (1.2s)
+verify	Run npm run test:e2e	2026-10-23T22:34:31.4229485Z   ✓  40 [chromium] › e2e/product.spec.ts:161:1 › Chromebook keeps prediction action visible with reserved scrollbar space (738ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:32.9685051Z   ✓  39 [chromium] › e2e/product.spec.ts:108:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable (2.7s)
+verify	Run npm run test:e2e	2026-10-23T22:34:37.7028736Z   ✓  41 [firefox] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (5.0s)
+verify	Run npm run test:e2e	2026-10-23T22:34:37.9981027Z   ✓  42 [firefox] › e2e/foundation.spec.ts:46:1 › wrong prediction, distinguishing probes, real counterexample and fresh transfer (3.6s)
+verify	Run npm run test:e2e	2026-10-23T22:34:39.6915369Z   ✓  43 [firefox] › e2e/foundation.spec.ts:75:1 › same first wrong answer can lead to comparison-targeted practice (2.0s)
+verify	Run npm run test:e2e	2026-10-23T22:34:41.1637112Z   ✓  44 [firefox] › e2e/foundation.spec.ts:89:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (3.1s)
+verify	Run npm run test:e2e	2026-10-23T22:34:42.9466787Z   ✓  45 [firefox] › e2e/foundation.spec.ts:116:1 › three teammates predict privately, run actual goals and rotate roles after refresh (3.2s)
+verify	Run npm run test:e2e	2026-10-23T22:34:43.9550993Z   ✓  46 [firefox] › e2e/foundation.spec.ts:146:1 › settings persist; export/import checked before replacement; malicious import preserves current data (2.8s)
+verify	Run npm run test:e2e	2026-10-23T22:34:44.1910927Z   ✓  47 [firefox] › e2e/foundation.spec.ts:175:1 › keyboard dialog focus, navigation and not-found recovery (1.2s)
+verify	Run npm run test:e2e	2026-10-23T22:34:45.3644859Z   ✓  49 [firefox] › e2e/foundation.spec.ts:206:3 › layout 1440 has no global overflow and working navigation (1.2s)
+verify	Run npm run test:e2e	2026-10-23T22:34:45.6936921Z   ✓  48 [firefox] › e2e/foundation.spec.ts:189:1 › no learner-content requests during prediction, run and diagnosis (1.7s)
+verify	Run npm run test:e2e	2026-10-23T22:34:46.3681955Z   ✓  50 [firefox] › e2e/foundation.spec.ts:206:3 › layout 1366 has no global overflow and working navigation (977ms)
+verify	Run npm run test:e2e	2026-10-23T22:34:46.7617383Z   ✓  51 [firefox] › e2e/foundation.spec.ts:206:3 › layout 1024 has no global overflow and working navigation (1.0s)
+verify	Run npm run test:e2e	2026-10-23T22:34:47.5320392Z   ✓  52 [firefox] › e2e/foundation.spec.ts:206:3 › layout 390 has no global overflow and working navigation (1.1s)
+verify	Run npm run test:e2e	2026-10-23T22:34:48.6845291Z   ✓  53 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility / (1.9s)
+verify	Run npm run test:e2e	2026-10-23T22:34:49.4497738Z   ✓  54 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /start (1.9s)
+verify	Run npm run test:e2e	2026-10-23T22:34:50.8680904Z   ✓  55 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /missions (2.2s)
+verify	Run npm run test:e2e	2026-10-23T22:34:51.1007643Z   ✓  56 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /missions/m01 (1.6s)
+verify	Run npm run test:e2e	2026-10-23T22:34:53.2111095Z   ✓  57 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /lab (2.3s)
+verify	Run npm run test:e2e	2026-10-23T22:34:54.1107887Z   ✓  58 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /team (3.0s)
+verify	Run npm run test:e2e	2026-10-23T22:34:54.8305673Z   ✓  59 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /progress (1.6s)
+verify	Run npm run test:e2e	2026-10-23T22:34:55.8654526Z   ✓  60 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /instructor (1.7s)
+verify	Run npm run test:e2e	2026-10-23T22:34:57.3993838Z   ✓  62 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /how-it-works (1.5s)
+verify	Run npm run test:e2e	2026-10-23T22:34:57.9984793Z   ✓  61 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /settings (3.1s)
+verify	Run npm run test:e2e	2026-10-23T22:34:59.0479856Z   ✓  63 [firefox] › e2e/foundation.spec.ts:237:3 › accessibility /not-found (1.6s)
+verify	Run npm run test:e2e	2026-10-23T22:34:59.2291325Z   ✓  64 [firefox] › e2e/foundation.spec.ts:245:1 › storage blocked stays usable in an explicit in-memory session (1.2s)
+verify	Run npm run test:e2e	2026-10-23T22:35:00.9767533Z   ✓  66 [firefox] › e2e/foundation.spec.ts:285:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (1.7s)
+verify	Run npm run test:e2e	2026-10-23T22:35:01.8470618Z   ✓  65 [firefox] › e2e/foundation.spec.ts:262:1 › six-person team completes one real round without any account (2.8s)
+verify	Run npm run test:e2e	2026-10-23T22:35:01.9857055Z   ✓  67 [firefox] › e2e/foundation.spec.ts:318:1 › Chromebook primary run action is fully visible before scrolling (996ms)
+verify	Run npm run test:e2e	2026-10-23T22:35:04.3519984Z   ✓  68 [firefox] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors (2.5s)
+verify	Run npm run test:e2e	2026-10-23T22:35:04.6042290Z   ✓  69 [firefox] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors (2.6s)
+verify	Run npm run test:e2e	2026-10-23T22:35:06.7253537Z   ✓  70 [firefox] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors (2.4s)
+verify	Run npm run test:e2e	2026-10-23T22:35:07.0756737Z   ✓  71 [firefox] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors (2.4s)
+verify	Run npm run test:e2e	2026-10-23T22:35:09.0766209Z   ✓  72 [firefox] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors (2.3s)
+verify	Run npm run test:e2e	2026-10-23T22:35:09.6631737Z   ✓  73 [firefox] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors (2.6s)
+verify	Run npm run test:e2e	2026-10-23T22:35:11.7026127Z   ✓  74 [firefox] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors (2.6s)
+verify	Run npm run test:e2e	2026-10-23T22:35:12.1060121Z   ✓  75 [firefox] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors (2.4s)
+verify	Run npm run test:e2e	2026-10-23T22:35:13.3319235Z   ✓  76 [firefox] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery (1.6s)
+verify	Run npm run test:e2e	2026-10-23T22:35:14.1009683Z   ✓  77 [firefox] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview (2.0s)
+verify	Run npm run test:e2e	2026-10-23T22:35:16.7818895Z   ✓  78 [firefox] › e2e/product.spec.ts:90:1 › replay, speed and camera controls preserve one attempt and exact branch evidence (3.4s)
+verify	Run npm run test:e2e	2026-10-23T22:35:16.8097524Z   ✓  79 [firefox] › e2e/product.spec.ts:108:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable (2.7s)
+verify	Run npm run test:e2e	2026-10-23T22:35:17.8059564Z   ✓  80 [firefox] › e2e/product.spec.ts:161:1 › Chromebook keeps prediction action visible with reserved scrollbar space (1.0s)
+verify	Run npm run test:e2e	2026-10-23T22:35:18.1800499Z 
+verify	Run npm run test:e2e	2026-10-23T22:35:18.1806759Z   80 passed (1.4m)
+verify	Run npm audit	2026-10-23T22:35:18.7663924Z found 0 vulnerabilities

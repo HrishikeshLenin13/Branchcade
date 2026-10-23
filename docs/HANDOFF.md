@@ -4,8 +4,8 @@ Project: Branchcade
 Authorized scope: investigate the reported failing CI, then implement Parts D and E on the existing A–C foundation.
 Branch: main, preserving the repository’s single-branch workflow.
 Base checkpoint: 1e27f5e (A–C); its preceding application CI fix 7a9d211 and successful run 39894586457 were independently verified through GitHub API.
-Local source checkpoints: b074b27 (missions and records), followed by the responsive-workbench commit shown in git log.
-Remote pushed checkpoint: pending final push and CI at this documentation checkpoint. No hash is fabricated.
+Local source checkpoints: b074b27 (missions and records), f266957 (workbench/screen flows), and fda537a (cross-platform toolbar fix).
+Remote source checkpoint (verified): fda537a9dda59104f79d3283c91aafea40ab0fe7. Its GitHub CI passed at https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40034287198. A subsequent documentation/evidence checkpoint is identified by git log rather than a fabricated self-referential SHA.
 Environment: pinned Node 24.22.1 used for local final gates; npm with existing lockfile.
 
 ## What works
@@ -17,13 +17,13 @@ Eight authored missions/reference programs and actual goal predicates; three-ste
 - npm run check: passed lint, strict TypeScript, 158 unit/integration/component tests across 14 files, and production build.
 - Production preview Chromium: 40 passed, 0 failed, 0 skipped. Covers all eight mission transfers/reloads, original save regression, both diagnosis paths, real pointer drag, Blockly apply, legal/invalid imports, team handoffs, settings persistence, storage blocked, privacy requests, four viewport widths, 11-route initial axe scans and safe budget-stop UI.
 - Format, secret scan, original-spec preservation/current-scope check and full dependency audit: passed; audit found zero vulnerabilities.
-- Local Firefox installed but its process exited before app load with “Could not find profile folder,” for both temporary and explicitly existing workspace profile paths. No local Firefox success is claimed. Run the unchanged two-browser CI on Ubuntu after pushing.
+- Local Firefox installed but its process exited before app load with “Could not find profile folder,” for both temporary and explicitly existing workspace profile paths. No local Firefox success is claimed. Ubuntu CI passed all80 production browser tests (40 each Chromium and Firefox), including the added scrollbar-width regression.
 - Manually opened screenshots include Home, onboarding, library, help, settings, instructor, progress, team and M01 workbench at desktop/Chromebook and selected 390px phone screens. Chromebook primary prediction action observed at y681.6, height44 in a 768px viewport and passes the original full-visibility regression.
 - Evidence: docs/evidence/de-check.log, de-chromium.log, de-audit.json and de-*.png. Full interaction coverage and evidence boundaries are in PARTS_DE_ACCEPTANCE and INTERACTION_AUDIT.
 
 ## Remaining boundaries
 
-Later F–L/full release gates remain separately unverified. No deployment, physical Chromebook, WebKit, real child testing or learning efficacy is claimed. Counterexample synthesis is a bounded threshold/sensor bank; unsupported targets get executable probes and transparent no-candidate recovery into transfer. Interpreter computation is synchronous with hard budgets. Blockly’s spatial authoring may need a pointer; inert text and numeric world controls are available. Its lazy bundle remains about798KB minified. AI-assisted portions and uncompleted student review are recorded in AI_ASSISTANCE_LOG.
+Later F–L/full release gates remain separately unverified. No deployment, physical Chromebook, WebKit, real child testing or learning efficacy is claimed. Counterexample synthesis is a bounded threshold/sensor bank; unsupported targets get executable probes and transparent no-candidate recovery into transfer. Interpreter computation is synchronous with hard budgets. Blockly’s spatial authoring may need a pointer; inert text and numeric world controls are available. Its lazy bundle remains about 798 KB minified. AI-assisted portions and uncompleted student review are recorded in AI_ASSISTANCE_LOG.
 
 ## Continue
 

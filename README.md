@@ -2,7 +2,7 @@
 
 **Make the logic click.** A browser-based robotics learning laboratory: predict a robot’s action, follow its actual sensor readings and execution trace, investigate surprising results, change one parameter and test your understanding with a different problem.
 
-![Actual implemented Branchcade Home](docs/evidence/home-desktop.png)
+![Actual implemented Branchcade Home](docs/evidence/de-home-chromebook.png)
 
 ## What works in this checkpoint
 

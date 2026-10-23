@@ -64,4 +64,8 @@ Screenshot review: selected de-*.png files were actually opened. Desktop/Chromeb
 
 Run 40033671253 on 6be463a passed installation, format, secret/spec checks, all 158 unit/component/integration tests and build. Browser results: 77 passed and 1 failed (all 39 Firefox checks passed). Ubuntu Chromium’s native scrollbar and font metrics wrapped the final toolbar item, leaving the prediction button about 0.6px clipped at 1366×768 (intersection ratio 0.98686). The artifact screenshot was downloaded and opened. Compact toolbar gaps and button padding were reduced to preserve a full row, and a new production browser regression reserves 15px of scrollbar width locally. The original full-visibility assertion remains unchanged. No retry or threshold relaxation masks the issue.
 
-Final local post-fix rerun: all158 tests, lint/typecheck/build and40 Chromium browser checks passed. The added scrollbar-width case passes with full primary-action visibility.
+Final local post-fix rerun: all 158 tests, lint/typecheck/build and 40 Chromium browser checks passed. The added scrollbar-width case passes with full primary-action visibility.
+
+### Verified remote checkpoint
+
+GitHub run [40034287198](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40034287198) on source commit `fda537a9dda59104f79d3283c91aafea40ab0fe7` completed successfully. All **158 unit/integration/component tests** and **80 production browser tests (40 Chromium, 40 Firefox)** passed, with no failed or skipped tests. Format, secret/spec checks, strict typecheck, production build and full npm audit also passed. The native-scrollbar regression and the original Chromebook visibility assertion both passed on Ubuntu. Evidence: `docs/evidence/de-ci.json` and `de-ci-tests.log`. The local Firefox startup limitation remains explicitly distinguished from the successful remote Firefox checks.

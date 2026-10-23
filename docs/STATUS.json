@@ -6,8 +6,8 @@
     "A": "verified",
     "B": "verified representative learning slice",
     "C": "verified; static build supplied, hosting authorization pending",
-    "D": "implemented; local visual, accessibility and browser checks passed",
-    "E": "implemented; local 158 tests and 40 Chromium production browser checks passed; final remote CI pending"
+    "D": "verified visual/responsive implementation; tested browser viewport and accessibility evidence",
+    "E": "verified implemented screen flows: 158 unit/component/integration tests, 80 production browser tests across Chromium/Firefox, successful GitHub CI"
   },
   "phases": [
     {
@@ -79,15 +79,18 @@
   },
   "scopeNote": "Requested D/E surfaces implemented and tested locally. This does not certify later F-L chronological phase gates. Counterexamples use a bounded executed threshold bank with honest no-candidate fallback for other concepts. No public deployment or human study claimed.",
   "currentCheckpoint": {
-    "sourceCommit": "local source commits recorded by git log",
+    "sourceCommit": "fda537a9dda59104f79d3283c91aafea40ab0fe7",
     "unitTests": 158,
     "chromiumBrowserTests": 40,
-    "firefoxLocal": "launch blocked: Firefox could not find profile folder; Ubuntu CI pending",
+    "firefoxLocal": "profile-folder startup error; all40 Firefox checks passed on Ubuntu CI",
     "build": "passed",
     "auditVulnerabilities": 0,
     "firstRemoteRun": {
       "url": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40033671253",
       "browserResults": "77 passed, 1 Chromium scrollbar layout assertion failed; all39 Firefox passed; source fix and local 40-browser-test regression verified"
-    }
+    },
+    "ciUrl": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40034287198",
+    "ciConclusion": "success",
+    "browserTests": 80
   }
 }
