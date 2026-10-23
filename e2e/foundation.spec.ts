@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 async function start(page: import('@playwright/test').Page) {
   await page.goto('/start')
+  await page.getByRole('button', { name: 'Next', exact: true }).click()
+  await page.getByRole('button', { name: 'Next', exact: true }).click()
   await page.getByRole('button', { name: 'Create my local alias & start' }).click()
   await expect(page.getByRole('heading', { name: 'The 20 cm question', exact: true })).toBeVisible()
 }
@@ -17,7 +19,8 @@ test('new alias, actual branch, locked prediction, transfer, saved reload and in
   page.on('pageerror', (e) => errors.push(e.message))
   await start(page)
   await run(page)
-  await expect(page.getByRole('radio', { name: 'Move forward', exact: true })).toBeDisabled()
+  await expect(page.getByText('Your prediction is locked', { exact: true })).toBeVisible()
+  await expect(page.getByRole('radio', { name: 'Move forward', exact: true })).toHaveCount(0)
   await page.getByRole('button', { name: 'Step back', exact: true }).click()
   await page.getByRole('button', { name: 'Step forward', exact: true }).click()
   await page.getByRole('button', { name: 'Try a different challenge' }).click()
@@ -27,7 +30,7 @@ test('new alias, actual branch, locked prediction, transfer, saved reload and in
   await page.reload()
   await expect(page.getByText(/actual program stops/)).toBeVisible()
   await page.getByRole('link', { name: 'Progress', exact: true }).click()
-  await expect(page.getByText('1 actual runs', { exact: false })).toBeVisible()
+  await expect(page.getByText('1 missions started', { exact: false })).toBeVisible()
   await page.getByRole('link', { name: 'Instructor', exact: true }).click()
   await page.getByRole('button', { name: 'Inspect attempt 1' }).click()
   await expect(page.getByText('Goal 1 (branch): met', { exact: false })).toBeVisible()
@@ -35,6 +38,7 @@ test('new alias, actual branch, locked prediction, transfer, saved reload and in
   await page.getByRole('button', { name: 'Export filtered CSV' }).click()
   expect((await download).suggestedFilename()).toBe('branchcade-local-report.csv')
   await page.getByRole('button', { name: 'Delete all local learner data' }).click()
+  await page.getByLabel('Type ERASE to confirm', { exact: true }).fill('ERASE')
   await page.getByRole('button', { name: 'Permanently delete', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'No local attempts in this view' })).toBeVisible()
   expect(errors).toEqual([])
@@ -57,6 +61,8 @@ test('wrong prediction, distinguishing probes, real counterexample and fresh tra
     page.getByText('Targeted practice: separate measuring from stopping.', { exact: false }),
   ).toBeVisible()
   await page.getByRole('slider', { name: 'Experiment threshold', exact: true }).fill('30')
+  await page.getByRole('button', { name: 'Predict changed outcome', exact: true }).click()
+  await page.getByRole('button', { name: 'Run experiment', exact: true }).click()
   await expect(page.getByTestId('experiment-facts')).toContainText('24 < 30 is true')
   await expect(page.getByTestId('experiment-facts')).toContainText('robot stops')
   await page.getByRole('button', { name: 'Test my understanding with new numbers' }).click()
@@ -95,12 +101,11 @@ test('lab parameter changes, real Blockly editor, undo/redo, validated world exp
   expect((await download).suggestedFilename()).toBe('branchcade-world.json')
   await page.getByRole('button', { name: 'Open block editor' }).click()
   await expect(page.locator('.blocklySvg')).toBeVisible()
-  await page.getByRole('button', { name: 'Undo', exact: true }).click()
-  await page.getByRole('button', { name: 'Redo', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Undo', exact: true })).toBeDisabled()
   await page.getByRole('button', { name: 'Apply blocks', exact: true }).click()
-  await expect(page.getByText('Program applied. Record a new prediction to run it.')).toBeVisible()
+  await expect(page.getByText('Validated block program applied.')).toBeVisible()
   await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
-  await expect(page.getByTestId('branch-facts')).toContainText('32 < 20 is false')
+  await expect(page.getByTestId('branch-facts')).toContainText('32 < 40 is true')
   await page.locator('input[type=file]').setInputFiles({
     name: 'invalid.json',
     mimeType: 'application/json',
@@ -116,17 +121,26 @@ test('three teammates predict privately, run actual goals and rotate roles after
   for (let i = 1; i <= 3; i++) {
     await page.getByRole('button', { name: `I’m Robot ${i} — ready`, exact: true }).click()
     await page
-      .getByRole('button', { name: i === 2 ? 'Predict stop' : 'Predict move', exact: true })
+      .getByRole('textbox', { name: 'Role contribution', exact: true })
+      .fill(`Role ${i}: I checked the measured distance and selected branch.`)
+    await page
+      .getByRole('combobox', { name: 'Individual prediction', exact: true })
+      .selectOption(i === 2 ? 'stop' : 'move')
+    await page
+      .getByRole('button', { name: 'Hand off — lock prediction & contribution', exact: true })
       .click()
   }
+  await page.getByRole('button', { name: 'Team huddle — reveal evidence', exact: true }).click()
+  await page
+    .getByLabel('Team hypothesis', { exact: true })
+    .fill('24 is greater than 20, so the else branch moves.')
+  await page.getByRole('button', { name: 'Discuss & choose', exact: true }).click()
   await page.getByRole('button', { name: 'Run the shared program' }).click()
   await expect(page.getByText('Actual goals met.', { exact: false })).toBeVisible()
   await page.getByRole('button', { name: 'Rotate roles & start next round' }).click()
   await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
   await page.reload()
-  await expect(
-    page.getByRole('heading', { name: 'Round 2: The 20 cm question', exact: true }),
-  ).toBeVisible()
+  await expect(page.getByText('Round 2 · active · 3 teammates', { exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'I’m Robot 1 — ready', exact: true })).toBeVisible()
 })
 test('settings persist; export/import checked before replacement; malicious import preserves current data', async ({
@@ -147,8 +161,9 @@ test('settings persist; export/import checked before replacement; malicious impo
   expect(path).not.toBeNull()
   await page.locator('input[type=file]').setInputFiles(path!)
   await expect(page.getByRole('dialog')).toBeVisible()
+  await page.getByRole('combobox', { name: 'Import strategy', exact: true }).selectOption('replace')
   await page.getByRole('button', { name: 'Replace with validated import', exact: true }).click()
-  await expect(page.getByText('Validated data imported.', { exact: true })).toBeVisible()
+  await expect(page.getByText('Replaced validated local data.', { exact: true })).toBeVisible()
   await page.locator('input[type=file]').setInputFiles({
     name: 'evil.json',
     mimeType: 'application/json',
@@ -168,7 +183,7 @@ test('keyboard dialog focus, navigation and not-found recovery', async ({ page }
   await page.goto('/unknown')
   await page.getByRole('link', { name: 'Back to the lab entrance' }).click()
   await expect(
-    page.getByRole('heading', { name: 'Make the logic click.', exact: true }),
+    page.getByRole('heading', { name: 'Figure out why your robot did that.', exact: true }),
   ).toBeVisible()
 })
 test('no learner-content requests during prediction, run and diagnosis', async ({ page }) => {
@@ -200,7 +215,7 @@ for (const viewport of [
     } else await page.getByRole('link', { name: 'Missions', exact: true }).click()
     await expect(
       page.getByRole('heading', {
-        name: 'Small programs. Big “oh, I get it” moments.',
+        name: 'Small programs. Big discoveries.',
         exact: true,
       }),
     ).toBeVisible()
@@ -237,7 +252,7 @@ test('storage blocked stays usable in an explicit in-memory session', async ({ p
   )
   await page.goto('/missions/m01')
   await expect(
-    page.getByText('This session still works in memory.', { exact: false }),
+    page.getByRole('alert').filter({ hasText: 'Progress can’t be saved on this device.' }),
   ).toBeVisible()
   await run(page)
   await expect(
@@ -250,12 +265,22 @@ test('six-person team completes one real round without any account', async ({ pa
   await page.getByRole('button', { name: 'Create local team' }).click()
   for (let i = 1; i <= 6; i++) {
     await page.getByRole('button', { name: `I’m Robot ${i} — ready`, exact: true }).click()
-    await page.getByRole('button', { name: 'Predict move', exact: true }).click()
+    await page
+      .getByRole('textbox', { name: 'Role contribution', exact: true })
+      .fill(`Role ${i}: I checked the program and measured distance.`)
+    await page
+      .getByRole('button', { name: 'Hand off — lock prediction & contribution', exact: true })
+      .click()
   }
+  await page.getByRole('button', { name: 'Team huddle — reveal evidence', exact: true }).click()
+  await page
+    .getByLabel('Team hypothesis', { exact: true })
+    .fill('24 is greater than 20, so the else branch moves.')
+  await page.getByRole('button', { name: 'Discuss & choose', exact: true }).click()
   await page.getByRole('button', { name: 'Run the shared program' }).click()
   await expect(page.getByText('Actual goals met.', { exact: false })).toBeVisible()
   await page.getByRole('button', { name: 'Rotate roles & start next round' }).click()
-  await expect(page.getByRole('heading', { name: 'Round 2: The 20 cm question' })).toBeVisible()
+  await expect(page.getByText('Round 2 · active · 6 teammates', { exact: true })).toBeVisible()
 })
 test('real pointer drag changes the same obstacle; keyboard position and world import roundtrip', async ({
   page,
@@ -272,6 +297,7 @@ test('real pointer drag changes the same obstacle; keyboard position and world i
     'aria-label',
     'Robot world: distance 24.0 centimeters, heading 0 degrees',
   )
+  await page.getByText('Edit obstacles, zones & robot', { exact: true }).click()
   await page.getByLabel('Obstacle x position (cm)', { exact: true }).fill('78')
   await expect(page.getByRole('img')).toHaveAttribute(
     'aria-label',
@@ -282,6 +308,7 @@ test('real pointer drag changes the same obstacle; keyboard position and world i
   const path = await (await d).path()
   await page.getByLabel('Obstacle x position (cm)', { exact: true }).fill('70')
   await page.locator('input[type=file]').setInputFiles(path!)
+  await page.getByRole('button', { name: 'Import this world', exact: true }).click()
   await expect(page.getByRole('img')).toHaveAttribute(
     'aria-label',
     'Robot world: distance 32.0 centimeters, heading 0 degrees',

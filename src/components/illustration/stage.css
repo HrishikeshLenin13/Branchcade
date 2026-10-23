@@ -1,0 +1,57 @@
+.stage-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 5px 8px;
+  background: #14212a;
+  color: #d6e6ec;
+}
+.stage-toolbar button,
+.stage-detail-buttons button {
+  color: #d6e6ec;
+  font-size: 0.67rem;
+  min-height: 32px;
+  padding: 4px 7px;
+}
+.stage-toolbar button:hover,
+.stage-toolbar button[aria-pressed='true'],
+.stage-detail-buttons button:hover {
+  background: #2b404b;
+  color: #fff;
+}
+.stage-toolbar .mono {
+  font-size: 0.65rem;
+}
+.stage-wrap > .world {
+  width: 100%;
+  height: auto;
+  min-height: 220px;
+  max-height: 500px;
+  display: block;
+  background: #14212a;
+  touch-action: pan-y;
+}
+.stage-wrap:fullscreen {
+  display: flex;
+  flex-direction: column;
+  background: #14212a;
+  justify-content: center;
+}
+.stage-wrap:fullscreen > .world {
+  max-height: calc(100vh - 140px);
+  flex: 1;
+}
+.stage-detail-buttons {
+  display: flex;
+  background: #14212a;
+  padding-inline: 8px;
+}
+.stage-details {
+  color: #d6e6ec;
+  background: #14212a;
+  padding: 8px 12px;
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.7;
+}

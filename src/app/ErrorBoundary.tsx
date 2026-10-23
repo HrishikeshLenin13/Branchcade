@@ -9,8 +9,16 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, { failed: 
     return this.state.failed ? (
       <main className="page">
         <h1>The lab needs a restart</h1>
-        <p>Your saved local work is separate from this screen. Reload to recover.</p>
-        <Button onClick={() => location.reload()}>Reload Branchcade</Button>
+        <p>This screen could not open. Your saved local work is separate from it.</p>
+        <div className="button-row">
+          <Button onClick={() => this.setState({ failed: false })}>Try again</Button>
+          <Button asChild variant="outline">
+            <a href="/missions">Go to missions</a>
+          </Button>
+          <Button variant="ghost" onClick={() => location.reload()}>
+            Reload Branchcade
+          </Button>
+        </div>
       </main>
     ) : (
       this.props.children

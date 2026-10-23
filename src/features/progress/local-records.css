@@ -1,0 +1,133 @@
+.local-records .toolbar {
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.local-records label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.local-records label.checkbox {
+  flex-direction: row;
+  align-items: start;
+}
+.local-records input:not([type='checkbox']),
+.local-records select,
+.local-records textarea {
+  max-width: 100%;
+  min-height: 42px;
+}
+.local-records textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 0.75rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  resize: vertical;
+}
+.local-records .paper {
+  margin-block: 1.25rem;
+}
+.local-records .role-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
+.local-records .role-card h3 {
+  margin-top: 0;
+}
+.roster-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1rem;
+}
+.record-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.record-heading h2 {
+  margin-top: 0;
+}
+.evidence-entry {
+  border-top: 1px solid var(--line);
+  padding-block: 1rem;
+}
+.record-code {
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 0.8rem;
+}
+.record-hash {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+}
+.concept-list {
+  display: grid;
+  gap: 0.5rem;
+}
+.concept-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-block: 0.8rem;
+  flex-wrap: wrap;
+}
+.concept-row h3,
+.concept-row p {
+  margin: 0.3rem 0;
+}
+.attempt-review .stage-wrap {
+  max-width: 840px;
+  margin-block: 1rem;
+}
+.local-records .record-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding-block: 1rem;
+}
+.local-records .record-summary p {
+  margin: 0;
+}
+.local-records .record-summary strong {
+  display: block;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.5rem;
+}
+@media print {
+  .site-header,
+  .site-footer,
+  .local-records button,
+  .local-records .toolbar,
+  .local-records input,
+  .local-records select,
+  .local-records .button-row {
+    display: none !important;
+  }
+  .local-records,
+  .local-records .paper,
+  .table-wrap,
+  table {
+    color: #17212b !important;
+    background: white !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+  .local-records .paper {
+    break-inside: avoid;
+  }
+}
+.local-records .toolbar label {
+  flex: 1 1 160px;
+  min-width: min(100%, 160px);
+}

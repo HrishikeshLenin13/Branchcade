@@ -82,3 +82,49 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Semantic layers keep application controls separate from the physical stage. */
+:root {
+  --surface-inset: #eeede7;
+  --surface-hover: #f0f4f5;
+  --surface-selected: #e9f1f5;
+  --text-on-stage: #ecf3f6;
+  --text-on-stage-muted: #b1c3ce;
+  --stage-world: #192832;
+  --stage-grid: #2b404b;
+  --stage-robot: #edb651;
+  --stage-error: #ee8373;
+  --syntax-movement: #855d1f;
+  --syntax-sensor: #276689;
+  --syntax-logic: #705282;
+  --syntax-loop: #236d59;
+  --syntax-variable: #9e4744;
+  --focus-ring: var(--focus);
+  --line-strong: #aab7be;
+  --radius-control: 8px;
+  --radius-panel: 12px;
+  --radius-container: 16px;
+  --radius-chip: 999px;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-title: 1.5rem;
+  --transition-control: 130ms ease;
+  --transition-panel: 200ms ease;
+  --z-popover: 30;
+  --z-tooltip: 60;
+  --z-toast: 70;
+}
+:root[data-theme='dark'] {
+  --surface-inset: #182832;
+  --surface-hover: #293f4c;
+  --surface-selected: #294854;
+  --line-strong: #8ca4b1;
+  --success: #9bd3bc;
+  --syntax-movement: #edb651;
+  --syntax-sensor: #9ddeea;
+  --syntax-logic: #ddc3ec;
+  --syntax-loop: #9bd3bc;
+  --syntax-variable: #ffb4aa;
+}

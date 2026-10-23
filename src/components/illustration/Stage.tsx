@@ -1,160 +1,431 @@
-import { useRef } from 'react'
-import type { World, RobotState } from '../../domain/types'
+import { useId, useRef, useState } from 'react'
+import type { World, RobotState, ExecutionEvent } from '../../domain/types'
 import { readSensors } from '../../engine/sensors'
+import { Button } from '../ui/button'
 import { Robot } from './Robot'
+import './stage.css'
 export function Stage({
   world,
   robot,
   onObstacleMove,
+  onSelectObject,
+  events = [],
+  cursor = events.length,
+  sensorLabels = true,
+  controls = true,
+  onZoneEdit,
+  onRobotMove,
 }: {
   world: World
   robot: RobotState
-  onObstacleMove?: (id: string, xCm: number) => void
+  onObstacleMove?: (id: string, xCm: number, yCm?: number) => void
+  onSelectObject?: (id: string) => void
+  events?: ExecutionEvent[]
+  cursor?: number
+  sensorLabels?: boolean
+  controls?: boolean
+  onZoneEdit?: (id: string, xCm: number, yCm: number, widthCm?: number, heightCm?: number) => void
+  onRobotMove?: (xCm: number, yCm: number) => void
 }) {
   const svg = useRef<SVGSVGElement>(null),
-    dragging = useRef<{ id: string; offset: number } | null>(null),
+    wrap = useRef<HTMLDivElement>(null),
+    dragging = useRef<{
+      id: string
+      x: number
+      y: number
+      kind: 'obstacle' | 'zone' | 'resize' | 'robot'
+    } | null>(null),
+    gridId = useId().replaceAll(':', ''),
     sensors = readSensors(world, robot)
-  const update = (clientX: number, clientY: number) => {
-    const el = svg.current,
-      ctm = el?.getScreenCTM()
-    if (!el || !ctm) return
-    const p = new DOMPoint(clientX, clientY).matrixTransform(ctm.inverse())
-    if (dragging.current)
-      onObstacleMove?.(dragging.current.id, Math.round(p.x - dragging.current.offset))
+  const [zoom, setZoom] = useState(1),
+    [grid, setGrid] = useState(true),
+    [ray, setRay] = useState(true),
+    [follow, setFollow] = useState(false),
+    [details, setDetails] = useState(false),
+    [robotDetails, setRobotDetails] = useState(false),
+    [fullscreenError, setFullscreenError] = useState('')
+  const viewWidth = world.widthCm / zoom,
+    viewHeight = world.heightCm / zoom
+  const center = follow ? robot.position : { xCm: world.widthCm / 2, yCm: world.heightCm / 2 }
+  const pointAt = (clientX: number, clientY: number) => {
+    const matrix = svg.current?.getScreenCTM()
+    return matrix ? new DOMPoint(clientX, clientY).matrixTransform(matrix.inverse()) : null
   }
+  const trail = [
+    world.spawn.position,
+    ...events.slice(0, cursor).map((event) => event.after.position),
+  ]
   return (
-    <div className="stage-wrap">
+    <div className="stage-wrap" ref={wrap}>
+      {controls && (
+        <div className="stage-toolbar" aria-label="Stage camera controls">
+          <Button
+            variant="ghost"
+            aria-label="Zoom out"
+            title="Camera only"
+            disabled={zoom <= 0.5}
+            onClick={() => setZoom((value) => Math.max(0.5, value - 0.25))}
+          >
+            −
+          </Button>
+          <span className="mono">{Math.round(zoom * 100)}%</span>
+          <Button
+            variant="ghost"
+            aria-label="Zoom in"
+            title="Camera only"
+            disabled={zoom >= 3}
+            onClick={() => setZoom((value) => Math.min(3, value + 0.25))}
+          >
+            +
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setZoom(1)
+              setFollow(false)
+            }}
+          >
+            Fit world
+          </Button>
+          <Button variant="ghost" aria-pressed={grid} onClick={() => setGrid((value) => !value)}>
+            Grid
+          </Button>
+          <Button variant="ghost" aria-pressed={ray} onClick={() => setRay((value) => !value)}>
+            Sensor ray
+          </Button>
+          <Button
+            variant="ghost"
+            aria-pressed={follow}
+            onClick={() => setFollow((value) => !value)}
+          >
+            Follow robot
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              void (
+                document.fullscreenElement
+                  ? document.exitFullscreen()
+                  : wrap.current
+                    ? wrap.current.requestFullscreen()
+                    : Promise.resolve()
+              ).catch(() =>
+                setFullscreenError(
+                  'Fullscreen is unavailable in this browser. Use browser zoom or Fit world.',
+                ),
+              )
+            }}
+          >
+            Fullscreen stage
+          </Button>
+        </div>
+      )}
       <svg
         ref={svg}
-        viewBox={`0 0 ${world.widthCm} ${world.heightCm}`}
+        viewBox={`${center.xCm - viewWidth / 2} ${center.yCm - viewHeight / 2} ${viewWidth} ${viewHeight}`}
         className="world"
         role="img"
         aria-label={`Robot world: distance ${sensors.distanceCm === null ? 'out of range' : sensors.distanceCm.toFixed(1) + ' centimeters'}, heading ${robot.headingDeg} degrees`}
-        onPointerMove={(e) => {
-          if (dragging.current) update(e.clientX, e.clientY)
+        onPointerMove={(event) => {
+          if (!dragging.current) return
+          const point = pointAt(event.clientX, event.clientY)
+          if (!point) return
+          const moving = dragging.current
+          if (moving.kind === 'obstacle')
+            onObstacleMove?.(
+              moving.id,
+              Math.round(point.x - moving.x),
+              Math.round(point.y - moving.y),
+            )
+          else if (moving.kind === 'robot')
+            onRobotMove?.(Math.round(point.x - moving.x), Math.round(point.y - moving.y))
+          else {
+            const zone = world.floorZones.find((zone) => zone.id === moving.id)
+            if (zone?.kind === 'rectangle') {
+              if (moving.kind === 'resize')
+                onZoneEdit?.(
+                  zone.id,
+                  zone.position.xCm,
+                  zone.position.yCm,
+                  Math.max(
+                    1,
+                    Math.min(
+                      world.widthCm - zone.position.xCm,
+                      Math.round(point.x - zone.position.xCm),
+                    ),
+                  ),
+                  Math.max(
+                    1,
+                    Math.min(
+                      world.heightCm - zone.position.yCm,
+                      Math.round(point.y - zone.position.yCm),
+                    ),
+                  ),
+                )
+              else
+                onZoneEdit?.(
+                  zone.id,
+                  Math.max(
+                    0,
+                    Math.min(world.widthCm - zone.widthCm, Math.round(point.x - moving.x)),
+                  ),
+                  Math.max(
+                    0,
+                    Math.min(world.heightCm - zone.heightCm, Math.round(point.y - moving.y)),
+                  ),
+                )
+            }
+          }
         }}
-        onPointerUp={(e) => {
+        onPointerUp={(event) => {
           dragging.current = null
-          if (e.currentTarget.hasPointerCapture(e.pointerId))
-            e.currentTarget.releasePointerCapture(e.pointerId)
+          if (event.currentTarget.hasPointerCapture(event.pointerId))
+            event.currentTarget.releasePointerCapture(event.pointerId)
         }}
         onPointerCancel={() => {
           dragging.current = null
         }}
       >
         <defs>
-          <pattern id="lab-grid" width="10" height="10" patternUnits="userSpaceOnUse">
+          <pattern id={gridId} width="10" height="10" patternUnits="userSpaceOnUse">
             <path d="M10 0H0V10" fill="none" stroke="#2B404B" strokeWidth=".22" />
           </pattern>
         </defs>
         <rect width={world.widthCm} height={world.heightCm} fill="#192832" />
-        <rect width={world.widthCm} height={world.heightCm} fill="url(#lab-grid)" />
+        {grid && <rect width={world.widthCm} height={world.heightCm} fill={`url(#${gridId})`} />}
         <rect
           x="2"
           y="2"
-          width={world.widthCm - 4}
-          height={world.heightCm - 4}
+          width={Math.max(0, world.widthCm - 4)}
+          height={Math.max(0, world.heightCm - 4)}
           rx="2"
           fill="none"
           stroke="#3F5663"
           strokeWidth=".4"
         />
         {[...world.floorZones]
-          .sort((a, b) => a.priority - b.priority || (a.id < b.id ? 1 : a.id > b.id ? -1 : 0))
-          .map((z) =>
-            z.kind === 'rectangle' ? (
-              <rect
-                key={z.id}
-                x={z.position.xCm}
-                y={z.position.yCm}
-                width={z.widthCm}
-                height={z.heightCm}
-                fill={z.color}
-              />
+          .sort((a, b) => a.priority - b.priority || b.id.localeCompare(a.id))
+          .map((zone) =>
+            zone.kind === 'rectangle' ? (
+              <g key={zone.id}>
+                <rect
+                  x={zone.position.xCm}
+                  y={zone.position.yCm}
+                  width={zone.widthCm}
+                  height={zone.heightCm}
+                  fill={zone.color}
+                  opacity=".7"
+                  className={onZoneEdit ? 'draggable' : ''}
+                  onPointerDown={
+                    onZoneEdit
+                      ? (event) => {
+                          const point = pointAt(event.clientX, event.clientY)
+                          if (!point) return
+                          onSelectObject?.(zone.id)
+                          dragging.current = {
+                            id: zone.id,
+                            x: point.x - zone.position.xCm,
+                            y: point.y - zone.position.yCm,
+                            kind: 'zone',
+                          }
+                          svg.current?.setPointerCapture(event.pointerId)
+                        }
+                      : undefined
+                  }
+                />
+                {onZoneEdit && (
+                  <rect
+                    x={zone.position.xCm + zone.widthCm - 2}
+                    y={zone.position.yCm + zone.heightCm - 2}
+                    width="4"
+                    height="4"
+                    fill="#fff"
+                    stroke="#30759A"
+                    strokeWidth=".5"
+                    style={{ cursor: 'nwse-resize' }}
+                    onPointerDown={(event) => {
+                      onSelectObject?.(zone.id)
+                      dragging.current = { id: zone.id, x: 0, y: 0, kind: 'resize' }
+                      svg.current?.setPointerCapture(event.pointerId)
+                    }}
+                  />
+                )}
+              </g>
             ) : (
               <polygon
+                key={zone.id}
                 fillRule="evenodd"
-                key={z.id}
-                points={z.points.map((p) => `${p.xCm},${p.yCm}`).join(' ')}
-                fill={z.color}
+                points={zone.points.map((point) => `${point.xCm},${point.yCm}`).join(' ')}
+                fill={zone.color}
+                opacity=".7"
               />
             ),
           )}
-        <path
-          d={`M${world.spawn.position.xCm} ${world.spawn.position.yCm}L${robot.position.xCm} ${robot.position.yCm}`}
+        {world.waypoints.map((point, i) => (
+          <g key={i}>
+            <circle
+              cx={point.xCm}
+              cy={point.yCm}
+              r="2"
+              fill="none"
+              stroke="#6CC4D3"
+              strokeWidth=".5"
+            />
+            <text x={point.xCm + 3} y={point.yCm} fontSize="3" fill="#D6E6EC">
+              {i + 1}
+            </text>
+          </g>
+        ))}
+        <polyline
+          points={trail.map((point) => `${point.xCm},${point.yCm}`).join(' ')}
           stroke="#EDB651"
           strokeWidth=".8"
+          fill="none"
           strokeDasharray="1 1"
         />
-        <line
-          x1={sensors.ray.origin.xCm}
-          y1={sensors.ray.origin.yCm}
-          x2={sensors.ray.end.xCm}
-          y2={sensors.ray.end.yCm}
-          stroke="#6CC4D3"
-          strokeWidth=".6"
-          strokeDasharray="2 1"
-        />
-        {world.obstacles.map((o) => (
+        {ray && (
+          <>
+            <line
+              x1={sensors.ray.origin.xCm}
+              y1={sensors.ray.origin.yCm}
+              x2={sensors.ray.end.xCm}
+              y2={sensors.ray.end.yCm}
+              stroke="#6CC4D3"
+              strokeWidth=".6"
+              strokeDasharray="2 1"
+            />
+            {sensors.ray.hitId && (
+              <circle cx={sensors.ray.end.xCm} cy={sensors.ray.end.yCm} r="1" fill="#9EE2ED" />
+            )}
+          </>
+        )}
+        {world.obstacles.map((object) => (
           <g
-            key={o.id}
+            key={object.id}
             className={onObstacleMove ? 'draggable' : ''}
+            onClick={() => onSelectObject?.(object.id)}
             onPointerDown={
               onObstacleMove
-                ? (e) => {
-                    const ctm = svg.current?.getScreenCTM()
-                    if (!ctm) return
-                    const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse())
-                    dragging.current = { id: o.id, offset: p.x - o.position.xCm }
-                    svg.current?.setPointerCapture(e.pointerId)
+                ? (event) => {
+                    const point = pointAt(event.clientX, event.clientY)
+                    if (!point) return
+                    onSelectObject?.(object.id)
+                    dragging.current = {
+                      id: object.id,
+                      x: point.x - object.position.xCm,
+                      y: point.y - object.position.yCm,
+                      kind: 'obstacle',
+                    }
+                    svg.current?.setPointerCapture(event.pointerId)
                   }
                 : undefined
             }
           >
-            {o.kind === 'rectangle' ? (
-              <>
-                <rect
-                  x={o.position.xCm}
-                  y={o.position.yCm}
-                  width={o.widthCm}
-                  height={o.heightCm}
-                  rx="1"
-                  fill="#576B76"
-                  stroke="#93A4AB"
-                  strokeWidth=".4"
-                />
-                <path
-                  d={`M${o.position.xCm + 2} ${o.position.yCm + 3}v${o.heightCm - 6}M${o.position.xCm + 5} ${o.position.yCm + 3}v${o.heightCm - 6}`}
-                  stroke="#84969E"
-                  strokeWidth=".4"
-                />
-              </>
+            {object.kind === 'rectangle' ? (
+              <rect
+                x={object.position.xCm}
+                y={object.position.yCm}
+                width={object.widthCm}
+                height={object.heightCm}
+                rx="1"
+                fill="#576B76"
+                stroke="#B7C6CC"
+                strokeWidth=".4"
+              />
             ) : (
-              <circle cx={o.position.xCm} cy={o.position.yCm} r={o.radiusCm} fill="#576B76" />
+              <circle
+                cx={object.position.xCm}
+                cy={object.position.yCm}
+                r={object.radiusCm}
+                fill="#576B76"
+                stroke="#B7C6CC"
+                strokeWidth=".4"
+              />
             )}
           </g>
         ))}
-        <Robot x={robot.position.xCm} y={robot.position.yCm} heading={robot.headingDeg} />
-        <text x="8" y="92" fill="#AFBEC6" fontSize="2.8" fontFamily="monospace">
-          1 grid square = 10 cm
-        </text>
-        <text
-          x={sensors.ray.origin.xCm}
-          y={sensors.ray.origin.yCm - 5}
-          fill="#9EE2ED"
-          fontSize="3.5"
-          fontFamily="monospace"
+        <g
+          onClick={() => setRobotDetails((value) => !value)}
+          className={onRobotMove ? 'draggable' : ''}
+          onPointerDown={
+            onRobotMove
+              ? (event) => {
+                  const point = pointAt(event.clientX, event.clientY)
+                  if (!point) return
+                  dragging.current = {
+                    id: 'robot',
+                    x: point.x - robot.position.xCm,
+                    y: point.y - robot.position.yCm,
+                    kind: 'robot',
+                  }
+                  svg.current?.setPointerCapture(event.pointerId)
+                }
+              : undefined
+          }
         >
-          {sensors.distanceCm === null ? 'out of range' : `${sensors.distanceCm.toFixed(1)} cm`}
-        </text>
+          <Robot x={robot.position.xCm} y={robot.position.yCm} heading={robot.headingDeg} />
+        </g>
+        {grid && (
+          <text x="8" y={world.heightCm - 6} fill="#C4D1D7" fontSize="2.8" fontFamily="monospace">
+            1 grid square = 10 cm
+          </text>
+        )}
+        {sensorLabels && (
+          <text
+            x={sensors.ray.origin.xCm}
+            y={Math.max(5, sensors.ray.origin.yCm - 7)}
+            fill="#9EE2ED"
+            fontSize="3.5"
+            fontFamily="monospace"
+          >
+            {sensors.distanceCm === null ? 'out of range' : `${sensors.distanceCm.toFixed(1)} cm`}
+          </text>
+        )}
       </svg>
       <div className="stage-footer">
         <span>
           <span className="live-dot" />
-          Deterministic world
+          {robot.collision ? `Collision: ${robot.collision}` : 'Deterministic world'}
         </span>
         <span>cm · 50 ms / tick</span>
       </div>
+      {controls && (
+        <div className="stage-detail-buttons">
+          <Button
+            variant="ghost"
+            aria-expanded={details}
+            onClick={() => setDetails((value) => !value)}
+          >
+            Sensor details
+          </Button>
+          <Button
+            variant="ghost"
+            aria-expanded={robotDetails}
+            onClick={() => setRobotDetails((value) => !value)}
+          >
+            Robot state
+          </Button>
+        </div>
+      )}
+      {details && (
+        <p className="stage-details">
+          Distance is measured from ({sensors.ray.origin.xCm.toFixed(1)},{' '}
+          {sensors.ray.origin.yCm.toFixed(1)}) cm along the heading. Range: {sensors.ray.maxRangeCm}{' '}
+          cm. Sample: tick {robot.tick}, {robot.simTimeMs} ms. “Out of range” means null: no hit
+          within range, never zero. Floor sensor: {sensors.surfaceColor}.
+        </p>
+      )}
+      {robotDetails && (
+        <p className="stage-details">
+          X {robot.position.xCm.toFixed(1)} cm · Y {robot.position.yCm.toFixed(1)} cm · Heading{' '}
+          {robot.headingDeg.toFixed(1)}° · {robot.status}.{' '}
+          {robot.stopReason ?? 'No stop instruction yet.'}{' '}
+          {onObstacleMove
+            ? 'World editing is enabled while stopped.'
+            : 'World geometry is locked here. Inspect objects with the trace.'}
+        </p>
+      )}
+      {fullscreenError && <p role="status">{fullscreenError}</p>}
     </div>
   )
 }
