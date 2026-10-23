@@ -2,33 +2,78 @@
   "schemaVersion": 1,
   "scope": "Master prompt Parts A-C only",
   "branchPolicy": "main only",
-  "parts": { "A": "in_progress", "B": "in_progress", "C": "in_progress" },
+  "parts": {
+    "A": "verified",
+    "B": "verified representative learning slice",
+    "C": "verified; static build supplied, hosting authorization pending"
+  },
   "phases": [
     {
       "id": "00",
-      "status": "in_progress",
+      "status": "verified",
       "proof": {
-        "tests": "82 unit/integration/component tests; intermediate Chromium 22/23 plus focused fix",
-        "files": ["src/domain/schemas.ts", "src/app/App.tsx"],
+        "tests": "npm ci; format, secrets/spec, lint, strict TS,86 unit/integration/component tests, build, audit;54 production-preview E2E across Chromium/Firefox; GitHub CI success",
+        "files": [
+          "src/domain/schemas.ts",
+          "src/app/App.tsx",
+          "tests/session.test.ts",
+          "e2e/foundation.spec.ts",
+          "docs/PARTS_ABC_ACCEPTANCE.md"
+        ],
         "date": "2026-10-22",
-        "sha": "0d003fb8924552b9840ccca0a7fadfc897f08055"
+        "sha": "7a9d211471956c329557315ee8e8842ef456602d",
+        "ciUrl": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/39894586457"
       }
     },
-    { "id": "01", "status": "not_started" },
-    { "id": "02", "status": "not_started" },
-    { "id": "03", "status": "not_started" },
-    { "id": "04", "status": "not_started" },
-    { "id": "05", "status": "not_started" },
-    { "id": "06", "status": "not_started" },
-    { "id": "07", "status": "not_started" },
-    { "id": "08", "status": "not_started" },
-    { "id": "09", "status": "not_started" },
-    { "id": "10", "status": "not_started" },
-    { "id": "11", "status": "not_started" }
+    {
+      "id": "01",
+      "status": "not_started"
+    },
+    {
+      "id": "02",
+      "status": "not_started"
+    },
+    {
+      "id": "03",
+      "status": "not_started"
+    },
+    {
+      "id": "04",
+      "status": "not_started"
+    },
+    {
+      "id": "05",
+      "status": "not_started"
+    },
+    {
+      "id": "06",
+      "status": "not_started"
+    },
+    {
+      "id": "07",
+      "status": "not_started"
+    },
+    {
+      "id": "08",
+      "status": "not_started"
+    },
+    {
+      "id": "09",
+      "status": "not_started"
+    },
+    {
+      "id": "10",
+      "status": "not_started"
+    },
+    {
+      "id": "11",
+      "status": "not_started"
+    }
   ],
-  "lastVerifiedAt": null,
+  "lastVerifiedAt": "2026-10-23T03:26:34.123Z",
   "deployment": {
     "status": "not_deployed",
     "reason": "Vercel CLI identity check returned invalid token; deploy-ready static build supplied."
-  }
+  },
+  "scopeNote": "Parts A-C foundation only. One actual mission demonstrates all seven stages. All later full-product phase gates remain unverified; representative engine/editor/learning code does not certify those phases."
 }

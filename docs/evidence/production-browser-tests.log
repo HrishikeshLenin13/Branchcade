@@ -1,0 +1,79 @@
+
+> branchcade@0.1.0 test:e2e
+> playwright test
+
+
+Running 54 tests using 4 workers
+
+(node:25222) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25225) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   3 [chromium] › e2e/foundation.spec.ts:69:1 › same first wrong answer can lead to comparison-targeted practice (3.0s)
+  ✓   1 [chromium] › e2e/foundation.spec.ts:42:1 › wrong prediction, distinguishing probes, real counterexample and fresh transfer (3.3s)
+  ✓   4 [chromium] › e2e/foundation.spec.ts:83:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (4.8s)
+  ✓   2 [chromium] › e2e/foundation.spec.ts:13:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (4.8s)
+  ✓   5 [chromium] › e2e/foundation.spec.ts:111:1 › three teammates predict privately, run actual goals and rotate roles after refresh (2.6s)
+  ✓   6 [chromium] › e2e/foundation.spec.ts:132:1 › settings persist; export/import checked before replacement; malicious import preserves current data (2.4s)
+  ✓   8 [chromium] › e2e/foundation.spec.ts:174:1 › no learner-content requests during prediction, run and diagnosis (1.4s)
+  ✓   7 [chromium] › e2e/foundation.spec.ts:160:1 › keyboard dialog focus, navigation and not-found recovery (1.5s)
+  ✓   9 [chromium] › e2e/foundation.spec.ts:191:3 › layout 1440 has no global overflow and working navigation (1.0s)
+  ✓  10 [chromium] › e2e/foundation.spec.ts:191:3 › layout 1366 has no global overflow and working navigation (941ms)
+  ✓  11 [chromium] › e2e/foundation.spec.ts:191:3 › layout 1024 has no global overflow and working navigation (1.1s)
+  ✓  12 [chromium] › e2e/foundation.spec.ts:191:3 › layout 390 has no global overflow and working navigation (1.1s)
+  ✓  14 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /start (2.0s)
+  ✓  13 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility / (2.1s)
+  ✓  15 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /missions (2.0s)
+  ✓  16 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /missions/m01 (2.1s)
+  ✓  18 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /team (1.9s)
+  ✓  17 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /lab (2.3s)
+  ✓  19 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /progress (1.7s)
+  ✓  20 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /instructor (1.7s)
+  ✓  21 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /settings (2.0s)
+  ✓  24 [chromium] › e2e/foundation.spec.ts:230:1 › storage blocked stays usable in an explicit in-memory session (1.4s)
+  ✓  22 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /how-it-works (1.9s)
+  ✓  23 [chromium] › e2e/foundation.spec.ts:222:3 › accessibility /not-found (1.9s)
+  ✓  27 [chromium] › e2e/foundation.spec.ts:291:1 › Chromebook primary run action is fully visible before scrolling (991ms)
+(node:25311) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [chromium] › e2e/foundation.spec.ts:260:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (1.6s)
+  ✓  25 [chromium] › e2e/foundation.spec.ts:247:1 › six-person team completes one real round without any account (2.0s)
+(node:25313) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25314) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  29 [firefox] › e2e/foundation.spec.ts:42:1 › wrong prediction, distinguishing probes, real counterexample and fresh transfer (6.9s)
+  ✓  28 [firefox] › e2e/foundation.spec.ts:13:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (9.1s)
+  ✓  30 [firefox] › e2e/foundation.spec.ts:69:1 › same first wrong answer can lead to comparison-targeted practice (7.1s)
+  ✓  34 [firefox] › e2e/foundation.spec.ts:160:1 › keyboard dialog focus, navigation and not-found recovery (5.1s)
+  ✓  32 [firefox] › e2e/foundation.spec.ts:111:1 › three teammates predict privately, run actual goals and rotate roles after refresh (6.6s)
+  ✓  31 [firefox] › e2e/foundation.spec.ts:83:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (11.8s)
+  ✓  33 [firefox] › e2e/foundation.spec.ts:132:1 › settings persist; export/import checked before replacement; malicious import preserves current data (6.8s)
+  ✓  36 [firefox] › e2e/foundation.spec.ts:191:3 › layout 1440 has no global overflow and working navigation (2.2s)
+  ✓  37 [firefox] › e2e/foundation.spec.ts:191:3 › layout 1366 has no global overflow and working navigation (2.1s)
+  ✓  38 [firefox] › e2e/foundation.spec.ts:191:3 › layout 1024 has no global overflow and working navigation (2.1s)
+  ✓  35 [firefox] › e2e/foundation.spec.ts:174:1 › no learner-content requests during prediction, run and diagnosis (3.7s)
+  ✓  39 [firefox] › e2e/foundation.spec.ts:191:3 › layout 390 has no global overflow and working navigation (2.5s)
+  ✓  41 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /start (3.8s)
+  ✓  40 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility / (4.3s)
+  ✓  42 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /missions (4.2s)
+  ✓  43 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /missions/m01 (5.2s)
+  ✓  45 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /team (4.2s)
+  ✓  46 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /progress (3.9s)
+  ✓  44 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /lab (4.5s)
+  ✓  47 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /instructor (5.3s)
+  ✓  48 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /settings (7.6s)
+  ✓  50 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /not-found (7.5s)
+  ✓  49 [firefox] › e2e/foundation.spec.ts:222:3 › accessibility /how-it-works (7.8s)
+  ✓  51 [firefox] › e2e/foundation.spec.ts:230:1 › storage blocked stays usable in an explicit in-memory session (5.5s)
+  ✓  54 [firefox] › e2e/foundation.spec.ts:291:1 › Chromebook primary run action is fully visible before scrolling (4.0s)
+  ✓  53 [firefox] › e2e/foundation.spec.ts:260:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (4.9s)
+  ✓  52 [firefox] › e2e/foundation.spec.ts:247:1 › six-person team completes one real round without any account (6.2s)
+
+  54 passed (59.4s)

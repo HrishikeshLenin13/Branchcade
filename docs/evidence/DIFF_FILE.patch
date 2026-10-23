@@ -1,0 +1,11 @@
+--- docs/evidence/SPEC.original.md	2026-10-22 21:40:53
++++ docs/SPEC.md	2026-10-22 21:40:53
+@@ -1141,3 +1141,8 @@
+ **BEGIN IMPLEMENTATION IMMEDIATELY.** Inspect this workspace and remote, read project documents, determine the first unfinished phase, implement the required code/files/tests, review resulting browser behavior, then commit and push a verified handoff checkpoint. Continue chronologically if resources allow. Do not merely paraphrase this specification, generate a generic task list, announce that you will work later, or ask for trivial decisions already set above. Each phase must have real code, tests and observed functionality. If the repository already includes some finished work, verify and reuse it. Your priority is a fully working, impressive, original Branchcade web app whose actual core learning cycle can be demonstrated to judges.
+ 
+ **End of master prompt.**
++
++
++## Current invocation scope
++
++Implement Parts A–C only. Work directly on main, as explicitly requested by the user. The original full specification is retained for future sessions; Parts D–L do not expand this invocation. Later phases remain unverified until their own acceptance gates are executed.

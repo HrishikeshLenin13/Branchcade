@@ -1,0 +1,50 @@
+Changed branch: main
+Changed field: docs/SPEC.md → Current invocation scope (Parts A–C; main only).
+Original SHA256: f018432925c785df980a763f4da9c7ff9a3433d71ec54c65f2e52308a0a7244d
+MODIFIED_FILE: /Users/HrishiL/Desktop/Branchcade/docs/SPEC.md
+DIFF_FILE: /Users/HrishiL/Desktop/Branchcade/docs/evidence/DIFF_FILE.patch
+VERIFICATION: /Users/HrishiL/Desktop/Branchcade/docs/evidence/VERIFICATION.txt
+ROLLBACK: /Users/HrishiL/Desktop/Branchcade/docs/evidence/ROLLBACK.sh
+CWD: /Users/HrishiL/Desktop/Branchcade
+
+BASELINE
+Command: node /Users/HrishiL/Desktop/Branchcade/scripts/verify-spec.mjs baseline
+Input: /Users/HrishiL/Desktop/Branchcade/docs/evidence/SPEC.original.md
+Literal output:
+BASELINE PASS: scope marker absent
+Exit status: 0
+
+MODIFIED
+Command: node /Users/HrishiL/Desktop/Branchcade/scripts/verify-spec.mjs modified
+Input: /Users/HrishiL/Desktop/Branchcade/docs/SPEC.md
+Literal output:
+MODIFIED PASS: A-C/main scope present
+Exit status: 0
+
+ROLLBACK restore
+Command: /Users/HrishiL/Desktop/Branchcade/docs/evidence/ROLLBACK.sh /tmp/branchcade-spec-rollback-test.md
+Input: /tmp/branchcade-spec-rollback-test.md
+Literal output:
+Restored original specification copy.
+Exit status: 0
+
+ROLLBACK verify
+Command: node /Users/HrishiL/Desktop/Branchcade/scripts/verify-spec.mjs rollback /tmp/branchcade-spec-rollback-test.md
+Input: /tmp/branchcade-spec-rollback-test.md
+Literal output:
+ROLLBACK PASS: original restored
+Exit status: 0
+
+Restored behavior/status: the rollback fixture exactly equals the original, with scope marker absent. The working MODIFIED_FILE remains changed. ROLLBACK.sh restores the specification copy only, not application code/Git history.
+
+APPLICATION EVIDENCE
+Command: npm exec --yes --package=node@24.22.1 -- sh -c 'node --version && npm --version && npm ci && npm run format:check && npm run check && npm audit'
+Input: committed npm lockfile and initial fresh-environment source.
+Literal result: v24.22.1; npm11.19.0; fresh install, formatting, lint, strict typing, initial85 tests, build and audit passed; found0 vulnerabilities. Exit0. Full literal stream: node24-gates.log.
+Command: npm exec --yes --package=node@24.22.1 -- npm run check
+Input: final application source plus IndexedDB-save regression test.
+Literal result: Test Files8 passed (8); Tests86 passed (86); build passed. Exit0. Full literal stream: final-node24-check.log.
+Command: npm exec --yes --package=node@24.22.1 -- npm run test:e2e
+Input: real built production preview at http://127.0.0.1:4173/.
+Literal result: 54 passed (59.4s). Exit0. Full literal stream: production-browser-tests.log.
+GitHub source CI: 39894586457 / 7a9d211471956c329557315ee8e8842ef456602d / success.
