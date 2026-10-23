@@ -607,6 +607,10 @@
   }
   .workstation-page .workstation-toolbar {
     margin-block: 8px;
+    gap: 5px;
+  }
+  .workstation-page .workstation-toolbar > button {
+    padding-inline: 8px;
   }
   .workstation-page .workstation-toolbar label {
     margin-bottom: 0;

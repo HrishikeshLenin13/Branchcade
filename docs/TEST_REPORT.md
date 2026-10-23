@@ -59,3 +59,9 @@ During integration, the Chromebook primary action was found below the viewport, 
 Local Firefox could not launch:39 attempts failed at process startup, before any page/app behavior, with “Could not find profile folder.” A direct temporary-profile launch and an explicitly existing workspace-profile launch reproduced this environment error. Ubuntu GitHub CI remains configured to execute both Chromium and Firefox; its final remote result will be recorded separately. This is not labeled a passing local browser run.
 
 Screenshot review: selected de-*.png files were actually opened. Desktop/Chromebook1366×768/1440×900 and phone390×844 screens were checked; automated overflow/navigation also covers1024×768. Initial WCAG A/AA axe scans pass all11 routes in Chromium. No WebKit/hardware/human study claim. Logs: de-check.log, de-chromium.log, de-audit.json.
+
+### First remote integration run
+
+Run 40033671253 on 6be463a passed installation, format, secret/spec checks, all 158 unit/component/integration tests and build. Browser results: 77 passed and 1 failed (all 39 Firefox checks passed). Ubuntu Chromium’s native scrollbar and font metrics wrapped the final toolbar item, leaving the prediction button about 0.6px clipped at 1366×768 (intersection ratio 0.98686). The artifact screenshot was downloaded and opened. Compact toolbar gaps and button padding were reduced to preserve a full row, and a new production browser regression reserves 15px of scrollbar width locally. The original full-visibility assertion remains unchanged. No retry or threshold relaxation masks the issue.
+
+Final local post-fix rerun: all158 tests, lint/typecheck/build and40 Chromium browser checks passed. The added scrollbar-width case passes with full primary-action visibility.

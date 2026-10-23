@@ -157,3 +157,16 @@ test('a bounded loop imported as synthetic practice stops safely and leaves the 
   await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await expect(page.locator('.blocklySvg')).toBeVisible()
 })
+
+test('Chromebook keeps prediction action visible with reserved scrollbar space', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1366, height: 768 })
+  await page.goto('/missions/m01?new=1')
+  // macOS overlay scrollbars do not consume width; reserve the space used on Linux.
+  await page.addStyleTag({ content: 'body { padding-right: 15px; }' })
+  await page.evaluate(() => document.fonts.ready)
+  await expect(
+    page.getByRole('button', { name: 'Lock prediction & run', exact: true }),
+  ).toBeInViewport({ ratio: 1 })
+})

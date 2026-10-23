@@ -15,7 +15,7 @@ Eight authored missions/reference programs and actual goal predicates; three-ste
 ## Actual verification
 
 - npm run check: passed lint, strict TypeScript, 158 unit/integration/component tests across 14 files, and production build.
-- Production preview Chromium: 39 passed, 0 failed, 0 skipped. Covers all eight mission transfers/reloads, original save regression, both diagnosis paths, real pointer drag, Blockly apply, legal/invalid imports, team handoffs, settings persistence, storage blocked, privacy requests, four viewport widths, 11-route initial axe scans and safe budget-stop UI.
+- Production preview Chromium: 40 passed, 0 failed, 0 skipped. Covers all eight mission transfers/reloads, original save regression, both diagnosis paths, real pointer drag, Blockly apply, legal/invalid imports, team handoffs, settings persistence, storage blocked, privacy requests, four viewport widths, 11-route initial axe scans and safe budget-stop UI.
 - Format, secret scan, original-spec preservation/current-scope check and full dependency audit: passed; audit found zero vulnerabilities.
 - Local Firefox installed but its process exited before app load with “Could not find profile folder,” for both temporary and explicitly existing workspace profile paths. No local Firefox success is claimed. Run the unchanged two-browser CI on Ubuntu after pushing.
 - Manually opened screenshots include Home, onboarding, library, help, settings, instructor, progress, team and M01 workbench at desktop/Chromebook and selected 390px phone screens. Chromebook primary prediction action observed at y681.6, height44 in a 768px viewport and passes the original full-visibility regression.
