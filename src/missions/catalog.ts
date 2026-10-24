@@ -326,11 +326,19 @@ const authored = (
   concepts: string[],
   reference: Program,
   variants?: { world: import('../domain/types').World; program: Program }[],
+  options: {
+    version?: number
+    successScenarios?: import('../domain/types').Mission['successScenarios']
+    capstone?: boolean
+    extraVariants?: { id: string; world: import('../domain/types').World; program: Program }[]
+  } = {},
 ) =>
   MissionSchema.parse({
     schemaVersion: 1,
     id,
-    version: 1,
+    version: options.version ?? 1,
+    ...(options.successScenarios ? { successScenarios: options.successScenarios } : {}),
+    ...(options.capstone ? { capstone: true } : {}),
     title,
     conceptGoals: concepts,
     prerequisiteIds: [],
@@ -351,7 +359,10 @@ const authored = (
         },
         program: reference,
       }))
-    ).map((v, i) => ({ id: i === 0 ? 'transfer' : `practice-${i}`, ...v })),
+    )
+      .map((v, i) => ({ id: i === 0 ? 'transfer' : `practice-${i}`, ...v }))
+      // Part H appends new variants after the v1 ones so earlier transfer records still match.
+      .concat(options.extraVariants ?? []),
     roleEvidenceAssignments: [
       { role: 'predictor', task: 'Predict the first physical action' },
       { role: 'trace-reader', task: 'Explain the actual decisive event' },
