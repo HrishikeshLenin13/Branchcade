@@ -33,6 +33,7 @@ import {
   findMission,
   MISSION_CATALOG,
   MISSION_META,
+  REFERENCE_PROGRAMS,
   thresholdProgram,
 } from '../../missions/catalog'
 import { describeGoal } from '../../missions/goals'
@@ -165,6 +166,9 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     [dialog, setDialog] = useState<'briefing' | 'help' | 'shortcuts' | null>(null),
     [hintIds, setHintIds] = useState<string[]>(saved?.hintIds ?? []),
     [hintLevel, setHintLevel] = useState(0),
+    [solutionStep, setSolutionStep] = useState<'idle' | 'confirm' | 'shown'>(
+      saved?.hintIds?.includes('show-solution') ? 'shown' : 'idle',
+    ),
     [complete, setComplete] = useState(draft?.stage === 'complete')
   const [leftWidth, setLeftWidth] = useState(29),
     [rightWidth, setRightWidth] = useState(25)
@@ -321,6 +325,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     setDetailChoice('')
     setHintIds([])
     setHintLevel(0)
+    setSolutionStep('idle')
     setNotice('New attempt ready. Your previous result stays saved locally.')
   }
   const changeWorld = (next: World) => {
@@ -914,7 +919,14 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         >
           Reset layout
         </Button>
-        <Button variant="outline" onClick={() => setDialog('help')}>
+        <Button
+          variant="outline"
+          onClick={() => {
+            setDialog('help')
+            // Opening the ladder shows hint 1, so it is recorded as help (never a penalty).
+            if (!free) recordHint(`hint-${hintLevel + 1}`)
+          }}
+        >
           Help
         </Button>
         <Button variant="outline" onClick={() => setDialog('shortcuts')}>
@@ -1849,20 +1861,75 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             </ul>
           ) : (
             <>
-              <p>
-                {MISSION_META[mission.id]?.hints[hintLevel] ??
-                  'Follow one instruction at a time. Use the actual sensor values and variable state in the inspector.'}
-              </p>
-              <Button
-                variant="outline"
-                disabled={hintLevel >= 2}
-                onClick={() => {
-                  setHintLevel((value) => Math.min(2, value + 1))
-                  recordHint(`hint-${hintLevel + 1}`)
-                }}
-              >
-                Show next hint
-              </Button>
+              {lesson ? (
+                <>
+                  <p className="section-index">Hint {hintLevel + 1} of 3</p>
+                  <p data-testid="hint-text">{lesson.hints[hintLevel]}</p>
+                  {hintLevel === 2 && (
+                    <>
+                      <p className="muted">
+                        A related program to compare. It is not this mission’s answer, and your
+                        program is unchanged.
+                      </p>
+                      <pre className="code-preview">{pseudocode(lesson.hintExample)}</pre>
+                    </>
+                  )}
+                </>
+              ) : (
+                <p>
+                  Follow one instruction at a time. Use the actual sensor values and variable state
+                  in the inspector.
+                </p>
+              )}
+              <div className="button-row">
+                <Button
+                  variant="outline"
+                  disabled={!lesson || hintLevel >= 2}
+                  onClick={() => {
+                    setHintLevel((value) => Math.min(2, value + 1))
+                    recordHint(`hint-${hintLevel + 2}`)
+                  }}
+                >
+                  Show next hint
+                </Button>
+                {lesson && hintLevel >= 2 && solutionStep === 'idle' && (
+                  <Button variant="outline" onClick={() => setSolutionStep('confirm')}>
+                    Show solution…
+                  </Button>
+                )}
+              </div>
+              {solutionStep === 'confirm' && (
+                <div className="probe-practice" role="alertdialog" aria-label="Show the solution?">
+                  <p>
+                    Seeing the solution is okay. This attempt will be marked{' '}
+                    <strong>solution-assisted</strong>, so it won’t count as independent evidence.
+                    Afterwards, try a fresh new-numbers challenge to show the idea yourself.
+                  </p>
+                  <div className="button-row">
+                    <Button
+                      onClick={() => {
+                        setSolutionStep('shown')
+                        recordHint('show-solution')
+                      }}
+                    >
+                      Yes, show the solution
+                    </Button>
+                    <Button variant="outline" onClick={() => setSolutionStep('idle')}>
+                      Not now
+                    </Button>
+                  </div>
+                </div>
+              )}
+              {solutionStep === 'shown' && lesson && (
+                <div data-testid="solution">
+                  <h3>One working solution</h3>
+                  <pre className="code-preview">{pseudocode(REFERENCE_PROGRAMS[mission.id]!)}</pre>
+                  <p className="muted">
+                    Your program was not changed. You can rebuild this yourself in the block editor;
+                    the attempt is recorded as solution-assisted.
+                  </p>
+                </div>
+              )}
             </>
           )}
         </DialogContent>
