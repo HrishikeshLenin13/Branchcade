@@ -7,8 +7,9 @@ import { execute } from '../src/interpreter/interpreter'
 import { thresholdProgram } from '../src/missions/catalog'
 import { recordPrediction } from '../src/learning/predictions'
 import { PROBES } from '../src/learning/probes'
-import { initialHypotheses } from '../src/learning/hypothesis-library'
-import { generateCounterexample } from '../src/learning/counterexamples'
+import { assess } from '../src/learning/diagnosis'
+import { hypothesisRecords } from '../src/learning/diagnosis'
+import { searchCounterexamples, toCounterexample } from '../src/learning/counterexamples'
 import { DEFAULT_SETTINGS } from '../src/storage/migrations'
 import { stableHash } from '../src/domain/invariants'
 it('every remaining C3 record has a valid serializable runtime example', async () => {
@@ -53,7 +54,29 @@ it('every remaining C3 record has a valid serializable runtime example', async (
     ],
     [S.PredictionSchema, prediction],
     [S.ProbeSchema, PROBES[0]],
-    [S.HypothesisSchema, initialHypotheses()[0]],
+    [
+      S.HypothesisSchema,
+      (
+        await hypothesisRecords(
+          assess(
+            ['COMPARATOR_DIRECTION'],
+            [
+              {
+                answerId: 'answer',
+                source: 'probe',
+                independenceKey: 't',
+                scenarioKey: 's',
+                question: 'first-action',
+                situation: 'a contract example',
+                learnerAnswer: 'stop',
+                truth: 'move',
+                predictions: { COMPARATOR_DIRECTION: 'stop' },
+              },
+            ],
+          ),
+        )
+      )[0],
+    ],
     [
       S.EvidenceItemSchema,
       {
@@ -68,7 +91,14 @@ it('every remaining C3 record has a valid serializable runtime example', async (
         ruleReason: 'Exact response to the comparison probe',
       },
     ],
-    [S.CounterexampleSchema, await generateCounterexample('reversed-comparison')],
+    [
+      S.CounterexampleSchema,
+      await toCounterexample(
+        { world, program },
+        searchCounterexamples({ key: 'contract', world, program }, ['COMPARATOR_DIRECTION']),
+        ['COMPARATOR_DIRECTION'],
+      ),
+    ],
     [S.AppSettingsSchema, DEFAULT_SETTINGS],
   ]
   for (const [schema, example] of examples)

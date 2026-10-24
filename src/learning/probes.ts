@@ -1,3 +1,6 @@
+/** LEGACY (pre-Part G) fixed probe registry. New investigations use the adaptive,
+ * executable probes in probe-templates.ts. These ids remain only so attempts saved before
+ * Part G can still be reviewed and re-validated on import exactly as they were recorded. */
 import { ProbeSchema } from '../domain/schemas'
 import { makeWorld } from '../engine/world'
 import { thresholdProgram, findMission, REFERENCE_PROGRAMS } from '../missions/catalog'

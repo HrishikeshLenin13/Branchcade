@@ -120,12 +120,3 @@ export function recommend(
     reason: `Every concept shows evidence of understanding. ${conceptTitle(stale.concept)} was practiced longest ago, so a quick revisit keeps it fresh.`,
   }
 }
-
-/** @deprecated Temporary bridge for the pre-G workstation; removed with the static probes. */
-export function nextHypothesis(hypotheses: import('../domain/types').Hypothesis[]): string {
-  return (
-    [...hypotheses].sort(
-      (a, b) => b.supportScore - a.supportScore || a.code.localeCompare(b.code, 'en'),
-    )[0]?.code ?? 'reversed-comparison'
-  )
-}
