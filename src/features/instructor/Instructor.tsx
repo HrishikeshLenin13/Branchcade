@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { localProfiles, useSession } from '../../app/session'
 import { downloadFile, exportCsv, exportJson, scopedData } from '../../storage/import-export'
+import { conceptEvidence } from '../../learning/mastery'
+import { attemptDiagnosis } from '../../learning/investigation'
+import { conceptTitle, missionConcepts } from '../../learning/concepts'
 import { MISSION_CATALOG } from '../../missions/catalog'
 import { opaqueId } from '../../domain/invariants'
 import { ROLE_NAMES } from '../../collaboration/roles'
@@ -336,46 +339,43 @@ export default function Instructor() {
               .map((p) => (
                 <article className="evidence-entry" key={p.id}>
                   <h3>{p.nickname}</h3>
-                  {concepts
+                  {conceptEvidence(
+                    attempts.filter((a) => a.learnerId === p.id),
+                    MISSION_CATALOG,
+                  )
                     .filter(
                       (c) =>
-                        (!concept || c === concept) &&
-                        attempts.some(
-                          (a) =>
-                            a.learnerId === p.id &&
-                            MISSION_CATALOG.find(
-                              (m) => m.id === a.missionId,
-                            )?.conceptGoals.includes(c),
-                        ),
+                        c.status !== 'not_explored' &&
+                        (!concept ||
+                          MISSION_CATALOG.some(
+                            (m) =>
+                              m.conceptGoals.includes(concept) &&
+                              missionConcepts(m).includes(c.concept),
+                          )),
                     )
-                    .map((c) => {
-                      const progress = p.conceptProgress.find((x) => x.concept === c),
-                        related = attempts.filter(
-                          (a) =>
-                            a.learnerId === p.id &&
-                            MISSION_CATALOG.find(
-                              (m) => m.id === a.missionId,
-                            )?.conceptGoals.includes(c),
-                        )
-                      return (
-                        <p key={c}>
-                          {c.replaceAll('-', ' ')}: {related.length} attempts;{' '}
-                          {progress?.independentSuccesses ?? 0} distinct independent transfer
-                          scenarios.{' '}
-                          {related.some((a) => a.reassessment?.correct === false)
-                            ? 'A transfer answer needs another example.'
-                            : progress?.status === 'developing'
-                              ? 'Evidence of understanding across distinct scenarios.'
-                              : 'Still gathering evidence.'}
-                        </p>
+                    .map((c) => (
+                      <p key={c.concept}>
+                        {conceptTitle(c.concept)}: <strong>{c.label}</strong> · {c.attempts}{' '}
+                        attempts · {c.correctIndependent} unassisted correct predictions ·{' '}
+                        {c.transfersCorrect}/{c.transfersCorrect + c.transfersIncorrect} transfer
+                        checks matched · {c.hints} hints. {c.rule}
+                      </p>
+                    ))}
+                  {attempts
+                    .filter((a) => a.learnerId === p.id)
+                    .flatMap((a) =>
+                      attemptDiagnosis(
+                        a,
+                        MISSION_CATALOG.find((m) => m.id === a.missionId),
                       )
-                    })}
-                  {p.evidence
-                    .filter((e) => e.direction === 'supports')
-                    .map((e) => (
-                      <p key={e.id}>
-                        Possible {e.hypothesisId.replaceAll('-', ' ')}: {e.ruleReason} (heuristic
-                        weight {e.weight}; not a diagnosis).
+                        .ranked.filter((h) => h.active || h.status === 'evidence_for')
+                        .map((h) => ({ a, h })),
+                    )
+                    .map(({ a, h }) => (
+                      <p key={`${a.id}-${h.code}`} className="muted">
+                        {MISSION_CATALOG.find((m) => m.id === a.missionId)?.title ?? 'Free lab'} ·
+                        possible mix-up “{h.entry.title}”: {h.label} ({h.supports.length} fitting,{' '}
+                        {h.contradictions.length} not fitting answers; rule-based, not a diagnosis)
                       </p>
                     ))}
                 </article>
