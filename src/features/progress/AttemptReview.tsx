@@ -43,6 +43,11 @@ export function AttemptReview({ attempt }: { attempt: Attempt }) {
         cursor={cursor}
         onCursor={setCursor}
         engineVersion={attempt.engineVersion ?? 1}
+        world={attempt.world}
+        program={attempt.program}
+        robot={robot}
+        runId={attempt.id}
+        traceHash={attempt.traceHash}
       />
       <h3>Diagnostic timeline</h3>
       <ol>

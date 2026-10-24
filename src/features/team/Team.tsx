@@ -455,7 +455,12 @@ export default function Team() {
                       </Button>
                     </details>
                     {review && runResult && (
-                      <TraceView events={runResult.events} cursor={cursor} onCursor={setCursor} />
+                      <TraceView
+                        events={runResult.events}
+                        cursor={cursor}
+                        onCursor={setCursor}
+                        engineVersion={team.results.at(-1)?.engineVersion ?? 1}
+                      />
                     )}
                   </>
                 ) : team.phase === 'huddle' ? (
