@@ -444,14 +444,33 @@ const extraMissions = [
       if (s.kind === 'if' && s.condition.kind === 'compare') s.condition.op = '>'
       return p
     })(),
+    // v2: the repaired comparison must pick the right branch in three placements,
+    // including the equality case where < and <= disagree.
     [
-      { kind: 'branch', nodeId: 'decision', expected: true },
-      { kind: 'stopped' },
+      { kind: 'branch', expected: true },
+      { kind: 'programmed-stop' },
       { kind: 'reach', position: { xCm: 40, yCm: 50 }, toleranceCm: 0.1 },
     ],
     ['comparisons', 'conditionals', 'debugging'],
     thresholdProgram(),
     [10, 16, 20].map((d) => ({ world: makeWorld(d), program: thresholdProgram(d + 1) })),
+    {
+      version: 2,
+      successScenarios: [
+        {
+          id: 'equal-wall',
+          label: 'wall exactly 20 cm away',
+          world: makeWorld(20),
+          goals: [{ kind: 'branch', expected: false }, { kind: 'programmed-stop' }],
+        },
+        {
+          id: 'far-wall',
+          label: 'wall 30 cm away',
+          world: makeWorld(30),
+          goals: [{ kind: 'branch', expected: false }, { kind: 'programmed-stop' }],
+        },
+      ],
+    },
   ),
   authored(
     'm04',

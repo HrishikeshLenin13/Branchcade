@@ -199,3 +199,54 @@ CURRICULUM.m02 = {
     prompt: 'How far does the robot drive before it stops?',
   },
 }
+
+CURRICULUM.m03 = {
+  narrative:
+    'Someone wrote this obstacle check in a hurry and the robot does the opposite of what they meant. Predict what it does with the wall 12 cm away, find the deciding comparison in the trace, and repair it so it works for every wall position.',
+  targetConcept: 'Comparison direction and the difference between < and <= at equality',
+  vocabulary: [
+    { term: '<', meaning: '“Is the left number smaller than the right?”' },
+    { term: '<=', meaning: '“Smaller than OR equal to?” — true when both are the same.' },
+    { term: 'threshold', meaning: 'The number the reading is compared against.' },
+  ],
+  expectedPrediction: {
+    action: 'move',
+    reason: 'The starter asks 12 > 20, which is false, so it moves toward the wall.',
+  },
+  failureExamples: [
+    'Using <= works at 12 cm but stops at exactly 20 cm, where the mission wants it to keep going.',
+    'Raising the threshold to 25 also breaks the 20 cm case.',
+  ],
+  teacherNote:
+    'The equality scenario (wall exactly 20 cm away) is what separates < from <=. Learners who “fix” the bug by adding = pass the main world but fail that scenario; ask them to evaluate 20 < 20 and 20 <= 20 out loud.',
+  probeIds: ['g.compare-numbers.20-lt-20', 'g.equality-sensor.lt', 'g.branch-at.10-lt'],
+  hints: [
+    'Find the compare event in the timeline. Which two numbers does it compare, and in what order?',
+    'It asks 12 > 20, which is false, so the robot moves. A simpler example: 5 > 9 is false and 5 < 9 is true.',
+    'Compare this different program: if distance <= 15 → stop, otherwise → move. What would it do at exactly 15 cm?',
+  ],
+  hintExample: ifDistance('hint-m03', '<=', 15),
+  mistakeVariants: [
+    {
+      id: 'starter',
+      label: 'Starter: comparison reversed (>)',
+      program: ifDistance('m03-starter', '>', 20),
+      fails: 'Goal 1 (branch): not met',
+      explanation: '12 > 20 is false, so the close robot drives toward the wall.',
+    },
+    {
+      id: 'inclusive',
+      label: 'Repaired with <=',
+      program: ifDistance('m03-inclusive', '<=', 20),
+      fails: 'Scenario “wall exactly 20 cm away”: not met',
+      explanation: '20 <= 20 is true, so it stops at the equality case it should drive past.',
+    },
+    {
+      id: 'threshold-25',
+      label: 'Threshold raised to 25',
+      program: ifDistance('m03-25', '<', 25),
+      fails: 'Scenario “wall exactly 20 cm away”: not met',
+      explanation: '20 < 25 is true, so it stops too early at 20 cm.',
+    },
+  ],
+}
