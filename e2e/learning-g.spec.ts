@@ -1,6 +1,7 @@
 /** Part G browser journeys. Synthetic learners answer from the executable mental models,
  * read through the real UI (probe ids come from the rendered page, never injected). */
 import { test, expect, type Page } from '@playwright/test'
+import AxeBuilder from '@axe-core/playwright'
 import { buildProbe } from '../src/learning/probe-templates'
 import type { ModelCode } from '../src/learning/taxonomy'
 
@@ -150,4 +151,19 @@ test('free lab can generate a validated experiment from the current world and pr
   await page.getByRole('button', { name: 'Lock experiment prediction', exact: true }).click()
   await page.getByRole('button', { name: 'Run experiment', exact: true }).click()
   await expect(page.getByTestId('experiment-facts')).toContainText('Your prediction')
+})
+
+test('accessibility: investigation and experiment panels have no WCAG A/AA violations', async ({
+  page,
+}) => {
+  await wrongStopAtM01(page)
+  await page.getByRole('button', { name: 'Why are you asking?', exact: true }).click()
+  const scan = async (selector: string) =>
+    (
+      await new AxeBuilder({ page }).include(selector).withTags(['wcag2a', 'wcag2aa']).analyze()
+    ).violations.map((v) => `${v.id}: ${v.nodes.length}`)
+  expect(await scan('.investigation')).toEqual([])
+  await page.getByRole('button', { name: 'Continue to experiment', exact: true }).click()
+  await expect(page.getByTestId('experiment-rationale')).toBeVisible()
+  expect(await scan('section[aria-labelledby="experiment-heading"]')).toEqual([])
 })
