@@ -50,3 +50,7 @@ The inventory finds extensive logged AI assistance and **no verified independent
 5. Authorize/verify a real hosting project if publication is chosen; localhost is not public deployment. Publication and final submission are not performed by this Part K session.
 
 **Prepared deliverables are ready for human review; the entry is not certified submission-ready. Part L has not begun.**
+
+### Supplementary Chromebook-sized capture
+
+Playwright MCP opened the current M01 Blockly editor at **1366×768**, collapsed redundant pseudocode and scrolled the real page250px. The [actual viewport](evidence/k/chromebook-workbench.jpg) was captured and opened: stage,24cm reading, program workspace and the full prediction action remain accessible; the lower Blockly content continues below the viewport and uses normal scrolling. The action bounding box was x1024.43,y472.59,width290.42,height44px after that deliberate scroll. This is browser-viewport evidence, not a physical Chromebook or proof that every block fits above the fold.

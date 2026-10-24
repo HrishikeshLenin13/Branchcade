@@ -30,6 +30,14 @@ The final rehearsal rerun passed against the fresh production build; all three J
 
 The existing large lazy Blockly chunk warning remains documented; no app regression was found. New Part K CI is recorded in a subsequent observed checkpoint, not inferred from these local results.
 
+### Observed Part K pushed checkpoint
+
+Checkpoint `8d562aa5d91f607ba599dd334fc8170a3c41aa6a` was pushed directly to main, remote SHA matched, and [CI 40132539841](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40132539841) completed **success**. Its actual log reports 396 tests/29 files and 210 browser cases passed (5.7 minutes), with no failed/flaky/skipped summary; the configured projects contain 105 Chromium and 105 Firefox cases. Every install/format/secrets/spec/lint/typecheck/build/audit gate succeeded; audit 0 vulnerabilities. Structured completed job/step evidence: [first-checkpoint-ci.json](evidence/k/first-checkpoint-ci.json).
+
+The full prepared-material bundle was then committed/pushed as `986c7add51f70845cdf6f9b6d16bd9ec3e7db963`; remote SHA matched. The subsequent evidence-only checkpoint records the preceding verified run rather than inventing its own future CI result. Inspect the [main quality workflow](https://github.com/HrishikeshLenin13/Branchcade/actions/workflows/ci.yml) for the exact later commit/run result; the final chat handoff reports the observed final pushed run separately. Runtime source remains identical to the green A–J baseline.
+
+Supplementary current-source **1366×768** Playwright MCP capture was opened: [Chromebook-sized workbench](evidence/k/chromebook-workbench.jpg). The full prediction action is visible after a deliberate 250px scroll (y472.59, height44px); lower Blockly content continues normally below the viewport. This is not physical-device evidence. The documentation preflight then passed 15 documents/**93 local link targets**/16 concepts; all 25 distinct workbook test-file paths were reopened and verified to exist. No participant findings, student source work, recording/upload or deployment was added by these checks.
+
 ## Parts I/J red-CI repair — final verified run (2026-10-24)
 
 Source commit: `fddd0652554673081bc09b9ca4d6b3f402388044` on `main`. [GitHub Actions run 40128767480](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40128767480) completed successfully across all gates:

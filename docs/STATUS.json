@@ -227,9 +227,9 @@
     "failedBrowserTests": 0,
     "flakyBrowserTests": 0,
     "build": "passed",
-    "verifiedCommit": "abd9d0a50abb30afd2d46057caac7ddfb90f4a9d",
-    "ciRun": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40129455981",
-    "ciConclusion": "Success: 396 unit tests, 105 Chromium E2E, 105 Firefox E2E, zero failed or flaky tests; format, secret/spec validation, lint, strict TypeScript, production build and npm audit passed.",
+    "verifiedCommit": "8d562aa5d91f607ba599dd334fc8170a3c41aa6a",
+    "ciRun": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40132539841",
+    "ciConclusion": "Observed success on the first Part K checkpoint:396 tests/29files and210 Chromium/Firefox cases; no failed/flaky/skipped summary; all workflow gates passed and npm audit0. Later prepared-package/evidence commits must be checked against their own run.",
     "legacyFingerprints": 40,
     "localVerification": "2026-10-24 Part K: fresh Node24 ci/check (396 tests/29 files),105 Chromium, actual demo rehearsal; later document gates and CI tracked in TEST_REPORT"
   },
@@ -238,7 +238,7 @@
     "scope": "Student explanation/revision of AI-assisted algorithms and teacher review of authored curriculum; no human work fabricated."
   },
   "partK": {
-    "documentation": "VERIFIED PREPARED:15 documents,92 local link targets,16 workbook concepts; final local gates passed; human actions remain pending",
+    "documentation": "VERIFIED PREPARED:15 documents,93 local link targets,16 workbook concepts and25 targeted test paths checked; local gates passed; human actions pending",
     "humanProtocol": "PREPARED; NOT YET CONDUCTED — AWAITING ACTUAL PARTICIPANTS",
     "sourceOwnershipInventory": "PREPARED; independent student implementation UNVERIFIED",
     "demoScript": "PREPARED; planned 2:48 and 2:35 alternate, not measured media",
@@ -253,6 +253,7 @@
     "eligibilityConfirmation": "AWAITING OWNER ACTION",
     "submissionReadiness": "AWAITING OWNER ACTION",
     "partL": "NOT STARTED",
-    "acceptance": "docs/PART_K_ACCEPTANCE.md"
+    "acceptance": "docs/PART_K_ACCEPTANCE.md",
+    "preparedPackageCommit": "986c7add51f70845cdf6f9b6d16bd9ec3e7db963 (remote SHA verified; observe its/later CI separately)"
   }
 }
