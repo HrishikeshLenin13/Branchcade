@@ -17,7 +17,17 @@ async function answerAs(page: Page, model: ModelCode) {
   const asked: string[] = []
   for (let i = 0; i < 4; i++) {
     const question = page.getByTestId('probe-question')
-    if (!(await question.count())) break
+    const initialIds = await question.evaluateAll((elements) =>
+      elements.map((element) => element.getAttribute('data-probe-id')),
+    )
+    if (!initialIds.length) {
+      await expect(
+        page.getByRole('button', { name: 'Generate a targeted experiment', exact: true }),
+      ).toBeEnabled()
+      break
+    }
+    expect(initialIds).toHaveLength(1)
+    await expect(question).toBeEnabled()
     const id = (await question.getAttribute('data-probe-id'))!
     asked.push(id)
     const probe = buildProbe(id)!
@@ -25,12 +35,29 @@ async function answerAs(page: Page, model: ModelCode) {
     const label = probe.choices.find((c) => c.id === answer.replace(/[^\w.-]/g, '_'))!.label
     await question.getByRole('button', { name: label, exact: true }).click()
     await expect(page.getByTestId('probe-feedback')).toBeVisible()
+    let nextIds: (string | null)[] = []
     await expect
-      .poll(
-        async () =>
-          (await question.count()) === 0 || (await question.getAttribute('data-probe-id')) !== id,
-      )
+      .poll(async () => {
+        // Read presence and identity in one browser-side query. Separate count() and
+        // getAttribute() calls can straddle React unmounting the final answered probe,
+        // after which getAttribute() waits for a locator that should remain absent.
+        nextIds = await question.evaluateAll((elements) =>
+          elements.map((element) => element.getAttribute('data-probe-id')),
+        )
+        return nextIds.length === 0 || (nextIds.length === 1 && nextIds[0] !== id)
+      })
       .toBe(true)
+    if (!nextIds.length) {
+      // A final answer can correctly resolve the investigation. In that state the learner
+      // sees the evidence summary and can proceed directly to a targeted experiment.
+      await expect(
+        page.getByRole('button', { name: 'Generate a targeted experiment', exact: true }),
+      ).toBeEnabled()
+      break
+    }
+    expect(nextIds).toHaveLength(1)
+    expect(nextIds[0]).toEqual(expect.any(String))
+    expect(nextIds[0]).not.toBe(id)
   }
   return asked
 }
