@@ -2,12 +2,13 @@ import type { Mission, Program, World } from '../domain/types'
 import { readSensors } from '../engine/sensors'
 import { initialRobot } from '../engine/robot'
 import { REFERENCE_PROGRAMS } from './catalog'
+import { blindLineProgram } from './catalog'
 import { MISSION_META } from './catalog'
 import { missionConcepts } from '../learning/concepts'
 import { buildProbe } from '../learning/probe-templates'
 import { transferPool } from '../learning/transfer'
 import type { QuestionKind } from '../learning/mental-models'
-import { compare, distance, lit, move, program, stop } from '../learning/scenarios'
+import { colorLit, compare, distance, floor, lit, move, program, stop } from '../learning/scenarios'
 
 /** Part H authored teaching material for each mission. Programs and worlds here are
  * ordinary validated data; every claim about them is checked by tests/h-curriculum. */
@@ -130,4 +131,71 @@ CURRICULUM.m01 = {
       explanation: 'The robot bumps the wall before the stop block runs. A bump is not a stop.',
     },
   ],
+}
+
+const whileFloor = (id: string, op: '==' | '!=', color: 'white' | 'black', step = 1): Program =>
+  program(id, [
+    {
+      nodeId: 'follow',
+      kind: 'while',
+      condition: compare('floor-check', op, floor('floor-color'), colorLit('floor-value', color)),
+      body: [move('step', step)],
+    },
+    stop(),
+  ])
+
+CURRICULUM.m02 = {
+  narrative:
+    'A black tape line marks the parking spot. The starter program just drives 30 cm and never looks at the floor. Use the floor colour sensor so the robot stops on the line, wherever the line is.',
+  targetConcept: 'Using the floor colour sensor in a loop condition to make a programmed stop',
+  vocabulary: [
+    {
+      term: 'floor colour sensor',
+      meaning: 'Reads the colour of the small spot of floor under it.',
+    },
+    { term: 'while loop', meaning: 'Repeats its blocks as long as its condition stays true.' },
+    { term: 'footprint', meaning: 'The exact spot the sensor reads, shown under the robot.' },
+  ],
+  expectedPrediction: { action: 'move', reason: 'The repeat block starts with move 1 cm.' },
+  failureExamples: [
+    'Driving a fixed 30 cm rolls right over the line and stops on white.',
+    'Stopping a few centimetres late still misses the 2-tick window after the sensor reaches black.',
+  ],
+  teacherNote:
+    'Watch for learners who expect the colour sensor to “see” the line ahead. The line only counts once the sensor footprint is on it; the second scenario moves and thins the line so a hard-coded distance cannot pass.',
+  probeIds: ['g.color-read.12', 'g.color-ahead.12', 'g.while-start-black.black'],
+  hints: [
+    'Which sensor can tell the difference between white floor and the black line?',
+    'The floor sensor reads white until its footprint reaches the tape, then black. A simpler example: “while floor = white: move 1 cm” keeps going only on white.',
+    'Compare this different program: while floor ≠ black → move 1 cm, then stop. How is its condition different from “floor = white”?',
+  ],
+  hintExample: whileFloor('hint-m02', '!=', 'black'),
+  mistakeVariants: [
+    {
+      id: 'blind',
+      label: 'Starter: fixed 30 cm, no sensor',
+      program: blindLineProgram(),
+      fails: 'Goal 1 (color-stop-within): not met',
+      explanation: 'The robot drives over the line and stops on white.',
+    },
+    {
+      id: 'late-stop',
+      label: 'Fixed 25 cm then stop',
+      program: program('m02-late', [move('drive', 25), stop()]),
+      fails: 'Goal 1 (color-stop-within): not met',
+      explanation: 'It reaches black at 20 cm but only stops 5 cm (5 ticks) later.',
+    },
+    {
+      id: 'wrong-colour',
+      label: 'Loop while floor = black',
+      program: whileFloor('m02-wrong', '==', 'black'),
+      fails: 'Goal 1 (color-stop-within): not met',
+      explanation:
+        'The floor starts white, so the loop never runs and the robot never reaches the line.',
+    },
+  ],
+  detail: {
+    question: 'distance-travelled',
+    prompt: 'How far does the robot drive before it stops?',
+  },
 }

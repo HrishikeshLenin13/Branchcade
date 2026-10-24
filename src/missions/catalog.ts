@@ -183,14 +183,14 @@ const turn = (id: string, angle: number): import('../domain/types').Statement =>
 })
 const stop = (id = 'finish'): import('../domain/types').Statement => ({ nodeId: id, kind: 'stop' })
 const emptyWorld = (id: string) => ({ ...makeWorld(), id, obstacles: [] })
-const colorWorld = (lineX = 60) => ({
-  ...emptyWorld(`line-${lineX}`),
+const colorWorld = (lineX = 60, widthCm = 8) => ({
+  ...emptyWorld(widthCm === 8 ? `line-${lineX}` : `line-${lineX}-w${widthCm}`),
   floorZones: [
     {
       id: 'black-line',
       kind: 'rectangle' as const,
       position: { xCm: lineX, yCm: 20 },
-      widthCm: 8,
+      widthCm,
       heightCm: 60,
       color: 'black' as const,
       priority: 1,
@@ -214,6 +214,22 @@ function colorProgram(): Program {
           right: { nodeId: 'white', kind: 'literal', type: 'color', value: 'white' },
         },
         body: [move('line-step', 1)],
+      },
+      stop(),
+    ],
+  }
+}
+/** M02 v2 starter: drives a fixed distance and never looks at the floor sensor. */
+export function blindLineProgram(): Program {
+  return {
+    schemaVersion: 1,
+    id: 'line-stop-starter',
+    body: [
+      {
+        nodeId: 'blind-drive',
+        kind: 'repeat',
+        count: number('blind-count', 30),
+        body: [move('blind-step', 1)],
       },
       stop(),
     ],
@@ -391,14 +407,32 @@ const extraMissions = [
     'm02',
     'Black Line Stop',
     colorWorld(),
-    colorProgram(),
+    blindLineProgram(),
+    // v2: the stop block must run within 2 ticks of the floor-sensor footprint reaching
+    // black (not when the drawn robot touches the stripe), here and on a thin far line.
     [
-      { kind: 'color-stop', color: 'black' },
+      { kind: 'color-stop-within', color: 'black', ticks: 2 },
+      { kind: 'programmed-stop' },
       { kind: 'reach', position: { xCm: 60, yCm: 50 }, toleranceCm: 1 },
     ],
     ['color-sensors', 'conditionals', 'loops'],
     colorProgram(),
     [62, 65, 68].map((x) => ({ world: colorWorld(x), program: colorProgram() })),
+    {
+      version: 2,
+      successScenarios: [
+        {
+          id: 'thin-line',
+          label: 'thin line 30 cm ahead',
+          world: colorWorld(70, 4),
+          goals: [
+            { kind: 'color-stop-within', color: 'black', ticks: 2 },
+            { kind: 'programmed-stop' },
+          ],
+        },
+      ],
+      extraVariants: [{ id: 'practice-3', world: colorWorld(74, 4), program: colorProgram() }],
+    },
   ),
   authored(
     'm03',
