@@ -103,3 +103,14 @@ describe.each(authored.map((m) => [m.id, m] as const))('%s authoring', (_, missi
     }
   })
 })
+
+it('m07 has at least three transfer worlds where AND and OR choose different actions', async () => {
+  const { findMission, compositeProgram } = await import('../src/missions/catalog')
+  const m07 = findMission('m07')!
+  const differing = m07.variants.filter(
+    (v) =>
+      actualAction(execute(v.world, compositeProgram('and')).events) !==
+      actualAction(execute(v.world, compositeProgram('or')).events),
+  )
+  expect(differing.length).toBeGreaterThanOrEqual(3)
+})
