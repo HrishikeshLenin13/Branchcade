@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Clock3, Search, SlidersHorizontal, X } from 'lucide-react'
 import { recommend } from '../../learning/adaptive-planner'
+import { curriculumFor } from '../../missions/curriculum'
 import { MISSION_CATALOG, MISSION_META } from '../../missions/catalog'
 import { useSession } from '../../app/session'
 import { Button } from '../../components/ui/button'
@@ -288,8 +289,17 @@ export default function Missions() {
           </DialogHeader>
           {preview && (
             <div>
+              <p>{curriculumFor(preview.id)?.narrative}</p>
               <p>{MISSION_META[preview.id]!.objective}</p>
               <h3>You’ll practice</h3>
+              <p>{curriculumFor(preview.id)?.targetConcept}</p>
+              <h3>Words to know</h3>
+              <p>
+                {curriculumFor(preview.id)
+                  ?.vocabulary.map((v) => v.term)
+                  .join(' · ')}
+              </p>
+              <h3>Concepts</h3>
               <p>
                 {preview.conceptGoals.map((concept) => concept.replaceAll('-', ' ')).join(', ')}.
               </p>
