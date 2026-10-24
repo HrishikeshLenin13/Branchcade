@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { render, screen, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, expect, it, vi } from 'vitest'
@@ -39,4 +40,45 @@ it('Radix dialog exposes a name, traps focus and Escape restores the trigger', a
   await user.keyboard('{Escape}')
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Open review' })).toHaveFocus()
+})
+
+function ControlledDialog({ overrideFocus = false }: { overrideFocus?: boolean }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open controlled review</Button>
+      <Button id="custom-dialog-return">Custom return target</Button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent
+          onCloseAutoFocus={
+            overrideFocus
+              ? (event) => {
+                  event.preventDefault()
+                  document.getElementById('custom-dialog-return')?.focus()
+                }
+              : undefined
+          }
+        >
+          <DialogTitle>Controlled review</DialogTitle>
+          <DialogDescription>This dialog opens without a DialogTrigger.</DialogDescription>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
+}
+it('controlled dialogs without a DialogTrigger restore the actual opener after Escape', async () => {
+  const user = userEvent.setup()
+  render(<ControlledDialog />)
+  const opener = screen.getByRole('button', { name: 'Open controlled review' })
+  await user.click(opener)
+  expect(screen.getByRole('dialog', { name: 'Controlled review' })).toBeVisible()
+  await user.keyboard('{Escape}')
+  expect(opener).toHaveFocus()
+})
+it('dialog callers can deliberately override the close focus destination', async () => {
+  const user = userEvent.setup()
+  render(<ControlledDialog overrideFocus />)
+  await user.click(screen.getByRole('button', { name: 'Open controlled review' }))
+  await user.keyboard('{Escape}')
+  expect(screen.getByRole('button', { name: 'Custom return target' })).toHaveFocus()
 })
