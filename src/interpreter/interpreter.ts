@@ -76,7 +76,7 @@ export class Interpreter {
   readonly world: World
   private frames: Frame[] = []
   private functions = new Map<string, Statement[]>()
-  private variables: Record<string, Value> = Object.create(null) as Record<string, Value>
+  protected variables: Record<string, Value> = Object.create(null) as Record<string, Value>
   private variableTypes = new Map<string, Expression['type']>()
   private instructions = 0
   private depth = 0
@@ -110,6 +110,39 @@ export class Interpreter {
     for (const s of program.body) if (s.kind === 'function') this.functions.set(s.name, s.body)
     this.frames.push({ kind: 'sequence', body: program.body, index: 0 })
     this.status = 'ready'
+  }
+  /* Mental-model seams (Part G). Each default below IS the authoritative semantics, so the
+   * base class behaves exactly as before. Only src/learning/mental-models.ts overrides them,
+   * to execute what a learner holding one specific misconception would expect to happen. */
+  protected distanceReading(actual: number | null): number | null {
+    return actual
+  }
+  protected colorReading(actual: Exclude<Value, number | boolean | null>) {
+    return actual
+  }
+  protected comparisonOp(op: Extract<Expression, { kind: 'compare' }>['op']) {
+    return op
+  }
+  protected branchBodies(s: Extract<Statement, { kind: 'if' }>, result: boolean): Statement[][] {
+    return [result ? s.then : s.else]
+  }
+  protected repeatTimes(count: number) {
+    return count
+  }
+  protected whileChecksFirst() {
+    return true
+  }
+  protected definitionRuns() {
+    return false
+  }
+  protected callRuns() {
+    return true
+  }
+  protected keepsEarlierAssignment() {
+    return false
+  }
+  protected stopsBeforeMoving(): boolean {
+    return false
   }
   get result(): RunResult {
     return {
@@ -198,7 +231,10 @@ export class Interpreter {
         return e.value
       case 'sensor': {
         const s = readSensors(this.world, this.robot)
-        const value = e.sensor === 'distance' ? s.distanceCm : s.surfaceColor
+        const value =
+          e.sensor === 'distance'
+            ? this.distanceReading(s.distanceCm)
+            : this.colorReading(s.surfaceColor)
         this.emit(
           'sensor_read',
           e.nodeId,
@@ -244,16 +280,17 @@ export class Interpreter {
           throw new Error(
             `No distance return at ${e.nodeId}. Guard the comparison with is detected AND your condition.`,
           )
+        const op = this.comparisonOp(e.op)
         const result =
-          e.op === '=='
+          op === '=='
             ? a === b
-            : e.op === '!='
+            : op === '!='
               ? a !== b
-              : e.op === '<'
+              : op === '<'
                 ? number(a) < number(b)
-                : e.op === '<='
+                : op === '<='
                   ? number(a) <= number(b)
-                  : e.op === '>'
+                  : op === '>'
                     ? number(a) > number(b)
                     : number(a) >= number(b)
         this.emit(
@@ -280,6 +317,14 @@ export class Interpreter {
     this.nodeId = frame.node.nodeId
     if (this.robot.tick >= this.limits.ticks)
       throw new Error('Run budget reached: physics tick limit')
+    if (frame.mode === 'move' && frame.sign > 0 && this.stopsBeforeMoving()) {
+      const before = structuredClone(this.robot)
+      this.frames.pop()
+      this.robot = { ...this.robot, speedCmPerSec: 0, turnDegPerSec: 0 }
+      this.emit('stop', frame.node.nodeId, before, ['Model: the sensor stopped the robot'])
+      this.finish('stopped', 'explicit stop')
+      return
+    }
     const amount = Math.min(
       frame.remaining,
       frame.mode === 'move' ? 1 : frame.mode === 'turn' ? 4.5 : FIXED_STEP_MS,
@@ -390,6 +435,15 @@ export class Interpreter {
             this.emit('function_defined', s.nodeId, before, [
               `FUNCTION_DEFINED: ${s.name}; definition does not execute`,
             ])
+            if (this.definitionRuns()) {
+              this.depth++
+              this.push({
+                kind: 'sequence',
+                body: s.body,
+                index: 0,
+                returnNode: { nodeId: s.nodeId, kind: 'call', name: s.name },
+              })
+            }
             break
           case 'move':
           case 'turn':
@@ -449,7 +503,8 @@ export class Interpreter {
                 result,
               },
             )
-            this.push({ kind: 'sequence', body: result ? s.then : s.else, index: 0 })
+            for (const body of this.branchBodies(s, result).reverse())
+              this.push({ kind: 'sequence', body, index: 0 })
             break
           }
           case 'repeat': {
@@ -457,14 +512,18 @@ export class Interpreter {
             this.nodeId = s.nodeId
             if (!Number.isInteger(count) || count < 1 || count > 100)
               throw new Error(`Repeat count must be an integer 1–100 at ${s.nodeId}`)
-            this.push({ kind: 'repeat', node: s, count, iteration: 0 })
+            this.push({ kind: 'repeat', node: s, count: this.repeatTimes(count), iteration: 0 })
             this.emit('loop_start', s.nodeId, before, [`REPEAT: scheduled ${count} iterations`])
             break
           }
           case 'while': {
             const loop: Extract<Frame, { kind: 'while' }> = { kind: 'while', node: s, iteration: 0 }
             this.push(loop)
-            this.whileIteration(loop)
+            if (this.whileChecksFirst()) this.whileIteration(loop)
+            else {
+              loop.iteration++
+              this.push({ kind: 'sequence', body: s.body, index: 0 })
+            }
             break
           }
           case 'set': {
@@ -475,13 +534,15 @@ export class Interpreter {
             if (this.variableTypes.has(s.name) && this.variableTypes.get(s.name) !== s.value.type)
               throw new Error(`Variable ${s.name} cannot change type at ${s.nodeId}`)
             this.variableTypes.set(s.name, s.value.type)
-            this.variables[s.name] = value
+            if (!(this.keepsEarlierAssignment() && Object.hasOwn(this.variables, s.name)))
+              this.variables[s.name] = value
             this.emit('set', s.nodeId, before, [`${s.name} = ${String(value)}`])
             break
           }
           case 'call': {
             const body = this.functions.get(s.name)
             if (!body) throw new Error(`No function named ${s.name}`)
+            if (!this.callRuns()) break
             if (this.depth >= this.limits.callDepth)
               throw new Error('Function call depth reached (maximum 8)')
             this.depth++
