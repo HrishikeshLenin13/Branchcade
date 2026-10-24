@@ -1,11 +1,11 @@
-import type { AppExport, Attempt, LearnerProfile } from '../domain/types'
+import type { AppExport, Attempt, LearnerProfile, World } from '../domain/types'
 import { ExportSchema } from '../domain/schemas'
 import { LIMITS } from '../domain/constants'
 import { canonicalJson, stableHash } from '../domain/invariants'
 import { migrateData } from './migrations'
 import { validateProgram } from '../interpreter/validate'
 import { execute, executeRecorded } from '../interpreter/interpreter'
-import { judgeGoals } from '../missions/goals'
+import { judgeRecorded } from '../missions/judge'
 import { MISSION_CATALOG } from '../missions/catalog'
 import { probesForMission } from '../learning/probes'
 import { buildProbe } from '../learning/probe-templates'
@@ -64,8 +64,9 @@ export async function validateImport(raw: string): Promise<AppExport> {
       throw new Error('Attempt trace checksum mismatch')
     const mission = MISSION_CATALOG.find((m) => m.id === a.missionId)
     if (!mission && a.missionId !== 'lab') throw new Error('Unrecognized mission in this release')
+    // Each record is judged with the mission data version it was made with (absent = v1).
     const expected = mission
-      ? judgeGoals(a.world, run, mission.successPredicate)
+      ? judgeRecorded(mission, a.missionVersion, a.world as World, a.program, a.engineVersion)
       : { passed: false, facts: ['Free exploration is not a scored mission'] }
     if (canonicalJson(expected) !== canonicalJson(a.goalOutcome))
       throw new Error('Goal outcome does not match actual execution')
@@ -164,7 +165,7 @@ export async function validateImport(raw: string): Promise<AppExport> {
       validateProgram(program)
       const run = executeRecorded(world, program, r.engineVersion),
         traceHash = await stableHash(run.events),
-        goal = judgeGoals(world, run, mission.successPredicate)
+        goal = judgeRecorded(mission, r.missionVersion, world as World, program, r.engineVersion)
       if (r.traceHash !== traceHash || r.goalPassed !== goal.passed)
         throw new Error('Team result does not match actual execution')
     }
