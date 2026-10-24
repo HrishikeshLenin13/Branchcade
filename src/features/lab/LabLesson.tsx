@@ -6,9 +6,8 @@ import type {
   Program,
   Prediction,
   World,
-  Hypothesis,
-  Counterexample,
   Reassessment,
+  ExperimentResponse,
   Mission,
 } from '../../domain/types'
 import { LEARNING_CYCLE } from '../../domain/constants'
@@ -38,13 +37,15 @@ import {
 } from '../../missions/catalog'
 import { judgeGoals, describeGoal } from '../../missions/goals'
 import { recordPrediction } from '../../learning/predictions'
-import { initialHypotheses } from '../../learning/hypothesis-library'
-import { possibleFromWrongAnswer, updateEvidence } from '../../learning/evidence-engine'
-import { probesForMission, probeQuestion } from '../../learning/probes'
-import { generateCounterexample } from '../../learning/counterexamples'
-import { nextHypothesis } from '../../learning/adaptive-planner'
 import { conceptStatus } from '../../learning/mastery'
-import { recommendation } from '../../learning/recommendations'
+import { transferAdvice } from '../../learning/recommendations'
+import { attemptDiagnosis, attemptObservations } from '../../learning/investigation'
+import { hypothesisRecords } from '../../learning/diagnosis'
+import { answerLabel, quote } from '../../learning/probe-templates'
+import { chooseTransfer, findTransfer } from '../../learning/transfer'
+import { recommend } from '../../learning/adaptive-planner'
+import { EvidenceSummary, Investigation } from '../diagnosis/Investigation'
+import { Experiment } from '../experiments/Experiment'
 import { appendAttempt, annotateAttempt } from '../../storage/repositories'
 import { downloadFile } from '../../storage/import-export'
 import { useSession } from '../../app/session'
@@ -80,8 +81,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     replace = useSession((state) => state.replace),
     pendingWrites = useSession((state) => state.pendingWrites),
     ephemeral = useSession((state) => state.ephemeral)
-  const missionId = free ? 'lab' : mission.id,
-    probes = probesForMission(mission)
+  const missionId = free ? 'lab' : mission.id
   const [fresh] = useState(
     () =>
       new URLSearchParams(window.location.search).has('new') ||
@@ -161,39 +161,6 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     [complete, setComplete] = useState(draft?.stage === 'complete')
   const [leftWidth, setLeftWidth] = useState(29),
     [rightWidth, setRightWidth] = useState(25)
-  const [hypotheses, setHypotheses] = useState<Hypothesis[]>(() =>
-    initialHypotheses(mission.conceptGoals).map((hypothesis) => {
-      const items =
-          data.profile?.evidence.filter(
-            (item) =>
-              saved && item.answerId.startsWith(saved.id) && item.hypothesisId === hypothesis.code,
-          ) ?? [],
-        evidence = items.filter((item) => item.direction === 'supports'),
-        contradictions = items.filter((item) => item.direction === 'contradicts'),
-        score = Math.max(
-          0,
-          Math.min(
-            1,
-            evidence.reduce((sum, item) => sum + item.weight, 0) -
-              contradictions.reduce((sum, item) => sum + item.weight, 0),
-          ),
-        )
-      return {
-        ...hypothesis,
-        evidence,
-        contradictions,
-        supportScore: score,
-        status:
-          score >= 0.5
-            ? 'evidence_for'
-            : contradictions.length
-              ? 'evidence_against'
-              : saved
-                ? 'possible'
-                : 'unverified',
-      }
-    }),
-  )
   const [responses, setResponses] = useState<Attempt['diagnosticResponses']>(
       saved?.diagnosticResponses ?? [],
     ),
@@ -207,18 +174,8 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         ),
     ),
     [assessmentSkipped, setAssessmentSkipped] = useState(saved?.assessmentSkipped ?? false),
-    [probeHint, setProbeHint] = useState(false),
-    [probeWhy, setProbeWhy] = useState(false),
-    [probePractice, setProbePractice] = useState(false),
-    [probeOffset, setProbeOffset] = useState(0)
-  const [showExperiment, setShowExperiment] = useState(draft?.stage === 'experiment'),
-    [example, setExample] = useState<Counterexample | null>(null),
-    [experimentThreshold, setExperimentThreshold] = useState(draft?.experimentThreshold ?? 20),
-    [experimentChoice, setExperimentChoice] = useState<Prediction['action']>('move'),
-    [experimentPrediction, setExperimentPrediction] = useState<Prediction['action'] | null>(null),
-    [experimentRevealed, setExperimentRevealed] = useState(false),
-    [experimentView, setExperimentView] = useState<'baseline' | 'changed'>('changed'),
-    [experimentExplanation, setExperimentExplanation] = useState(false)
+    [reviewEvidence, setReviewEvidence] = useState(false)
+  const [showExperiment, setShowExperiment] = useState(draft?.stage === 'experiment')
   const [transferChoice, setTransferChoice] = useState<Prediction['action']>('move'),
     [transfer, setTransfer] = useState<Reassessment | null>(
       saved?.transferRetries?.at(-1) ?? saved?.reassessment ?? null,
@@ -250,7 +207,19 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       result &&
       prediction.action === actualAction(result.events),
     ),
-    transferVariant = mission.variants[transferIndex % Math.max(1, mission.variants.length)]
+    savedAttempt = data.attempts.find((item) => item.id === attemptId),
+    // Pure and memoized per scenario inside the learning engine; recomputed from stored answers.
+    diagnosis = savedAttempt ? attemptDiagnosis(savedAttempt, free ? undefined : mission) : null,
+    transferHistory = savedAttempt
+      ? [
+          ...(savedAttempt.reassessment ? [savedAttempt.reassessment] : []),
+          ...(savedAttempt.transferRetries ?? []),
+        ]
+      : [],
+    transferVariant = transfer
+      ? (findTransfer(mission, transfer.scenarioId) ??
+        mission.variants.find((v) => v.id === 'transfer'))
+      : (chooseTransfer(mission, transferHistory) ?? undefined)
   const tickTarget = result ? nextTickCursor(result.events, cursor) : 0
   const cycleIndex =
     showTransfer || transfer ? 6 : showExperiment ? 5 : showInvestigation ? 4 : result ? 3 : 1
@@ -269,26 +238,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       stage: result ? stage : 'predict',
       cursor,
       attemptId: attemptId || null,
-      experimentThreshold,
       transferIndex,
     }
     await replace({
       ...current,
       drafts: [...current.drafts.filter((item) => item.id !== next.id), next],
     })
-  }, [
-    start,
-    replace,
-    missionId,
-    world,
-    program,
-    stage,
-    result,
-    cursor,
-    attemptId,
-    experimentThreshold,
-    transferIndex,
-  ])
+  }, [start, replace, missionId, world, program, stage, result, cursor, attemptId, transferIndex])
   const runControl = useRef<AbortController | null>(null),
     editAfterCancel = useRef(false)
   useEffect(() => () => runControl.current?.abort(), [])
@@ -331,21 +287,6 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     url.searchParams.delete('example')
     window.history.replaceState(window.history.state, '', url)
   }, [fresh])
-  useEffect(() => {
-    if (!showExperiment || example) return
-    let active = true
-    void generateCounterexample(nextHypothesis(hypotheses))
-      .then((generated) => {
-        if (active) setExample(generated)
-      })
-      .catch((error) => {
-        if (active)
-          setError(error instanceof Error ? error.message : 'Experiment could not be restored.')
-      })
-    return () => {
-      active = false
-    }
-  }, [showExperiment, example, hypotheses])
   const reset = () => {
     runControl.current?.abort()
     setPrediction(null)
@@ -358,8 +299,6 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     setErrorNode(undefined)
     setAttemptId('')
     setResponses([])
-    setHypotheses(initialHypotheses(mission.conceptGoals))
-    setExample(null)
     setShowExperiment(false)
     setShowTransfer(false)
     setShowInvestigation(false)
@@ -470,11 +409,6 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       setCursor(runResult.events.length)
       setPlaying(false)
       setAssessmentSkipped(skip || uncertain)
-      setHypotheses(
-        !p.uncertain && p.action !== actualAction(runResult.events)
-          ? possibleFromWrongAnswer(initialHypotheses(mission.conceptGoals))
-          : initialHypotheses(mission.conceptGoals),
-      )
       setShowInvestigation(!free && !p.uncertain && p.action !== actualAction(runResult.events))
       setNotice(
         `${skip ? 'Free exploration executed.' : p.uncertain ? 'Uncertainty recorded; no misconception inferred.' : 'Prediction locked before reveal.'} Actual result ${useSession.getState().ephemeral ? 'kept in memory for this session' : 'saved on this device'}.`,
@@ -492,44 +426,41 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       }
     }
   }
-  const answerProbe = async (choiceId: string) => {
-    const probe = probes[responses.length]
-    if (!probe || !result || !attemptId) return
+  /** Persists derived hypothesis records for this attempt so Progress/Instructor can show
+   * the rule-based provenance. They are recomputed from stored answers, never edited. */
+  const withEvidence = async (next: typeof data, id: string) => {
+    const attempt = next.attempts.find((item) => item.id === id)
+    if (!attempt || !next.profile) return next
+    const records = await hypothesisRecords(attemptDiagnosis(attempt, free ? undefined : mission))
+    const items = records.flatMap((h) => [...h.evidence, ...h.contradictions]).slice(0, 60)
+    return {
+      ...next,
+      profile: {
+        ...next.profile,
+        evidence: [
+          ...next.profile.evidence.filter((item) => !item.answerId.startsWith(`${id}-`)),
+          ...items,
+        ].slice(-100),
+      },
+    }
+  }
+  const answerProbe = async (probeId: string, choiceId: string) => {
+    if (!result || !attemptId) return
     setBusy(true)
     try {
-      const response = { probeId: probe.id, choiceId, recordedAt: new Date().toISOString() },
-        next = [...responses, response],
-        hs = updateEvidence(hypotheses, probe, choiceId, {
-          answerId: `${attemptId}-${response.probeId}`,
-          traceHash: await stableHash(execute(probe.scenario.world, probe.scenario.program).events),
-          scenarioHash: await stableHash(probe.scenario),
-        })
-      const current = useSession.getState().data,
-        updated = annotateAttempt(current, attemptId, {
-          diagnosticResponses: next,
-          reassessment: null,
-        }),
-        items = hs.flatMap((hypothesis) => [...hypothesis.evidence, ...hypothesis.contradictions])
-      if (updated.profile)
-        updated.profile = {
-          ...updated.profile,
-          evidence: [
-            ...updated.profile.evidence.filter(
-              (item) =>
-                !items.some(
-                  (other) =>
-                    other.answerId === item.answerId && other.scenarioHash === item.scenarioHash,
-                ),
-            ),
-            ...items,
-          ],
-        }
-      await replace(updated)
-      setHypotheses(hs)
+      const response = { probeId, choiceId, recordedAt: new Date().toISOString() },
+        next = [...responses, response]
+      const current = useSession.getState().data
+      await replace(
+        await withEvidence(
+          annotateAttempt(current, attemptId, {
+            diagnosticResponses: next,
+            reassessment: current.attempts.find((item) => item.id === attemptId)!.reassessment,
+          }),
+          attemptId,
+        ),
+      )
       setResponses(next)
-      setProbeHint(false)
-      setProbeWhy(false)
-      setProbePractice(false)
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Probe was not saved')
     } finally {
@@ -549,12 +480,6 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             experimentUsed: true,
           }),
         )
-      const generated = await generateCounterexample(nextHypothesis(hypotheses))
-      setExample(generated)
-      setExperimentThreshold(Number(generated.changedParameters[0]?.before ?? 20))
-      setExperimentPrediction(null)
-      setExperimentRevealed(false)
-      setExperimentExplanation(false)
       setShowExperiment(true)
       setShowInvestigation(false)
     } catch (error) {
@@ -563,10 +488,25 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       setBusy(false)
     }
   }
-  const experimentDistance = example?.baselineTrace[0]?.sensor.distanceCm ?? 24
-  const experimentWorld = makeWorld(experimentDistance),
-    experimentResult = execute(experimentWorld, thresholdProgram(experimentThreshold)),
-    baselineResult = execute(experimentWorld, thresholdProgram(20))
+  const recordExperiment = async (response: ExperimentResponse) => {
+    try {
+      const current = useSession.getState().data,
+        original = current.attempts.find((item) => item.id === attemptId)
+      if (!original) return
+      await replace(
+        await withEvidence(
+          annotateAttempt(current, attemptId, {
+            diagnosticResponses: original.diagnosticResponses,
+            reassessment: original.reassessment,
+            experimentResponses: [...(original.experimentResponses ?? []), response],
+          }),
+          attemptId,
+        ),
+      )
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'Experiment answer was not saved')
+    }
+  }
   const reassess = async () => {
     if (!transferVariant || !prediction || !attemptId) return
     setBusy(true)
@@ -582,6 +522,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         actualAction: actual,
         correct: transferChoice === actual,
         recordedAt: new Date().toISOString(),
+        scenarioId: 'id' in transferVariant ? transferVariant.id : undefined,
       }
       const current = useSession.getState().data,
         original = current.attempts.find((item) => item.id === attemptId)!,
@@ -626,7 +567,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           ],
         }
       }
-      await replace(next)
+      await replace(await withEvidence(next, attemptId))
       setTransfer(answer)
       setNotice('Transfer response saved. One correct answer is not proof of mastery.')
     } catch (error) {
@@ -636,9 +577,9 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     }
   }
   const retryTransfer = () => {
-    if (mission.variants.length <= transferIndex + 1) {
+    if (!chooseTransfer(mission, transferHistory)) {
       setNotice(
-        'All authored transfer scenarios have been revealed. Practice the mission again; repeating a revealed scenario will not count as new independent evidence.',
+        'All transfer scenarios for this mission have been revealed. Practice the mission again; repeating a revealed scenario will not count as new independent evidence.',
       )
       return
     }
@@ -646,7 +587,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     setTransfer(null)
     setTransferChoice('move')
     setNotice(
-      'A new authored transfer scenario is ready. Previous responses remain in your evidence history.',
+      'A new transfer scenario is ready, picked to match how your last answer went. Previous responses remain in your evidence history.',
     )
   }
   const recordHint = (id: string) => {
@@ -689,6 +630,17 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
   }
   const nextMission =
     MISSION_CATALOG[MISSION_CATALOG.findIndex((item) => item.id === mission.id) + 1]
+  const nextUp = useMemo(
+    () =>
+      transfer && data.profile
+        ? recommend(
+            data.attempts.filter((item) => item.learnerId === data.profile?.id),
+            MISSION_CATALOG,
+            data.profile.completedMissions,
+          )
+        : null,
+    [transfer, data.attempts, data.profile],
+  )
   const goalOutcome = useSession
     .getState()
     .data.attempts.find((item) => item.id === attemptId)?.goalOutcome
@@ -1514,366 +1466,38 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </label>
         </aside>
       </div>
-      {result && showInvestigation && !free && !transfer && (
-        <section className="paper investigation learning-step">
-          <span className="section-index">Investigate / evidence, not labels</span>
-          <h2>Let’s check one more thing.</h2>
-          <p>
-            One answer can have more than one explanation. We’re checking possible interpretations.
-            This is not a diagnosis.
-          </p>
-          {responses.length < probes.length ? (
-            <>
-              <fieldset disabled={busy}>
-                <legend>{probeQuestion(probes[responses.length]!)}</legend>
-                <details className="probe-scenario">
-                  <summary>Inspect the isolated world and program</summary>
-                  <Stage
-                    controls={false}
-                    world={probes[responses.length]!.scenario.world}
-                    robot={initialRobot(probes[responses.length]!.scenario.world)}
-                  />
-                  <pre className="code-preview">
-                    {pseudocode(probes[responses.length]!.scenario.program)}
-                  </pre>
-                </details>
-                <div className="button-row">
-                  {probes[responses.length]!.choices.map((choice) => (
-                    <Button
-                      variant="outline"
-                      key={choice.id}
-                      onClick={() => {
-                        void answerProbe(choice.id)
-                      }}
-                    >
-                      {choice.label}
-                    </Button>
-                  ))}
-                </div>
-              </fieldset>
-              <div className="button-row">
-                <Button variant="outline" onClick={() => setProbeWhy((value) => !value)}>
-                  Why are you asking?
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setProbeHint(true)
-                    recordHint(`probe-${responses.length}`)
-                  }}
-                >
-                  Show me a hint
-                </Button>
-                <Button variant="outline" onClick={() => setProbePractice((value) => !value)}>
-                  Try it in the lab
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setProbeOffset((value) => value + 1)
-                    setProbePractice(true)
-                  }}
-                >
-                  Try a different example
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setProbeHint(true)
-                    setProbePractice(true)
-                    recordHint('worked-explanation')
-                  }}
-                >
-                  I still don’t get it
-                </Button>
-              </div>
-              {probeWhy && (
-                <p className="fact">
-                  This isolated example checks {mission.conceptGoals.join(' and ')} without changing
-                  your saved mission. Different answers help decide what to practice; this is not a
-                  score of your ability.
-                </p>
-              )}
-              {probeHint && (
-                <p className="fact">
-                  {MISSION_META[mission.id]?.hints[0] ??
-                    'Follow the instructions in order. A helper only runs when called; a loop rechecks its condition before another iteration.'}
-                </p>
-              )}
-              {probePractice && <ProbePractice key={probeOffset} offset={probeOffset} />}
-            </>
-          ) : (
-            <>
-              <div className="hypotheses">
-                {hypotheses.map((hypothesis) => (
-                  <div key={hypothesis.code}>
-                    <h3>{hypothesis.title}</h3>
-                    <p>
-                      {hypothesis.status === 'evidence_for'
-                        ? hypothesis.learnerText
-                        : hypothesis.status === 'evidence_against'
-                          ? 'This response argues against that explanation.'
-                          : 'More evidence would help distinguish this explanation.'}
-                    </p>
-                    <span className="muted">
-                      {hypothesis.status === 'evidence_for'
-                        ? 'Might be'
-                        : hypothesis.status === 'evidence_against'
-                          ? 'No longer supported'
-                          : 'Need more examples'}{' '}
-                      · {hypothesis.evidence.length} supporting · {hypothesis.contradictions.length}{' '}
-                      contradicting observations
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <Button
-                disabled={busy}
-                onClick={() => {
-                  void openExperiment()
-                }}
-              >
-                Generate a targeted experiment
-              </Button>
-            </>
-          )}
-          {responses.length > 0 && (
-            <p className="fact">{probes[responses.length - 1]!.rationale}</p>
-          )}
-          <div className="button-row">
-            <Button variant="outline" onClick={() => setShowInvestigation(false)}>
-              Back to mission
-            </Button>
-            <Button
-              variant="outline"
-              disabled={busy}
-              onClick={() => {
-                if (responses.length < probes.length) {
-                  setAssessmentSkipped(true)
-                  const current = useSession.getState().data
-                  void replace({
-                    ...current,
-                    attempts: current.attempts.map((item) =>
-                      item.id === attemptId ? { ...item, assessmentSkipped: true } : item,
-                    ),
-                  })
-                  setNotice('Investigation skipped. Any experiment is practice, not a diagnosis.')
-                }
-                void openExperiment()
-              }}
-            >
-              Continue to experiment
-            </Button>
-          </div>
-          {assessmentSkipped && (
-            <p>Diagnostic questions skipped; no diagnosis or mastery is inferred.</p>
-          )}
-        </section>
+      {result && showInvestigation && !free && !transfer && savedAttempt && (
+        <Investigation
+          attempt={savedAttempt}
+          mission={mission}
+          busy={busy}
+          voluntary={correct}
+          onAnswer={(probeId, choiceId) => {
+            void answerProbe(probeId, choiceId)
+          }}
+          onHint={recordHint}
+          onSkip={() => {
+            setAssessmentSkipped(true)
+            setNotice('Investigation skipped. Any experiment is practice, not a diagnosis.')
+          }}
+          onContinue={() => {
+            void openExperiment()
+          }}
+          onBack={() => setShowInvestigation(false)}
+        />
       )}
-      {showExperiment && example && (
-        <section className="paper learning-step">
-          <span className="section-index">Experiment / change one thing</span>
-          <h2>Same reading. Different decision.</h2>
-          <p>{example.rationale}</p>
-          <p className="muted">
-            Targeted practice:{' '}
-            {nextHypothesis(hypotheses) === 'sensor-stops'
-              ? 'separate measuring from stopping'
-              : 'read the comparison in the right direction'}
-            . Candidate traces were executed and checksummed, not invented.
-          </p>
-          {example.noCandidateReason ? (
-            <>
-              <p>{example.noCandidateReason}</p>
-              <p>
-                No misconception-specific experiment is available for this concept. The mission
-                state and saved evidence are preserved.
-              </p>
-              <div className="button-row">
-                <Button variant="outline" onClick={() => setShowExperiment(false)}>
-                  Return to mission
-                </Button>
-                {!free && (
-                  <Button onClick={() => setShowTransfer(true)}>
-                    Test my understanding with new numbers
-                  </Button>
-                )}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="experiment-columns">
-                <div>
-                  <h3>Your earlier idea</h3>
-                  <p>
-                    The baseline uses a {experimentDistance} cm reading and a 20 cm threshold.
-                    Change only the comparison threshold.
-                  </p>
-                  <div className="button-row">
-                    <Button
-                      variant="outline"
-                      aria-pressed={experimentView === 'baseline'}
-                      onClick={() => setExperimentView('baseline')}
-                    >
-                      Baseline scenario
-                    </Button>
-                    <Button
-                      variant="outline"
-                      aria-pressed={experimentView === 'changed'}
-                      onClick={() => setExperimentView('changed')}
-                    >
-                      Changed scenario
-                    </Button>
-                  </div>
-                  <Stage world={experimentWorld} robot={initialRobot(experimentWorld)} />
-                </div>
-                <div>
-                  <h3>Let’s try changing just one thing</h3>
-                  <label>
-                    Experiment threshold: <strong>{experimentThreshold} cm</strong>
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      value={experimentThreshold}
-                      aria-label="Experiment threshold"
-                      onChange={(event) => {
-                        setExperimentThreshold(Number(event.target.value))
-                        setExperimentPrediction(null)
-                        setExperimentRevealed(false)
-                      }}
-                    />
-                  </label>
-                  <label>
-                    Experiment threshold value (cm)
-                    <input
-                      type="number"
-                      min="0"
-                      max="100"
-                      value={experimentThreshold}
-                      onChange={(event) => {
-                        const value = Number(event.target.value)
-                        if (Number.isFinite(value) && value >= 0 && value <= 100) {
-                          setExperimentThreshold(value)
-                          setExperimentPrediction(null)
-                          setExperimentRevealed(false)
-                        }
-                      }}
-                    />
-                  </label>
-                  <pre className="code-preview">
-                    {pseudocode(
-                      thresholdProgram(experimentView === 'baseline' ? 20 : experimentThreshold),
-                    )}
-                  </pre>
-                  <label>
-                    Predict changed outcome
-                    <select
-                      value={experimentChoice}
-                      disabled={experimentPrediction !== null}
-                      onChange={(event) =>
-                        setExperimentChoice(event.target.value as Prediction['action'])
-                      }
-                    >
-                      {(['move', 'stop'] as const).map((item) => (
-                        <option key={item} value={item}>
-                          {ACTION_LABELS[item]}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <div className="button-row">
-                    <Button
-                      disabled={experimentPrediction !== null}
-                      onClick={() => setExperimentPrediction(experimentChoice)}
-                    >
-                      Predict changed outcome
-                    </Button>
-                    <Button
-                      disabled={experimentPrediction === null}
-                      onClick={() => setExperimentRevealed(true)}
-                    >
-                      Run experiment
-                    </Button>
-                  </div>
-                  {experimentRevealed ? (
-                    <p className="fact" data-testid="experiment-facts">
-                      {branchFacts(experimentResult.events)}. The robot{' '}
-                      {actualAction(experimentResult.events) === 'move' ? 'moves' : 'stops'}. Your
-                      prediction{' '}
-                      {experimentPrediction === actualAction(experimentResult.events)
-                        ? 'matches'
-                        : 'differs from'}{' '}
-                      this executed result.
-                    </p>
-                  ) : (
-                    <p className="muted" data-testid="experiment-facts">
-                      Prediction comes before the changed result. Lock your prediction, then run the
-                      experiment.
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="button-row">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setExperimentThreshold(Number(example.changedParameters[0]?.before ?? 20))
-                    setExperimentPrediction(null)
-                    setExperimentRevealed(false)
-                    setExperimentExplanation(false)
-                  }}
-                >
-                  Reset experiment
-                </Button>
-                <Button
-                  variant="outline"
-                  disabled={!experimentRevealed}
-                  onClick={() => setExperimentExplanation((value) => !value)}
-                >
-                  Explain comparison
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    const after = Number(example.changedParameters[0]?.after ?? 29)
-                    if (experimentThreshold === after)
-                      setNotice(
-                        'The bounded candidate bank found no different validated counterexample for this hypothesis. Adjust the threshold to test another value.',
-                      )
-                    else {
-                      setExperimentThreshold(after)
-                      setExperimentPrediction(null)
-                      setExperimentRevealed(false)
-                      setNotice(
-                        'Loaded the generated changed threshold. Predict it before running.',
-                      )
-                    }
-                  }}
-                >
-                  Try another counterexample
-                </Button>
-                <Button variant="outline" onClick={() => setShowExperiment(false)}>
-                  Return to mission
-                </Button>
-                {!free && (
-                  <Button onClick={() => setShowTransfer(true)}>
-                    Test my understanding with new numbers
-                  </Button>
-                )}
-              </div>
-              {experimentExplanation && (
-                <p className="fact">
-                  Baseline: {branchFacts(baselineResult.events)}; action{' '}
-                  {actualAction(baselineResult.events)}. Changed:{' '}
-                  {branchFacts(experimentResult.events)}; action{' '}
-                  {actualAction(experimentResult.events)}. The world and camera are identical; only
-                  the numeric threshold changed.
-                </p>
-              )}
-            </>
-          )}
-        </section>
+      {showExperiment && savedAttempt && diagnosis && (
+        <Experiment
+          attempt={savedAttempt}
+          mission={free ? undefined : mission}
+          state={diagnosis}
+          free={free}
+          onRecord={(response) => {
+            void recordExperiment(response)
+          }}
+          onBack={() => setShowExperiment(false)}
+          onTransfer={() => setShowTransfer(true)}
+        />
       )}
       {!free && showTransfer && result && transferVariant && (
         <section className="paper learning-step">
@@ -1945,7 +1569,20 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 ; your transfer prediction {transfer.correct ? 'matched' : 'differed'}. These are
                 different executed examples, not evidence that one activity caused learning.
               </p>
-              <p>{recommendation(correct, transfer.correct)}</p>
+              <p data-testid="transfer-advice">{transferAdvice(correct, transfer, diagnosis)}</p>
+              {assessmentSkipped && (
+                <p className="muted">
+                  Diagnostic questions were skipped, so no possible mix-up was inferred.
+                </p>
+              )}
+              {nextUp && (
+                <p className="fact" data-testid="why-next">
+                  <strong>Why this next?</strong> {nextUp.reason}{' '}
+                  <Link to={`/missions/${nextUp.missionId}`}>
+                    Open {findMission(nextUp.missionId)?.title}
+                  </Link>
+                </p>
+              )}
               <div className="button-row">
                 <Button
                   variant="outline"
@@ -1968,13 +1605,8 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => {
-                    setShowInvestigation(true)
-                    setShowTrace(true)
-                    document
-                      .querySelector('.learning-inspector')
-                      ?.scrollIntoView({ block: 'start' })
-                  }}
+                  aria-expanded={reviewEvidence}
+                  onClick={() => setReviewEvidence((value) => !value)}
                 >
                   Review evidence
                 </Button>
@@ -2009,6 +1641,28 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 )}
                 <Link to="/progress">View my progress</Link>
               </div>
+              {reviewEvidence && savedAttempt && diagnosis && (
+                <div className="evidence-timeline" data-testid="evidence-timeline">
+                  <h3>Evidence timeline</h3>
+                  <ol>
+                    {attemptObservations(savedAttempt, free ? undefined : mission).map((o) => (
+                      <li key={o.answerId}>
+                        {o.source === 'mission'
+                          ? 'Mission prediction'
+                          : o.source === 'probe'
+                            ? 'Question'
+                            : o.source === 'experiment'
+                              ? 'Experiment'
+                              : 'New-numbers challenge'}
+                        : {o.situation} · you said{' '}
+                        {quote(answerLabel(o.question, o.learnerAnswer, o.labels))} · real result{' '}
+                        {quote(answerLabel(o.question, o.truth, o.labels))}
+                      </li>
+                    ))}
+                  </ol>
+                  <EvidenceSummary state={diagnosis} />
+                </div>
+              )}
             </div>
           )}
         </section>
@@ -2114,29 +1768,5 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         </DialogContent>
       </Dialog>
     </main>
-  )
-}
-function ProbePractice({ offset }: { offset: number }) {
-  const distance = 14 + (offset % 4) * 6,
-    threshold = 18 + (offset % 3) * 7,
-    world = makeWorld(distance),
-    program = thresholdProgram(threshold)
-  const [reveal, setReveal] = useState(false)
-  return (
-    <div className="probe-practice">
-      <h3>Isolated practice · saved mission preserved</h3>
-      <Stage world={world} robot={initialRobot(world)} />
-      <pre className="code-preview">{pseudocode(program)}</pre>
-      <Button variant="outline" onClick={() => setReveal(true)}>
-        Run isolated example
-      </Button>
-      {reveal && (
-        <p className="fact">
-          {branchFacts(execute(world, program).events)}. First action:{' '}
-          {actualAction(execute(world, program).events)}. This is worked practice and does not add
-          independent assessment evidence.
-        </p>
-      )}
-    </div>
   )
 }
