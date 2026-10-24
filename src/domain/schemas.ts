@@ -66,7 +66,17 @@ export const GoalSchema = z.discriminatedUnion('kind', [
   z.strictObject({ kind: z.literal('stopped') }),
   z.strictObject({
     kind: z.literal('event'),
-    eventKind: z.enum(['move', 'turn', 'stop', 'set', 'call', 'inspect', 'branch', 'wait']),
+    eventKind: z.enum([
+      'move',
+      'turn',
+      'stop',
+      'set',
+      'call',
+      'inspect',
+      'branch',
+      'wait',
+      'repeat_iteration',
+    ]),
     nodeId: id.optional(),
     count: tick.optional(),
   }),
@@ -76,6 +86,19 @@ export const GoalSchema = z.discriminatedUnion('kind', [
     headingDeg: n.min(0).lt(360),
     toleranceDeg: nonnegative.max(180),
   }),
+  // Part H goal kinds. Each is judged only from the recorded run, never from a flag.
+  z.strictObject({ kind: z.literal('programmed-stop') }),
+  z.strictObject({
+    kind: z.literal('final-distance'),
+    minCm: nonnegative,
+    maxCm: nonnegative.optional(),
+  }),
+  z.strictObject({
+    kind: z.literal('path'),
+    points: z.array(Vec2Schema).min(1).max(10),
+    toleranceCm: positive,
+  }),
+  z.strictObject({ kind: z.literal('color-stop-within'), color, ticks: tick.max(200) }),
 ])
 export const SensorConfigSchema = z.strictObject({
   schemaVersion: v,

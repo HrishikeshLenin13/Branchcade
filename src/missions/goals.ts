@@ -1,5 +1,6 @@
 import type { Goal, World } from '../domain/types'
 import type { RunResult } from '../interpreter/interpreter'
+import { readSensors } from '../engine/sensors'
 export function judgeGoals(world: World, run: RunResult, goals: Goal[]) {
   const outcomes = goals.map((g) => {
     switch (g.kind) {
@@ -43,6 +44,39 @@ export function judgeGoals(world: World, run: RunResult, goals: Goal[]) {
         const difference = Math.abs(run.robot.headingDeg - g.headingDeg) % 360
         return Math.min(difference, 360 - difference) <= g.toleranceDeg
       }
+      case 'programmed-stop':
+        // A stop block ran and nothing was hit: a physical bump is never a programmed stop.
+        return run.events.some((e) => e.kind === 'stop') && !run.robot.collision
+      case 'final-distance': {
+        const reading = readSensors(world, run.robot).distanceCm
+        // No return within range counts as "farther than any minimum" but fails a maximum.
+        if (reading === null) return g.maxCm === undefined
+        return reading >= g.minCm - 1e-9 && (g.maxCm === undefined || reading <= g.maxCm + 1e-9)
+      }
+      case 'path': {
+        // Waypoints must be visited in the listed order (robot centre within tolerance).
+        let at = 0
+        for (const point of g.points) {
+          const hit = run.events.findIndex(
+            (e, i) =>
+              i >= at &&
+              Math.hypot(e.after.position.xCm - point.xCm, e.after.position.yCm - point.yCm) <=
+                g.toleranceCm,
+          )
+          if (hit < 0) return false
+          at = hit
+        }
+        return true
+      }
+      case 'color-stop-within': {
+        // The floor-sensor footprint (not the drawn robot outline) must enter the zone first,
+        // then a stop block must run within the allowed number of ticks.
+        const entered = run.events.findIndex((e) => e.sensor.surfaceColor === g.color)
+        if (entered < 0) return false
+        const t0 = run.events[entered]!.tick
+        const stop = run.events.findIndex((e) => e.kind === 'stop')
+        return stop >= entered && run.events[stop]!.tick - t0 <= g.ticks
+      }
     }
   })
   return {
@@ -67,5 +101,15 @@ export function describeGoal(goal: Goal): string {
       return `Issue a stop instruction while the floor sensor reads ${goal.color}.`
     case 'heading':
       return `Finish facing ${goal.headingDeg}° within ${goal.toleranceDeg}°.`
+    case 'programmed-stop':
+      return 'End with a stop block, not by bumping into something.'
+    case 'final-distance':
+      return goal.maxCm === undefined
+        ? `Finish with the wall at least ${goal.minCm} cm away.`
+        : `Finish with the wall between ${goal.minCm} and ${goal.maxCm} cm away.`
+    case 'path':
+      return `Pass through ${goal.points.map((p) => `(${p.xCm}, ${p.yCm})`).join(' → ')} in order, within ${goal.toleranceCm} cm.`
+    case 'color-stop-within':
+      return `Run a stop block within ${goal.ticks} tick${goal.ticks === 1 ? '' : 's'} of the floor sensor first reading ${goal.color}.`
   }
 }
