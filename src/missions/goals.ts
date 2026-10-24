@@ -4,11 +4,18 @@ import { readSensors } from '../engine/sensors'
 export function judgeGoals(world: World, run: RunResult, goals: Goal[]) {
   const outcomes = goals.map((g) => {
     switch (g.kind) {
-      case 'branch':
-        return run.events.some(
-          (e) =>
-            e.kind === 'branch' && e.nodeId === g.nodeId && e.evaluation?.result === g.expected,
+      case 'branch': {
+        if (g.nodeId)
+          return run.events.some(
+            (e) =>
+              e.kind === 'branch' && e.nodeId === g.nodeId && e.evaluation?.result === g.expected,
+          )
+        // If/else decisions record "… branch selected"; while-loop checks record "WHILE: …".
+        const decision = run.events.find(
+          (e) => e.kind === 'branch' && e.facts.some((f) => f.endsWith('branch selected')),
         )
+        return decision?.evaluation?.result === g.expected
+      }
       case 'distance':
         return (
           Math.hypot(
@@ -88,7 +95,9 @@ export function judgeGoals(world: World, run: RunResult, goals: Goal[]) {
 export function describeGoal(goal: Goal): string {
   switch (goal.kind) {
     case 'branch':
-      return `Block ${goal.nodeId} must select the ${goal.expected ? 'then' : 'else'} branch.`
+      return goal.nodeId
+        ? `Block ${goal.nodeId} must select the ${goal.expected ? 'then' : 'else'} branch.`
+        : `The first if/else decision must choose the ${goal.expected ? '“if” (then)' : '“otherwise” (else)'} part.`
     case 'distance':
       return `Finish at least ${goal.minCm} cm from the starting point.`
     case 'reach':

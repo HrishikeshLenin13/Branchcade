@@ -60,7 +60,8 @@ export const FloorZoneSchema = z.discriminatedUnion('kind', [
   }),
 ])
 export const GoalSchema = z.discriminatedUnion('kind', [
-  z.strictObject({ kind: z.literal('branch'), nodeId: id, expected: z.boolean() }),
+  /** Without nodeId: the first if/else decision of whatever program the learner wrote. */
+  z.strictObject({ kind: z.literal('branch'), nodeId: id.optional(), expected: z.boolean() }),
   z.strictObject({ kind: z.literal('distance'), minCm: nonnegative }),
   z.strictObject({ kind: z.literal('reach'), position: Vec2Schema, toleranceCm: positive }),
   z.strictObject({ kind: z.literal('stopped') }),

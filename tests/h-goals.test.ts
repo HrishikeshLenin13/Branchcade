@@ -101,3 +101,56 @@ describe('Part H goal kinds', () => {
     }
   })
 })
+
+describe('goals that do not depend on starter node ids', () => {
+  it('a learner-built if/else with new node ids still satisfies a nodeless branch goal', () => {
+    const rebuilt = program('rebuilt', [
+      {
+        nodeId: 'blockly-xyz',
+        kind: 'if',
+        condition: compare(
+          'blockly-cond',
+          '<',
+          { nodeId: 's', kind: 'sensor', type: 'number', sensor: 'distance' },
+          lit('t', 20),
+        ),
+        then: [stop('s1')],
+        else: [move('m', 10), stop('s2')],
+      },
+    ])
+    const world = makeWorld(24)
+    expect(passes(world, rebuilt, { kind: 'branch', expected: false })).toBe(true)
+    expect(passes(world, rebuilt, { kind: 'branch', nodeId: 'decision', expected: false })).toBe(
+      false,
+    )
+    expect(describeGoal({ kind: 'branch', expected: false })).toMatch(/first if\/else decision/)
+  })
+  it('while-loop checks are not mistaken for the if/else decision', () => {
+    const loopThenIf = program('loop-if', [
+      {
+        nodeId: 'w',
+        kind: 'while',
+        condition: compare(
+          'c',
+          '>',
+          { nodeId: 's', kind: 'sensor', type: 'number', sensor: 'distance' },
+          lit('t', 30),
+        ),
+        body: [move('m', 1)],
+      },
+      {
+        nodeId: 'i',
+        kind: 'if',
+        condition: compare(
+          'c2',
+          '<',
+          { nodeId: 's2', kind: 'sensor', type: 'number', sensor: 'distance' },
+          lit('t2', 20),
+        ),
+        then: [stop('a')],
+        else: [stop('b')],
+      },
+    ])
+    expect(passes(makeWorld(24), loopThenIf, { kind: 'branch', expected: false })).toBe(true)
+  })
+})
