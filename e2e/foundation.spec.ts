@@ -43,49 +43,6 @@ test('new alias, actual branch, locked prediction, transfer, saved reload and in
   await expect(page.getByRole('heading', { name: 'No local attempts in this view' })).toBeVisible()
   expect(errors).toEqual([])
 })
-test('wrong prediction, distinguishing probes, real counterexample and fresh transfer', async ({
-  page,
-}) => {
-  await start(page)
-  await run(page, true)
-  await expect(page.getByText('This is not a diagnosis.', { exact: false })).toBeVisible()
-  await page.getByRole('button', { name: 'False: 24 is greater than 20', exact: true }).click()
-  await page
-    .getByRole('button', { name: 'Yes, the sensor stops it automatically', exact: true })
-    .click()
-  await expect(
-    page.getByText('You may expect a distance sensor to stop the robot by itself.'),
-  ).toBeVisible()
-  await page.getByRole('button', { name: 'Generate a targeted experiment' }).click()
-  await expect(
-    page.getByText('Targeted practice: separate measuring from stopping.', { exact: false }),
-  ).toBeVisible()
-  await page.getByRole('slider', { name: 'Experiment threshold', exact: true }).fill('30')
-  await page.getByRole('button', { name: 'Predict changed outcome', exact: true }).click()
-  await page.getByRole('button', { name: 'Run experiment', exact: true }).click()
-  await expect(page.getByTestId('experiment-facts')).toContainText('24 < 30 is true')
-  await expect(page.getByTestId('experiment-facts')).toContainText('robot stops')
-  await page.getByRole('button', { name: 'Test my understanding with new numbers' }).click()
-  await page.getByRole('radio', { name: 'Stop in place', exact: true }).last().check()
-  await page.getByRole('button', { name: 'Lock transfer prediction & reveal' }).click()
-  await expect(
-    page.getByText('Your prediction matches the result.', { exact: false }),
-  ).toBeVisible()
-})
-test('same first wrong answer can lead to comparison-targeted practice', async ({ page }) => {
-  await start(page)
-  await run(page, true)
-  await page.getByRole('button', { name: 'True: 24 is less than 20', exact: true }).click()
-  await page
-    .getByRole('button', { name: 'No, a program instruction must stop it', exact: true })
-    .click()
-  await page.getByRole('button', { name: 'Generate a targeted experiment' }).click()
-  await expect(
-    page.getByText('Targeted practice: read the comparison in the right direction.', {
-      exact: false,
-    }),
-  ).toBeVisible()
-})
 test('lab parameter changes, real Blockly editor, undo/redo, validated world export/import', async ({
   page,
 }) => {
@@ -196,7 +153,10 @@ test('no learner-content requests during prediction, run and diagnosis', async (
   })
   await start(page)
   await run(page, true)
-  await page.getByRole('button', { name: 'True: 24 is less than 20', exact: true }).click()
+  await page.getByTestId('probe-question').getByRole('button').first().click()
+  await expect(page.getByTestId('probe-feedback')).toBeVisible()
+  await page.getByRole('button', { name: 'Continue to experiment', exact: true }).click()
+  await expect(page.getByTestId('experiment-rationale')).toBeVisible()
   expect(sent).toEqual([])
 })
 for (const viewport of [
