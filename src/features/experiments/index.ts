@@ -1,1 +1,1 @@
-export { generateCounterexample } from '../../learning/counterexamples'
+export { searchCounterexamples, toCounterexample } from '../../learning/counterexamples'
