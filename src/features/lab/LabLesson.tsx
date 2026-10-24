@@ -42,7 +42,9 @@ import { recordPrediction } from '../../learning/predictions'
 import { conceptStatus } from '../../learning/mastery'
 import { transferAdvice } from '../../learning/recommendations'
 import { attemptDiagnosis, attemptObservations } from '../../learning/investigation'
-import { hypothesisRecords } from '../../learning/diagnosis'
+import { detailChoices, hypothesisRecords } from '../../learning/diagnosis'
+import { observe, runModel } from '../../learning/mental-models'
+import { curriculumFor } from '../../missions/curriculum'
 import { answerLabel, quote } from '../../learning/probe-templates'
 import { chooseTransfer, findTransfer } from '../../learning/transfer'
 import { recommend } from '../../learning/adaptive-planner'
@@ -83,7 +85,8 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     replace = useSession((state) => state.replace),
     pendingWrites = useSession((state) => state.pendingWrites),
     ephemeral = useSession((state) => state.ephemeral)
-  const missionId = free ? 'lab' : mission.id
+  const missionId = free ? 'lab' : mission.id,
+    detail = free ? undefined : curriculumFor(mission.id)?.detail
   const [fresh] = useState(
     () =>
       new URLSearchParams(window.location.search).has('new') ||
@@ -127,6 +130,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     [confidence, setConfidence] = useState(saved?.prediction.confidence ?? 3),
     [reasoning, setReasoning] = useState(saved?.prediction.reasoning ?? ''),
     [branchChoice, setBranchChoice] = useState<Prediction['branch']>(null),
+    [detailChoice, setDetailChoice] = useState(''),
     [uncertain, setUncertain] = useState(false)
   const [prediction, setPrediction] = useState<Prediction | null>(saved?.prediction ?? null),
     [result, setResult] = useState<RunResult | null>(() =>
@@ -200,6 +204,10 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     Boolean(data.profile?.settings.reducedMotion),
     stepTarget,
   )
+  // Second-question options are recomputed from the current world/program (cached by content).
+  const detailOptions = detail
+    ? detailChoices(`detail:${JSON.stringify([world, program])}`, world, program, detail.question)
+    : []
   const timeline = useMemo(() => new ReplayTimeline(world, result?.events ?? []), [world, result])
   const robot = result ? timeline.at(cursor) : initialRobot(world),
     sensor = (result && !result.status ? legacySensors : readSensors)(world, initialRobot(world)),
@@ -309,6 +317,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     setAssessmentSkipped(false)
     setError('')
     setUncertain(false)
+    setDetailChoice('')
     setHintIds([])
     setHintLevel(0)
     setNotice('New attempt ready. Your previous result stays saved locally.')
@@ -357,7 +366,14 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           confidence,
           reasoning,
         ),
-        p = immutable({ ...recorded, branch: branchChoice, uncertain: uncertain || skip })
+        p = immutable({
+          ...recorded,
+          branch: branchChoice,
+          uncertain: uncertain || skip,
+          ...(detail && detailChoice && !free
+            ? { detail: { question: detail.question, answer: detailChoice } }
+            : {}),
+        })
       const runResult = await executeAsync(world, program, controller.signal)
       setExecuting(false)
       if (runResult.error) {
@@ -1261,6 +1277,26 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                       </select>
                     </label>
                   </details>
+                  {detail && !free && (
+                    <details className="optional-prediction">
+                      <summary>Optional: one more prediction</summary>
+                      <label>
+                        {detail.prompt}
+                        <select
+                          aria-label={detail.prompt}
+                          value={detailChoice}
+                          onChange={(event) => setDetailChoice(event.target.value)}
+                        >
+                          <option value="">No answer</option>
+                          {detailOptions.map((option) => (
+                            <option key={option.id} value={option.id}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </details>
+                  )}
                   <details className="confidence-reasoning">
                     <summary>Confidence & optional reasoning</summary>
                     <label>
@@ -1353,6 +1389,22 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 <p className="fact" data-testid="branch-facts">
                   {branchFacts(result.events)}
                 </p>
+                {prediction.detail && detail && (
+                  <p className="fact" data-testid="detail-result">
+                    {detail.prompt} You said{' '}
+                    {quote(answerLabel(detail.question, prediction.detail.answer))}; the real run:{' '}
+                    {quote(
+                      answerLabel(
+                        detail.question,
+                        observe(
+                          detail.question,
+                          runModel(`detail:${attemptId}`, world, program, 'NO_MISCONCEPTION'),
+                        ),
+                      ),
+                    )}
+                    .
+                  </p>
+                )}
                 <p>
                   {prediction.uncertain
                     ? 'Uncertainty recorded. We need another example before drawing any conclusion.'
