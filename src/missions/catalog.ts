@@ -81,88 +81,47 @@ export const MISSION_META: Record<
     objective: string
     difficulty: 'Foundations' | 'Intermediate' | 'Challenge'
     estimatedMinutes: number
-    hints: string[]
   }
 > = {
   m01: {
     objective: 'Use the measured distance to explain which branch runs.',
     difficulty: 'Foundations',
     estimatedMinutes: 6,
-    hints: [
-      'Look at the reading before the program moves.',
-      'A comparison chooses one branch; the sensor only measures.',
-      'For a different example, 18 < 15 is false.',
-    ],
   },
   m02: {
     objective: 'Stop by program instruction when the floor sensor reaches black.',
     difficulty: 'Foundations',
     estimatedMinutes: 8,
-    hints: [
-      'Watch the color under the center of the robot.',
-      'The while condition is checked before each small move.',
-      'A white reading can keep a loop moving until black.',
-    ],
   },
   m03: {
     objective: 'Repair the reversed comparison so the close robot stays safely stopped.',
     difficulty: 'Foundations',
     estimatedMinutes: 8,
-    hints: [
-      'Compare the two operands in their written order.',
-      'Read the condition aloud: distance is less than threshold.',
-      'At equality, < is false and <= is true.',
-    ],
   },
   m04: {
     objective: 'Repair the repeat count to finish three sides of a square at the goal.',
     difficulty: 'Intermediate',
     estimatedMinutes: 10,
-    hints: [
-      'Count completed move-turn pairs in the timeline.',
-      'Each repetition changes heading by 90 degrees.',
-      'Four sides returns to the start; three ends at the remaining corner.',
-    ],
   },
   m05: {
     objective: 'Keep moving while the wall is far, then issue a safe programmed stop.',
     difficulty: 'Intermediate',
     estimatedMinutes: 10,
-    hints: [
-      'The distance must be read again after movement.',
-      'The condition should be true while there is room to move.',
-      'Small steps approach a target reading without relying on collision.',
-    ],
   },
   m06: {
     objective: 'Call the helper and reach the corner; defining it alone is not enough.',
     difficulty: 'Intermediate',
     estimatedMinutes: 10,
-    hints: [
-      'Find a call event in the timeline.',
-      'A definition stores instructions; a call executes them.',
-      'The helper moves, turns, then moves again.',
-    ],
   },
   m07: {
     objective: 'Use AND so a close wall alone does not count as a black-floor signal.',
     difficulty: 'Challenge',
     estimatedMinutes: 12,
-    hints: [
-      'Read both the distance and floor color.',
-      'AND needs both conditions; OR needs at least one.',
-      'Try a white floor with a near wall to separate the two operators.',
-    ],
   },
   m08: {
     objective: 'Trace the variable and function call, then repair the route decision.',
     difficulty: 'Challenge',
     estimatedMinutes: 14,
-    hints: [
-      'Inspect the actual value of safeDistance.',
-      'Find the branch that calls the helper.',
-      'The goal needs both the helper call and a northward move.',
-    ],
   },
 }
 const number = (nodeId: string, value: number): import('../domain/types').Expression => ({
