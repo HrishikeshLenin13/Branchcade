@@ -2,7 +2,13 @@ import type { Mission, Program, World } from '../domain/types'
 import { readSensors } from '../engine/sensors'
 import { initialRobot } from '../engine/robot'
 import { REFERENCE_PROGRAMS } from './catalog'
-import { approachProgram, blindLineProgram, helperProgram, lapProgram } from './catalog'
+import {
+  approachProgram,
+  blindLineProgram,
+  compositeProgram,
+  helperProgram,
+  lapProgram,
+} from './catalog'
 import { MISSION_META } from './catalog'
 import { missionConcepts } from '../learning/concepts'
 import { buildProbe } from '../learning/probe-templates'
@@ -465,4 +471,71 @@ CURRICULUM.m06 = {
     },
   ],
   detail: { question: 'turn-count', prompt: 'How many times will the robot turn?' },
+}
+
+const ifFloorBlack = (id: string): Program =>
+  program(id, [
+    {
+      nodeId: 'decision',
+      kind: 'if',
+      condition: compare(
+        'is-black',
+        '==',
+        floor('floor-reading'),
+        colorLit('black-value', 'black'),
+      ),
+      then: [stop('stop-close')],
+      else: [move('move-clear', 10), stop('stop-done')],
+    },
+  ])
+
+CURRICULUM.m07 = {
+  narrative:
+    'The robot should stop only at its charging dock: a black floor tile right in front of a wall. A close wall on white floor is not the dock, and neither is black floor far from a wall. Choose between AND and OR so the decision is right every time.',
+  targetConcept: 'Combining two sensor checks with AND versus OR',
+  vocabulary: [
+    { term: 'AND', meaning: 'True only when both checks are true.' },
+    { term: 'OR', meaning: 'True when at least one check is true.' },
+    { term: 'short-circuit', meaning: 'AND stops checking as soon as one part is false.' },
+  ],
+  expectedPrediction: {
+    action: 'stop',
+    reason: 'With OR, “distance < 20” alone is true at 12 cm, so the robot stops.',
+  },
+  failureExamples: [
+    'OR stops at any close wall, even on white floor.',
+    'Checking only the colour stops on black floor even when the wall is far away.',
+  ],
+  teacherNote:
+    'Four combinations (near/far × white/black) make the truth table physical. The success scenarios include two of them, and the extra transfer worlds are chosen so AND and OR really disagree.',
+  probeIds: ['g.branch-at.10-lt', 'g.null-guard.empty', 'g.color-ahead.12'],
+  hints: [
+    'There are two checks in the condition. What is each one, true or false, right now?',
+    'Here the wall check is true (12 < 20) and the floor check is false (white). OR needs one true part; AND needs both. A simpler example: “true AND false” is false.',
+    'Compare this different program: if floor = black → stop, otherwise → move. Which of the four floor/wall situations would it get wrong?',
+  ],
+  hintExample: ifFloorBlack('hint-m07'),
+  mistakeVariants: [
+    {
+      id: 'or',
+      label: 'Starter: OR',
+      program: compositeProgram('or'),
+      fails: 'Goal 1 (branch): not met',
+      explanation: 'The close wall alone makes OR true, so it stops on white floor.',
+    },
+    {
+      id: 'distance-only',
+      label: 'Only the distance check',
+      program: ifDistance('m07-distance-only', '<', 20),
+      fails: 'Goal 1 (branch): not met',
+      explanation: 'Any close wall stops it, whatever the floor colour.',
+    },
+    {
+      id: 'colour-only',
+      label: 'Only the floor check',
+      program: ifFloorBlack('m07-colour-only'),
+      fails: 'Scenario “far wall on black floor”: not met',
+      explanation: 'Black floor alone stops it, even with the wall far away.',
+    },
+  ],
 }

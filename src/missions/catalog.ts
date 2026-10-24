@@ -288,7 +288,25 @@ export function helperProgram(call: boolean): Program {
     ],
   }
 }
-function compositeProgram(op: 'and' | 'or'): Program {
+/** A black floor tile under the robot's starting colour sample. */
+function blackUnder(world: import('../domain/types').World): import('../domain/types').World {
+  return {
+    ...world,
+    id: `${world.id}-black`,
+    floorZones: [
+      {
+        id: 'black-tile',
+        kind: 'rectangle',
+        position: { xCm: world.spawn.position.xCm - 10, yCm: world.spawn.position.yCm - 20 },
+        widthCm: 20,
+        heightCm: 40,
+        color: 'black',
+        priority: 1,
+      },
+    ],
+  }
+}
+export function compositeProgram(op: 'and' | 'or'): Program {
   const p = thresholdProgram()
   const decision = p.body[0]!
   if (decision.kind === 'if')
@@ -548,12 +566,38 @@ const extraMissions = [
     'Color & Distance',
     makeWorld(12),
     compositeProgram('or'),
+    // v2: the decision must be right on four floor/wall combinations; only AND passes.
     [
-      { kind: 'branch', nodeId: 'decision', expected: false },
+      { kind: 'branch', expected: false },
       { kind: 'distance', minCm: 9.9 },
+      { kind: 'programmed-stop' },
     ],
     ['color-sensors', 'distance-sensors', 'conditionals'],
     compositeProgram('and'),
+    undefined,
+    {
+      version: 2,
+      successScenarios: [
+        {
+          id: 'far-black',
+          label: 'far wall on black floor',
+          world: blackUnder(makeWorld(40)),
+          goals: [{ kind: 'branch', expected: false }, { kind: 'programmed-stop' }],
+        },
+        {
+          id: 'near-black',
+          label: 'near wall on black floor',
+          world: blackUnder(makeWorld(12)),
+          goals: [{ kind: 'branch', expected: true }, { kind: 'programmed-stop' }],
+        },
+      ],
+      // Three transfer worlds where AND and OR choose different branches.
+      extraVariants: [
+        { id: 'and-or-1', world: blackUnder(makeWorld(45)), program: compositeProgram('and') },
+        { id: 'and-or-2', world: makeWorld(14), program: compositeProgram('and') },
+        { id: 'and-or-3', world: blackUnder(makeWorld(30)), program: compositeProgram('and') },
+      ],
+    },
   ),
   authored(
     'm08',
