@@ -6,6 +6,13 @@ import { migrateData } from './migrations'
 import { validateProgram } from '../interpreter/validate'
 import { execute, executeRecorded } from '../interpreter/interpreter'
 import { judgeRecorded } from '../missions/judge'
+import { missionComplete } from '../missions/completion'
+
+/** One completion rule everywhere (Part H): see missions/completion.ts. */
+const completes = (a: Attempt) => {
+  const mission = MISSION_CATALOG.find((m) => m.id === a.missionId)
+  return mission ? missionComplete(a, mission) : false
+}
 import { MISSION_CATALOG } from '../missions/catalog'
 import { probesForMission } from '../learning/probes'
 import { buildProbe } from '../learning/probe-templates'
@@ -126,13 +133,7 @@ export async function validateImport(raw: string): Promise<AppExport> {
     if (
       p.completedMissions.some(
         (id) =>
-          !data.attempts.some(
-            (a) =>
-              a.learnerId === p.id &&
-              a.missionId === id &&
-              a.goalOutcome.passed &&
-              (a.reassessment?.correct || a.transferRetries?.some((r) => r.correct)),
-          ),
+          !data.attempts.some((a) => a.learnerId === p.id && a.missionId === id && completes(a)),
       )
     )
       throw new Error('Completion claim lacks actual mission and transfer evidence')
@@ -244,13 +245,7 @@ export function scopedData(
     ...p,
     conceptProgress: trimConceptProgress(p, attempts),
     completedMissions: p.completedMissions.filter((id) =>
-      attempts.some(
-        (a) =>
-          a.learnerId === p.id &&
-          a.missionId === id &&
-          a.goalOutcome.passed &&
-          (a.reassessment?.correct || a.transferRetries?.some((r) => r.correct)),
-      ),
+      attempts.some((a) => a.learnerId === p.id && a.missionId === id && completes(a)),
     ),
     responses: p.responses.filter((r) => attempts.some((a) => a.prediction.id === r.id)),
     evidence: p.evidence.filter((e) =>
