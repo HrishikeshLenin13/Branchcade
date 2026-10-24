@@ -1,6 +1,24 @@
 # Branchcade handoff
 
-## Friend #3 session — Part F verified, Part G implemented (2026-10-24)
+## Friend #3 session — Parts F, G and H (2026-10-24)
+
+Project: Branchcade
+Completed in this session: Part F re-verified and finished, Part G (G1–G6) implemented, **Part H implemented** (requested later in the same session). Parts I–L not started.
+Branch: main only (no other branches, no PRs, no force-push). Everything is **pushed** to https://github.com/HrishikeshLenin13/Branchcade. See `git log --oneline 963ec3a..origin/main`.
+GitHub Actions: green on `456c955` (F + G + early H) and on `c7e1091` (all Part H code). Both runs include Chromium and Firefox E2E. Later docs-only commits were checked locally.
+Part H in short: eight missions upgraded in place to mission data version 2 (multi-scenario success, new goal kinds, curriculum material, hint ladder, confirmed Show solution, second questions, capstone completion); version-1 data frozen in `src/missions/mission-data/v1.json` and used to judge older records. Details: `docs/PART_H_ACCEPTANCE.md`.
+Verification: 368 unit tests (26 files), 59 Chromium E2E, format/secrets/spec/lint/typecheck/build pass, npm audit 0.
+Known limitations: 6 of 14 ideas still only surface through optional investigation; Team mode has no hint ladder or second question; narratives, hints and teacher notes are AI-written and need student/teacher review.
+
+### Instructions for friend #4 (Part I)
+
+1. `git clone https://github.com/HrishikeshLenin13/Branchcade && cd Branchcade && npm ci && npm run check && npm run test:e2e`. Confirm the latest GitHub Actions run is green before changing anything.
+2. Read AGENTS.md, this file, docs/STATUS.json and the PART_F/G/H acceptance docs.
+3. Part I is the 12-phase plan (Phases 00–11). STATUS.json marks 05/06/07 as in progress: code is done and CI is green, but student algorithm review is pending and some Phase 07 extras (onboarding polish, restrained badges) were outside this request. Start from the first phase whose gate isn't verified, re-checking evidence instead of trusting markers.
+4. Never edit `mission-data/v1.json`. To change a mission again, bump its version and keep older versions judgeable (see `missions/judge.ts`).
+5. Keep `tests/g-learning.test.ts` and `tests/h-curriculum.test.ts` passing. They encode the G and H acceptance criteria.
+
+### Earlier in this session — Part F verified, Part G implemented
 
 Project: Branchcade
 Current completed scope: Part F independently re-verified and finished; Part G (G1–G6) implemented and integrated. **Part H was NOT started**, because the project lead removed it from this invocation.
