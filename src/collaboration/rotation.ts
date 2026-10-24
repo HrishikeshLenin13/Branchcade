@@ -16,6 +16,12 @@ export function rotateRoles(team: TeamSession, skipReason?: string): TeamSession
     status: 'active',
     phase: 'collecting',
     predictions: [],
+    predictionHistory: [
+      ...team.predictionHistory,
+      ...team.predictions
+        .filter((p) => !team.predictionHistory.some((h) => h.prediction.id === p.id))
+        .map((prediction) => ({ round: team.rotationIndex, prediction })),
+    ],
     teamHypothesis: '',
     roleHistory: [
       ...team.roleHistory,

@@ -122,7 +122,8 @@ export function chooseHypothesis(team: TeamSession, hypothesis: string): TeamSes
   })
 }
 export function pauseTeam(team: TeamSession): TeamSession {
-  if (team.status !== 'active') throw new Error('Only an active session can pause')
+  if (!['active', 'completed'].includes(team.status))
+    throw new Error('Only an active or completed round can pause')
   return TeamSessionSchema.parse({
     ...team,
     status: 'paused',
@@ -140,7 +141,7 @@ export function resumeTeam(team: TeamSession): TeamSession {
   if (team.status !== 'paused') throw new Error('Only a paused session can resume')
   return TeamSessionSchema.parse({
     ...team,
-    status: 'active',
+    status: team.phase === 'result' && team.results.at(-1)?.goalPassed ? 'completed' : 'active',
     actions: [
       ...team.actions,
       {

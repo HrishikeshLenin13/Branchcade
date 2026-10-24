@@ -7,6 +7,7 @@ import { validateProgram } from '../interpreter/validate'
 import { execute, executeRecorded } from '../interpreter/interpreter'
 import { judgeRecorded } from '../missions/judge'
 import { missionComplete } from '../missions/completion'
+import { validateTeamLearning } from '../collaboration/learning'
 
 /** One completion rule everywhere (Part H): see missions/completion.ts. */
 const completes = (a: Attempt) => {
@@ -141,6 +142,7 @@ export async function validateImport(raw: string): Promise<AppExport> {
   for (const team of data.teams) {
     const mission = MISSION_CATALOG.find((m) => m.id === team.currentMission)
     if (!mission) throw new Error('Unknown team mission')
+    validateTeamLearning(team)
     const [worldHash, programHash] = await Promise.all([
       stableHash(mission.world),
       stableHash(team.program ?? mission.starterProgram),

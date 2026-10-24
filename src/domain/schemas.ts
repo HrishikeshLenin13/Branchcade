@@ -705,6 +705,20 @@ export const TeamSessionSchema = z
       .max(200)
       .default([]),
     teamHypothesis: z.string().max(500).default(''),
+    assistance: z
+      .array(
+        z.strictObject({
+          id,
+          round: tick,
+          kind: z.enum(['hint-1', 'hint-2', 'hint-3', 'show-solution']),
+          missionVersion: z.number().int().min(1).max(100),
+          recordedAt: time,
+          afterRun: z.boolean().default(false),
+          afterPredictionIds: z.array(id).max(6),
+        }),
+      )
+      .max(400)
+      .default([]),
     roleHistory: z
       .array(z.strictObject({ learnerId: id, role: id, round: tick }))
       .max(600)
@@ -721,6 +735,8 @@ export const TeamSessionSchema = z
           engineVersion: z.union([z.literal(1), z.literal(2)]).optional(),
           missionVersion: z.number().int().min(1).max(100).optional(),
           goalPassed: z.boolean(),
+          assistanceIds: z.array(id).max(4).optional(),
+          hypothesis: z.string().max(500).optional(),
           recordedAt: time,
           world: z.union([WorldSchema, LegacyWorldSchema]).optional(),
           program: ProgramSchema.optional(),
@@ -772,6 +788,46 @@ export const TeamSessionSchema = z
         code: 'custom',
         message: 'Historical predictions must be unique per learner and round',
       })
+    if (
+      new Set(t.assistance.map((h) => h.id)).size !== t.assistance.length ||
+      new Set(t.assistance.map((h) => `${h.round}:${h.kind}`)).size !== t.assistance.length
+    )
+      c.addIssue({ code: 'custom', message: 'Team assistance records must be unique per round' })
+    if (
+      t.assistance.some(
+        (h, i) =>
+          h.round > t.rotationIndex ||
+          (i > 0 && Date.parse(h.recordedAt) < Date.parse(t.assistance[i - 1]!.recordedAt)) ||
+          new Set(h.afterPredictionIds).size !== h.afterPredictionIds.length ||
+          h.afterPredictionIds.some(
+            (id) =>
+              !t.predictionHistory.some((p) => p.round === h.round && p.prediction.id === id) &&
+              !(h.round === t.rotationIndex && t.predictions.some((p) => p.id === id)),
+          ),
+      )
+    )
+      c.addIssue({
+        code: 'custom',
+        message: 'Team assistance must reference chronological recorded predictions',
+      })
+    if (
+      t.results.some(
+        (r) =>
+          r.assistanceIds &&
+          (new Set(r.assistanceIds).size !== r.assistanceIds.length ||
+            r.assistanceIds.some(
+              (id) =>
+                !t.assistance.some(
+                  (h) =>
+                    h.id === id &&
+                    h.round === r.round &&
+                    !h.afterRun &&
+                    Date.parse(h.recordedAt) <= Date.parse(r.recordedAt),
+                ),
+            )),
+      )
+    )
+      c.addIssue({ code: 'custom', message: 'Team result assistance must exist before its run' })
     if (new Set(t.results.map((r) => r.round)).size !== t.results.length)
       c.addIssue({ code: 'custom', message: 'Each team round can execute only once' })
     if (t.predictions.some((p) => !t.members.some((m) => m.learnerId === p.learnerId)))
