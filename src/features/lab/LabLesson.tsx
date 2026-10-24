@@ -37,6 +37,7 @@ import {
 } from '../../missions/catalog'
 import { describeGoal } from '../../missions/goals'
 import { judgeMission } from '../../missions/judge'
+import { missionComplete } from '../../missions/completion'
 import { recordPrediction } from '../../learning/predictions'
 import { conceptStatus } from '../../learning/mastery'
 import { transferAdvice } from '../../learning/recommendations'
@@ -546,12 +547,15 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               ...(prior?.distinctScenarioHashes ?? []),
               ...(independent ? [answer.worldHash] : []),
             ]),
-          ],
-          goal = current.attempts.find((item) => item.id === attemptId)?.goalOutcome.passed
+          ]
         next.profile = {
           ...next.profile,
           completedMissions:
-            goal && answer.correct && !prediction.uncertain
+            !free &&
+            missionComplete(
+              next.attempts.find((item) => item.id === attemptId)!,
+              mission,
+            )
               ? [...new Set([...next.profile.completedMissions, mission.id])]
               : next.profile.completedMissions,
           responses: [
