@@ -35,7 +35,8 @@ import {
   MISSION_META,
   thresholdProgram,
 } from '../../missions/catalog'
-import { judgeGoals, describeGoal } from '../../missions/goals'
+import { describeGoal } from '../../missions/goals'
+import { judgeMission } from '../../missions/judge'
 import { recordPrediction } from '../../learning/predictions'
 import { conceptStatus } from '../../learning/mastery'
 import { transferAdvice } from '../../learning/recommendations'
@@ -368,6 +369,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       const attempt: Attempt = {
         schemaVersion: 1,
         engineVersion: 2,
+        ...(free ? {} : { missionVersion: mission.version }),
         id: opaqueId(),
         learnerId: profile.id,
         missionId,
@@ -386,7 +388,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         assessmentSkipped: skip || uncertain,
         goalOutcome: free
           ? { passed: false, facts: ['Free exploration is not a scored mission'] }
-          : judgeGoals(world, runResult, mission.successPredicate),
+          : judgeMission(mission, world, program, runResult),
       }
       const current = useSession.getState().data
       await replace(

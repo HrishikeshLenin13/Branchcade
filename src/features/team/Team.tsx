@@ -17,7 +17,7 @@ import { recordPrediction } from '../../learning/predictions'
 import { execute, executeRecorded } from '../../interpreter/interpreter'
 import { branchFacts } from '../../interpreter/trace'
 import { MISSION_CATALOG } from '../../missions/catalog'
-import { judgeGoals } from '../../missions/goals'
+import { judgeMission } from '../../missions/judge'
 import { stableHash } from '../../domain/invariants'
 import { initialRobot } from '../../engine/robot'
 import { readSensors } from '../../engine/sensors'
@@ -119,7 +119,7 @@ export default function Team() {
       if (!team || team.phase !== 'huddle' || !team.teamHypothesis || !ready)
         throw new Error('Record the team hypothesis after everyone has contributed')
       const result = execute(mission.world, teamProgram),
-        goal = judgeGoals(mission.world, result, mission.successPredicate),
+        goal = judgeMission(mission, mission.world, teamProgram, result),
         recordedAt = new Date().toISOString()
       await save({
         ...team,
@@ -134,6 +134,7 @@ export default function Team() {
           {
             round: team.rotationIndex,
             engineVersion: 2,
+            missionVersion: mission.version,
             traceHash: await stableHash(result.events),
             goalPassed: goal.passed,
             recordedAt,
