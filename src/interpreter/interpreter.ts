@@ -77,6 +77,7 @@ export class Interpreter {
   private frames: Frame[] = []
   private functions = new Map<string, Statement[]>()
   private variables: Record<string, Value> = Object.create(null) as Record<string, Value>
+  private variableTypes = new Map<string, Expression['type']>()
   private instructions = 0
   private depth = 0
   private bytes = 2
@@ -214,6 +215,8 @@ export class Interpreter {
       case 'variable': {
         if (!Object.hasOwn(this.variables, e.name))
           throw new Error(`Variable ${e.name} has not been set at ${e.nodeId}`)
+        if (this.variableTypes.get(e.name) !== e.type)
+          throw new Error(`Variable type mismatch at ${e.nodeId}`)
         const v = this.variables[e.name]!
         if (
           v !== null &&
@@ -469,13 +472,9 @@ export class Interpreter {
               throw new Error('Variable limit reached')
             const value = this.evaluate(s.value)
             this.nodeId = s.nodeId
-            if (
-              Object.hasOwn(this.variables, s.name) &&
-              this.variables[s.name] !== null &&
-              value !== null &&
-              typeof value !== typeof this.variables[s.name]
-            )
+            if (this.variableTypes.has(s.name) && this.variableTypes.get(s.name) !== s.value.type)
               throw new Error(`Variable ${s.name} cannot change type at ${s.nodeId}`)
+            this.variableTypes.set(s.name, s.value.type)
             this.variables[s.name] = value
             this.emit('set', s.nodeId, before, [`${s.name} = ${String(value)}`])
             break

@@ -238,6 +238,35 @@ describe('F4–F6 small-step execution, trace and debugging', () => {
       ),
     ).toThrow('Duplicate function same at d2')
   })
+  it('keeps numeric variable types even when the first sensor value is null', () => {
+    const world = { ...makeWorld(), obstacles: [] }
+    const store: Statement = {
+      nodeId: 'store-null',
+      kind: 'set',
+      name: 'reading',
+      value: { nodeId: 'no-return', kind: 'sensor', type: 'number', sensor: 'distance' },
+    }
+    expect(
+      execute(
+        world,
+        p([store, { nodeId: 'change-type', kind: 'set', name: 'reading', value: b(true) }]),
+      ).error,
+    ).toContain('cannot change type')
+    expect(
+      execute(
+        world,
+        p([
+          store,
+          inspect({
+            nodeId: 'wrong-reference',
+            kind: 'variable',
+            type: 'boolean',
+            name: 'reading',
+          }),
+        ]),
+      ).error,
+    ).toContain('Variable type mismatch')
+  })
   it('returns a source block in malformed type/input errors', () => {
     const program = p([inspect(n(1))])
     const statement = program.body[0]!
