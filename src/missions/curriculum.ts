@@ -8,6 +8,7 @@ import {
   compositeProgram,
   helperProgram,
   lapProgram,
+  mysteryProgram,
 } from './catalog'
 import { MISSION_META } from './catalog'
 import { missionConcepts } from '../learning/concepts'
@@ -538,4 +539,87 @@ CURRICULUM.m07 = {
       explanation: 'Black floor alone stops it, even with the wall far away.',
     },
   ],
+}
+
+const byHandEscape = (): Program => {
+  const p = mysteryProgram(35)
+  return {
+    ...p,
+    id: 'm08-by-hand',
+    body: p.body.map((st) =>
+      st.kind === 'if' ? { ...st, then: [turn('hand-turn', 90), move('hand-move', 10)] } : st,
+    ),
+  }
+}
+
+CURRICULUM.m08 = {
+  narrative:
+    'Reports say the robot drives straight into a dead end instead of escaping around the corner. Somewhere a variable, a comparison and a helper work together, and one of them is wrong. Investigate like a detective, explain the bug in your own words, test it with an experiment and prove your fix on a new challenge.',
+  targetConcept: 'Debugging with variables, conditions and function calls together',
+  vocabulary: [
+    { term: 'variable', meaning: 'A named box that holds a value, like safeDistance.' },
+    { term: 'call', meaning: 'Runs a helper (here: escape) and then comes back.' },
+    {
+      term: 'evidence',
+      meaning: 'Real trace rows and experiment results that support your explanation.',
+    },
+  ],
+  expectedPrediction: {
+    action: 'move',
+    reason:
+      'safeDistance is 20 and the wall is 32 cm away; 32 < 20 is false, so the wrong-route move runs.',
+  },
+  failureExamples: [
+    'With safeDistance 20 the robot never calls escape at 32 cm.',
+    'Setting safeDistance huge always escapes, even with the wall 50 cm away.',
+    'Copying the escape moves into the if reaches the spot but skips the helper call.',
+  ],
+  teacherNote:
+    'Capstone: completion needs the physical goal in both scenarios, a written reason in the prediction, at least one counterexample experiment answer and a correct unseen transfer. Ask the learner to point to the trace rows that support their explanation.',
+  probeIds: ['g.variable-value.10-30', 'g.helper-skip.90', 'g.branch-at.30-lt'],
+  hints: [
+    'Open the Variables tab. What value does safeDistance hold when the if block runs?',
+    'The condition is 32 < 20, which is false, so escape is never called. A simpler example: with safeDistance 40, 32 < 40 would be true.',
+    'Compare this different program: set limit to 25, then if distance < limit → turn 90°, otherwise → move. What would it do at 32 cm?',
+  ],
+  hintExample: program('hint-m08', [
+    { nodeId: 'set-limit', kind: 'set', name: 'limit', value: lit('limit-value', 25) },
+    {
+      nodeId: 'decide',
+      kind: 'if',
+      condition: compare('check', '<', distance('reading'), {
+        nodeId: 'limit-ref',
+        kind: 'variable',
+        type: 'number',
+        name: 'limit',
+      }),
+      then: [turn('dodge', 90)],
+      else: [move('ahead', 10)],
+    },
+    stop(),
+  ]),
+  mistakeVariants: [
+    {
+      id: 'starter',
+      label: 'Starter: safeDistance 20',
+      program: mysteryProgram(20),
+      fails: 'Goal 1 (event): not met',
+      explanation: '32 < 20 is false, so escape is never called.',
+    },
+    {
+      id: 'always-escape',
+      label: 'safeDistance 999',
+      program: mysteryProgram(999),
+      fails: 'Scenario “wall 50 cm away”: not met',
+      explanation: 'It escapes even when the wall is far away.',
+    },
+    {
+      id: 'by-hand',
+      label: 'Escape moves copied into the if',
+      program: byHandEscape(),
+      fails: 'Concept check: the robot got there',
+      explanation: 'The spot is reached, but the helper call is part of the mission.',
+    },
+  ],
+  detail: { question: 'turn-count', prompt: 'How many times will the robot turn?' },
 }

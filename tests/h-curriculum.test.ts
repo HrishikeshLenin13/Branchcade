@@ -114,3 +114,25 @@ it('m07 has at least three transfer worlds where AND and OR choose different act
   )
   expect(differing.length).toBeGreaterThanOrEqual(3)
 })
+
+it('all eight missions are authored, upgraded and keep their v1 ids', async () => {
+  const { LEGACY_V1 } = await import('../src/missions/legacy-v1')
+  expect(authored.map((m) => m.id)).toEqual([
+    'm01',
+    'm02',
+    'm03',
+    'm04',
+    'm05',
+    'm06',
+    'm07',
+    'm08',
+  ])
+  expect(LEGACY_V1.map((m) => m.id)).toEqual(authored.map((m) => m.id))
+  for (const m of authored) {
+    expect(m.version).toBe(2)
+    // v1 variants are kept as a prefix so earlier transfer answers still match.
+    const v1 = LEGACY_V1.find((x) => x.id === m.id)!
+    expect(m.variants.slice(0, v1.variants.length)).toEqual(v1.variants)
+  }
+  expect(authored.filter((m) => m.capstone).map((m) => m.id)).toEqual(['m08'])
+})

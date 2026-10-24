@@ -327,7 +327,7 @@ export function compositeProgram(op: 'and' | 'or'): Program {
     }
   return { ...p, id: 'two-sensors' }
 }
-function mysteryProgram(value: number): Program {
+export function mysteryProgram(value: number): Program {
   return {
     schemaVersion: 1,
     id: 'mystery-route',
@@ -604,13 +604,29 @@ const extraMissions = [
     'Mystery Malfunction',
     makeWorld(32),
     mysteryProgram(20),
+    // v2 capstone: physical goals plus a far-wall scenario; completion additionally needs a
+    // written reason, a counterexample experiment answer and a correct unseen transfer.
     [
-      { kind: 'event', eventKind: 'call', nodeId: 'call-escape', count: 1 },
+      { kind: 'event', eventKind: 'call', count: 1 },
       { kind: 'reach', position: { xCm: 40, yCm: 60 }, toleranceCm: 0.1 },
       { kind: 'heading', headingDeg: 90, toleranceDeg: 0.1 },
+      { kind: 'programmed-stop' },
     ],
     ['functions', 'conditionals', 'debugging'],
     mysteryProgram(35),
+    undefined,
+    {
+      version: 2,
+      capstone: true,
+      successScenarios: [
+        {
+          id: 'far-wall',
+          label: 'wall 50 cm away',
+          world: makeWorld(50),
+          goals: [{ kind: 'branch', expected: false }, { kind: 'programmed-stop' }],
+        },
+      ],
+    },
   ),
 ]
 MISSION_CATALOG.push(...extraMissions)
