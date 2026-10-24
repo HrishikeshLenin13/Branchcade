@@ -9,7 +9,8 @@ const literal = (node, bindings = new Map()) => {
   if (!node) return null
   if (typeof node === 'string') return node
   if (ts.isStringLiteralLike(node)) return node.text
-  if (ts.isAsExpression(node) || ts.isParenthesizedExpression(node)) return literal(node.expression, bindings)
+  if (ts.isAsExpression(node) || ts.isParenthesizedExpression(node))
+    return literal(node.expression, bindings)
   if (ts.isTemplateExpression(node)) {
     let value = node.head.text
     for (const span of node.templateSpans) {

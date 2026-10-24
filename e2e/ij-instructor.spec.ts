@@ -38,13 +38,11 @@ async function importFixture(page: Page): Promise<AppExport> {
   test.setTimeout(60_000)
   const seed = rosterFixture()
   await page.goto('/instructor')
-  await page
-    .getByLabel('Import local record', { exact: true })
-    .setInputFiles({
-      name: 'synthetic-teacher-rosters.json',
-      mimeType: 'application/json',
-      buffer: Buffer.from(JSON.stringify(seed)),
-    })
+  await page.getByLabel('Import local record', { exact: true }).setInputFiles({
+    name: 'synthetic-teacher-rosters.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(seed)),
+  })
   await page.getByRole('button', { name: 'Merge validated import', exact: true }).click()
   await expect(page.getByText('Merged validated local data.', { exact: true })).toBeVisible()
   await page.goto('/missions/m01?new=1')
@@ -75,13 +73,11 @@ async function importFixture(page: Page): Promise<AppExport> {
     ],
   }
   await page.goto('/settings')
-  await page
-    .getByLabel('Import local data', { exact: true })
-    .setInputFiles({
-      name: 'synthetic-m04-program.json',
-      mimeType: 'application/json',
-      buffer: Buffer.from(JSON.stringify(draft)),
-    })
+  await page.getByLabel('Import local data', { exact: true }).setInputFiles({
+    name: 'synthetic-m04-program.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(draft)),
+  })
   await page.getByRole('button', { name: 'Merge validated import', exact: true }).click()
   await expect(page.getByText('Merged validated local data.', { exact: true })).toBeVisible()
   await page.goto('/missions/m04')
@@ -108,13 +104,11 @@ async function importFixture(page: Page): Promise<AppExport> {
   }
   record.drafts = []
   await page.goto('/instructor')
-  await page
-    .getByLabel('Import local record', { exact: true })
-    .setInputFiles({
-      name: 'synthetic-dated-browser-records.json',
-      mimeType: 'application/json',
-      buffer: Buffer.from(JSON.stringify(record)),
-    })
+  await page.getByLabel('Import local record', { exact: true }).setInputFiles({
+    name: 'synthetic-dated-browser-records.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(record)),
+  })
   await page.getByRole('combobox', { name: 'Import strategy', exact: true }).selectOption('replace')
   await page.getByRole('button', { name: 'Replace with validated import', exact: true }).click()
   await expect(page.getByText('Replaced validated local data.', { exact: true })).toBeVisible()
