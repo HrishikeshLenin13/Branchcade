@@ -14,6 +14,10 @@ import {
 } from '../../components/ui/dialog'
 import { downloadFile, exportJson, scopedData } from '../../storage/import-export'
 import { AttemptReview } from './AttemptReview'
+import { conceptEvidence } from '../../learning/mastery'
+import { recommend } from '../../learning/adaptive-planner'
+import { conceptTitle, missionConcepts, type ConceptId } from '../../learning/concepts'
+import { attemptDiagnosis } from '../../learning/investigation'
 import './local-records.css'
 export default function Progress() {
   const data = useSession((s) => s.data),
@@ -31,23 +35,17 @@ export default function Progress() {
     people = localProfiles(data),
     recent = [...attempts].reverse(),
     review = attempts.find((a) => a.id === selected)
-  const concepts = [...new Set(MISSION_CATALOG.flatMap((m) => m.conceptGoals))],
+  // Part G5: concept statuses and the next activity are derived from saved attempts only.
+  const evidence = conceptEvidence(attempts, MISSION_CATALOG),
     started = new Set(attempts.filter((a) => a.missionId !== 'lab').map((a) => a.missionId)),
-    practiced = new Set(
-      attempts.flatMap(
-        (a) => MISSION_CATALOG.find((m) => m.id === a.missionId)?.conceptGoals ?? [],
-      ),
-    )
-  const recommendation =
-    MISSION_CATALOG.find((m) =>
-      attempts.some((a) => a.missionId === m.id && a.reassessment?.correct === false),
-    ) ??
-    MISSION_CATALOG.find(
-      (m) =>
-        !profile?.completedMissions.includes(m.id) &&
-        m.prerequisiteIds.every((id) => profile?.completedMissions.includes(id)),
-    ) ??
-    MISSION_CATALOG[0]!
+    practiced = evidence.filter((c) => c.status !== 'not_explored')
+  const next = recommend(attempts, MISSION_CATALOG, profile?.completedMissions ?? [], evidence),
+    recommendation = MISSION_CATALOG.find((m) => m.id === next.missionId) ?? MISSION_CATALOG[0]!
+  const conceptAttempts = (id: ConceptId) =>
+    attempts.filter((a) => {
+      const m = MISSION_CATALOG.find((x) => x.id === a.missionId)
+      return m ? missionConcepts(m).includes(id) : false
+    })
   return (
     <main className="page local-records">
       <span className="section-index">Real evidence on this device</span>
@@ -113,18 +111,14 @@ export default function Progress() {
           <p className="lead">
             {profile?.nickname} · {started.size} missions started ·{' '}
             {profile?.completedMissions.length ?? 0} completed guided investigations ·{' '}
-            {practiced.size} concepts practiced · {attempts.filter((a) => a.reassessment).length}{' '}
+            {practiced.length} concepts practiced · {attempts.filter((a) => a.reassessment).length}{' '}
             transfer checks.
           </p>
           <section className="paper">
             <h2>Recommended next activity</h2>
             <h3>{recommendation.title}</h3>
-            <p>
-              {attempts.some(
-                (a) => a.missionId === recommendation.id && a.reassessment?.correct === false,
-              )
-                ? 'A transfer prediction differed from execution. A fresh example can help you test that rule again.'
-                : 'This is the next unfinished investigation with its prerequisites complete.'}
+            <p data-testid="progress-why-next">
+              <strong>Why this next?</strong> {next.reason}
             </p>
             <Button asChild>
               <Link to={`/missions/${recommendation.id}`}>Start recommended mission</Link>
@@ -133,81 +127,79 @@ export default function Progress() {
           <section className="paper">
             <h2>Concept evidence</h2>
             <p className="muted">
-              These are descriptive heuristics. Two distinct correct independent transfer scenarios
-              provide evidence of understanding; one answer never proves mastery.
+              These are descriptive rules, not grades. Evidence of understanding needs two different
+              scenarios predicted correctly without help, a correct new-numbers challenge and one
+              reason in your own words. One answer never proves mastery.
             </p>
             <div className="concept-list">
-              {concepts.map((id) => {
-                const progress = profile?.conceptProgress.find((p) => p.concept === id),
-                  related = attempts.filter((a) =>
-                    MISSION_CATALOG.find((m) => m.id === a.missionId)?.conceptGoals.includes(id),
-                  ),
-                  needs = related.some((a) => a.reassessment?.correct === false),
-                  label = needs
-                    ? 'Needs another example'
-                    : progress?.status === 'developing'
-                      ? 'Evidence of understanding'
-                      : related.length
-                        ? 'Working on it'
-                        : 'Not explored'
-                return (
-                  <article className="concept-row" key={id}>
-                    <div>
-                      <h3>{id.replaceAll('-', ' ')}</h3>
-                      <p title="Independent successes count distinct transfer world hashes, not repeated answers.">
-                        {label} · {related.length} attempts · {progress?.independentSuccesses ?? 0}{' '}
-                        distinct independent transfer scenarios
-                      </p>
-                    </div>
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setConcept(id)
-                        setSelected('')
-                      }}
-                    >
-                      View evidence for {id.replaceAll('-', ' ')}
-                    </Button>
-                  </article>
-                )
-              })}
+              {evidence.map((c) => (
+                <article
+                  className="concept-row"
+                  key={c.concept}
+                  data-testid={`concept-${c.concept}`}
+                >
+                  <div>
+                    <h3>{conceptTitle(c.concept)}</h3>
+                    <p>
+                      <strong>{c.label}</strong> · {c.attempts} attempts · {c.correctIndependent}{' '}
+                      correct without help · {c.transfersCorrect} new-numbers challenge
+                      {c.transfersCorrect === 1 ? '' : 's'} correct · {c.hints} hints
+                    </p>
+                    <p className="muted">{c.rule}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setConcept(c.concept)
+                      setSelected('')
+                    }}
+                  >
+                    View evidence for {conceptTitle(c.concept).toLowerCase()}
+                  </Button>
+                </article>
+              ))}
             </div>
           </section>
           {concept && (
             <section className="paper">
-              <h2>Evidence for {concept.replaceAll('-', ' ')}</h2>
-              {attempts
-                .filter((a) =>
-                  MISSION_CATALOG.find((m) => m.id === a.missionId)?.conceptGoals.includes(concept),
+              <h2>Evidence for {conceptTitle(concept as ConceptId).toLowerCase()}</h2>
+              {conceptAttempts(concept as ConceptId).map((a) => {
+                const state = attemptDiagnosis(
+                  a,
+                  MISSION_CATALOG.find((m) => m.id === a.missionId),
                 )
-                .map((a) => (
+                const ideas = state.ranked.filter(
+                  (h) =>
+                    h.entry.concept === concept && (h.supports.length || h.contradictions.length),
+                )
+                return (
                   <div className="evidence-entry" key={a.id}>
                     <p>
                       {a.missionId} · prediction{' '}
                       {a.prediction.uncertain ? 'not sure yet' : a.prediction.action} · goal{' '}
                       {a.goalOutcome.passed ? 'met' : 'not met'} · {a.diagnosticResponses.length}{' '}
-                      probes · transfer{' '}
+                      questions · {a.experimentResponses?.length ?? 0} experiments · transfer{' '}
                       {a.reassessment
                         ? a.reassessment.correct
                           ? 'matched'
                           : 'different'
                         : 'not attempted'}
                     </p>
+                    {ideas.map((h) => (
+                      <p key={h.code} className="muted">
+                        {h.entry.title}: <strong>{h.label}</strong> ({h.supports.length} fitting,{' '}
+                        {h.contradictions.length} not fitting answers)
+                      </p>
+                    ))}
                     <Button variant="outline" onClick={() => setSelected(a.id)}>
                       Review attempt {a.attemptIndex}
                     </Button>
                   </div>
-                ))}
-              {!attempts.some((a) =>
-                MISSION_CATALOG.find((m) => m.id === a.missionId)?.conceptGoals.includes(concept),
-              ) && <p>No local attempt has explored this concept yet.</p>}
-              {profile?.evidence
-                .filter((e) => e.hypothesisId.includes(concept))
-                .map((e) => (
-                  <p key={e.id}>
-                    {e.ruleReason} ({e.direction}; heuristic weight {e.weight})
-                  </p>
-                ))}
+                )
+              })}
+              {!conceptAttempts(concept as ConceptId).length && (
+                <p>No local attempt has explored this concept yet.</p>
+              )}
             </section>
           )}
           <div className="table-wrap">
