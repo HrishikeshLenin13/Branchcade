@@ -221,9 +221,14 @@
     "baseCommit": "f9871ba0efa20f9f3e63b5aaa489f13ed5a9b91d",
     "unitTests": 396,
     "unitFiles": 29,
-    "chromiumBrowserTests": 89,
+    "chromiumBrowserTests": 105,
+    "firefoxBrowserTests": 105,
+    "failedBrowserTests": 0,
+    "flakyBrowserTests": 0,
     "build": "passed",
-    "ciConclusion": "Pushed feature checkpoint a02705a passed both browsers in run40113633217; final expanded-suite CI recorded in TEST_REPORT.",
+    "verifiedCommit": "fddd0652554673081bc09b9ca4d6b3f402388044",
+    "ciRun": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40128767480",
+    "ciConclusion": "Success: 396 unit tests, 105 Chromium E2E, 105 Firefox E2E, zero failed or flaky tests; format, secret/spec validation, lint, strict TypeScript, production build and npm audit passed.",
     "legacyFingerprints": 40
   },
   "humanReview": {

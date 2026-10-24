@@ -1,5 +1,29 @@
 # Final A–C foundation test report
 
+## Parts I/J red-CI repair — final verified run (2026-10-24)
+
+Source commit: `fddd0652554673081bc09b9ca4d6b3f402388044` on `main`. [GitHub Actions run 40128767480](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40128767480) completed successfully across all gates:
+
+| Gate                              | Result                                                                                |
+| --------------------------------- | ------------------------------------------------------------------------------------- |
+| `npm ci`                          | passed                                                                                |
+| `npm run format:check`            | passed                                                                                |
+| `npm run scan:secrets`            | passed; 280 source/document paths                                                     |
+| `npm run verify:spec -- modified` | passed                                                                                |
+| `npm run check`                   | lint and strict TypeScript passed; 396/396 tests in 29 files; production build passed |
+| `npm run test:e2e`                | 210/210 passed: 105 Chromium and 105 Firefox; no failures, retries or flaky tests     |
+| `npm audit`                       | 0 vulnerabilities                                                                     |
+
+### CI failures investigated and corrected
+
+- The mission-card “Start mission” click really navigates to `/missions/m01`. The test’s global exact-name heading lookup matched both the recommendation heading and the mission-page heading. The test now asserts the route and unique main-region H1. This was a locator bug, not a navigation defect.
+- `answerAs()` queried the question count and then separately read an ID. On the final answer, React legitimately removes the question after recording terminal evidence, so those two locator operations raced. The helper now reads all IDs in one DOM observation and recognizes the valid terminal state by checking the enabled “Generate a targeted experiment” action. Investigation logic was not stuck; the test assumption was wrong.
+- Full-suite repetitions also exposed test-only timing/fixture issues: replay could reach its terminal cursor before a step assertion; the 180-statement Blockly stress setup loaded unrelated heavy worlds; the cancellation fixture exhausted its execution budget before a cancel click; and the roster test left the progress page before the newly created solo alias had visibly completed its local save. The tests now use the actual enabled replay state, a focused Blockly fixture and test-specific render budget, a running wait-loop for cancellation, and observable alias plus “Saved locally.” synchronization. No app code defect was found.
+
+The roster-preservation test passed **10/10** local Chromium repetitions with retries disabled. The final Actions suite passed every browser test on both remote projects. Local Firefox startup remains unavailable on this workstation (Playwright could not find its profile folder); the successful Ubuntu Actions Firefox run is the cross-browser verification.
+
+The fixes were pushed directly to `main` in commits `175487c`, `7ccd12b`, `a57e9e2`, `6c96612`, and `fddd065`. No branch, pull request or force push was used. Parts K and L were not started.
+
 Date:2026-10-22 (America/Chicago). Scope: master-prompt Parts A–C / Phase00 foundation with one real learning slice, not the complete release.
 
 | Gate                              | Actual result                                                           | Evidence                                                                                                        |

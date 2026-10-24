@@ -1,5 +1,13 @@
 # Branchcade handoff
 
+## Current checkpoint — I/J red CI repaired (2026-10-24)
+
+Latest verified source commit: `fddd0652554673081bc09b9ca4d6b3f402388044` on `main`. [GitHub Actions run 40128767480](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40128767480) is green: 396 unit/integration tests, 105 Chromium E2E, 105 Firefox E2E, no failed or flaky tests, format/secrets/spec, lint, strict TypeScript, production build and dependency audit all passed. The latest repair commits are `175487c`, `7ccd12b`, `a57e9e2`, `6c96612`, and `fddd065`, all pushed directly to `main`.
+
+The two reported failures were test issues: mission start worked but its assertion matched two identical headings; the investigation’s final answer correctly ended the question list while the helper performed separate racing locator reads. Additional full-suite flakes came from a terminal replay cursor, unrelated Blockly stress fixtures, a cancellation fixture that exhausted its budget, and a team test that navigated before observing local-save completion. These were repaired in test locators, synchronization and fixtures; no production app defect was found. The targeted roster journey passed 10/10 local Chromium repetitions with retries disabled, and the full remote run passed both browser projects. Local Firefox cannot launch in this workstation due to a Playwright profile-folder error; use the verified remote Firefox run as evidence.
+
+Continue from the I/J acceptance record and test report. Do not begin Parts K or L unless separately requested. Preserve `main`-only work and do not rewrite history.
+
 ## Friend #3 session — Parts F, G and H (2026-10-24)
 
 Project: Branchcade

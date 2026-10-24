@@ -4,6 +4,16 @@ Scope: audit and finish the twelve Part I technical gates and Part J quality con
 
 Statuses distinguish **VERIFIED**, **IMPLEMENTED BUT UNVERIFIED**, **PARTIALLY COMPLETE**, **MISSING**, and **BLOCKED**. Source presence alone never earns VERIFIED. `docs/TEST_REPORT.md` records the final command results and `docs/STATUS.json` the current phase status; this document maps their evidence to requirements.
 
+## Final red-CI repair — 2026-10-24
+
+The latest verified source checkpoint, `fddd0652554673081bc09b9ca4d6b3f402388044` on `main`, passed [GitHub Actions run 40128767480](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40128767480). It ran all 396 unit/integration tests (29 files), 105 Chromium E2E tests and 105 Firefox E2E tests, with **zero failed tests and zero retry-recovered/flaky tests**. Format, secret scan, modified-spec validation, lint, strict TypeScript, production build and dependency audit (0 vulnerabilities) all passed. No application behavior change was needed; the reproduced failures were test locator, synchronization or fixture issues. The I/J journeys and product assertions remain in place.
+
+The mission-card assertion now confirms the observed `/missions/m01` navigation and scopes the mission title to the page’s main H1, rather than matching the separate “Recommended next activity” heading. `answerAs()` snapshots question probe IDs atomically; when the final answer correctly ends the investigation, it verifies the enabled targeted-experiment action instead of waiting for a question that has been removed. The app’s terminal investigation behavior is valid.
+
+The regression run also exposed timing assumptions in replay, large Blockly mount, cancellation and roster-preservation journeys. Those tests now synchronize on enabled/user-visible state, present a cancellable wait-loop fixture, and wait for the solo alias to appear and its local save to complete before navigating away. The 180-statement Blockly stress journey remains intact and uses a test-specific mount budget. These are test/fixture repairs; no application defect was found.
+
+The roster-preservation scenario passed 10 consecutive local Chromium runs with retries disabled. The complete remote suite then passed on Ubuntu in both browsers. The local Firefox binary could not start in this workstation environment because of a Playwright profile-folder error; the remote Firefox run is the cross-browser verification.
+
 ## Scope resolution
 
 The new assignment overrides older instructions to rebuild A–H or create phase branches. Frozen mission version 1 and versioned judging must remain intact. Existing algorithms, fixtures and records are reused; defects require reproduction, a focused repair and regression evidence.
