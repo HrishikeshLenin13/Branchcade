@@ -112,6 +112,10 @@ test('F nominal world, seeded noise and boundary options persist through world e
   page,
 }) => {
   await page.goto('/lab?new=1')
+  await expect(page.getByTestId('distance-label')).toBeVisible()
+  await expect
+    .poll(async () => (await page.getByTestId('distance-label').boundingBox())?.height ?? 0)
+    .toBeGreaterThanOrEqual(10)
   await page.getByRole('button', { name: 'Show world data', exact: true }).click()
   await expect(page.getByLabel('Validated world data', { exact: true })).toContainText(
     '"widthCm": 600',
@@ -257,4 +261,30 @@ test('F Stop & Edit cancels active computation and unlocks editing in one action
   await expect(
     page.getByText('New attempt ready. Your previous result stays saved locally.', { exact: true }),
   ).toBeVisible()
+})
+
+test('F cache-independent source rebuild restores exact selected tick and does not add attempts', async ({
+  page,
+}) => {
+  await page.goto('/missions/m01?new=1')
+  await runButton(page).click()
+  await expect(page.getByTestId('branch-facts')).toContainText('24 < 20 is false')
+  await page.getByRole('button', { name: 'Reset simulation', exact: true }).click()
+  await page.getByRole('button', { name: 'Step tick', exact: true }).click()
+  await expect(header(page)).toContainText('Tick 1 · Paused')
+  await page.getByRole('tab', { name: 'Program', exact: true }).click()
+  await page.getByRole('button', { name: 'Rebuild snapshot from source', exact: true }).click()
+  await expect(
+    page.getByRole('status').filter({ hasText: 'Verified source replay:' }),
+  ).toContainText('event 4, tick 1. Trace checksum matches; recorded attempt unchanged.')
+  await expect(header(page)).toContainText('Tick 1 · Paused')
+  await expect(page.getByRole('img', { name: /Robot world:/ })).toHaveAttribute(
+    'aria-label',
+    /distance 23.0 centimeters/,
+  )
+  await page.getByRole('link', { name: 'Progress', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Review attempt 1', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Review attempt 2', exact: true })).toHaveCount(0)
+  await page.goto('/missions/m04?new=1')
+  await expect(page.locator('svg.world text').filter({ hasText: 'Goal' })).toBeVisible()
 })
