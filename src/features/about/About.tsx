@@ -88,21 +88,27 @@ export default function About() {
           <span className="section-index">02 / Check competing ideas</span>
           <h2>One answer can have several explanations.</h2>
           <p>
-            A wrong prediction might reflect a reversed comparison, a sensor misconception, or an
-            uncertain guess. Follow-up examples separate these possibilities using the learner’s
-            actual answers.
+            A wrong prediction might reflect a reversed comparison, a sensor misconception, or just
+            a slip. Branchcade keeps 14 possible mix-ups. Each one is a small “mental model”: the
+            same robot interpreter with exactly one rule changed, like reading “&lt;” as “&gt;” or
+            freezing the sensor after its first reading. Running a question under every model shows
+            what each idea would predict.
           </p>
           <p>
-            Evidence supports or contradicts possible explanations. These scores are transparent
-            heuristics. They are not probabilities about someone’s mind.
+            The next question is the one whose predicted answers split the remaining ideas the most.
+            An idea only becomes “Might be” after two different kinds of questions fit it, and later
+            correct answers can mark it “No longer supported”. These are rule-based tallies, not
+            probabilities about someone’s mind.
           </p>
         </section>
         <section className="paper">
           <span className="section-index">03 / Change one thing</span>
           <h2>A useful experiment makes ideas disagree.</h2>
           <p>
-            A counterexample is verified by executing both scenarios. The experiment changes one
-            relevant value and compares the resulting branch and behavior.
+            The experiment search tries single changes to your own mission (wall distance, the
+            number in a comparison, the comparison sign, a color, a repeat count, a call block) and
+            runs each one with the real simulator and every remaining idea. It keeps only changes
+            where the ideas disagree and the result is easy to see, then picks the simplest.
           </p>
           <p>
             If no valid discriminating example is available, the app says so. It never invents a
