@@ -85,3 +85,7 @@ Generated from the committed npm lock metadata. Dependencies keep their original
 | xmlchars                                 | 2.2.0          | MIT              |
 | zod                                      | 4.6.7          | MIT              |
 | zustand                                  | 5.0.16         | MIT              |
+
+## Self-hosted Blockly media
+
+The visual UI files in `public/assets/blockly/` are unmodified files from the pinned Blockly 13.4.0 npm package, licensed Apache-2.0. The complete upstream license is preserved in `public/assets/blockly/LICENSE`; see its README for provenance and update instructions. Blockly sound loading is disabled, and its MP3 files are not distributed.

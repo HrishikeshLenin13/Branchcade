@@ -32,6 +32,8 @@ export default function BlocklyEditor({
     if (!container.current) return
     const ws = Blockly.inject(container.current, {
       toolbox: FULL_TOOLBOX,
+      media: `${import.meta.env.BASE_URL}assets/blockly/`,
+      sounds: false,
       trashcan: true,
       renderer: 'zelos',
       grid: { spacing: 20, length: 3, colour: '#DDE2E4', snap: true },
