@@ -1,6 +1,6 @@
 # Part L acceptance — verified engineering, pending human release
 
-Date: 2026-10-24 (America/Chicago). Authorized scope: L1–L4 on the updated A–K application, main only. Fetched baseline: `3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e`; baseline [CI 40133267764](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40133267764) independently confirmed completed/success. Current L checkpoint CI is recorded in TEST_REPORT when observed; the baseline is not a substitute for it.
+Date: 2026-10-24 (America/Chicago). Authorized scope: L1–L4 on the updated A–K application, main only. Fetched baseline: `3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e`; baseline [CI 40133267764](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40133267764) independently confirmed completed/success. Current repaired L source checkpoint is `1795b8b35922b6ad06ba141fd6f939f056da888d`: [CI 40140143019](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40140143019) completed successfully with 396 unit,105 Chromium,105 Firefox,0 failed/flaky/retried cases and all gates/audit 0. The final containing-record commit is also inspected separately; baseline CI is not a substitute.
 
 ## Acceptance evidence
 
@@ -19,7 +19,7 @@ Date: 2026-10-24 (America/Chicago). Authorized scope: L1–L4 on the updated A�
 | Status and evidence      | STATUS separates local, remote, human and proposed work; TEST_REPORT records actual failures and command outcomes; AI_ASSISTANCE_LOG updated                                                                                                 |
 | Future independent audit | POST_L_AUDIT_PLAN has independent findings/reconciliation protocol, full feature matrix and severity-driven repair gates; audit not launched                                                                                                 |
 | Accounts/sync and logo   | Product, data/consent/security/offline/ops requirements and existing-brand integration checklist prepared; no accounts/backend/provider/logo changes implemented                                                                             |
-| Main-only push/final CI  | Must be checked on the actual L commit and recorded in TEST_REPORT/currentCheckpoint; no branch, PR or rewritten history used                                                                                                                |
+| Main-only push/final CI  | Verified on actual pushed1795b8b in CI 40140143019;396 unit+105 Chromium+105 Firefox,0 failed/flaky/retried; no branch, PR or rewritten history. Containing-record CI checked separately                                                     |
 
 ## Engineering findings
 
@@ -27,10 +27,10 @@ No new release-blocking application defect was established. No runtime source, p
 
 The first focused Firefox command used an anchored grep that matched no full test title; that invocation was corrected and an actual selected test then reproduced the known browser-profile startup failure. It is an environment failure, not a passing/ignored app test. The local Chromium suite passed all 105 cases with retries disabled. No browser assertion was skipped or loosened.
 
-The first L CI on `1b39b33` was green overall but had one retry-recovered Firefox navigation test. Its Save→Home transition asserted an optimistic Resume link before persistence had completed. The test now waits for explicit Save completion and the durable-save indicator before reloading Home, preserving every original link/route/menu assertion. The run, missing-Resume timeout and subsequent verification are recorded in TEST_REPORT. L remains in progress until a clean pushed run verifies this repair; overall green alone is insufficient evidence of zero observed flakes.
+The first L CI on `1b39b33` was green overall but had one retry-recovered Firefox navigation test. Its Save→Home transition asserted an optimistic Resume link before persistence had completed. The test now waits for explicit Save completion and the durable-save indicator before reloading Home, preserving every original link/route/menu assertion. The run, missing-Resume timeout and subsequent verification are recorded in TEST_REPORT. That first run did not complete L. Repaired-source CI 40140143019 then passed all 210 browser cases without retries/flakes, so the verified source checkpoint meets this gate; overall green alone was not accepted as evidence.
 
 ## Boundaries and next step
 
-Human student technical review, significant independent implementation/contribution evidence, disclosure/eligibility approval, real participant sessions, video recording/public upload, public hosting and contest submission remain pending. ENGINEERING COMPLETE requires the final successful pushed CI in TEST_REPORT; RELEASE COMPLETE and CONTEST SUBMITTED are not claimed. The proposed independent two-reviewer audit comes next only after separate authorization. There is no new Part M in SPEC.
+Human student technical review, significant independent implementation/contribution evidence, disclosure/eligibility approval, real participant sessions, video recording/public upload, public hosting and contest submission remain pending. ENGINEERING COMPLETE for the repaired L source checkpoint is supported by CI 40140143019 and TEST_REPORT; the final containing-record commit is checked separately before reporting completion. RELEASE COMPLETE and CONTEST SUBMITTED are not claimed. The proposed independent two-reviewer audit comes next only after separate authorization. There is no new Part M in SPEC.
 
 Reproduction, screenshots and raw observations: [evidence/l](evidence/l); [release decision and owner checklist](RELEASE_READINESS.md); [proposed next-phase requirements](POST_L_AUDIT_PLAN.md). The local synthetic walkthrough trace is `../l-smoke-trace.zip` relative to the checkout, outside Git; its actions are not a recorded submission video.

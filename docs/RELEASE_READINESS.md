@@ -4,7 +4,7 @@ Part L, 2026-10-24. Read with [Part L acceptance](PART_L_ACCEPTANCE.md), [curren
 
 ## Current decision
 
-- **Engineering:** existing A–J implementation and K materials are being re-verified for the L checkpoint; final command/CI evidence is recorded in TEST_REPORT and STATUS.
+- **Engineering:** Part L verification/handoff complete at `1795b8b35922b6ad06ba141fd6f939f056da888d`; [CI 40140143019](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40140143019) passed396 unit and105tests per browser with zero failures/retries/flakes. Final containing-record commit is checked separately before reporting completion; evidence is in TEST_REPORT and STATUS.
 - **Release:** static deployment configuration exists; no owner-authorized hosting project or verified public URL was supplied. Public release is not complete.
 - **Contest:** materials are prepared; eligibility/source ownership, student work, disclosure, recording/upload, form approval and submission are pending. No entry was submitted by this session.
 

@@ -14,7 +14,7 @@
     "I": "Technical implementation and twelve-gate independent audit completed; final QA/CI evidence is recorded in TEST_REPORT and PARTS_IJ_ACCEPTANCE. Human review and hosting remain explicit external actions.",
     "J": "Persistent expanded unit, Chromium/Firefox CI, real interaction/visual, import/security and measured stress/performance coverage; see TEST_REPORT and PERFORMANCE_REPORT.",
     "K": "Prepared K1–K4 materials and software rehearsal; human actions remain pending. See PART_K_ACCEPTANCE.md.",
-    "L": "IN PROGRESS: fresh local verification and required documentation prepared; final pushed GitHub Actions verification pending"
+    "L": "VERIFIED: L1–L4 engineering/release-handoff checkpoint complete; final source CI passed396 unit+105 Chromium+105 Firefox with zero failed/flaky tests; human release/submission pending"
   },
   "phases": [
     {
@@ -228,11 +228,11 @@
     "failedBrowserTests": 0,
     "flakyBrowserTests": 0,
     "build": "passed",
-    "verifiedCommit": "3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e",
-    "ciRun": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40133267764",
-    "ciConclusion": "Baseline Part K run independently checked completed/success. New Part L pushed checkpoint CI remains pending.",
+    "verifiedCommit": "1795b8b35922b6ad06ba141fd6f939f056da888d",
+    "ciRun": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40140143019",
+    "ciConclusion": "Success on repaired Part L source checkpoint:396 unit tests/29 files,105 Chromium and105 Firefox,0 failed/flaky/retry markers, all workflow gates passed; npm audit 0. Subsequent evidence-only commits require their own final CI verification.",
     "legacyFingerprints": 40,
-    "localVerification": "Part L: Node24.22.1/npm11.6.2; fresh npm ci/check,396 tests/29 files and build;105 Chromium E2E retries0; actual instrumented learning journey and static preview checks passed; Firefox launch failed before app code (profile folder). Final edited-document gates recorded in TEST_REPORT."
+    "localVerification": "Part L: Node24.22.1/npm11.6.2; fresh npm ci/check,396 tests/29 files and build;105 Chromium E2E retries 0; actual instrumented learning journey and static preview checks passed; Firefox launch failed before app code (profile folder). Final edited-document gates recorded in TEST_REPORT."
   },
   "humanReview": {
     "status": "pending",
@@ -253,12 +253,12 @@
     "videoUpload": "AWAITING OWNER ACTION",
     "eligibilityConfirmation": "AWAITING OWNER ACTION",
     "submissionReadiness": "AWAITING OWNER ACTION",
-    "partL": "IN PROGRESS",
+    "partL": "VERIFIED",
     "acceptance": "docs/PART_K_ACCEPTANCE.md",
     "preparedPackageCommit": "986c7add51f70845cdf6f9b6d16bd9ec3e7db963 (remote SHA verified; observe its/later CI separately)"
   },
   "partL": {
-    "status": "IN PROGRESS",
+    "status": "VERIFIED",
     "baselineCommit": "3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e",
     "scope": "L1–L4 verification and release/handoff records; future audit and account/sync/logo implementation not begun",
     "localUnitTests": 396,
@@ -279,10 +279,17 @@
       "run": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40139396432",
       "conclusion": "success with1retry-recovered Firefox navigation test; not accepted as zero-flake checkpoint",
       "repair": "Explicit Save completion and Saved locally synchronization before full navigation; final pushed CI pending"
-    }
+    },
+    "verifiedSourceCommit": "1795b8b35922b6ad06ba141fd6f939f056da888d",
+    "verifiedCiRun": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40140143019",
+    "remoteUnitTests": 396,
+    "remoteChromiumTests": 105,
+    "remoteFirefoxTests": 105,
+    "remoteFailures": 0,
+    "remoteFlakyTests": 0
   },
   "release": {
-    "engineering": "LOCAL VERIFICATION PASSED; final pushed CI pending",
+    "engineering": "ENGINEERING COMPLETE for the verified Part L checkpoint; final containing-docs CI must also be inspected",
     "publicHosting": "NOT DEPLOYED — no authorized provider connection/public URL",
     "video": "NOT RECORDED OR UPLOADED",
     "contest": "NOT SUBMITTED",
