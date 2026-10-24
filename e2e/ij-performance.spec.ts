@@ -9,41 +9,42 @@ import {
   timedTraceProgram,
 } from '../tests/ij-fixtures'
 const header = (page: Page) => page.locator('.world-panel > .panel-header')
-async function importStressWorlds(page: Page) {
+async function importStressWorlds(page: Page, labIds?: readonly string[]) {
   const now = new Date().toISOString(),
     world = obstacleHeavyWorld()
+  const labs = [
+    {
+      schemaVersion: 1,
+      id: 'ij-timed-trace',
+      name: 'I/J synthetic timed replay stress',
+      world,
+      program: timedTraceProgram(),
+      updatedAt: now,
+    },
+    {
+      schemaVersion: 1,
+      id: 'ij-long-trace',
+      name: 'I/J synthetic 100-solid trace stress',
+      world,
+      program: longTraceProgram(),
+      updatedAt: now,
+    },
+    {
+      schemaVersion: 1,
+      id: 'ij-large-editor',
+      name: 'I/J synthetic 180-statement editing stress',
+      world,
+      program: largeEditorProgram(),
+      updatedAt: now,
+    },
+  ]
   const fixture = {
     schemaVersion: 1,
     exportedAt: now,
     profile: null,
     attempts: [],
     teams: [],
-    savedLabs: [
-      {
-        schemaVersion: 1,
-        id: 'ij-timed-trace',
-        name: 'I/J synthetic timed replay stress',
-        world,
-        program: timedTraceProgram(),
-        updatedAt: now,
-      },
-      {
-        schemaVersion: 1,
-        id: 'ij-long-trace',
-        name: 'I/J synthetic 100-solid trace stress',
-        world,
-        program: longTraceProgram(),
-        updatedAt: now,
-      },
-      {
-        schemaVersion: 1,
-        id: 'ij-large-editor',
-        name: 'I/J synthetic 180-statement editing stress',
-        world,
-        program: largeEditorProgram(),
-        updatedAt: now,
-      },
-    ],
+    savedLabs: labIds ? labs.filter((lab) => labIds.includes(lab.id)) : labs,
   }
   await page.goto('/settings')
   await page.getByLabel('Import local data', { exact: true }).setInputFiles({
@@ -112,7 +113,7 @@ test('I/J 180-statement Blockly workspace survives apply, unmount and repeated r
 }, testInfo) => {
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
-  await importStressWorlds(page)
+  await importStressWorlds(page, ['ij-large-editor'])
   await page
     .getByRole('combobox', { name: 'Saved world collection', exact: true })
     .selectOption('ij-large-editor')

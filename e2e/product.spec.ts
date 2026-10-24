@@ -99,7 +99,14 @@ test('replay, speed and camera controls preserve one attempt and exact branch ev
   await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
   await page.getByRole('button', { name: 'Replay', exact: true }).click()
   await page.getByRole('button', { name: 'Pause', exact: true }).click()
-  await page.getByRole('button', { name: 'Step code', exact: true }).click()
+  const stepCode = page.getByRole('button', { name: 'Step code', exact: true })
+  // If Pause lands on the final replay frame, stepping is correctly disabled at the end
+  // of the trace. Rewind one event in that terminal state before checking code stepping.
+  if (!(await stepCode.isEnabled())) {
+    await page.getByRole('button', { name: 'Rewind', exact: true }).click()
+  }
+  await expect(stepCode).toBeEnabled()
+  await stepCode.click()
   await page.getByRole('combobox', { name: 'Simulation speed', exact: true }).selectOption('4')
   await page.getByRole('button', { name: 'Zoom in', exact: true }).click()
   await page.getByRole('button', { name: 'Fit world', exact: true }).click()
