@@ -2,6 +2,18 @@ import { useEffect, useEffectEvent, useState } from 'react'
 import type { ExecutionEvent, RobotState, World } from '../../domain/types'
 import { interpolateRobot } from '../../interpreter/debugger'
 import { replayAt } from '../../engine/replay'
+/** Pure reveal rule shared by playback and tests: advance over every recorded event whose
+ * logical time has been reached. Speed only scales `logicalTimeMs`; events are never altered. */
+export function revealCursor(
+  events: readonly ExecutionEvent[],
+  cursor: number,
+  logicalTimeMs: number,
+  limit = events.length,
+) {
+  let next = cursor
+  while (next < limit && events[next]!.elapsedMs <= logicalTimeMs) next++
+  return next
+}
 /** A single wall-clock rAF schedule reveals immutable states; it never integrates physics. */
 export function useTracePlayback(
   world: World,
@@ -29,7 +41,7 @@ export function useTracePlayback(
       started ??= now
       const time = origin + (now - started) * speed
       const before = next
-      while (next < limit && events[next]!.elapsedMs <= time) next++
+      next = revealCursor(events, next, time, limit)
       if (next !== before) reveal(next)
       if (next >= limit) {
         finish()
