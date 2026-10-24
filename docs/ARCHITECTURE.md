@@ -83,3 +83,10 @@ reassessment/retries ─┘        │                                   ▼    
 - **Cost.** Model runs are memoized by scenario key. Measured cold counterexample searches over all relevant ideas take 4–182 ms per mission (m08 is the slowest); transfer pools take 4–38 ms. These run on the main thread, which is acceptable at that size; a worker remains a Phase 10 option.
 - **Questions.** `QuestionKind` observables (first action, branch taken, compare result, reading change, ending, turn/move counts, distance travelled, colour/distance read, variable value) are read from runs, never typed in by hand.
 - Details, thresholds and limits: `docs/PART_G_ACCEPTANCE.md`.
+
+## Part H missions and curriculum
+
+- **Versioned mission data.** `Mission.version` is 2 for all eight missions. `src/missions/mission-data/v1.json` freezes every v1 world, starter, predicate, variant and reference program. `judgeRecorded()` judges a saved attempt or team result with the version it recorded (absent = v1), and import rejects unknown versions. v1 variants stay as a prefix of v2 variants, so earlier transfer answers still match the transfer pool.
+- **Judging.** `judgeMission(mission, world, program, run)` = the mission goals in the attempted world + every `successScenarios[i]` re-executed with the same program + a plain “Concept check” fact when physical goals pass but a concept goal (branch/call/loop iteration) fails. New goal kinds live in `missions/goals.ts`; all read the recorded run only.
+- **Curriculum.** `missions/curriculum.ts` holds per-mission teaching material and the spec's `missionAuthoring()` export; `missions/completion.ts` is the single completion rule (capstone included) used by the workstation and import.
+- **Learning integration.** Mission second questions are committed in `Prediction.detail` and become G observations with the mission's independence key; any wrong committed answer opens the investigation.
