@@ -1,2 +1,2 @@
-export { PROBES, PROBE_QUESTIONS } from '../../learning/probes'
-export { updateEvidence } from '../../learning/evidence-engine'
+export { assess, selectNextProbe, relevantHypotheses } from '../../learning/diagnosis'
+export { buildProbe, PROBE_TEMPLATES } from '../../learning/probe-templates'
