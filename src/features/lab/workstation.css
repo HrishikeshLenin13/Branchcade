@@ -588,7 +588,7 @@
   cursor: pointer;
   padding-block: 5px;
 }
-@media (min-width: 1181px) and (max-height: 820px) {
+@media (min-width: 1181px) and (max-height: 940px) {
   .workstation-page {
     padding-top: 20px;
   }
