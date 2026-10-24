@@ -437,17 +437,33 @@ export const CounterexampleSchema = z.strictObject({
   schemaVersion: v,
   id,
   changedParameters: z
-    .array(z.strictObject({ field: z.enum(['distanceCm', 'threshold']), before: n, after: n }))
+    .array(
+      z.strictObject({
+        field: z.enum([
+          'distanceCm',
+          'threshold',
+          'obstacle-distance',
+          'comparator',
+          'floor-color',
+          'loop-count',
+          'function-call',
+          'variable-value',
+        ]),
+        target: text.optional(),
+        before: z.union([n, text]),
+        after: z.union([n, text]),
+      }),
+    )
     .max(2),
   baselineTrace: z.array(ExecutionEventSchema).max(LIMITS.events),
   changedTrace: z.array(ExecutionEventSchema).max(LIMITS.events),
   targetHypotheses: z.array(id).max(10),
-  modelOutcomes: z
-    .array(z.strictObject({ hypothesisId: id, action: z.enum(['move', 'stop']) }))
-    .max(10),
+  modelOutcomes: z.array(z.strictObject({ hypothesisId: id, answer: text })).max(20),
   rationale: text,
   validationChecksum: hash,
   noCandidateReason: text.nullable(),
+  question: text,
+  edit: z.strictObject({ field: id, target: text, value: text }).nullable(),
 })
 /** One committed prediction inside a counterexample experiment (Part G4/E8). The scenario
  * is rebuilt from the attempt's own world/program plus this single edit, so the stored
