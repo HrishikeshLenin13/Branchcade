@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Friend #3: verify/finish Part F, implement Part G; Part H excluded by project lead",
+  "scope": "Friend #3: verify/finish F, implement G, then H (requested later in the same session)",
   "branchPolicy": "main only",
   "parts": {
     "A": "verified",
@@ -8,9 +8,9 @@
     "C": "verified; static build supplied, hosting authorization pending",
     "D": "verified visual/responsive implementation; tested browser viewport and accessibility evidence",
     "E": "verified implemented screen flows: 158 unit/component/integration tests, 80 production browser tests across Chromium/Firefox, successful GitHub CI",
-    "F": "Independently re-verified 2026-10-24 from 963ec3a: one sensor wall-clamp defect fixed, F6 mandatory map added; 220 unit tests and Chromium E2E pass locally. Firefox/CI not verifiable from this session.",
-    "G": "Implemented G1-G6 and integrated into mission/lab/progress/instructor UI (2026-10-24): 267 unit tests, 52 Chromium E2E. Firefox/CI not observable from this session. See PART_G_ACCEPTANCE.md.",
-    "H": "excluded from this invocation by project lead"
+    "F": "Independently re-verified 2026-10-24 from 963ec3a: one sensor wall-clamp defect fixed, F6 mandatory map added; 220 unit tests and Chromium E2E pass locally. GitHub Actions (Chromium + Firefox) green on 456c955.",
+    "G": "Implemented G1-G6 and integrated into mission/lab/progress/instructor UI (2026-10-24): 267 unit tests, 52 Chromium E2E. GitHub Actions (Chromium + Firefox) green on 456c955 and c7e1091. See PART_G_ACCEPTANCE.md.",
+    "H": "Implemented 2026-10-24: eight missions upgraded to data version 2 (scenarios, new goal kinds, curriculum, hint ladder, Show solution, second questions, capstone completion), v1 frozen for older records. 368 unit tests, 59 Chromium E2E locally; GitHub Actions green on c7e1091 (Chromium + Firefox). See PART_H_ACCEPTANCE.md."
   },
   "phases": [
     {
@@ -49,16 +49,17 @@
     {
       "id": "05",
       "status": "in_progress",
-      "note": "G engine, probes, counterexamples, adaptive practice and reassessment implemented and tested locally; remote CI and Firefox not yet verified, and student algorithm review not yet done."
+      "note": "Code done and CI green (Chromium + Firefox); student algorithm review still pending."
     },
     {
       "id": "06",
       "status": "in_progress",
-      "note": "G engine, probes, counterexamples, adaptive practice and reassessment implemented and tested locally; remote CI and Firefox not yet verified, and student algorithm review not yet done."
+      "note": "Code done and CI green (Chromium + Firefox); student algorithm review still pending."
     },
     {
       "id": "07",
-      "status": "not_started"
+      "status": "in_progress",
+      "note": "Eight authored missions verified by reference runs, flawed variants, scenarios and browser journeys; onboarding/gamification items from the Phase 07 list were not part of this request."
     },
     {
       "id": "08",
@@ -82,13 +83,13 @@
     "status": "not_deployed",
     "reason": "Vercel CLI identity check returned invalid token; deploy-ready static build supplied."
   },
-  "scopeNote": "F re-verified and G implemented by friend #3. Part H intentionally not started (project lead removed it from this invocation). No deployment, human study, measured learning effect or student algorithm review is claimed.",
+  "scopeNote": "F re-verified, G and H implemented by friend #3. Parts I\u2013L not started. No deployment, human study, measured learning effect or student algorithm review is claimed.",
   "currentCheckpoint": {
     "baseCommit": "963ec3a558866c2c777f0287970be6f579e3a01f",
-    "unitTests": 267,
-    "chromiumBrowserTests": 52,
+    "unitTests": 368,
+    "chromiumBrowserTests": 59,
     "build": "passed",
-    "ciConclusion": "not observable from this session (no GitHub API access)",
+    "ciConclusion": "success on c7e1091 (run 40064874934)",
     "legacyFingerprints": 40
   }
 }
