@@ -565,8 +565,9 @@ export function WorldEditor({
           <p className="muted">
             Heading 0° points right; 90° points down. Physics advances in fixed 50 ms ticks. Pause
             permits inspection only; Stop &amp; Edit resets the run before any changes. Drag solid
-            obstacles in the stopped stage or use coordinates above. Invalid collisions and
-            out-of-bounds edits are rejected.
+            obstacles in the stopped stage or use coordinates above. Obstacle coordinates and object
+            drags clamp to world edges. Overlapping solids are rejected. Robot spawns are never
+            silently teleported; enter the suggested legal position explicitly.
           </p>
         </fieldset>
       </details>

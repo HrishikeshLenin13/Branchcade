@@ -176,3 +176,76 @@ it('pauses and resumes the same preserved cursor without creating another attemp
     rendered.unmount()
   }
 })
+
+it('renders a labeled reach marker from the actual goal predicate without changing the world', () => {
+  const world = makeWorld(),
+    before = JSON.stringify(world)
+  const { container } = render(
+    <Stage
+      world={world}
+      robot={initialRobot(world)}
+      goals={[{ kind: 'reach', position: { xCm: 90, yCm: 50 }, toleranceCm: 2 }]}
+    />,
+  )
+  expect(container.querySelector('svg')?.textContent).toContain('Goal marker')
+  expect(container.querySelector('svg')?.textContent).toContain('Goal')
+  expect(JSON.stringify(world)).toBe(before)
+})
+
+it('never links an unrelated inspected comparison as the cause of a variable-only branch', () => {
+  const world = makeWorld(),
+    program = {
+      schemaVersion: 1 as const,
+      id: 'causal-link',
+      body: [
+        {
+          nodeId: 'inspect',
+          kind: 'inspect' as const,
+          expression: {
+            nodeId: 'unrelated',
+            kind: 'compare' as const,
+            type: 'boolean' as const,
+            op: '<' as const,
+            left: { nodeId: 'one', kind: 'literal' as const, type: 'number' as const, value: 1 },
+            right: { nodeId: 'two', kind: 'literal' as const, type: 'number' as const, value: 2 },
+          },
+        },
+        {
+          nodeId: 'set',
+          kind: 'set' as const,
+          name: 'flag',
+          value: {
+            nodeId: 'flag-value',
+            kind: 'literal' as const,
+            type: 'boolean' as const,
+            value: true,
+          },
+        },
+        {
+          nodeId: 'decision',
+          kind: 'if' as const,
+          condition: {
+            nodeId: 'flag-read',
+            kind: 'variable' as const,
+            type: 'boolean' as const,
+            name: 'flag',
+          },
+          then: [{ nodeId: 'stop', kind: 'stop' as const }],
+          else: [],
+        },
+      ],
+    },
+    run = execute(world, program),
+    selected: number[] = []
+  render(
+    <TraceView
+      events={run.events}
+      cursor={run.events.length}
+      onCursor={(value) => selected.push(value)}
+      world={world}
+      program={program}
+    />,
+  )
+  fireEvent.click(screen.getByRole('button', { name: 'Why did that happen?' }))
+  expect(selected).toEqual([run.events.find((e) => e.kind === 'branch')!.seq + 1])
+})
