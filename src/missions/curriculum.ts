@@ -2,7 +2,7 @@ import type { Mission, Program, World } from '../domain/types'
 import { readSensors } from '../engine/sensors'
 import { initialRobot } from '../engine/robot'
 import { REFERENCE_PROGRAMS } from './catalog'
-import { approachProgram, blindLineProgram, lapProgram } from './catalog'
+import { approachProgram, blindLineProgram, helperProgram, lapProgram } from './catalog'
 import { MISSION_META } from './catalog'
 import { missionConcepts } from '../learning/concepts'
 import { buildProbe } from '../learning/probe-templates'
@@ -389,4 +389,80 @@ CURRICULUM.m05 = {
     },
   ],
   detail: { question: 'move-count', prompt: 'How many times will the move block run?' },
+}
+
+CURRICULUM.m06 = {
+  narrative:
+    'A helper called goCorner already knows the route around the corner, but the robot never uses it. Find out why defining a helper is not the same as running it, then make the robot reach the corner.',
+  targetConcept: 'Defining a function versus calling it',
+  vocabulary: [
+    { term: 'function (helper)', meaning: 'A named group of blocks you can reuse.' },
+    { term: 'define', meaning: 'Save the helper’s blocks under a name. Nothing moves yet.' },
+    { term: 'call', meaning: 'Run the helper’s blocks now, then come back.' },
+  ],
+  expectedPrediction: {
+    action: 'stop',
+    reason: 'The definition only saves goCorner; the next block that runs is stop.',
+  },
+  failureExamples: [
+    'Leaving only the definition: the robot stays at the start.',
+    'Copying the helper’s moves by hand reaches the corner but skips the function idea.',
+    'Calling the helper twice drives past the corner.',
+  ],
+  teacherNote:
+    'Look for FUNCTION_DEFINED versus FUNCTION_CALL rows in the timeline. A learner who expects the definition to run should predict a turn first; the second question (how many turns?) makes that visible.',
+  probeIds: ['g.helper-defined.90', 'g.helper-called.1', 'g.helper-skip.90'],
+  hints: [
+    'In the timeline, is there a FUNCTION_CALL row, or only FUNCTION_DEFINED?',
+    'A definition is a recipe card; a call is cooking it. Here goCorner is defined but never called, so the robot only runs stop.',
+    'Compare this different program: define wiggle (turn 45°, turn −45°), then call wiggle, then stop. Which rows would you see?',
+  ],
+  hintExample: program('hint-m06', [
+    {
+      nodeId: 'define-wiggle',
+      kind: 'function',
+      name: 'wiggle',
+      body: [turn('wiggle-right', 45), turn('wiggle-left', -45)],
+    },
+    { nodeId: 'call-wiggle', kind: 'call', name: 'wiggle' },
+    stop(),
+  ]),
+  mistakeVariants: [
+    {
+      id: 'definition-only',
+      label: 'Starter: defined, never called',
+      program: helperProgram(false),
+      fails: 'Goal 1 (event): not met',
+      explanation: 'Without a call block the helper never runs.',
+    },
+    {
+      id: 'by-hand',
+      label: 'Route copied by hand, no call',
+      program: program('m06-by-hand', [
+        move('hand-forward', 10),
+        turn('hand-turn', 90),
+        move('hand-north', 10),
+        stop(),
+      ]),
+      fails: 'Concept check: the robot got there',
+      explanation: 'It reaches the corner, but this mission practises calling the helper.',
+    },
+    {
+      id: 'double-call',
+      label: 'Helper called twice',
+      program: {
+        ...helperProgram(true),
+        id: 'm06-double',
+        body: [
+          helperProgram(true).body[0]!,
+          { nodeId: 'call-1', kind: 'call', name: 'goCorner' },
+          { nodeId: 'call-2', kind: 'call', name: 'goCorner' },
+          stop(),
+        ],
+      },
+      fails: 'Goal 2 (reach): not met',
+      explanation: 'The second call drives the route again and misses the corner.',
+    },
+  ],
+  detail: { question: 'turn-count', prompt: 'How many times will the robot turn?' },
 }

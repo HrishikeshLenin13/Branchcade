@@ -272,7 +272,7 @@ export function approachProgram(op: '>' | '<' = '>'): Program {
     ],
   }
 }
-function helperProgram(call: boolean): Program {
+export function helperProgram(call: boolean): Program {
   return {
     schemaVersion: 1,
     id: 'helper-route',
@@ -531,12 +531,17 @@ const extraMissions = [
     'Call the Helper',
     emptyWorld('helper-corner'),
     helperProgram(false),
+    // v2: any call block counts (a learner-built call gets a new node id); copying the
+    // helper's moves by hand reaches the corner but triggers the concept check.
     [
-      { kind: 'event', eventKind: 'call', nodeId: 'invoke-helper', count: 1 },
+      { kind: 'event', eventKind: 'call', count: 1 },
       { kind: 'reach', position: { xCm: 50, yCm: 60 }, toleranceCm: 0.1 },
+      { kind: 'programmed-stop' },
     ],
     ['functions', 'debugging'],
     helperProgram(true),
+    undefined,
+    { version: 2 },
   ),
   authored(
     'm07',
