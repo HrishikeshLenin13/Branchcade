@@ -178,7 +178,16 @@ function colorProgram(): Program {
     ],
   }
 }
-/** M02 v2 starter: drives a fixed distance and never looks at the floor sensor. */
+/** M02 v2 starter: checks the floor sensor but waits for the wrong colour, so on white
+ * floor the loop never starts. Kept separate from the reference so ids stay distinct. */
+export function wrongColourProgram(): Program {
+  const p = colorProgram()
+  const loop = p.body[0]!
+  if (loop.kind === 'while' && loop.condition.kind === 'compare')
+    loop.condition.right = { nodeId: 'black', kind: 'literal', type: 'color', value: 'black' }
+  return { ...p, id: 'line-stop-starter' }
+}
+/** A flawed alternative used in the curriculum: drives a fixed distance, no sensor. */
 export function blindLineProgram(): Program {
   return {
     schemaVersion: 1,
@@ -384,7 +393,7 @@ const extraMissions = [
     'm02',
     'Black Line Stop',
     colorWorld(),
-    blindLineProgram(),
+    wrongColourProgram(),
     // v2: the stop block must run within 2 ticks of the floor-sensor footprint reaching
     // black (not when the drawn robot touches the stripe), here and on a thin far line.
     [

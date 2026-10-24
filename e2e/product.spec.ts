@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 const outcomes = [
   ['m01', 'The Wall Problem', 'Move forward', 'Stop in place'],
-  ['m02', 'Black Line Stop', 'Move forward', 'Move forward'],
+  ['m02', 'Black Line Stop', 'Stop in place', 'Move forward'],
   ['m03', 'Wrong-Way Branch', 'Move forward', 'Stop in place'],
   ['m04', 'The Extra Lap', 'Move forward', 'Move forward'],
   ['m05', 'The Loop That Never Ends', 'Stop in place', 'Move forward'],
