@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Clock3, Search, SlidersHorizontal, X } from 'lucide-react'
+import { recommend } from '../../learning/adaptive-planner'
 import { MISSION_CATALOG, MISSION_META } from '../../missions/catalog'
 import { useSession } from '../../app/session'
 import { Button } from '../../components/ui/button'
@@ -23,16 +24,11 @@ export default function Missions() {
   const [sort, setSort] = useState<Sort>('recommended')
   const [preview, setPreview] = useState<Mission | null>(null)
   const [practice, setPractice] = useState(false)
-  const recommended =
-    MISSION_CATALOG.find((m) => {
-      const activity = missionActivity(data, m)
-      return !activity.completed && !activity.missingPrerequisites.length
-    }) ?? MISSION_CATALOG[0]
-  const recommendedReason = recommended
-    ? missionActivity(data, recommended).attempts.length
-      ? 'Revisit this investigation to gather another example of your reasoning.'
-      : `The next available investigation in learning order${recommended.prerequisiteIds.length ? '; its prerequisites are complete' : '; no prerequisites needed'}.`
-    : ''
+  // Part G5 adaptive planner: one deterministic recommendation with its evidence-based reason.
+  const learnerAttempts = data.attempts.filter((a) => a.learnerId === data.profile?.id)
+  const plan = recommend(learnerAttempts, MISSION_CATALOG, data.profile?.completedMissions ?? [])
+  const recommended = MISSION_CATALOG.find((m) => m.id === plan.missionId) ?? MISSION_CATALOG[0]
+  const recommendedReason = recommended ? `Why this next? ${plan.reason}` : ''
   const missions = useMemo(
     () =>
       MISSION_CATALOG.filter((mission) => {
