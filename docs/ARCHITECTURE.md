@@ -59,3 +59,27 @@ The current interpreter uses explicit typed sequence/repeat/while/motion/call-re
 Collision now uses first continuous contact, including rounded rectangle corners rather than square AABB inflation or endpoint/substep rejection. Floor ties use declared order. Null comparisons require a short-circuit detected guard. These are versioned semantics: optional attempt/team `engineVersion=2` selects the new runner, while absent/1 uses the frozen A–E runner/validator/geometry rules and historical world schema. Immutable hashes are not silently recomputed into new semantics. The domain's historical-world union is the intentional compatibility seam; new world editing/imports continue to use the stricter current schema.
 
 The authoritative Blockly serializer/adapter lives in `interpreter/blockly-workspace.ts`; the feature and older adapter modules re-export it. Block lookup maps safe AST IDs back to Blockly raw IDs and synthetic literal-field owners. No generated source is executed. See PART_F_ACCEPTANCE for limits, function/null/stop semantics and numerical proof.
+
+## Part G learning intelligence
+
+```
+attempt (immutable)            learning/ (pure, deterministic)                     UI
+───────────────────            ──────────────────────────────────                  ──
+prediction + branch  ─┐
+diagnosticResponses ──┼─► investigation.attemptObservations ─► diagnosis.assess ─► Investigation.tsx
+experimentResponses ──┤        ▲                                   │                 (probe, why, hint,
+reassessment/retries ─┘        │                                   ▼                  different example)
+                               │                        diagnosis.selectNextProbe
+              mental-models.runModel(world, program, model)          │
+              = Interpreter + one changed rule (14 + NO_MISCONCEPTION) ◄┘
+                               │
+                               ├─► counterexamples.searchCounterexamples ─► Experiment.tsx
+                               ├─► transfer.transferPool / chooseTransfer ─► reassessment
+                               └─► mastery.conceptEvidence ─► adaptive-planner.recommend ─► Progress / library / Instructor
+```
+
+- **Nothing is stored that the engine could be tricked by.** The diagnosis is recomputed from committed answers every time. Probe ids encode template and parameters, and experiment answers record the single edit, so imports rebuild and re-execute both.
+- **Mental models reuse the authoritative interpreter.** `Interpreter` exposes protected seams (`distanceReading`, `colorReading`, `comparisonOp`, `branchBodies`, `repeatTimes`, `whileChecksFirst`, `definitionRuns`, `callRuns`, `keepsEarlierAssignment`, `stopsBeforeMoving`). Their defaults are the real semantics, verified byte-for-byte against `execute()`. `ModelInterpreter` (learning only) overrides exactly one per model.
+- **Cost.** Model runs are memoized by scenario key. Measured cold counterexample searches over all relevant ideas take 4–182 ms per mission (m08 is the slowest); transfer pools take 4–38 ms. These run on the main thread, which is acceptable at that size; a worker remains a Phase 10 option.
+- **Questions.** `QuestionKind` observables (first action, branch taken, compare result, reading change, ending, turn/move counts, distance travelled, colour/distance read, variable value) are read from runs, never typed in by hand.
+- Details, thresholds and limits: `docs/PART_G_ACCEPTANCE.md`.
