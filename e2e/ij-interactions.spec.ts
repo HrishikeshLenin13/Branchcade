@@ -381,7 +381,14 @@ test('I/J mission card start, result and retry links preserve real completed evi
     .locator('.mission-card')
     .filter({ has: page.getByRole('heading', { name: 'The Wall Problem', exact: true }) })
   await card.getByRole('link', { name: 'Start mission', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'The Wall Problem', exact: true })).toBeVisible()
+  await expect(page).toHaveURL((url) => url.pathname === '/missions/m01')
+  await expect(
+    page.getByRole('main').getByRole('heading', {
+      name: 'The Wall Problem',
+      level: 1,
+      exact: true,
+    }),
+  ).toBeVisible()
   await page.getByRole('radio', { name: 'Move forward', exact: true }).check()
   await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
   await page.getByRole('button', { name: 'Try a different challenge', exact: true }).click()
@@ -395,6 +402,7 @@ test('I/J mission card start, result and retry links preserve real completed evi
   await expect(page.getByRole('region', { name: 'Attempt 1 replay', exact: true })).toBeVisible()
   await page.getByRole('link', { name: 'Missions', exact: true }).click()
   await card.getByRole('link', { name: 'Retry', exact: true }).click()
+  await expect(page).toHaveURL((url) => url.pathname === '/missions/m01')
   await expect(
     page.getByRole('button', { name: 'Lock prediction & run', exact: true }),
   ).toBeVisible()
