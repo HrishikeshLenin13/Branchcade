@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { localProfiles, useSession } from '../../app/session'
 import { downloadFile, exportCsv, exportJson, scopedData } from '../../storage/import-export'
 import { conceptEvidence } from '../../learning/mastery'
+import { curriculumFor } from '../../missions/curriculum'
 import { attemptDiagnosis } from '../../learning/investigation'
 import { conceptTitle, missionConcepts } from '../../learning/concepts'
 import { MISSION_CATALOG } from '../../missions/catalog'
@@ -387,12 +388,21 @@ export default function Instructor() {
               const related = attempts.filter((a) => a.missionId === m.id),
                 learners = new Set(related.map((a) => a.learnerId))
               return (
-                <p key={m.id}>
-                  {m.title}: {related.filter((a) => a.goalOutcome.passed).length}/{related.length}{' '}
-                  runs met the actual goal; {Math.max(0, related.length - learners.size)} retries;{' '}
-                  {related.reduce((sum, a) => sum + (a.hintIds?.length ?? 0), 0)} recorded hint
-                  requests.
-                </p>
+                <div key={m.id}>
+                  <p>
+                    {m.title}: {related.filter((a) => a.goalOutcome.passed).length}/{related.length}{' '}
+                    runs met the actual goal; {Math.max(0, related.length - learners.size)} retries;{' '}
+                    {related.reduce((sum, a) => sum + (a.hintIds?.length ?? 0), 0)} recorded hint
+                    requests; {related.filter((a) => a.hintIds?.includes('show-solution')).length}{' '}
+                    solution-assisted.
+                  </p>
+                  {curriculumFor(m.id) && (
+                    <details>
+                      <summary>Teacher note for {m.title}</summary>
+                      <p>{curriculumFor(m.id)!.teacherNote}</p>
+                    </details>
+                  )}
+                </div>
               )
             })}
           </section>
