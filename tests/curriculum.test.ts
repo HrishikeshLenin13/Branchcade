@@ -26,7 +26,7 @@ describe('authored mission execution', () => {
       expect(run.error).toBeNull()
       expect(judgeGoals(mission.world, run, mission.successPredicate).passed).toBe(true)
     })
-    if (['m03', 'm04', 'm05', 'm06', 'm07', 'm08'].includes(mission.id)) {
+    if (['m02', 'm03', 'm04', 'm05', 'm06', 'm07', 'm08'].includes(mission.id)) {
       it(`${mission.id} deliberate starter fault does not get completion`, () => {
         const run = execute(mission.world, mission.starterProgram)
         expect(judgeGoals(mission.world, run, mission.successPredicate).passed).toBe(false)
