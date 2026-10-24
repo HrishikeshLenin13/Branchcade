@@ -401,6 +401,8 @@ export const PredictionSchema = z
     reasoning: text.optional(),
     recordedAt: time,
     uncertain: z.boolean().optional(),
+    /** Optional mission-specific second question (Part H), e.g. "how many turns?". */
+    detail: z.strictObject({ question: id, answer: text.max(64) }).optional(),
   })
   .refine(
     (p) => !p.distanceRange || p.distanceRange[0] <= p.distanceRange[1],
@@ -564,11 +566,27 @@ export const MissionSchema = z.strictObject({
   roleEvidenceAssignments: z.array(z.strictObject({ role: id, task: text })).max(6),
   targetCompletionSteps: tick.min(1),
   recommendedProbeIds: z.array(id).max(20),
+  /** Part H: the same program must also succeed in these authored worlds. */
+  successScenarios: z
+    .array(
+      z.strictObject({
+        id,
+        label: text,
+        world: WorldSchema,
+        goals: z.array(GoalSchema).min(1).max(20),
+      }),
+    )
+    .max(6)
+    .optional(),
+  /** Part H capstone: completion also needs a reason, an experiment and a transfer. */
+  capstone: z.boolean().optional(),
 })
 export const AttemptSchema = z
   .strictObject({
     schemaVersion: v,
     engineVersion: z.union([z.literal(1), z.literal(2)]).optional(),
+    /** Mission data version used for goal judging; absent means the frozen v1 data. */
+    missionVersion: z.number().int().min(1).max(100).optional(),
     id,
     learnerId: id,
     missionId: id,
@@ -700,6 +718,7 @@ export const TeamSessionSchema = z
           round: tick,
           traceHash: hash,
           engineVersion: z.union([z.literal(1), z.literal(2)]).optional(),
+          missionVersion: z.number().int().min(1).max(100).optional(),
           goalPassed: z.boolean(),
           recordedAt: time,
           world: z.union([WorldSchema, LegacyWorldSchema]).optional(),
