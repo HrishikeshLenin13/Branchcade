@@ -214,6 +214,8 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     Boolean(data.profile?.settings.reducedMotion),
     stepTarget,
   )
+  // The branch question only makes sense when the program actually has an if/else.
+  const hasDecision = JSON.stringify(program).includes('"kind":"if"')
   // Second-question options are recomputed from the current world/program (cached by content).
   const detailOptions = detail
     ? detailChoices(`detail:${JSON.stringify([world, program])}`, world, program, detail.question)
@@ -1277,28 +1279,30 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                     />
                     Not sure yet
                   </label>
-                  <details className="optional-prediction">
-                    <summary>Optional: predict the branch</summary>
-                    <label>
-                      Will the first condition be true or false?
-                      <select
-                        value={branchChoice ?? ''}
-                        onChange={(event) =>
-                          setBranchChoice(
-                            event.target.value === 'then'
-                              ? 'then'
-                              : event.target.value === 'else'
-                                ? 'else'
-                                : null,
-                          )
-                        }
-                      >
-                        <option value="">No branch prediction</option>
-                        <option value="then">True · then branch</option>
-                        <option value="else">False · else branch</option>
-                      </select>
-                    </label>
-                  </details>
+                  {hasDecision && (
+                    <details className="optional-prediction">
+                      <summary>Optional: predict the branch</summary>
+                      <label>
+                        Will the first condition be true or false?
+                        <select
+                          value={branchChoice ?? ''}
+                          onChange={(event) =>
+                            setBranchChoice(
+                              event.target.value === 'then'
+                                ? 'then'
+                                : event.target.value === 'else'
+                                  ? 'else'
+                                  : null,
+                            )
+                          }
+                        >
+                          <option value="">No branch prediction</option>
+                          <option value="then">True · then branch</option>
+                          <option value="else">False · else branch</option>
+                        </select>
+                      </label>
+                    </details>
+                  )}
                   {detail && !free && (
                     <details className="optional-prediction">
                       <summary>Optional: one more prediction</summary>
