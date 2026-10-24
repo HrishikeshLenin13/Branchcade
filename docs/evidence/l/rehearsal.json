@@ -1,0 +1,90 @@
+{
+  "checkedDate": "2026-10-24",
+  "sourceCommit": "3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "syntheticDemoOnly": true,
+  "videoRecorded": false,
+  "errors": [],
+  "consoleErrors": [],
+  "consoleWarnings": [],
+  "failedRequests": [],
+  "failedResponses": [],
+  "layouts": [
+    {
+      "filename": "readme-workbench.jpg",
+      "viewport": 1440,
+      "document": 1440
+    },
+    {
+      "filename": "chromebook-workbench.jpg",
+      "viewport": 1366,
+      "document": 1366
+    },
+    {
+      "filename": "m01-trace.jpg",
+      "viewport": 1440,
+      "document": 1440
+    },
+    {
+      "filename": "counterexample.jpg",
+      "viewport": 1440,
+      "document": 1440
+    }
+  ],
+  "origins": [
+    "http://127.0.0.1:4173"
+  ],
+  "observations": [
+    {
+      "stage": "run",
+      "facts": "24 < 20 is false. Else branch selected"
+    },
+    {
+      "stage": "probe-rationale",
+      "text": "Your earlier answer fits 4 different ideas. This question gives different answers for different ideas:\n\nIf the mix-up were sensor versus instruction, you would expect Only the “otherwise” part (move).\nIf the mix-up were comparison direction, you would expect Only the “if” part (turn).\nIf the mix-up were running both branches, you would expect “Both parts”.\nIf the mix-up were skipping the “otherwise” part, you would expect “Neither part”.\nSomeone who understands it would expect Only the “otherwise” part (move).\n\nWhatever you pick, it’s evidence, not a grade."
+    },
+    {
+      "stage": "synthetic-probe-answer",
+      "id": "g.which-branch.40",
+      "situation": "the 40 cm turn-or-move example",
+      "label": "Only the “if” part (turn)",
+      "truth": "else"
+    },
+    {
+      "stage": "synthetic-probe-answer",
+      "id": "g.branch-at.10-lt",
+      "situation": "the 10 cm example with “distance < 20”",
+      "label": "It moves forward",
+      "truth": "stop"
+    },
+    {
+      "stage": "generated",
+      "rationale": "Let’s change just one thing: move the wall from 24 cm to 10 cm away. This example was picked because the ideas disagree: if the mix-up were comparison direction, you would expect “It moves forward”. Predict first, then run it. The real simulator decides, and it’s still just one example."
+    },
+    {
+      "stage": "experiment",
+      "distance": "30",
+      "facts": "30 < 20 is false. Else branch selected. Result: “It moves forward”. Your prediction matches this executed result."
+    },
+    {
+      "stage": "experiment",
+      "distance": "12",
+      "facts": "12 < 20 is true. Then branch selected. Result: “It stops / stays still”. Your prediction matches this executed result."
+    },
+    {
+      "stage": "transfer-before",
+      "text": "M01 / conditionals · distance-sensors\nThe Wall Problem\nRobot 00F4\nBack to missions\nReassess\nIndividual investigation\nSaved on this device\n1\nObserve\n2\nPredict\n3\nExecute\n4\nCompare\n5\nInvestigate\n6\nExperiment\n7\nReassess\nMission briefing\nSave\nReset code\nReset simulation\nResume\nStep code\nStep tick\nStop & Edit\nStop\nRewind\nReplay\nSpeed\n0.5×\n1×\n2×\n4×\nHide code\nHide trace\nReset layout\nHelp\nKeyboard shortcuts\n\nPrediction locked before reveal. Actual result saved on this device.\n\nYour program\ncondition\nUndo code\nRedo code\nClose block editor\nView pseudocode\n\nThe sensor measures. The program chooses what happens. Selected block: condition.\n\nBlock workspace\nUndo\nRedo\nApply blocks\nBlocks\nCode preview\nAuto-layout\n\nMovement, sensors, logic, loops, variables, helpers and debug blocks become a bounded, validated program. Unapplied workspace edits do not run; the main program preview is the executed AST. Names use letters, numbers, underscores or hyphens. Generated pseudocode is read-only. For keyboard or screen reader use, inspect the text steps; Blockly’s spatial editing may need a pointer.\n\nMovement\nSensors\nLogic\nLoops\nVariables\nFunctions\nDebug\ndistance (cm)\n20\n‏<\nstop\nstop\nmove\n10\ncm\nif\ndo\nelse\n\nRecorded run locked. Use Stop & Edit before changing or applying blocks.\n\nEditor panel width\nRobot world\nTick 0 · Paused\n−\n100%\n+\nFit world\nGrid\nSensor ray\nFollow robot\n←\n→\n↑\n↓\nSnapshot stage\nFullscreen stage\nStart\n1 grid square = 10 cm\n24.0 cm\nDeterministic world\ncm · 50 ms / tick\nSensor details\nRobot state\nInitial distance\n24.0 cm\nSurface\nwhite\nFirst condition\n(distanceCm < 20)\n\nMission geometry is locked so predictions and results use the same scenario. Use Free Lab to author a world.\n\nWorld variants\nYour prediction is locked\nCompare with the evidence\nYour prediction\nStop in place\nWhat happened\nMove forward\nActual result\nThe robot moved.\n\n24 < 20 is false. Else branch selected\n\nYour prediction differs. Let’s find out which part was surprising.\n\nMission goal met by the executed trace.\n\nGoal 1 (branch): met\nGoal 2 (distance): met\nGoal 3 (programmed-stop): met\nGoal 4 (final-distance): met\nScenario “wall 12 cm away”: met\nShow decision in timeline\nInvestigate why\nStart a new attempt\nChange code\nSave summary\nShare progress\n\nSaved on this device, not sent to a server.\n\nExecution trace\n15 events\nLive state\nTimeline\nWhy?\nVariables\nProgram\nWhy did that happen?\nStep back\nStep forward\n2 / 15\nSearch events\nEvent type\nAll events\nsensor_read\ncompare\nbranch\nmove\nstop\nprogram_stop\n01 / 0ms\nsensor_read · sensor\nSENSOR_READ: distance_cm = 24\n02 / 0ms\ncompare · condition\n24 < 20 is false. Full-precision operands; display readings round to 0.1 cm\n03 / 0ms\nbranch · decision\n24 < 20 is false. Else branch selected\n04 / 50ms\nmove · move-clear\nMOVE: (40,50) to (41,50); delta 1 cm\n05 / 100ms\nmove · move-clear\nMOVE: (41,50) to (42,50); delta 1 cm\n06 / 150ms\nmove · move-clear\nMOVE: (42,50) to (43,50); delta 1 cm\n07 / 200ms\nmove · move-clear\nMOVE: (43,50) to (44,50); delta 1 cm\n08 / 250ms\nmove · move-clear\nMOVE: (44,50) to (45,50); delta 1 cm\n09 / 300ms\nmove · move-clear\nMOVE: (45,50) to (46,50); delta 1 cm\n10 / 350ms\nmove · move-clear\nMOVE: (46,50) to (47,50); delta 1 cm\n11 / 400ms\nmove · move-clear\nMOVE: (47,50) to (48,50); delta 1 cm\n12 / 450ms\nmove · move-clear\nMOVE: (48,50) to (49,50); delta 1 cm\n13 / 500ms\nmove · move-clear\nMOVE: (49,50) to (50,50); delta 1 cm\n14 / 500ms\nstop · stop-done\nProgram requested stop\n15 / 500ms\nprogram_stop · stop-done\nPROGRAM_STOP: explicit stop\n\nEach row is a preserved event. New movement, turn and wait rows each advance one 50 ms tick. Legacy attempts retain their original action snapshots. Select a row to restore its exact snapshot and highlight its program node.\n\nInspector panel width\nExperiment / change one thing\nSame robot. One change.\n\nLet’s change just one thing: move the wall from 24 cm to 10 cm away. This example was picked because the ideas disagree: if the mix-up were comparison direction, you would expect “It moves forward”. Predict first, then run it. The real simulator decides, and it’s still just one example.\n\nTargeted practice: comparison direction. The search examined 15 single changes, rejected 2, and checked every result with the real simulator.\n\nYour earlier idea\n\nBaseline: 24 < 20 is false. Else branch selected. Result: “It moves forward”.\n\nBaseline scenario\nChanged scenario\n−\n100%\n+\nFit world\nGrid\nSensor ray\nFollow robot\n←\n→\n↑\n↓\nSnapshot stage\nFullscreen stage\nStart\n1 grid square = 10 cm\n12.0 cm\nDeterministic world\ncm · 50 ms / tick\nSensor details\nRobot state\n\nShowing the changed scenario · starting distance 12.0 cm. The camera is identical in both views.\n\nLet’s try changing just one thing\n\nChange: move the wall from 24 cm to 12 cm away.\n\nWall distance:\n12 cm\nWall distance value\nif (distanceCm < 20) {\n  stop()\n} else {\n  move(10 cm)\n  stop()\n}\nPredict changed outcome\nIt moves forward\nIt stops / stays still\nLock experiment prediction\nRun experiment\n\n12 < 20 is true. Then branch selected. Result: “It stops / stays still”. Your prediction matches this executed result.\n\nReset experiment\nExplain comparison\nTry another counterexample\nReturn to mission\nTest my understanding with new numbers\n\nBaseline: 24 < 20 is false. Else branch selected. Changed: 12 < 20 is true. Then branch selected. Only one thing changed (move the wall from 24 cm to 12 cm away). The result changed, so that one change is what made the difference.\n\nReassess / a different scenario\nA new world. The same concept.\n−\n100%\n+\nFit world\nGrid\nSensor ray\nFollow robot\n←\n→\n↑\n↓\nSnapshot stage\nFullscreen stage\nStart\n1 grid square = 10 cm\n32.0 cm\nDeterministic world\ncm · 50 ms / tick\nSensor details\nRobot state\n\nInitial reading: 32.0 cm. Read the new program before revealing the result.\n\nif (distanceCm < 35) {\n  stop()\n} else {\n  move(10 cm)\n  stop()\n}\nPredict the action before revealing the result\nMove forward\nStop in place\nLock transfer prediction & reveal"
+    },
+    {
+      "stage": "transfer-after",
+      "advice": "Your new-numbers prediction matched the real robot, and that example argues against the idea that you might be reading “<” the other way around, as if it were “>”. One correct answer isn’t mastery. Another fresh example will show whether the rule holds."
+    },
+    {
+      "stage": "progress-after-reload",
+      "text": "Real evidence on this device\nYour learning notebook\nCurrent local learner\n\nThis page shows only the selected pseudonym’s solo attempts. Team activity has its own local report.\n\nLocal pseudonym\nRobot 00F4\nNew anonymous alias (optional)\nCreate another anonymous learner\n\nRobot 00F4 · 1 missions started · 1 completed guided investigations · 3 concepts practiced · 1 transfer checks.\n\nRecommended next activity\nBlack Line Stop\n\nWhy this next? Sensor readings and units: Still needed: 2 more correct predictions without hints, one prediction with a written reason. Try “Black Line Stop”.\n\nStart recommended mission\nEvidence stamps\n\nThese describe saved work for this alias. Running a program alone earns no stamp. Sensor Detective follows your current evidence and can change after a new answer.\n\nFirst Trace · Recorded\n\nCommit a prediction and answer a program investigation question.\n\nReview First Trace evidence\nSensor Detective · Not yet\n\nNeeds different correct sensor predictions without help, a correct new-numbers challenge and a written reason, with no current conflicting evidence.\n\nCompleted investigation · The Wall Problem\n\nSaved goal and transfer checks satisfy this mission’s versioned completion rule.\n\nReview completion evidence for M01\nConcept evidence\n\nThese are descriptive rules, not grades. Evidence of understanding needs two different scenarios predicted correctly without help, a correct new-numbers challenge and one reason in your own words. One answer never proves mastery.\n\nSensor readings and units\n\nWorking on it · 1 attempts · 0 correct without help · 1 new-numbers challenge correct · 0 hints\n\nStill needed: 2 more correct predictions without hints, one prediction with a written reason.\n\nView evidence for sensor readings and units\nComparisons\n\nWorking on it · 1 attempts · 0 correct without help · 1 new-numbers challenge correct · 0 hints\n\nStill needed: 2 more correct predictions without hints, one prediction with a written reason.\n\nView evidence for comparisons\nIf / else decisions\n\nWorking on it · 1 attempts · 0 correct without help · 1 new-numbers challenge correct · 0 hints\n\nStill needed: 2 more correct predictions without hints, one prediction with a written reason.\n\nView evidence for if / else decisions\nLoops\n\nNot explored · 0 attempts · 0 correct without help · 0 new-numbers challenges correct · 0 hints\n\nNo saved answer has used this concept yet.\n\nView evidence for loops\nCombining sensors\n\nNot explored · 0 attempts · 0 correct without help · 0 new-numbers challenges correct · 0 hints\n\nNo saved answer has used this concept yet.\n\nView evidence for combining sensors\nFunctions and variables\n\nNot explored · 0 attempts · 0 correct without help · 0 new-numbers challenges correct · 0 hints\n\nNo saved answer has used this concept yet.\n\nView evidence for functions and variables\nActual local attempts · Robot 00F4\nInvestigation\tPrediction\tGoal met\tTransfer\tRecorded\tActions\nThe Wall Problem\tstop\tYes\tMatches\t10/24/2026, 5:36:59 PM\tReview attempt 1 Retry mission\nExport my progress\nClear my progress\nReturn to missions"
+    }
+  ]
+}

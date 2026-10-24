@@ -1,0 +1,32 @@
+v24.22.1
+11.6.2
+
+> branchcade@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> branchcade@0.1.0 scan:secrets
+> node scripts/scan-secrets.mjs
+
+Secret scan passed (321 source/document paths; no matching credentials).
+
+> branchcade@0.1.0 verify:spec
+> node scripts/verify-spec.mjs modified
+
+MODIFIED PASS: current invocation/main scope present
+PASS: 15 Part K documents; 98 local links; 16 workbook concepts; pending human actions; actual synthetic rehearsal evidence.
+
+> branchcade@0.1.0 check
+> npm run lint && npm run typecheck && npm run test -- --run && npm run build
+
+
+> branchcade@0.1.0 lint
+> eslint . --max-warnings 0
+
+
+/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/branchcade/scripts/rehearse-k-demo.mjs
+  45:15  error  'document' is not defined  no-undef
+
+✖ 1 problem (1 error, 0 warnings)

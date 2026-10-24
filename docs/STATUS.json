@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Part K only: documentation, voluntary human-validation materials, rehearsed demo package and transparent source-ownership review; preserve A–J; Part L not started",
+  "scope": "Part L L1–L4: current A–K engineering verification, release/submission readiness and operational handoff; main only; future audit/account-sync/logo implementation excluded",
   "branchPolicy": "main only",
   "parts": {
     "A": "verified",
@@ -13,7 +13,8 @@
     "H": "Implemented 2026-10-24: eight missions upgraded to data version 2 (scenarios, new goal kinds, curriculum, hint ladder, Show solution, second questions, capstone completion), v1 frozen for older records. 368 unit tests, 59 Chromium E2E locally; GitHub Actions green on c7e1091 (Chromium + Firefox). See PART_H_ACCEPTANCE.md.",
     "I": "Technical implementation and twelve-gate independent audit completed; final QA/CI evidence is recorded in TEST_REPORT and PARTS_IJ_ACCEPTANCE. Human review and hosting remain explicit external actions.",
     "J": "Persistent expanded unit, Chromium/Firefox CI, real interaction/visual, import/security and measured stress/performance coverage; see TEST_REPORT and PERFORMANCE_REPORT.",
-    "K": "Prepared K1–K4 materials and software rehearsal; human actions remain pending. See PART_K_ACCEPTANCE.md."
+    "K": "Prepared K1–K4 materials and software rehearsal; human actions remain pending. See PART_K_ACCEPTANCE.md.",
+    "L": "IN PROGRESS: fresh local verification and required documentation prepared; final pushed GitHub Actions verification pending"
   },
   "phases": [
     {
@@ -217,9 +218,9 @@
     "reason": "Installed Vercel CLI reported no existing credentials; no hosting project link is configured.",
     "instructions": "docs/DEPLOYMENT.md"
   },
-  "scopeNote": "Part K prepares documentation only plus reproducible browser/document checks; runtime source, frozen mission v1 and historical judging are preserved. No human study, student technical review, eligibility, recording/upload, hosting or final submission is fabricated. Part L not started.",
+  "scopeNote": "Part L verifies existing functionality and prepares accurate release/handoff/future requirements. Runtime source, package lock, frozen mission v1 and historical judging are preserved. Human study, student technical contribution/review, eligibility, disclosure approval, recording/upload, hosting and submission remain pending.",
   "currentCheckpoint": {
-    "baseCommit": "abd9d0a50abb30afd2d46057caac7ddfb90f4a9d",
+    "baseCommit": "3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e",
     "unitTests": 396,
     "unitFiles": 29,
     "chromiumBrowserTests": 105,
@@ -227,11 +228,11 @@
     "failedBrowserTests": 0,
     "flakyBrowserTests": 0,
     "build": "passed",
-    "verifiedCommit": "8d562aa5d91f607ba599dd334fc8170a3c41aa6a",
-    "ciRun": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40132539841",
-    "ciConclusion": "Observed success on the first Part K checkpoint:396 tests/29files and210 Chromium/Firefox cases; no failed/flaky/skipped summary; all workflow gates passed and npm audit0. Later prepared-package/evidence commits must be checked against their own run.",
+    "verifiedCommit": "3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e",
+    "ciRun": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40133267764",
+    "ciConclusion": "Baseline Part K run independently checked completed/success. New Part L pushed checkpoint CI remains pending.",
     "legacyFingerprints": 40,
-    "localVerification": "2026-10-24 Part K: fresh Node24 ci/check (396 tests/29 files),105 Chromium, actual demo rehearsal; later document gates and CI tracked in TEST_REPORT"
+    "localVerification": "Part L: Node24.22.1/npm11.6.2; fresh npm ci/check,396 tests/29 files and build;105 Chromium E2E retries0; actual instrumented learning journey and static preview checks passed; Firefox launch failed before app code (profile folder). Final edited-document gates recorded in TEST_REPORT."
   },
   "humanReview": {
     "status": "pending",
@@ -252,8 +253,34 @@
     "videoUpload": "AWAITING OWNER ACTION",
     "eligibilityConfirmation": "AWAITING OWNER ACTION",
     "submissionReadiness": "AWAITING OWNER ACTION",
-    "partL": "NOT STARTED",
+    "partL": "IN PROGRESS",
     "acceptance": "docs/PART_K_ACCEPTANCE.md",
     "preparedPackageCommit": "986c7add51f70845cdf6f9b6d16bd9ec3e7db963 (remote SHA verified; observe its/later CI separately)"
+  },
+  "partL": {
+    "status": "IN PROGRESS",
+    "baselineCommit": "3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e",
+    "scope": "L1–L4 verification and release/handoff records; future audit and account/sync/logo implementation not begun",
+    "localUnitTests": 396,
+    "localUnitFiles": 29,
+    "localChromiumTests": 105,
+    "localChromiumFailures": 0,
+    "localChromiumRetries": 0,
+    "localFirefox": "LAUNCH FAILED BEFORE APP CODE: Could not find profile folder; no local pass",
+    "browserSmoke": "VERIFIED: real M01/Blockly/prediction/trace/probes/experiment/transfer/save/reload/Progress; zero page/console errors/warnings, failed requests/responses or nonlocal origins",
+    "releaseReadiness": "docs/RELEASE_READINESS.md",
+    "auditProposal": "docs/POST_L_AUDIT_PLAN.md",
+    "futureIndependentAudit": "NOT STARTED — separate owner authorization required",
+    "accountSyncImplementation": "NOT STARTED — proposal only",
+    "logoIntegration": "NOT STARTED — exact approved asset not supplied",
+    "acceptance": "docs/PART_L_ACCEPTANCE.md"
+  },
+  "release": {
+    "engineering": "LOCAL VERIFICATION PASSED; final pushed CI pending",
+    "publicHosting": "NOT DEPLOYED — no authorized provider connection/public URL",
+    "video": "NOT RECORDED OR UPLOADED",
+    "contest": "NOT SUBMITTED",
+    "studentContributionReview": "PENDING — extensive AI assistance; significant independent technical implementation unverified",
+    "nextScope": "Proposed independent audit only with separate authorization; optional sync/logo implementation later"
   }
 }

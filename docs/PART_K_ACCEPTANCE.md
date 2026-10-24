@@ -1,5 +1,7 @@
 # Part K acceptance — prepared materials versus human completion
 
+Historical Part K record below. Part L was separately authorized afterward; see [current L acceptance](PART_L_ACCEPTANCE.md) and HANDOFF for the later phase and current verification. The original K-session scope statements are preserved as history.
+
 Date: **2026-10-24**. Scope: **K1–K4 only**, preserving existing A–J. Starting and fetched remote main: `abd9d0a50abb30afd2d46057caac7ddfb90f4a9d`. No app, curriculum, package-lock or runtime algorithm change is needed for these deliverables. Part L is **NOT STARTED**. This record uses preceding verified SHAs, never a fabricated self-referential commit hash.
 
 ## Requirement map

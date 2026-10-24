@@ -2,6 +2,8 @@
 
 Checked **2026-10-24** for Part K. Materials are prepared, not submitted. **Eligibility, student contribution evidence, final video and owner approval remain unresolved.**
 
+Part L rechecked the official PDF (including the AI/originality and video/deadline pages) and registration page on the same date. The discrepancy persists; retain the earlier 11am Central planning cutoff. No organizer clarification, private portal login, eligibility attestation or submission was performed. The [release checklist](RELEASE_READINESS.md) separates prepared materials from owner actions.
+
 ## Official-source findings
 
 The [2026 rulebook](https://www.congressionalappchallenge.us/wp-content/uploads/2026/05/2026-CAC-Rules.pdf) is linked by the [official rules page](https://www.congressionalappchallenge.us/students/rules/). Its §3 permits disclosed AI support but requires significant student technical contribution/understanding; AI must not supply the entire technical development. Extensive AI-authored Branchcade source makes that an actual unresolved issue, not something a disclosure checkbox settles. §1 also limits creation date to after October 30, 2025 and one entry per student; a revised project must identify its new coding. These are owner verification tasks, not certifications from this audit.

@@ -1,0 +1,77 @@
+{
+  "context": "Local Vite production preview; not public hosting or host header verification",
+  "routesAndAssets": [
+    {
+      "path": "/",
+      "status": 200,
+      "type": "text/html",
+      "bytes": 1029
+    },
+    {
+      "path": "/missions/m01",
+      "status": 200,
+      "type": "text/html",
+      "bytes": 1029
+    },
+    {
+      "path": "/lab",
+      "status": 200,
+      "type": "text/html",
+      "bytes": 1029
+    },
+    {
+      "path": "/settings",
+      "status": 200,
+      "type": "text/html",
+      "bytes": 1029
+    },
+    {
+      "path": "/favicon.svg",
+      "status": 200,
+      "type": "image/svg+xml",
+      "bytes": 323
+    },
+    {
+      "path": "/assets/blockly/dropdown-arrow.svg",
+      "status": 200,
+      "type": "image/svg+xml",
+      "bytes": 569
+    },
+    {
+      "path": "/assets/index-gEA8iCWW.js",
+      "status": 200,
+      "type": "text/javascript",
+      "bytes": 256757
+    },
+    {
+      "path": "/assets/invariants-dfLSwn4N.js",
+      "status": 200,
+      "type": "text/javascript",
+      "bytes": 2140
+    },
+    {
+      "path": "/assets/button-DvztFK6q.js",
+      "status": 200,
+      "type": "text/javascript",
+      "bytes": 172861
+    },
+    {
+      "path": "/assets/trace-DU2qHEPo.js",
+      "status": 200,
+      "type": "text/javascript",
+      "bytes": 66706
+    },
+    {
+      "path": "/assets/dialog-DWKBKnT_.js",
+      "status": 200,
+      "type": "text/javascript",
+      "bytes": 192204
+    },
+    {
+      "path": "/assets/index-D_YIMPD5.css",
+      "status": 200,
+      "type": "text/css",
+      "bytes": 53267
+    }
+  ]
+}

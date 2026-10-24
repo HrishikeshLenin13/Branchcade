@@ -5,7 +5,7 @@ import { chromium, expect } from '@playwright/test'
 import { createServer } from 'vite'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
-const output = 'docs/evidence/k'
+const output = process.env.BRANCHCADE_REHEARSAL_OUTPUT ?? 'docs/evidence/k'
 await mkdir(output, { recursive: true })
 const loader = await createServer({
   configFile: false,
@@ -16,14 +16,36 @@ const loader = await createServer({
 })
 const browser = await chromium.launch()
 const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } })
+if (process.env.BRANCHCADE_REHEARSAL_TRACE)
+  await context.tracing.start({ screenshots: true, snapshots: true, sources: true })
 const page = await context.newPage()
 const errors = [],
+  consoleErrors = [],
+  consoleWarnings = [],
+  failedRequests = [],
+  failedResponses = [],
   requests = [],
+  layouts = [],
   observations = []
 page.on('pageerror', (error) => errors.push(error.message))
+page.on('console', (message) => {
+  if (message.type() === 'error') consoleErrors.push(message.text())
+  if (message.type() === 'warning') consoleWarnings.push(message.text())
+})
 page.on('request', (request) => requests.push(new URL(request.url()).origin))
+page.on('requestfailed', (request) => failedRequests.push(request.url()))
+page.on('response', (response) => {
+  if (response.status() >= 400)
+    failedResponses.push({ url: response.url(), status: response.status() })
+})
 const capture = async (filename) => {
   await page.screenshot({ path: `${output}/${filename}`, type: 'jpeg', quality: 85, scale: 'css' })
+  const layout = await page.evaluate(() => ({
+    viewport: window.innerWidth,
+    document: window.document.documentElement.scrollWidth,
+  }))
+  layouts.push({ filename, ...layout })
+  expect(layout.document).toBeLessThanOrEqual(layout.viewport)
 }
 try {
   const { buildProbe } = await loader.ssrLoadModule('/src/learning/probe-templates.ts')
@@ -34,6 +56,12 @@ try {
   await page.getByText('View pseudocode', { exact: true }).click()
   await page.evaluate(() => window.scrollTo(0, 400))
   await capture('readme-workbench.jpg')
+  await page.setViewportSize({ width: 1366, height: 768 })
+  await page
+    .getByRole('button', { name: 'Lock prediction & run', exact: true })
+    .scrollIntoViewIfNeeded()
+  await capture('chromebook-workbench.jpg')
+  await page.setViewportSize({ width: 1440, height: 1000 })
   await page.getByRole('radio', { name: 'Stop in place', exact: true }).check()
   await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
   await expect(page.getByTestId('branch-facts')).toContainText('24 < 20 is false')
@@ -115,6 +143,9 @@ try {
     text: await page.locator('main').innerText(),
   })
   expect(errors).toEqual([])
+  expect(consoleErrors).toEqual([])
+  expect(failedRequests).toEqual([])
+  expect(failedResponses).toEqual([])
   expect([...new Set(requests)]).toEqual(['http://127.0.0.1:4173'])
   await writeFile(
     `${output}/rehearsal.json`,
@@ -126,6 +157,11 @@ try {
         syntheticDemoOnly: true,
         videoRecorded: false,
         errors,
+        consoleErrors,
+        consoleWarnings,
+        failedRequests,
+        failedResponses,
+        layouts,
         origins: [...new Set(requests)],
         observations,
       },
@@ -137,6 +173,8 @@ try {
     'PASS: actual M01 → probes → generated wall experiment 30/12 → distinct transfer → durable Progress; 0 page errors; local origin only.',
   )
 } finally {
+  if (process.env.BRANCHCADE_REHEARSAL_TRACE)
+    await context.tracing.stop({ path: process.env.BRANCHCADE_REHEARSAL_TRACE })
   await browser.close()
   await loader.close()
 }

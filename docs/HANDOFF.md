@@ -1,6 +1,50 @@
 # Branchcade handoff
 
-## Current scope — Part K prepared materials (2026-10-24)
+## Current operational handoff — Part L (2026-10-24)
+
+**Project:** Branchcade.
+
+**Current completed phase:** A–J technical implementation and K prepared materials re-verified locally; L startup/browser/release documentation complete locally, final pushed L CI pending until recorded in TEST_REPORT. Human release/submission actions are separate.
+
+**Current branch:** `main`, exclusively. No branches, PRs, force pushes, rebases or discarded work.
+
+**Commit SHA (local):** `3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e` at the pre-L documentation checkpoint; L documentation/tooling changes follow it. See current `git rev-parse HEAD` and final CI for the containing commit, which cannot embed its own SHA.
+
+**Remote pushed SHA (verified):** `3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e` at session synchronization; independently confirmed [baseline CI](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40133267764). Final L pushed SHA/run is recorded after push below/in TEST_REPORT. Do not treat a previous run as verification of later files.
+
+**Start environment (Node/npm):** macOS 27.0.1 Darwin arm64; default Node 24.13.0, maintained `.nvmrc` Node 24.22.1 explicitly selected from the existing runtime for commands; npm 11.6.2. Actual checkout is `/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/branchcade`; the suggested `~/Desktop/Branchcade` does not exist here. Use the actual clone path on each machine. Locked `npm ci`; no package changes. Fresh production builds precede browser evidence.
+
+**Changed files/modules:** AGENTS and SPEC current invocation; HANDOFF, STATUS, TEST_REPORT, DEPLOYMENT, AI_ASSISTANCE_LOG, contest-source review and README release links; new PART_L_ACCEPTANCE, RELEASE_READINESS and POST_L_AUDIT_PLAN; existing demo runner gains selectable output, console/network/layout/trace observation; Part K document guard recognizes the authorized subsequent L status without changing human-pending checks; genuine L evidence under `docs/evidence/l/`. No `src/`, package/lockfile, branding or frozen historical mission changes.
+
+**Features actually working:** all eight missions and goal/transfer journeys; onboarding/library/navigation; real Blockly field/context-menu edits and validated execution; deterministic physics/sensing and source-linked stepping/replay; locked predictions, uncertain diagnoses, counterexamples/transfer and saved evidence; Lab world edits; 2–6-person local team handoffs/roles; real local progress/instructor filters/exports/assignments; settings/import/export/reset/delete; blocked-storage/recovery/unknown-route UI. These are tested capabilities, not a guarantee of every possible input or classroom effectiveness.
+
+**Features not yet implemented:** accounts/authentication, cloud sync/backend/remote classroom, public hosting, service-worker/PWA offline installation, final approved-logo integration. No new runtime functionality was added during L. Human video/submission/study work remains unperformed.
+
+**Manual browser checks actually performed:** a scripted real-browser production walkthrough, not a human participant study: M01 → open Blockly → wrong STOP prediction → actual 24<20 false/else → source comparison → adaptive probes → generated wall experiment (30cm MOVE; 12cm STOP, unchanged threshold20) → distinct transfer → Finish → “Saved locally.” → reload → Progress. Four genuine desktop/Chromebook-sized JPEGs were opened and visually inspected; no global overflow at captured states. Real field/context-menu editing and the other release flows were exercised by the maintained Chromium E2E suite. No new Playwright MCP/Chrome DevTools MCP session was available or claimed; ordinary Playwright supplied page/console/network observations.
+
+**Automated commands + actual pass/fail outcomes:** fresh `npm ci`; `npm run check`: lint/strict TS, 396/396 unit tests in29files and build pass; `npm run test:e2e -- --project=chromium --workers=2 --retries=0` with CI=1:105/105 pass; format/secrets/spec modified and `node scripts/verify-k-docs.mjs` pass; npm audit0. Focused Firefox attempted and fails at browser startup before app code (profile folder); no local Firefox pass. Final remote Chromium/Firefox counts and new docs' final gates are in TEST_REPORT.
+
+**Screenshots/trace artifact paths:** `docs/evidence/l/{readme-workbench,chromebook-workbench,m01-trace,counterexample}.jpg`; `rehearsal.json` records empty errors/warnings/failed requests and local-origin-only requests; `install.log`, `check.log`, `chromium.log`, `firefox-launch.log`, `static-preview.json`. Full local synthetic walkthrough trace: `../l-smoke-trace.zip` outside the repository. The local Firefox launch context/trace is under `test-results/foundation-new-alias-actua-4555d-nd-instructor-export-delete-firefox/` until the next Playwright run clears test-results. These are QA artifacts, not demo media or real learner records.
+
+**Known bugs/limitations:** no new app blocker found in this smoke. Local Firefox profile-launch failure persists; Ubuntu CI must supply Firefox proof. Blockly is a roughly799kB lazy chunk and its spatial editor may require pointer use; bounded simulation/search remains on the main thread. No physical-device/WebKit/assistive-technology certification or human learning study is claimed. Same-browser records and downloaded exports are not confidential between device users. Contest deadline discrepancy and AI/student contribution eligibility remain unresolved.
+
+**Architectural decisions/contract changes:** preserve pure centimeter/50ms deterministic engine, typed AST and bounded interpreter, separate replay presentation clock, immutable execution/evidence snapshots, mission/engine version selection and versioned IndexedDB envelope. No schema, provider or algorithm contract changed in L. Future sync requirements are a proposal, not implemented ADRs.
+
+**Privacy/security notes:** no runtime API, analytics, accounts or learner-content requests added. Actual smoke: 0 page/console errors, 0 warnings, failed requests or HTTP errors; all origins `http://127.0.0.1:4173`. Exports can contain optional reasoning; keep them private. Static hosts can retain path/IP logs. Provider-specific security headers require checking on the actual deployed URL. No credentials read into Git/docs or hosting login initiated.
+
+**AI-assisted portions and student review needed:** L documents and QA-tool extensions are AI-assisted; no personal student authorship is inferred from Git metadata. Student must personally understand, meaningfully revise/test where warranted and document real contributions to engine/interpreter/diagnosis/counterexample/persistence code using SOURCE_OWNERSHIP_REVIEW and STUDENT_TECHNICAL_REVIEW. Owner must approve disclosure and resolve eligibility; preparing a workbook is not completing it.
+
+**Next chronological phase:** finish owner-dependent release/contest actions; proposed independent two-reviewer audit only upon separate authorization. It is not Part M of SPEC. Accounts/sync and approved-logo work wait for later design/privacy/asset approval. Do not execute the proposal automatically.
+
+**First actions for next Codex session:**
+
+1. Locate the actual clone; `pwd`, `git status --short --branch`, `git branch --show-current`, `git remote -v`, `git fetch --all --prune`, compare `git rev-parse HEAD` and `git rev-parse origin/main`. Preserve dirty/diverged work; only clean main may `git pull --ff-only origin main`.
+2. Read AGENTS, SPEC L1–L4/full relevant requirements, STATUS, this current block, PART_L_ACCEPTANCE, RELEASE_READINESS and TEST_REPORT. Check CI for the exact fetched SHA, including flaky/retry summaries.
+3. `nvm use`, `npm ci`, `npm run format:check`, `npm run scan:secrets`, `npm run verify:spec -- modified`, `node scripts/verify-k-docs.mjs`, `npm run check`, `npm run test:e2e`, `npm audit`. If local Firefox fails before app code, preserve that result and verify remote Firefox separately.
+4. `npm run preview -- --port 4173 --strictPort`; for a new isolated synthetic smoke, set `BRANCHCADE_REHEARSAL_OUTPUT=docs/evidence/<new-session>` and optionally `BRANCHCADE_REHEARSAL_TRACE=<local-zip-path>` before `node scripts/rehearse-k-demo.mjs`. Never overwrite earlier evidence or mistake a previous preview for current source.
+5. Only start the owner's newly authorized scope. For a future audit follow POST_L_AUDIT_PLAN independent findings first; for release use the owner checklist without registering/submitting/hosting beyond explicit authorization.
+
+## Historical scope — Part K prepared materials (2026-10-24)
 
 User-authorized scope: K1–K4 only on updated A–J, **main only**. Start/fetched remote: `abd9d0a50abb30afd2d46057caac7ddfb90f4a9d`, clean. Prior [CI 40129455981](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40129455981) was independently confirmed green. No runtime source, frozen mission v1, dependency lock or historical judging changes were made. Part L is **NOT STARTED**.
 

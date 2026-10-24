@@ -142,6 +142,8 @@ Keyboard navigation, named native controls, dialog focus restoration/Escape, cod
 
 ## Verification and honest limits
 
+Current release/session evidence: [Part L acceptance](docs/PART_L_ACCEPTANCE.md), [release and submission readiness](docs/RELEASE_READINESS.md), [operational handoff](docs/HANDOFF.md) and [proposed future audit](docs/POST_L_AUDIT_PLAN.md). Hosting, human source review, video and contest submission have separate pending states; successful engineering checks do not complete them.
+
 The fetched `abd9d0a` checkpoint has [successful cross-browser CI](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40129455981): **396 tests / 29 files**, **105 Chromium + 105 Firefox E2E**, no failed/flaky browser cases. The Part K reruns, current checked commits and CI are tracked separately in [TEST_REPORT](docs/TEST_REPORT.md) and [Part K acceptance](docs/PART_K_ACCEPTANCE.md); these links supersede historical counts.
 
 Known limits: six of fourteen ideas require optional investigation rather than a wrong first-action prediction; single-rule mental models and scoring need human educational validation; synchronous bounded search and cooperative main-thread interpretation are not worker execution; Blockly is a large lazy chunk (about 799 kB minified); no WebKit, physical Chromebook, causal learning study, cloud classroom, hardware control, service-worker/PWA or public deployment is claimed. Loaded/cached assets can work without new requests, but unloaded chunks may require the network. [Measured performance and bounds](docs/PERFORMANCE_REPORT.md).

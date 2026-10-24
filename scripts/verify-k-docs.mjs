@@ -75,7 +75,10 @@ for (const field of [
     `Human action falsely completed: ${field}`,
   )
 }
-assert.equal(status.partK.partL, 'NOT STARTED')
+// Part K remains a historical prepared checkpoint when a later session authorizes L.
+// Keep the cross-record scope consistent without freezing all future progress at K.
+assert(['NOT STARTED', 'IN PROGRESS', 'VERIFIED'].includes(status.partK.partL))
+assert.equal(status.partK.partL, status.partL?.status ?? 'NOT STARTED')
 const rehearsal = JSON.parse(readFileSync('docs/evidence/k/rehearsal.json', 'utf8'))
 assert.equal(rehearsal.syntheticDemoOnly, true)
 assert.equal(rehearsal.videoRecorded, false)
