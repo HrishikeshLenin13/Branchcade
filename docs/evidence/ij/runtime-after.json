@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-10-24T16:53:49.585Z",
+  "commit": "a02705a485f78e920a2002f5e12a8c07ef73bd72",
+  "runtime": "v24.22.1",
+  "platform": "darwin/arm64",
+  "gcAvailable": true,
+  "traceEvents": 1503,
+  "traceBytes": 1251459,
+  "obstacles": 100,
+  "results": [
+    {
+      "name": "100 obstacles / 1200+ events execute",
+      "samplesMs": [
+        67.98,
+        70.22,
+        38.104,
+        52.489,
+        58.552,
+        35.168,
+        50.592
+      ],
+      "medianMs": 52.489,
+      "maxMs": 70.22
+    },
+    {
+      "name": "long trace canonical SHA-256",
+      "samplesMs": [
+        77.517,
+        66.937,
+        97.841,
+        57.247,
+        62.608,
+        54.304,
+        48.558
+      ],
+      "medianMs": 62.608,
+      "maxMs": 97.841
+    },
+    {
+      "name": "180-statement AST validation",
+      "samplesMs": [
+        0.566,
+        0.387,
+        0.414,
+        2.239,
+        0.382,
+        0.341,
+        0.328
+      ],
+      "medianMs": 0.387,
+      "maxMs": 2.239
+    },
+    {
+      "name": "50 executed-record full validated import",
+      "samplesMs": [
+        50.79,
+        88.031,
+        47.781,
+        42.407,
+        53.319
+      ],
+      "medianMs": 50.79,
+      "maxMs": 88.031
+    }
+  ],
+  "coldCounterexamples": [
+    {
+      "missionId": "m01",
+      "durationMs": 86.021,
+      "examined": 15,
+      "ranked": 15
+    },
+    {
+      "missionId": "m02",
+      "durationMs": 64.21,
+      "examined": 4,
+      "ranked": 4
+    },
+    {
+      "missionId": "m03",
+      "durationMs": 78.475,
+      "examined": 16,
+      "ranked": 15
+    },
+    {
+      "missionId": "m04",
+      "durationMs": 255.953,
+      "examined": 4,
+      "ranked": 4
+    },
+    {
+      "missionId": "m05",
+      "durationMs": 159.508,
+      "examined": 16,
+      "ranked": 13
+    },
+    {
+      "missionId": "m06",
+      "durationMs": 32.153,
+      "examined": 1,
+      "ranked": 1
+    },
+    {
+      "missionId": "m07",
+      "durationMs": 119.143,
+      "examined": 18,
+      "ranked": 18
+    },
+    {
+      "missionId": "m08",
+      "durationMs": 240.014,
+      "examined": 16,
+      "ranked": 16
+    }
+  ],
+  "collectionMetrics": {
+    "records": 50,
+    "importBytes": 92869,
+    "byteLimit": 500000
+  },
+  "cacheStress": {
+    "runs": 60,
+    "heapBeforeBytes": 31654064,
+    "heapAfterBytes": 41496464,
+    "deltaBytes": 9842400,
+    "stats": {
+      "entries": 6,
+      "traceBytes": 7515246,
+      "maxEntries": 512,
+      "maxTraceBytes": 8388608
+    }
+  }
+}

@@ -13,7 +13,7 @@ import type {
 import { LEARNING_CYCLE } from '../../domain/constants'
 import { WorldSchema } from '../../domain/schemas'
 import { immutable, opaqueId, stableHash } from '../../domain/invariants'
-import { makeDefaultWorld, makeWorld } from '../../engine/world'
+import { makeDefaultWorld } from '../../engine/world'
 import { initialRobot } from '../../engine/robot'
 import { readSensors } from '../../engine/sensors'
 import { readSensors as legacySensors } from '../../interpreter/legacy/sensors'
@@ -1791,8 +1791,11 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                   'Reset world, code and transient simulation? Saved worlds and attempts stay in your collection.',
                 )
               ) {
-                changeWorld(makeWorld())
+                // This explicit reset also works while a recorded run is locked.
+                // changeWorld intentionally rejects edits in that state.
+                worldHistory.set(makeDefaultWorld())
                 programHistory.set(thresholdProgram())
+                reset()
               }
             }}
           >

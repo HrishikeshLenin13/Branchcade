@@ -1,5 +1,6 @@
 /** I/J stress fixtures enter through the same validated local-file UI as learner data.
  * Timings are diagnostic attachments, not hardware-dependent pass/fail targets. */
+import { attemptCollection } from '../tests/ij-record-fixture'
 import { test, expect, type Page } from '@playwright/test'
 import {
   longTraceProgram,
@@ -313,4 +314,41 @@ test('I/J Blockly editing loads only bundled same-origin assets and never reques
   expect(external).toEqual([])
   expect(sounds).toEqual([])
   expect(missing).toEqual([])
+})
+
+test('I/J fifty executed records import, render in Progress and survive reload', async ({
+  page,
+}, testInfo) => {
+  const data = await attemptCollection(50),
+    raw = JSON.stringify(data),
+    bytes = Buffer.byteLength(raw)
+  expect(bytes).toBeLessThan(500000)
+  await page.goto('/settings')
+  const begin = performance.now()
+  await page.getByLabel('Import local data', { exact: true }).setInputFiles({
+    name: 'ij-synthetic-50-records.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(raw),
+  })
+  await page.getByRole('button', { name: 'Merge validated import', exact: true }).click()
+  await expect(page.getByText('Merged validated local data.', { exact: true })).toBeVisible()
+  const importMs = performance.now() - begin
+  await page.getByRole('link', { name: 'Progress', exact: true }).click()
+  await expect(page.getByRole('button', { name: /^Review attempt / })).toHaveCount(50)
+  await expect(page.getByRole('button', { name: 'Review attempt 50', exact: true })).toBeVisible()
+  await page.reload()
+  await expect(page.getByRole('button', { name: /^Review attempt / })).toHaveCount(50)
+  await testInfo.attach('ij-record-collection-metrics', {
+    body: JSON.stringify(
+      {
+        browser: testInfo.project.name,
+        records: 50,
+        bytes,
+        importThroughDurableConfirmationMs: importMs,
+      },
+      null,
+      2,
+    ),
+    contentType: 'application/json',
+  })
 })

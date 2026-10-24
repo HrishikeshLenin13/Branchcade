@@ -1,0 +1,488 @@
+{
+  "routeControlIdentities": 529,
+  "counts": {
+    "SPEC ACTION": 383,
+    "OBSERVED ACTION": 74,
+    "VISIBLE ONLY": 68,
+    "DISABLED": 4
+  },
+  "unresolved": [
+    {
+      "route": "/missions/m01",
+      "label": "Back to missions",
+      "tag": "a",
+      "type": null,
+      "href": "/missions"
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Run",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "View pseudocode",
+      "tag": "summary",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "World variants",
+      "tag": "summary",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "practice-2",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "practice-3",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Not sure yet",
+      "tag": "input",
+      "type": "checkbox",
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "I need a hint",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "transfer",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 1: sensor_read, 0 milliseconds, block sensor. SENSOR_READ: distance_cm = 24",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 2: compare, 0 milliseconds, block condition. 24 < 20 is false. Full-precision operands; display readings round to 0.1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 3: branch, 0 milliseconds, block decision. 24 < 20 is false. Else branch selected",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 4: move, 50 milliseconds, block move-clear. MOVE: (40,50) to (41,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 5: move, 100 milliseconds, block move-clear. MOVE: (41,50) to (42,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 6: move, 150 milliseconds, block move-clear. MOVE: (42,50) to (43,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 7: move, 200 milliseconds, block move-clear. MOVE: (43,50) to (44,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 8: move, 250 milliseconds, block move-clear. MOVE: (44,50) to (45,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 9: move, 300 milliseconds, block move-clear. MOVE: (45,50) to (46,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 10: move, 350 milliseconds, block move-clear. MOVE: (46,50) to (47,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 11: move, 400 milliseconds, block move-clear. MOVE: (47,50) to (48,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 12: move, 450 milliseconds, block move-clear. MOVE: (48,50) to (49,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 13: move, 500 milliseconds, block move-clear. MOVE: (49,50) to (50,50); delta 1 cm",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 14: stop, 500 milliseconds, block stop-done. Program requested stop",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Event 15: program_stop, 500 milliseconds, block stop-done. PROGRAM_STOP: explicit stop",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Inspect the isolated world and program",
+      "tag": "summary",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Only the “if” part (turn)",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Only the “otherwise” part (move)",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Both parts",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Neither part",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Show me a hint",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Try it in the lab",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Baseline scenario",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Changed scenario",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Wall distance value",
+      "tag": "input",
+      "type": "number",
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Both parts",
+      "tag": "input",
+      "type": "radio",
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Only the “otherwise” part",
+      "tag": "input",
+      "type": "radio",
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Neither part",
+      "tag": "input",
+      "type": "radio",
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Only the “if” part",
+      "tag": "input",
+      "type": "radio",
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Open Black Line Stop",
+      "tag": "a",
+      "type": null,
+      "href": "/missions/m02"
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Practice again with a new attempt",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Next mission",
+      "tag": "a",
+      "type": null,
+      "href": "/missions/m02"
+    },
+    {
+      "route": "/missions/m01",
+      "label": "Which answers?",
+      "tag": "summary",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/progress",
+      "label": "Review completion evidence for M01",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/progress",
+      "label": "View evidence for sensor readings and units",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/progress",
+      "label": "View evidence for if / else decisions",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/progress",
+      "label": "View evidence for loops",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/progress",
+      "label": "View evidence for combining sensors",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/progress",
+      "label": "View evidence for functions and variables",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/progress",
+      "label": "Return to missions",
+      "tag": "a",
+      "type": null,
+      "href": "/missions"
+    },
+    {
+      "route": "/instructor",
+      "label": "Export filtered JSON",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/instructor",
+      "label": "Teacher note for The Wall Problem",
+      "tag": "summary",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/lab",
+      "label": "Back to missions",
+      "tag": "a",
+      "type": null,
+      "href": "/missions"
+    },
+    {
+      "route": "/lab",
+      "label": "Run",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/lab",
+      "label": "View pseudocode",
+      "tag": "summary",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/lab",
+      "label": "Example comparator",
+      "tag": "select",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/lab",
+      "label": "Obstacle to position",
+      "tag": "select",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/lab",
+      "label": "Wait",
+      "tag": "input",
+      "type": "radio",
+      "href": null
+    },
+    {
+      "route": "/lab",
+      "label": "Not sure yet",
+      "tag": "input",
+      "type": "checkbox",
+      "href": null
+    },
+    {
+      "route": "/lab",
+      "label": "I need a hint",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/lab",
+      "label": "Try prediction mode",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/team",
+      "label": "Team name (optional)",
+      "tag": "input",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/team",
+      "label": "Remove teammate 1",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/team",
+      "label": "Remove teammate 2",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/team",
+      "label": "Teammate 3",
+      "tag": "input",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/team",
+      "label": "Remove teammate 3",
+      "tag": "button",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/team",
+      "label": "Open the local instructor view",
+      "tag": "a",
+      "type": null,
+      "href": "/instructor"
+    },
+    {
+      "route": "/team",
+      "label": "Read the program before predicting",
+      "tag": "summary",
+      "type": null,
+      "href": null
+    },
+    {
+      "route": "/settings",
+      "label": "Clear learner data",
+      "tag": "button",
+      "type": null,
+      "href": null
+    }
+  ],
+  "method": "Conservative static action-name index over actual captured controls; TEST_REPORT holds execution results."
+}

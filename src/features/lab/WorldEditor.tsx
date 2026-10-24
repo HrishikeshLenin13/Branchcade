@@ -435,9 +435,9 @@ export function WorldEditor({
             </>
           )}
           <p className="muted">
-            Overlapping zones use the highest priority, then the first ID alphabetically. Drag zones
-            in the stage; the white corner handle resizes them. Numeric position and size fields
-            provide the same controls without dragging.
+            Overlapping zones use the highest priority, then the first zone in declared order. Drag
+            zones in the stage; the white corner handle resizes them. Numeric position and size
+            fields provide the same controls without dragging.
           </p>
           <hr />
           <div className="coordinate-fields">

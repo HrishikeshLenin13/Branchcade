@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Friend #3: verify/finish F, implement G, then H (requested later in the same session)",
+  "scope": "Parts I and J: independently audit all twelve gates and finish gaps on the updated A\u2013H checkpoint; main only; dedicated K/L excluded",
   "branchPolicy": "main only",
   "parts": {
     "A": "verified",
@@ -10,86 +10,224 @@
     "E": "verified implemented screen flows: 158 unit/component/integration tests, 80 production browser tests across Chromium/Firefox, successful GitHub CI",
     "F": "Independently re-verified 2026-10-24 from 963ec3a: one sensor wall-clamp defect fixed, F6 mandatory map added; 220 unit tests and Chromium E2E pass locally. GitHub Actions (Chromium + Firefox) green on 456c955.",
     "G": "Implemented G1-G6 and integrated into mission/lab/progress/instructor UI (2026-10-24): 267 unit tests, 52 Chromium E2E. GitHub Actions (Chromium + Firefox) green on 456c955 and c7e1091. See PART_G_ACCEPTANCE.md.",
-    "H": "Implemented 2026-10-24: eight missions upgraded to data version 2 (scenarios, new goal kinds, curriculum, hint ladder, Show solution, second questions, capstone completion), v1 frozen for older records. 368 unit tests, 59 Chromium E2E locally; GitHub Actions green on c7e1091 (Chromium + Firefox). See PART_H_ACCEPTANCE.md."
+    "H": "Implemented 2026-10-24: eight missions upgraded to data version 2 (scenarios, new goal kinds, curriculum, hint ladder, Show solution, second questions, capstone completion), v1 frozen for older records. 368 unit tests, 59 Chromium E2E locally; GitHub Actions green on c7e1091 (Chromium + Firefox). See PART_H_ACCEPTANCE.md.",
+    "I": "Technical implementation and twelve-gate independent audit completed; final QA/CI evidence is recorded in TEST_REPORT and PARTS_IJ_ACCEPTANCE. Human review and hosting remain explicit external actions.",
+    "J": "Persistent expanded unit, Chromium/Firefox CI, real interaction/visual, import/security and measured stress/performance coverage; see TEST_REPORT and PERFORMANCE_REPORT."
   },
   "phases": [
     {
       "id": "00",
+      "name": "Foundation/contracts/CI",
       "status": "verified",
+      "technicalStatus": "VERIFIED",
       "proof": {
-        "tests": "npm ci; format, secrets/spec, lint, strict TS,86 unit/integration/component tests, build, audit;54 production-preview E2E across Chromium/Firefox; GitHub CI success",
-        "files": [
-          "src/domain/schemas.ts",
-          "src/app/App.tsx",
-          "tests/session.test.ts",
-          "e2e/foundation.spec.ts",
-          "docs/PARTS_ABC_ACCEPTANCE.md"
+        "date": "2026-10-24",
+        "tests": [
+          "contracts/session tests",
+          "foundation.spec.ts",
+          "fresh npm ci, strict typecheck/lint/build and independent CI"
         ],
-        "date": "2026-10-22",
-        "sha": "7a9d211471956c329557315ee8e8842ef456602d",
-        "ciUrl": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/39894586457"
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
       }
     },
     {
       "id": "01",
-      "status": "not_started"
+      "name": "Deterministic robotics simulator",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "engine/f-physics/f-mandatory/ij-robustness tests",
+          "physics-debugger.spec.ts",
+          "exact continuous collisions, 48 seeded headings, 1503-event replay and legacy hashes"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "02",
-      "status": "not_started"
+      "name": "Safe Blockly/interpreter/debugger",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "blockly/f-interpreter/f-legacy tests",
+          "ij-blockly.spec.ts; physics-debugger.spec.ts",
+          "real field/context-menu editing, validation/source focus, bounded nested calls/loops/cancel"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "03",
-      "status": "not_started"
+      "name": "Free Lab/local storage",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "f-storage/f-recovery/local-records/ij-robustness tests",
+          "foundation/product/ij-controls specs",
+          "pointer and numeric edits, save/reload, legal imports, rollback and50-record replay"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "04",
-      "status": "not_started"
+      "name": "Immutable prediction/learning cycle",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "workstation/learning/storage tests",
+          "foundation/learning-g/product specs",
+          "complete learning journey, locked prediction and stage recovery"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "05",
-      "status": "in_progress",
-      "note": "Code done and CI green (Chromium + Firefox); student algorithm review still pending."
+      "name": "Evidence-based misconceptions",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "g-learning/h-learning tests",
+          "learning-g.spec.ts",
+          "14models,22templates, ambiguous first answer, divergent later probes, contradictions"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "06",
-      "status": "in_progress",
-      "note": "Code done and CI green (Chromium + Firefox); student algorithm review still pending."
+      "name": "Counterexamples/adaptive transfer",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "g-learning tests",
+          "learning-g/missions-h specs",
+          "bounded executed search, no-candidate, independent transfer, assistance and demotion"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "07",
-      "status": "in_progress",
-      "note": "Eight authored missions verified by reference runs, flawed variants, scenarios and browser journeys; onboarding/gamification items from the Phase 07 list were not part of this request."
+      "name": "Eight missions/onboarding/derived stamps",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "h-curriculum/h-judge/h-completion/ij-achievements tests",
+          "missions-h/ij-progress specs",
+          "8reference goals and negative fixtures;3primary missions goal+transfer completion stamps"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "08",
-      "status": "not_started"
+      "name": "Local2\u20136 team learning",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "ij-team/local-records/ij-achievements tests",
+          "ij-team.spec.ts",
+          "all sizes2\u20136,6round role coverage, private answers/shared hints, immutable results/reload/export"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "09",
-      "status": "not_started"
+      "name": "Progress/instructor/privacy/accessibility",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "session/local-records/contracts tests",
+          "foundation/ij-controls/ij-interactions specs",
+          "scoped records/deletion, CSV safety, settings, keyboard dialog focus, axe and local-only network"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "10",
-      "status": "not_started"
+      "name": "Responsive interactions/measured performance",
+      "status": "verified",
+      "technicalStatus": "VERIFIED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "ij-robustness tests",
+          "ij-interactions/ij-performance specs; audit scripts",
+          "six viewports/eleven routes, actual control matrix, screenshots, bounded cache/trace/editor measurements"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      }
     },
     {
       "id": "11",
-      "status": "not_started"
+      "name": "Integration/static deployment readiness",
+      "status": "in_progress",
+      "technicalStatus": "VERIFIED STATIC READINESS; PUBLIC HOSTING BLOCKED",
+      "proof": {
+        "date": "2026-10-24",
+        "tests": [
+          "full unit/integration suite",
+          "full production Chromium and Firefox CI suites",
+          "static build and route fallback; owner hosting authorization pending"
+        ],
+        "report": "docs/TEST_REPORT.md",
+        "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
+      },
+      "externalAction": "Owner must authorize a hosting project and verify the resulting public URL. Dedicated K/L competition deliverables remain outside scope."
     }
   ],
   "lastVerifiedAt": "2026-10-24",
   "deployment": {
     "status": "not_deployed",
-    "reason": "Vercel CLI identity check returned invalid token; deploy-ready static build supplied."
+    "technicalReadiness": "verified static build, hashed assets and SPA fallbacks",
+    "reason": "Installed Vercel CLI reported no existing credentials; no hosting project link is configured.",
+    "instructions": "docs/DEPLOYMENT.md"
   },
-  "scopeNote": "F re-verified, G and H implemented by friend #3. Parts I\u2013L not started. No deployment, human study, measured learning effect or student algorithm review is claimed.",
+  "scopeNote": "I/J engineering work preserves existing A\u2013H semantics, frozen mission-data/v1.json and historical records. No real public deployment, human study, measured learning effect, physical Chromebook/WebKit verification or student algorithm/content review is claimed. Dedicated K/L work was not begun.",
   "currentCheckpoint": {
-    "baseCommit": "963ec3a558866c2c777f0287970be6f579e3a01f",
-    "unitTests": 368,
-    "chromiumBrowserTests": 59,
+    "baseCommit": "f9871ba0efa20f9f3e63b5aaa489f13ed5a9b91d",
+    "unitTests": 396,
+    "unitFiles": 29,
+    "chromiumBrowserTests": 89,
     "build": "passed",
-    "ciConclusion": "success on c7e1091 (run 40064874934)",
+    "ciConclusion": "Pushed feature checkpoint a02705a passed both browsers in run40113633217; final expanded-suite CI recorded in TEST_REPORT.",
     "legacyFingerprints": 40
+  },
+  "humanReview": {
+    "status": "pending",
+    "scope": "Student explanation/revision of AI-assisted algorithms and teacher review of authored curriculum; no human work fabricated."
   }
 }

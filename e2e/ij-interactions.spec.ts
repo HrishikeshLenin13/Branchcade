@@ -210,3 +210,196 @@ test('I/J controlled dialogs across library, mission, progress, instructor, sett
   await page.setViewportSize({ width: 390, height: 844 })
   await openAndClose('Open navigation')
 })
+
+test('I/J every shell and explanation link alias follows its actual route and compact menu closes', async ({
+  page,
+}) => {
+  test.setTimeout(60_000)
+  const followLink = async (name: string, path: string, from = '/') => {
+    await page.goto(from)
+    await page.getByRole('link', { name, exact: true }).click()
+    await expect(page).toHaveURL(new RegExp(`${path.replaceAll('?', '\\?')}$`))
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  }
+  await followLink('Try a mission', '/start')
+  await followLink('Branchcade home', '/', '/settings')
+  await followLink('Missions', '/missions')
+  await followLink('Lab', '/lab')
+  await followLink('Team mode', '/team')
+  await followLink('Progress', '/progress')
+  await followLink('Instructor', '/instructor')
+  await followLink('Settings', '/settings')
+  await followLink('How it works', '/how-it-works')
+  await followLink('Open the lab', '/lab')
+  await followLink('Open the guided mission', '/missions/m01')
+  await followLink('How Branchcade works', '/how-it-works')
+  await followLink('Explore missions', '/missions')
+  await followLink('Instructor mode', '/instructor')
+  await followLink('About', '/how-it-works')
+  await followLink('Privacy', '/settings#privacy')
+  await expect(page.locator('#privacy')).toBeInViewport()
+  await followLink('View privacy approach', '/settings#privacy', '/how-it-works')
+  await expect(page.locator('#privacy')).toBeInViewport()
+  await followLink('Try a learning mission', '/missions/m01', '/how-it-works')
+  await followLink('Manage your local data', '/settings', '/how-it-works')
+  await followLink('About the lab, algorithms and attribution', '/how-it-works', '/settings')
+  await page.goto('/')
+  const skip = page.getByRole('link', { name: 'Skip to content', exact: true })
+  await skip.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('#main-content')).toBeFocused()
+  await page.goto('/missions/m01?new=1')
+  await page.getByRole('button', { name: 'Save', exact: true }).click()
+  await expect(page.getByRole('link', { name: 'Resume', exact: true })).toBeVisible()
+  await followLink('Resume', '/missions/m01')
+  await followLink('Continue learning', '/missions/m01')
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Open navigation', exact: true }).click()
+  await page.getByRole('dialog').getByRole('link', { name: 'Missions', exact: true }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page).toHaveURL(/\/missions$/)
+})
+
+test('I/J external attribution controls open their declared isolated destinations', async ({
+  page,
+  context,
+}) => {
+  // The external service is intercepted: this verifies the real link/popup contract,
+  // not live GitHub availability or a learner-content network request.
+  await context.route('https://github.com/**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'text/html',
+      body: '<title>Isolated destination check</title>',
+    }),
+  )
+  await page.goto('/')
+  const source = page.getByRole('link', { name: 'Source / GitHub', exact: true })
+  await expect(source).toHaveAttribute('rel', 'noreferrer')
+  const sourcePopup = page.waitForEvent('popup')
+  await source.click()
+  const sourcePage = await sourcePopup
+  await expect(sourcePage).toHaveURL('https://github.com/HrishikeshLenin13/Branchcade')
+  await sourcePage.close()
+  await page.getByRole('button', { name: 'Credits', exact: true }).click()
+  const license = page.getByRole('link', { name: 'View license notices', exact: true })
+  await expect(license).toHaveAttribute('rel', 'noreferrer')
+  const licensePopup = page.waitForEvent('popup')
+  await license.click()
+  const licensePage = await licensePopup
+  await expect(licensePage).toHaveURL(
+    'https://github.com/HrishikeshLenin13/Branchcade/blob/main/docs/LICENSE_NOTICES.md',
+  )
+  await licensePage.close()
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Credits', exact: true })).toBeFocused()
+})
+
+test('I/J solo, team, instructor, tutorial and skip choices open the selected actual screen', async ({
+  page,
+}) => {
+  test.setTimeout(60_000)
+  const setup = async (mode: string) => {
+    await page.goto('/start')
+    await page.getByRole('radio', { name: mode, exact: true }).check()
+    await page.getByRole('button', { name: 'Next', exact: true }).click()
+    await page
+      .getByRole('textbox', { name: 'Your local nickname', exact: true })
+      .fill('Route Tester')
+    await page.getByRole('button', { name: 'Next', exact: true }).click()
+    await expect(
+      page.getByRole('heading', { name: 'How would you like to start?', exact: true }),
+    ).toBeVisible()
+  }
+  await setup('Learning solo')
+  await page.getByRole('radio', { name: 'Guided first mission', exact: true }).check()
+  await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
+  await expect(page).toHaveURL(/\/missions\/m01$/)
+  await setup('Learning solo')
+  await page.getByRole('radio', { name: 'Explore free lab', exact: true }).check()
+  await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
+  await expect(page).toHaveURL(/\/lab$/)
+  await setup('Learning with a team')
+  await page.getByRole('radio', { name: 'Join team on this device', exact: true }).check()
+  await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
+  await expect(page).toHaveURL(/\/team$/)
+  await setup('I’m an instructor')
+  await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
+  await expect(page).toHaveURL(/\/instructor$/)
+  await setup('I’m an instructor')
+  await page.getByRole('checkbox', { name: 'See a controls tutorial first', exact: true }).check()
+  await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
+  await expect(page).toHaveURL(/\/how-it-works$/)
+  await setup('I’m an instructor')
+  await page.getByRole('button', { name: 'Create local group', exact: true }).click()
+  await expect(page).toHaveURL(/\/team$/)
+  await page.goto('/start')
+  await page.getByRole('button', { name: 'Skip intro', exact: true }).click()
+  await expect(page).toHaveURL(/\/missions\/m01$/)
+  await page.goto('/start')
+  await page.getByRole('radio', { name: 'I’m an instructor', exact: true }).check()
+  await page.getByRole('button', { name: 'Skip intro', exact: true }).click()
+  await expect(page).toHaveURL(/\/instructor$/)
+})
+
+test('I/J each mission concept chip toggles a real matching result set', async ({ page }) => {
+  await page.goto('/missions')
+  for (const name of [
+    'Sensors',
+    'Comparisons',
+    'Conditionals',
+    'Loops',
+    'Functions',
+    'Debugging',
+  ]) {
+    const chip = page.getByRole('button', { name, exact: false })
+    await chip.click()
+    await expect(chip).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.locator('.mission-card')).not.toHaveCount(0)
+    const matches = MISSION_CATALOG.filter((mission) =>
+      mission.conceptGoals.some((concept) => {
+        if (name === 'Sensors') return concept === 'distance-sensors' || concept === 'color-sensors'
+        return concept === name.toLowerCase()
+      }),
+    )
+    await expect(page.locator('.mission-card h2')).toHaveCount(matches.length)
+    await chip.click()
+    await expect(chip).toHaveAttribute('aria-pressed', 'false')
+    await expect(page.locator('.mission-card')).toHaveCount(8)
+  }
+  await page.getByRole('link', { name: 'Continue recommended', exact: true }).click()
+  await expect(page).toHaveURL(/\/missions\/m01$/)
+})
+
+test('I/J mission card start, result and retry links preserve real completed evidence', async ({
+  page,
+}) => {
+  await page.goto('/missions')
+  const card = page
+    .locator('.mission-card')
+    .filter({ has: page.getByRole('heading', { name: 'The Wall Problem', exact: true }) })
+  await card.getByRole('link', { name: 'Start mission', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'The Wall Problem', exact: true })).toBeVisible()
+  await page.getByRole('radio', { name: 'Move forward', exact: true }).check()
+  await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
+  await page.getByRole('button', { name: 'Try a different challenge', exact: true }).click()
+  await page.getByRole('radio', { name: 'Stop in place', exact: true }).last().check()
+  await page.getByRole('button', { name: 'Lock transfer prediction & reveal', exact: true }).click()
+  await page.getByRole('button', { name: 'Finish', exact: true }).click()
+  await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
+  await page.getByRole('link', { name: 'Missions', exact: true }).click()
+  await expect(card).toContainText('Completed')
+  await card.getByRole('link', { name: 'View results', exact: true }).click()
+  await expect(page.getByRole('region', { name: 'Attempt 1 replay', exact: true })).toBeVisible()
+  await page.getByRole('link', { name: 'Missions', exact: true }).click()
+  await card.getByRole('link', { name: 'Retry', exact: true }).click()
+  await expect(
+    page.getByRole('button', { name: 'Lock prediction & run', exact: true }),
+  ).toBeVisible()
+  await expect(page.getByRole('radio', { name: 'Move forward', exact: true })).toBeEnabled()
+  await page.getByRole('link', { name: 'Progress', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Review attempt 1', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Review attempt 2', exact: true })).toHaveCount(0)
+})

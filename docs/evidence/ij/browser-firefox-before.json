@@ -1,0 +1,236 @@
+{
+  "config": {
+    "argv": [
+      "/usr/local/bin/node",
+      "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/branchcade/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "../ij-playwright.config.ts",
+      "--project",
+      "firefox",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/ij-playwright.config.ts",
+    "rootDir": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/branchcade/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/ij-browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/branchcade/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "ij-performance.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/ij-browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/branchcade/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "ij-performance.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/ij-browser-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "firefox",
+        "testDir": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/branchcade/e2e",
+        "snapshotDir": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/branchcade/e2e",
+        "testIgnore": [],
+        "testMatch": "ij-performance.spec.ts",
+        "timeout": 60000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4176",
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "browserName": "firefox",
+          "viewport": {
+            "width": 1366,
+            "height": 768
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "firefox"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "ij-performance.spec.ts",
+      "file": "ij-performance.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "I/J production 1500-event inspector stays bounded, filters, pages and replays exact snapshots",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 1,
+                  "error": {
+                    "message": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-Js3cg4 -juggler-pipe -silent\n<launched> pid=48261\n[pid=48261][err] *** You are running in headless mode.\n[pid=48261][err] Could not find profile folder.\n[pid=48261] <process did exit: exitCode=1, signal=null>\n[pid=48261] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-Js3cg4 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=48261\u001b[22m\n\u001b[2m  - [pid=48261][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=48261][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=48261] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=48261] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48261] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=48261] <kill>\u001b[22m\n\u001b[2m  - [pid=48261] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=48261] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48261] <gracefully close end>\u001b[22m\n",
+                    "stack": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-Js3cg4 -juggler-pipe -silent\n<launched> pid=48261\n[pid=48261][err] *** You are running in headless mode.\n[pid=48261][err] Could not find profile folder.\n[pid=48261] <process did exit: exitCode=1, signal=null>\n[pid=48261] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-Js3cg4 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=48261\u001b[22m\n\u001b[2m  - [pid=48261][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=48261][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=48261] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=48261] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48261] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=48261] <kill>\u001b[22m\n\u001b[2m  - [pid=48261] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=48261] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48261] <gracefully close end>\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-Js3cg4 -juggler-pipe -silent\n<launched> pid=48261\n[pid=48261][err] *** You are running in headless mode.\n[pid=48261][err] Could not find profile folder.\n[pid=48261] <process did exit: exitCode=1, signal=null>\n[pid=48261] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-Js3cg4 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=48261\u001b[22m\n\u001b[2m  - [pid=48261][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=48261][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=48261] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=48261] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48261] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=48261] <kill>\u001b[22m\n\u001b[2m  - [pid=48261] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=48261] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48261] <gracefully close end>\u001b[22m\n"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T06:14:29.056Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/ij-browser-results/ij-performance-I-J-product-6ddd7-and-replays-exact-snapshots-firefox/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/ij-browser-results/ij-performance-I-J-product-6ddd7-and-replays-exact-snapshots-firefox/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "664c56f1d0916c58f284-8eb692cdc7f2fa1fee44",
+          "file": "ij-performance.spec.ts",
+          "line": 47,
+          "column": 1
+        },
+        {
+          "title": "I/J 180-statement Blockly workspace survives apply, unmount and repeated route navigation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5,
+                  "error": {
+                    "message": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-6cp5yy -juggler-pipe -silent\n<launched> pid=48263\n[pid=48263][err] *** You are running in headless mode.\n[pid=48263][err] Could not find profile folder.\n[pid=48263] <process did exit: exitCode=1, signal=null>\n[pid=48263] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-6cp5yy -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=48263\u001b[22m\n\u001b[2m  - [pid=48263][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=48263][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=48263] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=48263] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48263] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=48263] <kill>\u001b[22m\n\u001b[2m  - [pid=48263] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=48263] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48263] <gracefully close end>\u001b[22m\n",
+                    "stack": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-6cp5yy -juggler-pipe -silent\n<launched> pid=48263\n[pid=48263][err] *** You are running in headless mode.\n[pid=48263][err] Could not find profile folder.\n[pid=48263] <process did exit: exitCode=1, signal=null>\n[pid=48263] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-6cp5yy -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=48263\u001b[22m\n\u001b[2m  - [pid=48263][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=48263][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=48263] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=48263] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48263] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=48263] <kill>\u001b[22m\n\u001b[2m  - [pid=48263] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=48263] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48263] <gracefully close end>\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "Error: browserType.launch: Failed to launch the browser process.\nBrowser logs:\n\n<launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-6cp5yy -juggler-pipe -silent\n<launched> pid=48263\n[pid=48263][err] *** You are running in headless mode.\n[pid=48263][err] Could not find profile folder.\n[pid=48263] <process did exit: exitCode=1, signal=null>\n[pid=48263] starting temporary directories cleanup\nCall log:\n\u001b[2m  - <launching> /Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/browsers/firefox-1555/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /private/tmp/playwright_firefoxdev_profile-6cp5yy -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=48263\u001b[22m\n\u001b[2m  - [pid=48263][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=48263][err] Could not find profile folder.\u001b[22m\n\u001b[2m  - [pid=48263] <process did exit: exitCode=1, signal=null>\u001b[22m\n\u001b[2m  - [pid=48263] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48263] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=48263] <kill>\u001b[22m\n\u001b[2m  - [pid=48263] <skipped force kill spawnedProcess.killed=false processClosed=true>\u001b[22m\n\u001b[2m  - [pid=48263] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=48263] <gracefully close end>\u001b[22m\n"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-24T06:14:30.278Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/ij-browser-results/ij-performance-I-J-180-sta-bb8a5-d-repeated-route-navigation-firefox/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/mukeshbokam/Documents/Codex/2026-10-23/https-github-com-hrishikeshlenin13-branchcade-git/work/ij-browser-results/ij-performance-I-J-180-sta-bb8a5-d-repeated-route-navigation-firefox/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "664c56f1d0916c58f284-612953596fd721e02dd1",
+          "file": "ij-performance.spec.ts",
+          "line": 98,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-24T06:14:28.242Z",
+    "duration": 2618.512,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
