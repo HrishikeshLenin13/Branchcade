@@ -10,15 +10,25 @@ import {
   pauseTeam,
   resumeTeam,
 } from '../../collaboration/session'
+import { editTeamProgram, runTeamRound, advanceTeamRound } from '../../collaboration/round'
 import { rotateRoles } from '../../collaboration/rotation'
 import { ROLE_NAMES, ROLE_TASKS } from '../../collaboration/roles'
 import type { Prediction, TeamSession } from '../../domain/types'
+import {
+  recordTeamAssistance,
+  teamDetailOptions,
+  teamDetailTruth,
+} from '../../collaboration/learning'
+import { TeamHelp } from './TeamHelp'
+import { TeamReport } from './TeamReport'
+import { curriculumFor } from '../../missions/curriculum'
+import { answerLabel } from '../../learning/probe-templates'
+import { immutable } from '../../domain/invariants'
+import { PredictionSchema } from '../../domain/schemas'
 import { recordPrediction } from '../../learning/predictions'
-import { execute, executeRecorded } from '../../interpreter/interpreter'
-import { branchFacts } from '../../interpreter/trace'
+import { executeRecorded } from '../../interpreter/interpreter'
 import { MISSION_CATALOG } from '../../missions/catalog'
-import { judgeMission } from '../../missions/judge'
-import { stableHash } from '../../domain/invariants'
+import { judgeRecorded } from '../../missions/judge'
 import { initialRobot } from '../../engine/robot'
 import { readSensors } from '../../engine/sensors'
 import { downloadFile, exportJson, scopedData } from '../../storage/import-export'
@@ -53,7 +63,8 @@ export default function Team() {
     [action, setAction] = useState<Prediction['action']>('move'),
     [contribution, setContribution] = useState(''),
     [hypothesis, setHypothesis] = useState(''),
-    [switchId, setSwitchId] = useState('')
+    [switchId, setSwitchId] = useState(''),
+    [detailAnswer, setDetailAnswer] = useState('')
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(''),
     [confirm, setConfirm] = useState<'reset' | 'end' | 'edit' | null>(null),
@@ -74,9 +85,17 @@ export default function Team() {
     locked =
       !team && mission.prerequisiteIds.some((id) => !data.profile?.completedMissions.includes(id))
   const teamProgram = team?.program ?? mission.starterProgram
+  const lesson = curriculumFor(mission.id),
+    lastResult = team?.results.at(-1)
+  const detailOptions = team ? teamDetailOptions(team) : []
+  const detailTruth = team?.phase === 'result' ? teamDetailTruth(team) : null
   const runResult =
     team?.phase === 'result'
-      ? executeRecorded(mission.world, teamProgram, team.results.at(-1)?.engineVersion)
+      ? executeRecorded(
+          lastResult?.world ?? mission.world,
+          lastResult?.program ?? teamProgram,
+          lastResult?.engineVersion,
+        )
       : null
   const save = async (next: TeamSession) => {
     const current = useSession.getState().data
@@ -92,8 +111,10 @@ export default function Team() {
     setError('')
     try {
       await work()
+      return true
     } catch (e) {
       setError(e instanceof Error ? e.message : 'The action could not complete')
+      return false
     } finally {
       setBusy(false)
     }
@@ -109,45 +130,28 @@ export default function Team() {
         3,
         contribution,
       )
-      await save(submitTurn(team, p, contribution))
+      const prediction =
+        detailAnswer && lesson?.detail
+          ? immutable(
+              PredictionSchema.parse({
+                ...p,
+                detail: { question: lesson.detail.question, answer: detailAnswer },
+              }),
+            )
+          : p
+      await save(submitTurn(team, prediction, contribution))
       setHandoff(true)
       setContribution('')
+      setDetailAnswer('')
+      setAction('move')
       setSwitchId('')
     })
   const run = () =>
     perform(async () => {
-      if (!team || team.phase !== 'huddle' || !team.teamHypothesis || !ready)
-        throw new Error('Record the team hypothesis after everyone has contributed')
-      const result = execute(mission.world, teamProgram),
-        goal = judgeMission(mission, mission.world, teamProgram, result),
-        recordedAt = new Date().toISOString()
-      await save({
-        ...team,
-        status: goal.passed ? 'completed' : 'active',
-        phase: 'result',
-        evidenceBoard: [
-          ...team.evidenceBoard,
-          `Round ${team.rotationIndex + 1}: ${branchFacts(result.events)}. Actual goals ${goal.passed ? 'met' : 'not met'}.`,
-        ],
-        results: [
-          ...team.results,
-          {
-            round: team.rotationIndex,
-            engineVersion: 2,
-            missionVersion: mission.version,
-            traceHash: await stableHash(result.events),
-            goalPassed: goal.passed,
-            recordedAt,
-            world: mission.world,
-            program: teamProgram,
-          },
-        ],
-        actions: [
-          ...team.actions,
-          { learnerId: team.members[0]!.learnerId, kind: 'run', recordedAt },
-        ],
-      })
-      setCursor(result.events.length)
+      if (!team) return
+      const outcome = await runTeamRound(team)
+      await save(outcome.team)
+      setCursor(outcome.result.events.length)
     })
   return (
     <main className="page local-records">
@@ -284,7 +288,7 @@ export default function Team() {
                 >
                   Edit team
                 </Button>
-                {team.status === 'active' && (
+                {(team.status === 'active' || team.status === 'completed') && (
                   <Button
                     variant="outline"
                     onClick={() => void perform(() => save(pauseTeam(team)))}
@@ -372,6 +376,12 @@ export default function Team() {
                 <h2>Shared objective</h2>
                 <p>{mission.failureExplanation}</p>
                 <p>{mission.conceptGoals.join(' · ')}</p>
+                <TeamHelp
+                  key={`${team.id}:${team.rotationIndex}`}
+                  team={team}
+                  busy={busy}
+                  onRecord={(kind) => perform(() => save(recordTeamAssistance(team, kind)))}
+                />
                 <Button
                   variant="outline"
                   disabled={
@@ -397,7 +407,7 @@ export default function Team() {
                       <BlocklyEditor
                         program={teamProgram}
                         onProgram={(program) => {
-                          void perform(() => save({ ...team, program }))
+                          void perform(() => save(editTeamProgram(team, program)))
                           setEditor(false)
                         }}
                       />
@@ -413,11 +423,81 @@ export default function Team() {
                       session.
                     </p>
                   ))}
-                {team.phase === 'result' ? (
+                {!team.phase && !team.results.length && team.predictions.length > 0 ? (
+                  <>
+                    <h3>Historical team record</h3>
+                    <p>
+                      This saved format did not record role contributions or a replayable round
+                      result. Its predictions remain preserved. Begin a new round to use the current
+                      contribution protocol.
+                    </p>
+                    <Button
+                      onClick={() => {
+                        setHandoff(true)
+                        setContribution('')
+                        setDetailAnswer('')
+                        setAction('move')
+                        void perform(() => save(rotateRoles(team)))
+                      }}
+                    >
+                      Begin a new round from this historical session
+                    </Button>
+                  </>
+                ) : team.phase === 'result' ? (
                   <>
                     <h3>Actual shared result</h3>
                     <p className="fact">{team.evidenceBoard.at(-1)}</p>
                     <p>Team hypothesis: {team.teamHypothesis}</p>
+                    {lastResult && (
+                      <>
+                        <p data-testid="team-goal-outcome">
+                          {lastResult.goalPassed
+                            ? 'Shared program met the mission goals.'
+                            : 'Shared program needs another test.'}{' '}
+                          {judgeRecorded(
+                            mission,
+                            lastResult.missionVersion,
+                            (lastResult.world ?? mission.world) as typeof mission.world,
+                            lastResult.program ?? teamProgram,
+                            lastResult.engineVersion,
+                          ).facts.join(' ')}
+                        </p>
+                        <p>
+                          Assistance before this run:{' '}
+                          {lastResult.assistanceIds === undefined
+                            ? 'Not recorded in this historical format.'
+                            : lastResult.assistanceIds.length
+                              ? lastResult.assistanceIds
+                                  .map((id) => team.assistance.find((h) => h.id === id)?.kind)
+                                  .join(', ')
+                              : 'None recorded.'}{' '}
+                          Group execution does not award individual mastery.
+                        </p>
+                      </>
+                    )}
+                    {runResult?.error && (
+                      <p role="alert" className="error">
+                        {runResult.error}
+                      </p>
+                    )}
+                    {detailTruth && (
+                      <section data-testid="team-detail-results">
+                        <h4>{detailTruth.prompt}</h4>
+                        <p>Actual run: {detailTruth.label}.</p>
+                        {team.predictions
+                          .filter((p) => p.detail)
+                          .map((p) => (
+                            <p key={p.id}>
+                              {team.members.find((m) => m.learnerId === p.learnerId)?.alias}:
+                              predicted {answerLabel(detailTruth.question, p.detail!.answer)} ·{' '}
+                              {p.detail!.answer === detailTruth.answer
+                                ? 'matches this run'
+                                : 'differs from this run'}
+                              . This observation is team practice evidence.
+                            </p>
+                          ))}
+                      </section>
+                    )}
                     <Button variant="outline" onClick={() => setReview(!review)}>
                       Review trace
                     </Button>
@@ -427,7 +507,7 @@ export default function Team() {
                           setHandoff(true)
                           setReview(false)
                           setHypothesis('')
-                          void perform(() => save(rotateRoles(team)))
+                          void perform(() => save(advanceTeamRound(team)))
                         }}
                       >
                         Rotate roles & start next round
@@ -449,7 +529,7 @@ export default function Team() {
                         onClick={() => {
                           setHandoff(true)
                           setReview(false)
-                          void perform(() => save(rotateRoles(team, skipReason)))
+                          void perform(() => save(advanceTeamRound(team, skipReason)))
                         }}
                       >
                         Skip rotation with logged reason
@@ -487,6 +567,18 @@ export default function Team() {
                             )?.text
                           }
                         </p>
+                        {team.predictions.find((p) => p.learnerId === m.learnerId)?.detail &&
+                          lesson?.detail && (
+                            <p>
+                              Optional prediction:{' '}
+                              {answerLabel(
+                                lesson.detail.question,
+                                team.predictions.find((p) => p.learnerId === m.learnerId)!.detail!
+                                  .answer,
+                              )}
+                              .
+                            </p>
+                          )}
                       </article>
                     ))}
                     <label>
@@ -537,6 +629,8 @@ export default function Team() {
                               onChange={(e) => {
                                 setSwitchId(e.target.value)
                                 setContribution('')
+                                setDetailAnswer('')
+                                setAction('move')
                               }}
                             >
                               {pending.map((m) => (
@@ -586,6 +680,26 @@ export default function Team() {
                               ))}
                             </select>
                           </label>
+                          {lesson?.detail && detailOptions.length > 0 && (
+                            <details>
+                              <summary>Optional: one more private prediction</summary>
+                              <label>
+                                {lesson.detail.prompt}
+                                <select
+                                  value={detailAnswer}
+                                  onChange={(e) => setDetailAnswer(e.target.value)}
+                                >
+                                  <option value="">Skip this optional question</option>
+                                  {detailOptions.map((choice) => (
+                                    <option key={choice.id} value={choice.id}>
+                                      {choice.label}
+                                    </option>
+                                  ))}
+                                </select>
+                              </label>
+                              <p>The answer is revealed only after the real shared run.</p>
+                            </details>
+                          )}
                           <div className="button-row">
                             <Button disabled={!contribution.trim()} onClick={() => void submit()}>
                               Hand off — lock prediction & contribution
@@ -595,6 +709,7 @@ export default function Team() {
                               onClick={() => {
                                 setContribution('')
                                 setAction('move')
+                                setDetailAnswer('')
                               }}
                             >
                               Undo my draft
@@ -608,34 +723,7 @@ export default function Team() {
               </section>
             </>
           )}
-          <section className="paper">
-            <h2>Participation record</h2>
-            <p className="muted">
-              Counts describe recorded activity, not contribution quality or a learner’s ability.
-            </p>
-            {team.members.map((m) => (
-              <p key={m.learnerId}>
-                {m.alias}:{' '}
-                {
-                  new Set(
-                    team.roleHistory.filter((h) => h.learnerId === m.learnerId).map((h) => h.role),
-                  ).size
-                }{' '}
-                distinct roles ·{' '}
-                {
-                  team.predictionHistory.filter((p) => p.prediction.learnerId === m.learnerId)
-                    .length
-                }{' '}
-                predictions · {team.contributions.filter((c) => c.learnerId === m.learnerId).length}{' '}
-                recorded contributions.
-              </p>
-            ))}
-            {team.rotationSkips.map((s, i) => (
-              <p key={i}>
-                Round {s.round + 1} kept roles: {s.reason}
-              </p>
-            ))}
-          </section>
+          <TeamReport team={team} />
         </>
       )}
       {error && (
@@ -682,6 +770,11 @@ export default function Team() {
                 />
               </label>
             ))}
+          {error && (
+            <p role="alert" className="error">
+              {error}
+            </p>
+          )}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
@@ -709,19 +802,23 @@ export default function Team() {
                       ],
                     })
                   } else {
+                    const cleaned = editing.map((alias) =>
+                      alias
+                        .trim()
+                        .split('')
+                        .filter((c) => c.charCodeAt(0) >= 32 && c !== '<' && c !== '>')
+                        .join(''),
+                    )
                     if (
-                      editing.some((a) => !a.trim()) ||
-                      new Set(editing.map((a) => a.trim().toLowerCase())).size !== editing.length
+                      cleaned.some((a) => !a) ||
+                      new Set(cleaned.map((a) => a.toLowerCase())).size !== cleaned.length
                     )
                       throw new Error('Each teammate needs a unique non-empty alias')
                     await save({
                       ...team,
                       members: team.members.map((m, i) => ({
                         ...m,
-                        alias: editing[i]!.trim()
-                          .split('')
-                          .filter((c) => c.charCodeAt(0) >= 32 && c !== '<' && c !== '>')
-                          .join(''),
+                        alias: cleaned[i]!,
                       })),
                     })
                   }
