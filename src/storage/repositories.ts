@@ -32,7 +32,9 @@ export function annotateAttempt(
   data: AppExport,
   id: string,
   patch: Pick<Attempt, 'diagnosticResponses' | 'reassessment'> &
-    Partial<Pick<Attempt, 'transferRetries' | 'hintIds' | 'experimentUsed'>>,
+    Partial<
+      Pick<Attempt, 'transferRetries' | 'hintIds' | 'experimentUsed' | 'experimentResponses'>
+    >,
 ): AppExport {
   const original = data.attempts.find((a) => a.id === id)
   if (!original) throw new Error('Saved attempt not found')
@@ -58,6 +60,13 @@ export function annotateAttempt(
     throw new Error('Previously requested hints cannot be removed or rewritten')
   if (patch.hintIds && new Set(patch.hintIds).size !== patch.hintIds.length)
     throw new Error('Hint IDs must be unique')
+  if (
+    patch.experimentResponses !== undefined &&
+    original.experimentResponses?.some(
+      (r, i) => JSON.stringify(r) !== JSON.stringify(patch.experimentResponses?.[i]),
+    )
+  )
+    throw new Error('Existing experiment answers cannot be edited')
   if (original.experimentUsed && patch.experimentUsed === false)
     throw new Error('Revealed experiment assistance cannot be removed')
   const updated = AttemptSchema.parse({ ...original, ...patch })
