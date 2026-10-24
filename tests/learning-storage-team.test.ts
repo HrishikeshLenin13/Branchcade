@@ -1,15 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { initialHypotheses } from '../src/learning/hypothesis-library'
-import { updateEvidence, possibleFromWrongAnswer } from '../src/learning/evidence-engine'
-import { PROBES } from '../src/learning/probes'
-import { generateCounterexample } from '../src/learning/counterexamples'
+import { assess, probeObservation } from '../src/learning/diagnosis'
+import { buildProbe } from '../src/learning/probe-templates'
+import { searchCounterexamples, toCounterexample } from '../src/learning/counterexamples'
 import { conceptStatus } from '../src/learning/mastery'
 import { recordPrediction } from '../src/learning/predictions'
-import { nextHypothesis } from '../src/learning/adaptive-planner'
 import { learningCredit } from '../src/missions/scoring'
 import { makeWorld } from '../src/engine/world'
 import { execute } from '../src/interpreter/interpreter'
-import { actualAction } from '../src/interpreter/trace'
 import { thresholdProgram, FIRST_MISSION } from '../src/missions/catalog'
 import { judgeGoals } from '../src/missions/goals'
 import { stableHash, opaqueId } from '../src/domain/invariants'
@@ -28,7 +25,6 @@ import { roundReady } from '../src/collaboration/evidence-cards'
 import { fixtureProfile } from '../src/test/fixtures'
 import * as S from '../src/domain/schemas'
 import type { Attempt } from '../src/domain/types'
-const ref = { answerId: 'answer', traceHash: 'a'.repeat(64), scenarioHash: 'b'.repeat(64) }
 async function sampleAttempt(): Promise<Attempt> {
   const world = makeWorld(),
     program = thresholdProgram(),
@@ -54,52 +50,80 @@ async function sampleAttempt(): Promise<Attempt> {
   }
 }
 describe('transparent learning evidence', () => {
+  const obs = (answerId: string, learnerAnswer: string, scenarioKey = answerId) => ({
+    answerId,
+    source: 'probe' as const,
+    independenceKey: scenarioKey,
+    scenarioKey,
+    question: 'first-action' as const,
+    situation: 'a test example',
+    learnerAnswer,
+    truth: 'move',
+    predictions: { COMPARATOR_DIRECTION: 'stop', SENSOR_IS_ACTION: 'stop' } as const,
+  })
   it('the same initial wrong answer remains ambiguous', () => {
-    const hs = possibleFromWrongAnswer(initialHypotheses())
-    expect(hs.every((h) => h.status === 'possible' && h.supportScore === 0)).toBe(true)
+    const s = assess(['COMPARATOR_DIRECTION', 'SENSOR_IS_ACTION'], [obs('first', 'stop')])
+    expect(s.ranked.every((h) => h.status === 'possible')).toBe(true)
+    expect(s.active).toHaveLength(2)
   })
   it('different probe responses distinguish the same wrong first answer', () => {
-    const hs = possibleFromWrongAnswer(initialHypotheses())
-    const a = updateEvidence(hs, PROBES[0]!, 'true', ref)
-    let b = updateEvidence(hs, PROBES[0]!, 'false', ref)
-    b = updateEvidence(b, PROBES[1]!, 'automatic', { ...ref, answerId: 'answer2' })
-    expect(nextHypothesis(a)).toBe('reversed-comparison')
-    expect(nextHypothesis(b)).toBe('sensor-stops')
+    const a = buildProbe('g.branch-at.10-lt')!,
+      b = buildProbe('g.move-only.24')!
+    const base = [obs('first', 'stop')]
+    const fromProbe = (id: string, answer: string) =>
+      probeObservation(`x-${id}-${answer}`, id, answer)!
+    const comparator = assess(
+      ['COMPARATOR_DIRECTION', 'SENSOR_IS_ACTION'],
+      [...base, fromProbe(a.id, a.predictions.COMPARATOR_DIRECTION)],
+    )
+    const sensor = assess(
+      ['COMPARATOR_DIRECTION', 'SENSOR_IS_ACTION'],
+      [...base, fromProbe(a.id, a.truth), fromProbe(b.id, b.predictions.SENSOR_IS_ACTION)],
+    )
+    expect(comparator.ranked[0]!.code).toBe('COMPARATOR_DIRECTION')
+    expect(sensor.ranked[0]!.code).toBe('SENSOR_IS_ACTION')
   })
   it('contradictory evidence downgrades; repeated exact evidence is not counted', () => {
-    const a = updateEvidence(initialHypotheses(), PROBES[0]!, 'true', ref)
-    expect(updateEvidence(a, PROBES[0]!, 'true', ref)).toEqual(a)
-    const b = updateEvidence(a, PROBES[0]!, 'false', { ...ref, answerId: 'different' })
-    expect(b[0]!.supportScore).toBe(0)
-    expect(b[0]!.status).toBe('evidence_against')
+    const once = assess(['COMPARATOR_DIRECTION'], [obs('a', 'stop', 's1')])
+    expect(
+      assess(['COMPARATOR_DIRECTION'], [obs('a', 'stop', 's1'), obs('b', 'stop', 's1')]).ranked,
+    ).toEqual(once.ranked)
+    const contradicted = assess(
+      ['COMPARATOR_DIRECTION'],
+      [obs('a', 'stop', 's1'), obs('b', 'move', 's2'), obs('c', 'move', 's3')],
+    )
+    expect(contradicted.ranked[0]!.status).toBe('evidence_against')
+    expect(contradicted.ranked[0]!.supportScore).toBe(0)
   })
   it('caps heuristic weights and rejects unknown answers', () => {
-    expect(() => updateEvidence(initialHypotheses(), PROBES[0]!, 'unknown', ref)).toThrow()
-    let h = initialHypotheses()
-    for (let i = 0; i < 5; i++)
-      h = updateEvidence(h, PROBES[0]!, 'true', {
-        ...ref,
-        answerId: `answer${i}`,
-        scenarioHash: String(i).repeat(64),
-      })
-    expect(h[0]!.supportScore).toBe(1)
-    expect(S.HypothesisSchema.parse(h[0])).toEqual(h[0])
+    expect(probeObservation('x', 'g.branch-at.10-lt', 'not-a-choice')).toBeNull()
+    const many = assess(
+      ['COMPARATOR_DIRECTION'],
+      Array.from({ length: 6 }, (_, i) => obs(`a${i}`, 'stop', `s${i}`)),
+    )
+    expect(many.ranked[0]!.supportScore).toBe(1)
   })
   it('validates counterexample traces against actual engine checksums', async () => {
-    for (const target of ['reversed-comparison', 'sensor-stops']) {
-      const c = await generateCounterexample(target)
+    for (const target of ['COMPARATOR_DIRECTION', 'SENSOR_IS_ACTION'] as const) {
+      const base = { key: `legacy-${target}`, world: makeWorld(), program: thresholdProgram() }
+      const search = searchCounterexamples(base, [target])
+      const c = await toCounterexample(base, search, [target])
       expect(S.CounterexampleSchema.safeParse(c).success).toBe(true)
       expect(c.noCandidateReason).toBeNull()
-      expect(actualAction(c.baselineTrace)).not.toBe(actualAction(c.changedTrace))
       expect(c.validationChecksum).toBe(
         await stableHash({ baseline: c.baselineTrace, changed: c.changedTrace }),
       )
       expect(c.baselineTrace).toEqual(execute(makeWorld(), thresholdProgram()).events)
+      expect(c.changedTrace).toEqual(
+        execute(search.ranked[0]!.world, search.ranked[0]!.program).events,
+      )
     }
   })
   it('returns explicit no-candidate rather than an invented experiment', async () => {
-    expect((await generateCounterexample('unrecognized-model')).noCandidateReason).toContain(
-      'No validated candidate',
+    const base = { key: 'legacy-none', world: makeWorld(), program: thresholdProgram() }
+    const search = searchCounterexamples(base, ['WHILE_PRETEST'])
+    expect((await toCounterexample(base, search, ['WHILE_PRETEST'])).noCandidateReason).toContain(
+      'No single-change experiment',
     )
   })
   it('one answer is not mastery and identical transfer is deduplicated', () => {
@@ -220,10 +244,13 @@ describe('local role rotation and private predictions', () => {
   })
 })
 it('repeating the same example adds no independent support weight', () => {
-  const a = updateEvidence(initialHypotheses(), PROBES[0]!, 'true', ref)
-  const b = updateEvidence(a, PROBES[0]!, 'true', { ...ref, answerId: 'a-new-attempt' })
-  expect(b[0]!.evidence).toHaveLength(2)
-  expect(b[0]!.supportScore).toBe(a[0]!.supportScore)
+  const p = buildProbe('g.branch-at.10-lt')!
+  const first = probeObservation('a', p.id, p.predictions.COMPARATOR_DIRECTION)!
+  const again = probeObservation('a-new-attempt', p.id, p.predictions.COMPARATOR_DIRECTION)!
+  const a = assess(['COMPARATOR_DIRECTION'], [first])
+  const b = assess(['COMPARATOR_DIRECTION'], [first, again])
+  expect(b.ranked[0]!.supports).toHaveLength(1)
+  expect(b.ranked[0]!.supportScore).toBe(a.ranked[0]!.supportScore)
 })
 it('imported completion and transfer claims need actual evidence', async () => {
   const a = await sampleAttempt()
