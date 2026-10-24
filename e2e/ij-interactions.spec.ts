@@ -250,6 +250,12 @@ test('I/J every shell and explanation link alias follows its actual route and co
   await expect(page.locator('#main-content')).toBeFocused()
   await page.goto('/missions/m01?new=1')
   await page.getByRole('button', { name: 'Save', exact: true }).click()
+  // Resume appears from the in-memory draft before its IndexedDB write completes.
+  // Wait for this explicit save's completion before followLink performs a full reload.
+  await expect(
+    page.getByText('World, code and learning stage saved on this device.', { exact: true }),
+  ).toBeVisible()
+  await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
   await expect(page.getByRole('link', { name: 'Resume', exact: true })).toBeVisible()
   await followLink('Resume', '/missions/m01')
   await followLink('Continue learning', '/missions/m01')

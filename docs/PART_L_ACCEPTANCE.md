@@ -27,6 +27,8 @@ No new release-blocking application defect was established. No runtime source, p
 
 The first focused Firefox command used an anchored grep that matched no full test title; that invocation was corrected and an actual selected test then reproduced the known browser-profile startup failure. It is an environment failure, not a passing/ignored app test. The local Chromium suite passed all 105 cases with retries disabled. No browser assertion was skipped or loosened.
 
+The first L CI on `1b39b33` was green overall but had one retry-recovered Firefox navigation test. Its Save→Home transition asserted an optimistic Resume link before persistence had completed. The test now waits for explicit Save completion and the durable-save indicator before reloading Home, preserving every original link/route/menu assertion. The run, missing-Resume timeout and subsequent verification are recorded in TEST_REPORT. L remains in progress until a clean pushed run verifies this repair; overall green alone is insufficient evidence of zero observed flakes.
+
 ## Boundaries and next step
 
 Human student technical review, significant independent implementation/contribution evidence, disclosure/eligibility approval, real participant sessions, video recording/public upload, public hosting and contest submission remain pending. ENGINEERING COMPLETE requires the final successful pushed CI in TEST_REPORT; RELEASE COMPLETE and CONTEST SUBMITTED are not claimed. The proposed independent two-reviewer audit comes next only after separate authorization. There is no new Part M in SPEC.

@@ -1,0 +1,10 @@
+verify	Run npm ci	2026-10-24T22:38:23.5926580Z found 0 vulnerabilities
+verify	Run npm run check	2026-10-24T22:38:55.4145826Z ^[[2m Test Files ^[[22m ^[[1m^[[32m29 passed^[[39m^[[22m^[[90m (29)^[[39m
+verify	Run npm run check	2026-10-24T22:38:55.4146617Z ^[[2m      Tests ^[[22m ^[[1m^[[32m396 passed^[[39m^[[22m^[[90m (396)^[[39m
+verify	Run npm run test:e2e	2026-10-24T22:44:09.9884345Z   ✓  168 [firefox] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (retry #1) (13.6s)
+verify	Run npm run test:e2e	2026-10-24T22:45:20.3718370Z     Test timeout of 60000ms exceeded.
+verify	Run npm run test:e2e	2026-10-24T22:45:20.3718995Z     Error: locator.click: Test timeout of 60000ms exceeded.
+verify	Run npm run test:e2e	2026-10-24T22:45:20.3730437Z       - waiting for getByRole('link', { name: 'Resume', exact: true })
+verify	Run npm run test:e2e	2026-10-24T22:45:20.3742237Z   1 flaky
+verify	Run npm run test:e2e	2026-10-24T22:45:20.3743882Z   209 passed (5.7m)
+verify	Run npm audit	2026-10-24T22:45:20.9618514Z found 0 vulnerabilities

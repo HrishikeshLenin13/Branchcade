@@ -28,6 +28,14 @@ Final edited-tree local gates passed: format, secrets, modified-spec guard, K do
 
 Remote L verification is appended after the actual pushed workflow completes. [PART_L_ACCEPTANCE](PART_L_ACCEPTANCE.md), [RELEASE_READINESS](RELEASE_READINESS.md) and [HANDOFF](HANDOFF.md) separate verified engineering from pending hosting/video/student review/eligibility/submission.
 
+### First remote L checkpoint — additional test race found
+
+[CI40139396432](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40139396432) on pushed `1b39b337259b580b78d013a7ecfa5933756859ec` completed overall success:396unit tests, all quality gates/audit0 and all210browser cases ultimately passed. Its detailed log nevertheless reported **1 flaky Firefox case**, the shell/explanation navigation journey at `e2e/ij-interactions.spec.ts:214`. It was not accepted as a zero-flake final checkpoint. [Step metadata](evidence/l/first-ci.json) and [literal summary including the retry](evidence/l/first-ci-summary.log) preserve this result. Failure screenshots/traces were named in the log, but the workflow's failure-only artifact upload did not run because the retry passed; no downloaded Firefox screenshot/trace inspection is claimed.
+
+The first attempt timed out waiting for Home's Resume link after Save and a full-page `goto('/')`. Save inserts a draft into the in-memory session before awaiting its IndexedDB write; the existing Resume-visible assertion therefore did not establish durability. The test now waits for the explicit “World, code and learning stage saved on this device.” completion message and the header's “Saved locally.” acknowledgment before unloading. The application's saving indicator/guard and persistence logic are unchanged. This is a test synchronization repair; no lost completed-save app behavior was established. Every original link, route and compact-menu assertion remains; no timeout/retry policy was changed.
+
+Eight unmodified Chromium repetitions passed locally, so that run did not independently reproduce Firefox's timing. The exact failure was observed in remote Firefox. After the repair, **10/10 Chromium repetitions passed in39.1seconds with two workers and retries0**; [before](evidence/l/resume-before.log) and [after](evidence/l/resume-after.log) results are retained. The next full remote run must verify both browsers; local Firefox's startup limitation remains separate.
+
 ## Part K — documentation and actual production rehearsal (2026-10-24)
 
 Baseline/fetched source: `abd9d0a50abb30afd2d46057caac7ddfb90f4a9d`, clean main. Its [CI 40129455981](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40129455981) was independently checked: completed/success. Part K modifies documentation plus reproducible audit scripts, not the application, lockfile, frozen mission v1 or engine/mission versions.

@@ -1,0 +1,33 @@
+
+> branchcade@0.1.0 test:e2e
+> playwright test e2e/ij-interactions.spec.ts --project=chromium --grep every shell and explanation --repeat-each=8 --workers=2 --retries=0
+
+
+Running 8 tests using 2 workers
+
+(node:6176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6175) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (6.0s)
+(node:6243) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (7.2s)
+(node:6248) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (5.9s)
+(node:6260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (6.0s)
+(node:6266) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (5.5s)
+(node:6273) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  6 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (6.1s)
+(node:6280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (5.6s)
+  ✓  8 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (7.8s)
+
+  8 passed (30.6s)
