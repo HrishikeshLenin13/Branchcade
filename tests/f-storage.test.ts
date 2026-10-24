@@ -9,7 +9,7 @@ import { recordPrediction } from '../src/learning/predictions'
 import { exportJson, validateImport } from '../src/storage/import-export'
 import { stableHash } from '../src/domain/invariants'
 import { judgeGoals } from '../src/missions/goals'
-import { FIRST_MISSION } from '../src/missions/catalog'
+import { legacyMission } from '../src/missions/legacy-v1'
 import { programWorkspace, editableProgram } from '../src/features/lab/program-workspace'
 import type { Attempt, Program } from '../src/domain/types'
 import golden from '../docs/evidence/f/legacy-golden.json'
@@ -36,7 +36,8 @@ it('imports real pre-F immutable attempts and new F attempts together with versi
       traceHash: await stableHash(run.events),
       diagnosticResponses: [],
       reassessment: null,
-      goalOutcome: judgeGoals(world, run, FIRST_MISSION.successPredicate),
+      // Historical records carry no missionVersion, so they are judged with frozen v1 data.
+      goalOutcome: judgeGoals(world, run, legacyMission('m01')!.successPredicate),
       ...(version === 2 ? { engineVersion: 2 as const } : {}),
     }
     if (version === 1) expect(attempt.traceHash).toBe(golden[0]!.hash)

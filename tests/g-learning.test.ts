@@ -9,7 +9,7 @@ import { actualAction } from '../src/interpreter/trace'
 import { stableHash } from '../src/domain/invariants'
 import { recordPrediction } from '../src/learning/predictions'
 import { MISSION_CATALOG, findMission, thresholdProgram } from '../src/missions/catalog'
-import { judgeGoals } from '../src/missions/goals'
+import { judgeMission } from '../src/missions/judge'
 import { makeWorld } from '../src/engine/world'
 import { HYPOTHESIS_CODES, NO_MISCONCEPTION, TAXONOMY } from '../src/learning/taxonomy'
 import { runModel, observe } from '../src/learning/mental-models'
@@ -58,6 +58,7 @@ async function attemptFor(
   return S.AttemptSchema.parse({
     schemaVersion: 1,
     engineVersion: 2,
+    missionVersion: mission.version,
     id: `attempt-${clock}`,
     learnerId: options.learnerId ?? 'synthetic-learner',
     missionId: mission.id,
@@ -70,7 +71,7 @@ async function attemptFor(
     traceHash: await stableHash(run.events),
     diagnosticResponses: [],
     reassessment: null,
-    goalOutcome: judgeGoals(world, run, mission.successPredicate),
+    goalOutcome: judgeMission(mission, world, program, run),
   })
 }
 const answer = (a: Attempt, probeId: string, ans: string): Attempt => ({

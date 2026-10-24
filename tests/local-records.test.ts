@@ -14,7 +14,7 @@ import { recordPrediction } from '../src/learning/predictions'
 import { MISSION_CATALOG, FIRST_MISSION, thresholdProgram } from '../src/missions/catalog'
 import { execute } from '../src/interpreter/interpreter'
 import { actualAction } from '../src/interpreter/trace'
-import { judgeGoals } from '../src/missions/goals'
+import { judgeMission } from '../src/missions/judge'
 import { opaqueId, stableHash } from '../src/domain/invariants'
 import { ExportSchema } from '../src/domain/schemas'
 import type { Attempt, Mission } from '../src/domain/types'
@@ -58,10 +58,11 @@ async function attempt(
     world: mission.world,
     program: mission.starterProgram,
     engineVersion: 2,
+    missionVersion: mission.version,
     traceHash: await stableHash(run.events),
     diagnosticResponses: [],
     reassessment: null,
-    goalOutcome: judgeGoals(mission.world, run, mission.successPredicate),
+    goalOutcome: judgeMission(mission, mission.world, mission.starterProgram, run),
   }
 }
 describe('team contribution protocol', () => {
@@ -225,7 +226,7 @@ describe('safe local records and scoped exports', () => {
     let team = createTeam(['Amber', 'Cedar'])
     const program = thresholdProgram(25),
       run = execute(FIRST_MISSION.world, program),
-      goal = judgeGoals(FIRST_MISSION.world, run, FIRST_MISSION.successPredicate)
+      goal = judgeMission(FIRST_MISSION, FIRST_MISSION.world, program, run)
     team = { ...team, program }
     for (const member of team.members)
       team = submitTurn(
@@ -241,6 +242,7 @@ describe('safe local records and scoped exports', () => {
         {
           round: 0,
           engineVersion: 2,
+          missionVersion: FIRST_MISSION.version,
           traceHash: await stableHash(run.events),
           goalPassed: goal.passed,
           recordedAt: new Date().toISOString(),

@@ -8,7 +8,7 @@ import { learningCredit } from '../src/missions/scoring'
 import { makeWorld } from '../src/engine/world'
 import { execute } from '../src/interpreter/interpreter'
 import { thresholdProgram, FIRST_MISSION } from '../src/missions/catalog'
-import { judgeGoals } from '../src/missions/goals'
+import { judgeMission } from '../src/missions/judge'
 import { stableHash, opaqueId } from '../src/domain/invariants'
 import { emptyData, migrateData } from '../src/storage/migrations'
 import {
@@ -43,10 +43,11 @@ async function sampleAttempt(): Promise<Attempt> {
     world,
     program,
     engineVersion: 2,
+    missionVersion: FIRST_MISSION.version,
     traceHash: await stableHash(result.events),
     diagnosticResponses: [],
     reassessment: null,
-    goalOutcome: judgeGoals(world, result, FIRST_MISSION.successPredicate),
+    goalOutcome: judgeMission(FIRST_MISSION, world, program, result),
   }
 }
 describe('transparent learning evidence', () => {
