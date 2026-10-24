@@ -3,7 +3,7 @@
 ## Scope and source of truth
 
 - Read docs/HANDOFF.md, docs/STATUS.json, docs/SPEC.md, architecture, design system and tests before editing.
-- Current user request: implement master-prompt Part F on the updated remote A–E foundation, verify earlier behavior, and push tested checkpoints. Parts G–L do not expand this scope.
+- Current user request (friend #3): verify/finish Part F, then implement Part G (G1–G6) and integrate it into the learning UI. Part H was explicitly removed by the project lead; do not start H–L without a new request.
 - Work only on main. The user's single-branch request overrides the prompt's phase-branch preference. Never force-push or discard user work.
 - Start with pwd, git status, remotes, fetch --all --prune, log, source tree and scripts; pull --ff-only only when clean.
 

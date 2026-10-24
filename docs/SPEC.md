@@ -1145,4 +1145,4 @@ If all phases are completed, report final functional paths, actual test counts a
 
 ## Current invocation scope
 
-The current user explicitly authorized Part F on the updated A–E main branch. Implement F1–F6, preserve and regress earlier work, commit and push tested checkpoints on main only. Later G–L work is not authorized by this invocation. The original attached specification remains preserved byte-for-byte in docs/evidence/SPEC.original.md.
+Friend #3 handoff (2026-10-24): independently verify and finish Part F, then implement all of Part G (G1–G6) and integrate it into the existing learning interface, on main only. The project lead explicitly removed Part H from this invocation, so Part H and Parts I–L are not authorized here; the eight existing authored missions are preserved unchanged in scope. The original attached specification remains preserved byte-for-byte in docs/evidence/SPEC.original.md.
