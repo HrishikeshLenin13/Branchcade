@@ -282,6 +282,10 @@ test('I/J roster sanitization, draft undo, learner switch, end and reset preserv
     .getByRole('textbox', { name: 'New anonymous alias (optional)', exact: true })
     .fill('Synthetic Solo Learner')
   await page.getByRole('button', { name: 'Create another anonymous learner', exact: true }).click()
+  await expect(page.getByRole('combobox', { name: 'Local pseudonym', exact: true })).toContainText(
+    'Synthetic Solo Learner',
+  )
+  await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
   await page.goto('/team')
   await page.getByRole('button', { name: '+ Add teammate', exact: true }).click()
   await expect(
