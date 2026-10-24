@@ -235,7 +235,7 @@ export function blindLineProgram(): Program {
     ],
   }
 }
-function lapProgram(count: number): Program {
+export function lapProgram(count: number): Program {
   return {
     schemaVersion: 1,
     id: 'square-route',
@@ -477,13 +477,27 @@ const extraMissions = [
     'The Extra Lap',
     emptyWorld('three-sides'),
     lapProgram(4),
+    // v2: three corners in order, exactly three loop iterations. Overshooting (4 laps
+    // returns to the start) or hand-copying the moves without a loop does not pass.
     [
       { kind: 'reach', position: { xCm: 40, yCm: 60 }, toleranceCm: 0.1 },
       { kind: 'event', eventKind: 'turn', count: 3 },
       { kind: 'heading', headingDeg: 270, toleranceDeg: 0.1 },
+      { kind: 'event', eventKind: 'repeat_iteration', count: 3 },
+      {
+        kind: 'path',
+        points: [
+          { xCm: 50, yCm: 50 },
+          { xCm: 50, yCm: 60 },
+          { xCm: 40, yCm: 60 },
+        ],
+        toleranceCm: 0.5,
+      },
     ],
     ['loops', 'debugging'],
     lapProgram(3),
+    undefined,
+    { version: 2 },
   ),
   authored(
     'm05',
