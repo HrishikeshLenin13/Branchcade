@@ -2,7 +2,7 @@ import type { Mission, Program, World } from '../domain/types'
 import { readSensors } from '../engine/sensors'
 import { initialRobot } from '../engine/robot'
 import { REFERENCE_PROGRAMS } from './catalog'
-import { blindLineProgram, lapProgram } from './catalog'
+import { approachProgram, blindLineProgram, lapProgram } from './catalog'
 import { MISSION_META } from './catalog'
 import { missionConcepts } from '../learning/concepts'
 import { buildProbe } from '../learning/probe-templates'
@@ -316,4 +316,77 @@ CURRICULUM.m04 = {
     },
   ],
   detail: { question: 'turn-count', prompt: 'How many times will the robot turn in total?' },
+}
+
+const whileDistance = (id: string, threshold: number, step: number): Program =>
+  program(id, [
+    {
+      nodeId: 'approach',
+      kind: 'while',
+      condition: compare('room', '>', distance('reading'), lit('limit', threshold)),
+      body: [move('step', step)],
+    },
+    stop(),
+  ])
+
+CURRICULUM.m05 = {
+  narrative:
+    'The robot should creep toward the wall in small steps and park 10–14 cm away. The starter loop never even starts. Fix the condition so the loop keeps going while there is room and ends by itself.',
+  targetConcept: 'While loops that re-read a sensor each time they check their condition',
+  vocabulary: [
+    {
+      term: 'while loop',
+      meaning: 'Checks its condition first, then repeats while it stays true.',
+    },
+    {
+      term: 'terminate',
+      meaning: 'For a loop: stop repeating because the condition became false.',
+    },
+    { term: 'safe stopping distance', meaning: 'How close to the wall the robot may finish.' },
+  ],
+  expectedPrediction: {
+    action: 'stop',
+    reason: '44 < 12 is false at the very first check, so the loop body never runs.',
+  },
+  failureExamples: [
+    'Using < instead of > ends the loop before it starts.',
+    'Driving a fixed 40 cm ignores the sensor and ends far too close.',
+    'Looping while distance > 2 parks almost touching the wall.',
+  ],
+  teacherNote:
+    'Two ideas matter here: a while loop checks before running, and the distance is read again after every step. If a learner expects the loop to “never end”, ask what the reading is after each 2 cm move.',
+  probeIds: ['g.while-start-false.10', 'g.approach-loop.40', 'g.reading-change.40'],
+  hints: [
+    'Look at the very first branch row in the timeline. Is the loop condition true or false?',
+    'The loop runs only while its condition is true. 44 < 12 is false, so nothing inside runs. A simpler example: “while 5 > 3” would run.',
+    'Compare this different program: while distance > 30 → move 5 cm, then stop. Where would it finish?',
+  ],
+  hintExample: whileDistance('hint-m05', 30, 5),
+  mistakeVariants: [
+    {
+      id: 'starter',
+      label: 'Starter: while distance < 12',
+      program: approachProgram('<'),
+      fails: 'Goal 2 (final-distance): not met',
+      explanation: 'The loop never starts, so the robot stops 44 cm away.',
+    },
+    {
+      id: 'blind',
+      label: 'Fixed 20 × 2 cm, no sensor',
+      program: program('m05-blind', [
+        { nodeId: 'blind', kind: 'repeat', count: lit('n', 20), body: [move('step', 2)] },
+        stop(),
+      ]),
+      fails: 'Goal 2 (final-distance): not met',
+      explanation: 'It always drives 40 cm and ends 4 cm from the wall.',
+    },
+    {
+      id: 'too-close',
+      label: 'while distance > 2',
+      program: whileDistance('m05-close', 2, 2),
+      fails: 'Goal 2 (final-distance): not met',
+      explanation: 'It keeps creeping until only 2 cm are left.',
+    },
+  ],
+  detail: { question: 'move-count', prompt: 'How many times will the move block run?' },
 }

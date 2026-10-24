@@ -250,7 +250,7 @@ export function lapProgram(count: number): Program {
     ],
   }
 }
-function approachProgram(op: '>' | '<' = '>'): Program {
+export function approachProgram(op: '>' | '<' = '>'): Program {
   return {
     schemaVersion: 1,
     id: 'safe-approach',
@@ -504,13 +504,27 @@ const extraMissions = [
     'The Loop That Never Ends',
     makeWorld(44),
     approachProgram('<'),
+    // v2: controlled loop termination with a safe stopping band, from two start distances.
     [
-      { kind: 'stopped' },
+      { kind: 'programmed-stop' },
+      { kind: 'final-distance', minCm: 10, maxCm: 14 },
       { kind: 'distance', minCm: 31.9 },
       { kind: 'reach', position: { xCm: 72, yCm: 50 }, toleranceCm: 0.1 },
     ],
     ['distance-sensors', 'loops', 'comparisons'],
     approachProgram(),
+    undefined,
+    {
+      version: 2,
+      successScenarios: [
+        {
+          id: 'far-start',
+          label: 'wall 60 cm away',
+          world: makeWorld(60),
+          goals: [{ kind: 'programmed-stop' }, { kind: 'final-distance', minCm: 10, maxCm: 14 }],
+        },
+      ],
+    },
   ),
   authored(
     'm06',
