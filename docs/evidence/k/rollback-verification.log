@@ -1,0 +1,5 @@
+Command: python3 disposable README copy: load git show abd9d0a:README.md; copy current README; restore original bytes on disposable copy; compare hashes; verify live README unchanged.
+BASELINE_SHA256=cdc3d0228152286818891c09fd63b38772bbee9c26c92ea6fe2587f7cb1533e9
+MODIFIED_SHA256=c84e00d64bae5a3286a193ebf05266ed35b415071ca1a3ffba7ec97b322be4b5
+ROLLBACK_RESULT=PASS: disposable copy restored byte-for-byte; live README remains modified; runtime source unchanged.
+EXIT_STATUS=0

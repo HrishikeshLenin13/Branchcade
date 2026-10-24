@@ -23,4 +23,4 @@ After publication, record the real URL and check Home; direct `/missions/m01`, `
 
 ## Remaining authorization
 
-Choose and authorize the hosting account/project, then publish and verify the resulting public URL. This is the only hosting step left to the owner. No credentials need to be pasted into chat. Student algorithm review and dedicated Parts K/L remain separate, explicitly uncompleted human work.
+Choose and authorize the hosting account/project, then publish and verify the resulting public URL. This is the only hosting step left to the owner. No credentials need to be pasted into chat. Part K materials are prepared separately; student review and actual owner-authorized publication remain uncompleted human work. Part L has not begun.

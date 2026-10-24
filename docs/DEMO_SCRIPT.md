@@ -1,12 +1,5 @@
-# Honest foundation demo (about two minutes)
+# Demonstration package
 
-1. Explain the creator's real motivation teaching a small robotics group; do not invent quotations or effectiveness claims.
-2. Home → Enter the lab → create a local robot alias. Read the 24cm sensor and the actual if/else program.
-3. Predict stop intentionally as a demo choice, then run. Point to the actual `24 < 20 is false` event, selected else branch and 10cm movement.
-4. Answer the comparison probe correctly but the autonomous-sensor question incorrectly. Show the tentative sensor-action explanation, not a definitive label.
-5. Generate the executed counterexample. Change threshold 20 to 30 while the reading stays24. Show the trace-derived outcome change.
-6. Predict stop for the different 32cm / threshold35 transfer. Reveal the actual result. Explain why one right answer does not establish mastery.
-7. Open Instructor, inspect the actual local attempt, export CSV, and point out explicit deletion. Optionally show three-person private prediction handoff and role rotation.
-8. State current limits honestly: one verified mission, initial Blockly subset, no online classroom, no finished eight-mission release. Code is AI-assisted; student review and final competition work remain.
+The old foundation-only script is superseded by Part K's [complete narration](DEMO_VIDEO_SCRIPT.md), [exact storyboard and real UI rehearsal](DEMO_STORYBOARD.md), [macOS recording checklist](DEMO_RECORDING_CHECKLIST.md) and [2026 official-source review](CONGRESSIONAL_APP_CHALLENGE_2026.md).
 
-Use only actual running UI and clearly labeled demo choices. No fabricated learner results or public deployment claim. Full later-release demo requirements remain in SPEC Part K.
+Target: 2:48, with a 2:35 alternate. Actual video recording/upload, human read-through timing and confirmed personal-contribution narration are **AWAITING OWNER ACTION**. The source now has eight missions and the full learning cycle; the old one-mission limitations must not be repeated as current state. No finished video or public deployment is claimed.

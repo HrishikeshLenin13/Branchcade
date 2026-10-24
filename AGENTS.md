@@ -3,7 +3,7 @@
 ## Scope and source of truth
 
 - Read docs/HANDOFF.md, docs/STATUS.json, docs/SPEC.md, architecture, design system and tests before editing.
-- Current user request (2026-10-24): finish Parts I and J on the updated A–H checkpoint. Audit all twelve phase gates against source and reproducible evidence, finish actual gaps, and verify quality, accessibility and performance. Preserve completed work and frozen mission-data/v1.json. Keep mission ids and historical judging. Dedicated Parts K/L (human study, competition/demo/submission materials) remain outside this request; never invent human review or deployment.
+- Current user request (2026-10-24): complete Part K K1–K4 on the updated A–J checkpoint. Prepare accurate README, voluntary human-study materials, real-app demo/script, official-rule review and source-ownership workbook/disclosure. Preserve runtime and frozen mission v1. Human sessions, student contributions/review, recording/upload, eligibility and owner approval remain pending until real. Do not begin Part L.
 - Work only on main. The user's single-branch request overrides the prompt's phase-branch preference. Never force-push or discard user work.
 - Start with pwd, git status, remotes, fetch --all --prune, log, source tree and scripts; pull --ff-only only when clean.
 

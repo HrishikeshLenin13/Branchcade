@@ -1,6 +1,24 @@
 # Branchcade handoff
 
-## Current checkpoint — I/J red CI repaired (2026-10-24)
+## Current scope — Part K prepared materials (2026-10-24)
+
+User-authorized scope: K1–K4 only on updated A–J, **main only**. Start/fetched remote: `abd9d0a50abb30afd2d46057caac7ddfb90f4a9d`, clean. Prior [CI 40129455981](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40129455981) was independently confirmed green. No runtime source, frozen mission v1, dependency lock or historical judging changes were made. Part L is **NOT STARTED**.
+
+Prepared: complete README with an authentic Blockly/stage/prediction screenshot and architecture/algorithm guide; voluntary learner/instructor protocol, blank forms and unfilled results; 2:48 narration/2:35 alternate, exact storyboard, macOS checklist, verified official-source review and answer drafts; subsystem AI/contributor inventory, 16-concept personal workbook and disclosure draft. Old foundation demo/study/submission files now point to the canonical materials instead of contradicting the current eight-mission app. See [PART_K_ACCEPTANCE](PART_K_ACCEPTANCE.md).
+
+Actual verification on Node 24.22.1/npm 11.19.0: fresh npm ci; lint/strict TS/396 tests across 29 files/build; local production Chromium 105/105,0 failed/skipped; corrected-mode spec check, formatting/secrets and npm audit 0. New docs/rehearsal scripts have their final gates recorded in TEST_REPORT. The initial spec invocation lacked the required mode and failed; rerunning `npm run verify:spec -- modified` passed without changing its guard. Local Firefox's previously documented profile-launch failure is not counted as a local pass; cross-browser CI is tracked separately.
+
+The real production rehearsal executes M01's wrong-STOP prediction, actual 24<20 false/else, adaptive 40 cm then 10 cm probes, generated wall-distance experiment, 30 cm MOVE and 12 cm STOP with threshold 20, distinct 32 / <35 transfer and saved Progress after reload. Zero page errors/nonlocal request origins. Playwright MCP independently verified comparison selection/probe rationale; Chrome DevTools spot check had no warn/error or fetch/XHR. Three actual JPEGs were opened and inspected; screenshot framing was adjusted to show Blockly, not source/UI behavior. All answers are labeled synthetic demo choices, not real participants. Evidence/commands: `docs/evidence/k/` and `scripts/rehearse-k-demo.mjs`.
+
+**Human-state separation:** protocol/script/inventory/workbook are prepared; actual learner/instructor sessions, student explanation/substantive implementation/revision/test evidence, owner disclosure approval, eligibility/collaborator confirmation, real recording/duration/public upload and final readiness all remain **AWAITING OWNER ACTION**. Existing logs document extensive AI-authored technical work; no independent student implementation is verified here. Do not claim compliance from a disclosure alone.
+
+**Urgent deadline discrepancy:** the official 2026 PDF says October 26 noon EDT / 11 a.m. CDT; official registration says 9 p.m. ET / 8 p.m. CDT. Plan to the earlier cutoff and obtain organizer clarification. Public portal character limits were not visible without login and remain unverified. No account/registration/upload/submission or public hosting action was performed. Public deployment still requires owner authorization and actual URL checks.
+
+Commits: first prepared-material checkpoint `8d562aa5d91f607ba599dd334fc8170a3c41aa6a` was pushed and its remote SHA verified. Subsequent source/document verification and CI checkpoints are recorded in TEST_REPORT and git history, not invented as this document's own SHA. Keep original/historical sections below as history, not current instructions to redo A–J.
+
+Next actions: owner reads the workbook/source inventory and confirms actual personal work/contributors; reviews official-source discrepancy; conducts any voluntary sessions with permission; adapts narration and records/inspects real media. An engineering continuation should fetch clean main, run `node scripts/verify-k-docs.mjs` and relevant gates, preserve human-pending flags, and only perform separately user-authorized work. Do not start Part L implicitly.
+
+## Previous checkpoint — I/J red CI repaired (2026-10-24)
 
 Latest verified source commit: `fddd0652554673081bc09b9ca4d6b3f402388044` on `main`. [GitHub Actions run 40128767480](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40128767480) is green: 396 unit/integration tests, 105 Chromium E2E, 105 Firefox E2E, no failed or flaky tests, format/secrets/spec, lint, strict TypeScript, production build and dependency audit all passed. The latest repair commits are `175487c`, `7ccd12b`, `a57e9e2`, `6c96612`, and `fddd065`, all pushed directly to `main`.
 

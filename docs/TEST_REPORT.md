@@ -1,4 +1,34 @@
-# Final A–C foundation test report
+# Branchcade verification history
+
+## Part K — documentation and actual production rehearsal (2026-10-24)
+
+Baseline/fetched source: `abd9d0a50abb30afd2d46057caac7ddfb90f4a9d`, clean main. Its [CI 40129455981](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40129455981) was independently checked: completed/success. Part K modifies documentation plus reproducible audit scripts, not the application, lockfile, frozen mission v1 or engine/mission versions.
+
+| Executed local gate              | Actual result / evidence                                                                                                                                                                                  |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fresh maintained runtime/install | Node 24.22.1, npm 11.19.0; npm ci passed; `evidence/k/baseline.log`                                                                                                                                       |
+| npm run check                    | Lint, strict TS, 396/396 tests in 29 files and production build passed                                                                                                                                    |
+| Baseline format/secrets          | Passed; later final document gates recorded below                                                                                                                                                         |
+| Spec guard                       | First no-mode invocation failed; corrected `npm run verify:spec -- modified` passed, guard/source unchanged; `evidence/k/spec-audit.log`                                                                  |
+| Dependency audit                 | 0 vulnerabilities after corrected spec check                                                                                                                                                              |
+| Production Chromium              | 105/105 passed, 0 failed/skipped, 2.8 minutes; workers 2/retries 0; `evidence/k/chromium.log`                                                                                                             |
+| Real synthetic demo              | M01 → adaptive probes → generated wall experiment 30/12 → transfer 32 / <35 → durable reload/Progress; 0 page errors; only production-local request origin; `evidence/k/rehearsal.json` / `rehearsal.log` |
+| Browser MCP inspection           | Playwright current M01 trace selects comparison row 02; 40 cm probe rationale; DevTools isolated M01 no warn/error and no fetch/XHR at inspection                                                         |
+| Visual review                    | Actual 1440×1000 JPEG workbench/trace/counterexample opened; initial README framing omitted Blockly and was corrected by collapse/scroll, not app changes                                                 |
+
+No new local Firefox success is claimed: existing profile-launch limitation persists as a documented workstation issue. The green fetched CI supplies 105 Firefox browser checks; later Part K CI must be separately observed. No human study, student-authorship verification, recording/duration/upload, eligibility certification or public deployment is implied.
+
+Rehearsal development caught a stale foundation-title expectation; fresh source correctly renders **The Wall Problem**, and the tool assertion was corrected. Initial prebuild MCP views were not accepted as latest-source proof. A zsh wrapper used read-only `status`; the raw results were inspected and later wrappers use `result`. These are tooling corrections, not hidden test skips or established application defects.
+
+Final prepared-package gates, checked commit and CI are appended below when observed. Acceptance: [PART_K_ACCEPTANCE](PART_K_ACCEPTANCE.md).
+
+### Prepared-package local final gates
+
+After all prepared materials and both scripts were added, the maintained-Node final gate chain exited 0: `npm run check` (396/396 tests, 29 files, lint/TS/build), `npm run format:check`, `npm run scan:secrets`, `npm run verify:spec -- modified`, `node scripts/verify-k-docs.mjs` and `npm audit` (0 vulnerabilities). The document preflight passed **15 documents, 92 local Markdown targets and 16 workbook concepts**, including human-pending safeguards. Raw complete stream: [final-gates.log](evidence/k/final-gates.log).
+
+The final rehearsal rerun passed against the fresh production build; all three JPEGs were reopened and inspected after capture. [Disposable README rollback](evidence/k/rollback-verification.log) restored original bytes on a separate temporary copy while the live README stayed modified. `git diff abd9d0a -- src public package.json package-lock.json .github` was empty. Frozen mission v1 SHA-256 remains `44c196ded31be62883ee37a90394fab45f962086875821e2ec40bd31064e14e0`; original spec remains `f018432925c785df980a763f4da9c7ff9a3433d71ec54c65f2e52308a0a7244d`.
+
+The existing large lazy Blockly chunk warning remains documented; no app regression was found. New Part K CI is recorded in a subsequent observed checkpoint, not inferred from these local results.
 
 ## Parts I/J red-CI repair — final verified run (2026-10-24)
 

@@ -1,114 +1,166 @@
 # Branchcade
 
-**Make the logic click.** A browser-based robotics learning laboratory: predict a robot’s action, follow its actual sensor readings and execution trace, investigate surprising results, change one parameter and test your understanding with a different problem.
+**Make the logic click.** Branchcade helps beginner roboticists discover why their code behaves as it does through predictions, real sensor measurements, trace inspection and controlled experiments.
 
-![Actual implemented Branchcade Home](docs/evidence/de-home-chromebook.png)
+![Actual M01 production workbench: editable Blockly if/else program, robot stage with a 24 cm distance reading, and prediction choices before execution.](docs/evidence/k/readme-workbench.jpg)
 
-## What works in this checkpoint
+_Real local production build, not a mockup. The screenshot uses a generated demonstration alias, not student data. [Capture and rehearsal evidence](docs/PART_K_ACCEPTANCE.md)._
 
-This checkpoint includes the A–H implementation and the **Parts I/J verification and completion pass**. It provides a robotics workbench, adaptive learning cycle, eight versioned missions, local team learning and evidence-based reports. Current verification and remaining human/hosting work are recorded in [HANDOFF](docs/HANDOFF.md) and [I/J acceptance](docs/PARTS_IJ_ACCEPTANCE.md).
+## Why it exists
 
-- Eight authored investigations: **The 20 cm question**, **Black Line Stop**, **Wrong-Way Branch**, **The Extra Lap**, **The Loop That Never Ends**, **Call the Helper**, **Color & Distance**, and **Mystery Malfunction**. Reference programs satisfy actual physical and concept predicates; deliberately faulty starters require repair.
-- Prediction and confidence locked before reveal; exact operands and trace replay; no generated-code execution.
-- Fourteen possible ideas, twenty-two executable probe templates and adaptive questions keep one wrong answer ambiguous. Later answers can distinguish reversed comparison direction from expecting a sensor to stop the robot itself, with inspectable support and contradictions.
-- Bounded, executed counterexample search over legal parameter changes; compare actual baseline/changed traces, then try a distinct adaptive transfer challenge. No claim of mastery from one answer.
-- Free Lab: six templates, legal box/circle/zone and robot editing, world undo/redo, saved world collection, real sensor range and comparator editing, camera controls and checksummed import/export previews. Blockly supports movement, sensors, logic, loops, variables, helpers and debug blocks; previews remain inert text.
-- Multiple anonymous learners, derived progress stamps and replay, local instructor filters/assignments/CSV/JSON/print, validated merge or replace with rollback, scoped deletion and typed erase-all. Teams of two to six collect individual predictions and role contributions before huddle, shared hints and optional second questions, real execution and role rotation. Team evidence stays separate from individual mastery.
-- Responsive working routes, keyboard dialogs, error/empty recovery, local theme/text/contrast/reduced-motion preferences, CI and persistent tests.
+A beginner can copy a robot program without understanding why it moves. Branchcade asks what the learner expects **before** revealing execution, then uses follow-up examples to investigate a surprising answer rather than declaring a diagnosis.
 
-No fabricated progress, fake online teammates, copied proprietary robot artwork, ads, child accounts, remote learner records or LLM diagnosis. The creator’s motivation comes from teaching a small group of about six younger robotics students; no invented classroom outcomes or efficacy percentages.
+The owner reports that helping younger FLL learners program LEGO SPIKE Prime inspired the project. That is an owner-reported motivation, not a verified classroom study or a claim of improved learning. The intended audience is beginning roboticists (approximately ages 9–13), instructors and small robotics teams.
+
+**Observe → Predict → Execute → Compare → Investigate → Experiment → Reassess.** The runtime learning system is deterministic TypeScript, not an LLM tutor. AI coding assistance during development is a separate, extensively documented fact.
+
+## Explore what works
+
+- **Physical robot simulation:** centimeter worlds, fixed 50 ms logical ticks, continuous collision detection, distance rays, floor-color footprint, and explicit out-of-range readings. Sensors measure; program instructions control motion.
+- **Blockly programming:** movement, comparisons, booleans, loops, variables and zero-argument helpers become a validated typed AST. Readable previews are inert text; generated JavaScript is never executed.
+- **Explainable debugging:** real operands, source-linked events, variables/call stack, code/tick stepping, rewind, replay and outcome-invariant playback speed.
+- **Investigation:** 14 executable single-rule mental models and 22 probe templates compare plausible interpretations with observed answers. One wrong answer stays ambiguous; scores are heuristics, not probabilities.
+- **Experiments and transfer:** bounded counterexample search actually executes legal one-parameter edits. New-number challenges differ from the initial scenario; repeated revealed answers do not manufacture independent evidence.
+- **Eight missions:** M01 **The Wall Problem**, M02 **Black Line Stop**, M03 **Wrong-Way Branch**, M04 **The Extra Lap**, M05 **The Loop That Never Ends**, M06 **Call the Helper**, M07 **Color & Distance**, M08 **Mystery Malfunction** (capstone). References, flawed variants, hints and multiple success worlds have executable checks.
+- **Free Lab:** six presets, legal obstacle/zone/robot editing, numeric alternatives to dragging, sensor range, deliberate comparator editing, world history, local saves and validated world import/export.
+- **Local teamwork:** 2–6 aliases share one computer through private handoffs, meaningful role contributions, a shared hypothesis, actual runs, assistance and role rotation. This is not remote multiplayer; team evidence does not grant solo mastery.
+- **Actual progress and instructor review:** derived evidence stamps, versioned attempts/replay, local filters, assignments, CSV/JSON and print. Reports describe this browser only, never a remote class.
+- **Local data controls:** no learner account or API key; versioned export/import with preview, scoped deletion, typed erase-all and visible in-memory recovery when storage fails.
 
 ## Install and run
 
-Use maintained Node 24.22.1 (see `.nvmrc`), npm and the committed lockfile. The app requires **zero API keys**.
+Use **Node 24.22.1** from [.nvmrc](.nvmrc) and npm (this checkpoint was tested with **npm 11.19.0**). With nvm already installed, `nvm install && nvm use` selects the pinned runtime. Keep `package-lock.json`; use `npm ci`, not an unreviewed dependency upgrade.
 
 ```bash
+git clone https://github.com/HrishikeshLenin13/Branchcade.git
+cd Branchcade
 npm ci
 npm run dev
-# Open http://127.0.0.1:5173
-npm run check
-npx playwright install chromium firefox
-npm run test:e2e
-npm run format:check
-npm run scan:secrets
+# Open the local URL printed by Vite (normally http://127.0.0.1:5173).
 ```
 
-`check` runs ESLint, strict TypeScript, Vitest and the production build. `npm run test -- --run` runs unit/integration/component tests; `npm run test:a11y` selects browser accessibility checks. Browser failure traces/screenshots are in `test-results/` and the HTML report in `playwright-report/`. Actual counts/results and failures repaired: [TEST_REPORT](docs/TEST_REPORT.md).
+| Command                                       | Purpose                                                                           |
+| --------------------------------------------- | --------------------------------------------------------------------------------- |
+| `npm run check`                               | ESLint, strict TypeScript, all unit/integration/component tests, production build |
+| `npm run test -- --run`                       | Non-watch unit/integration/component suite                                        |
+| `npm run test:watch`                          | Watch tests while editing                                                         |
+| `npm run lint` / `npm run typecheck`          | Independent static checks                                                         |
+| `npm run build`                               | Build static `dist/`                                                              |
+| `npm run preview -- --port 4173 --strictPort` | Serve the existing production build locally                                       |
+| `npx playwright install chromium firefox`     | Install browsers for the locked Playwright version (Linux CI uses `--with-deps`)  |
+| `npm run test:e2e`                            | Both configured production browser projects                                       |
+| `npm run test:e2e -- --project=chromium`      | Chromium only; label results accordingly                                          |
+| `npm run test:a11y`                           | Browser tests whose titles match accessibility                                    |
+| `npm run format:check` / `npm run format`     | Check / deliberately apply formatting                                             |
+| `npm run scan:secrets`                        | Repository credential-pattern scan                                                |
+| `npm run verify:spec -- modified`             | Verify preserved original spec and current scoped copy                            |
+| `npm audit`                                   | Audit the installed dependency lock                                               |
 
-## Walk through the actual product
+Build before reusing an already-running preview: Playwright reuses port 4173 locally, so a stale `dist/` can otherwise misrepresent source. CI owns a fresh build/server. Failure artifacts are in `test-results/` and `playwright-report/`. A local Firefox profile-startup failure is documented; Ubuntu CI provides the verified Firefox run. Browser viewport tests are not physical Chromebook tests.
 
-1. Home → Try a mission → choose solo, a generated alias and a guided first mission.
-2. Read24 cm and the if/else program. Predict **Stop in place** intentionally, then lock/run.
-3. Inspect `24 <20 is false`, the else branch and actual 10 cm motion in the trace.
-4. Answer the adaptive investigation questions using your actual reasoning. Open “Why are you asking?” and inspect how fitting and conflicting answers affect possible explanations.
-5. Generate a targeted experiment, predict its changed outcome and run it. Change the offered parameter and compare the real baseline/changed traces; the selected change depends on your answers.
-6. Try a new-numbers challenge, commit a prediction and reveal the real result. Open Progress/Instructor to inspect the saved record, its evidence stamps, export it or explicitly delete it.
+## Try the actual learning cycle
 
-These are demo instructions, not a claim that real children produced those answers. Correct initial predictions can skip remedial probes.
+1. Home → Try a mission → solo/generated alias → guided mission (or open `/missions/m01`). Read the **initial** 24 cm measurement and `distanceCm < 20` blocks.
+2. For a clearly labeled demonstration, deliberately predict **Stop in place**, then **Lock prediction & run**. The real result moves 10 cm: `24 < 20 is false`, so the else branch executes.
+3. **Show decision in timeline** selects the branch; **Why did that happen?** selects its actual comparison. The final live sensor may read 14 cm after movement; it is not the initial comparison operand.
+4. Open **Why are you asking?** and answer optional probes. Different answers produce different possible explanations; they are not claims about a real child's thinking.
+5. **Generate a targeted experiment**, predict and run. In the rehearsed comparison-direction path, change only wall distance: 30 cm moves; 12 cm stops. The threshold stays 20.
+6. **Test my understanding with new numbers**, predict, reveal, Finish, then inspect saved evidence in Progress or Instructor. One successful transfer is not mastery.
 
-## Architecture and source tour
+[Exact demo script](docs/DEMO_VIDEO_SCRIPT.md) · [Storyboard](docs/DEMO_STORYBOARD.md) · [Recording checklist](docs/DEMO_RECORDING_CHECKLIST.md). The script is prepared; a human recording/upload is still pending.
+
+## Architecture
+
+```mermaid
+flowchart TD
+  L[Learner observes world and edits Blockly] --> B[Blockly JSON to typed Program AST]
+  B --> V[Schema and semantic validation plus budgets]
+  V --> P[Prediction locked against world and program hashes]
+  P --> I[Bounded small-step interpreter]
+  I <--> R[50 ms robot physics and passive sensors]
+  I --> T[Source-linked execution events and snapshots]
+  T --> C[Compare committed prediction with actual run]
+  T --> G[Physical and concept goal predicates]
+  C --> E[Independent supporting and contradicting evidence]
+  E --> D[Adaptive probes and executable mental models]
+  D --> X[Executed single-change counterexample search]
+  X --> A[Distinct transfer reassessment]
+  A --> E
+  G --> S[Versioned local IndexedDB records]
+  A --> S
+  P --> S
+  S --> U[Progress and local instructor view plus explicit exports]
+```
+
+UI orchestration does not invent a second physics model. Traces feed both visual playback and judging. Probe, experiment and transfer annotations append to immutable execution records; imports rebuild the relevant evidence and replay saved versions before acceptance. [Architecture detail](docs/ARCHITECTURE.md).
+
+### Algorithms worth reading
+
+| Mechanism                    | Actual entry points                                                                                                                               | Key contract                                                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Geometry and collision       | `src/engine/geometry.ts`: `rayRectangle`, `rayCircle`; `sweep.ts`: `sweepCircle`; `robot.ts`: `advanceRobot`                                      | Nearest nonnegative ray hit; first continuous contact, including rounded box corners                           |
+| Passive sensing              | `src/engine/sensors.ts`: `readSensors`                                                                                                            | Front origin offset; null beyond range; floor sample uses highest priority then declared order                 |
+| Safe execution               | `src/interpreter/blockly-workspace.ts`: `editableProgram`; `validate.ts`: `validateProgram`; `interpreter.ts`: `Interpreter.step`, `executeAsync` | Validated data, explicit frames, finite budgets and cooperative cancellation; no eval                          |
+| Trace/replay                 | `Interpreter.emit`; `src/engine/replay.ts`: `replayAt`; `src/interpreter/source-replay.ts`: `rebuildSnapshot`                                     | Actual operands/state; hash-checked reconstruction; no duplicated scored attempts                              |
+| Models/evidence              | `src/learning/mental-models.ts`: `runModel`; `diagnosis.ts`: `assess`, `selectNextProbe`                                                          | One altered rule per model; independent evidence and contradictions, not mind-reading                          |
+| Counterexamples              | `src/learning/counterexamples.ts`: `candidateEdits`, `applyEdit`, `searchCounterexamples`                                                         | Up to 80 candidate edits; execute, reject invalid/ambiguous cases, rank discrimination with deterministic ties |
+| Transfer and planning        | `src/learning/transfer.ts`: `transferPool`, `chooseTransfer`; `adaptive-planner.ts`: `recommend`                                                  | Distinct unseen scenario and inspectable next-step rationale                                                   |
+| Completion and understanding | `src/missions/judge.ts`: `judgeMission`, `judgeRecorded`; `completion.ts`: `completionChecks`; `src/learning/mastery.ts`: `conceptEvidence`       | Goal proof plus transfer; capstone adds reason/experiment; understanding needs independent evidence            |
+
+These implementations are substantially **AI-assisted**, not verified independently student-authored algorithms. [Source inventory](docs/SOURCE_OWNERSHIP_REVIEW.md) and [16-concept student workbook](docs/STUDENT_TECHNICAL_REVIEW.md) separate explanation from actual human review.
+
+### Repository tour
 
 ```text
-validated World + typed Program AST
-             ↓ bounded interpreter + fixed 50ms engine
-passive sensor rays → actual events → goal predicates
-             ↓
-SVG / trace → prediction comparison → probes / counterexamples
-             ↓
-distinct transfer → versioned local IndexedDB → instructor / export
+src/app/              Routing, session orchestration, recovery
+src/components/       UI foundations, layout, SVG robot stage
+src/domain/           Shared types, schemas, limits, invariants and hashes
+src/engine/           Pure geometry, physics, sensors, replay
+src/interpreter/      AST, Blockly adapter, validation, bounded execution; legacy runner
+src/learning/         Models, evidence, probes, counterexamples, transfer, mastery
+src/missions/         Eight missions, curriculum, goals and versioned judging
+src/collaboration/    Local roster, roles, contributions and round protocol
+src/storage/          IndexedDB, migration, validation, import/export
+src/features/         Actual route and learning-flow components
+src/styles/           Design tokens and responsive styles
+tests/  e2e/          Unit/integration/component and production browser suites
+scripts/              Spec/secrets checks, benchmarks, browser audit and demo rehearsal
+docs/                 Acceptance evidence, technical guides and Part K materials
+public/assets/        Bundled Blockly visuals, fonts' notices and local assets
+.github/workflows/    Reproducible quality gates
 ```
 
-- `src/domain/{types,schemas,invariants}.ts`: versioned contracts, structural limits, canonical JSON and SHA-256 identities.
-- `src/engine/{geometry,robot,sensors,reducer,replay}.ts`: centimeter geometry, continuous swept-circle contact, passive sensing, pause/reset and exact snapshots.
-- `src/interpreter/`: validated AST, safe numeric/boolean evaluation, bounded loops/functions, real Blockly adapter and inert text previews.
-- `src/learning/`: taxonomy, executable mental models, explicit evidence rules, contradictions, adaptive probe selection, bounded executed counterexamples and deduplicated transfer evidence.
-- `src/missions/catalog.ts`: eight authored missions, reference solutions, explicit physical/concept goals and distinct transfer variants. New missions must validate and demonstrate actual goal success/failure; changing a status flag is not completion.
-- `src/storage/`: IndexedDB, guarded deterministic legacy migration, append-only execution records and validated import/export.
-- `src/collaboration/`: local aliases, role responsibilities, private predictions and rotation.
-- `src/features/`: working routes; `src/styles/`: design tokens; `tests/` and `e2e/`: persistent reproducible evidence.
-- [ARCHITECTURE](docs/ARCHITECTURE.md), [DESIGN_SYSTEM](docs/DESIGN_SYSTEM.md), [ADR](docs/ADR.md), [HANDOFF](docs/HANDOFF.md), [STATUS](docs/STATUS.json), [original/full spec](docs/SPEC.md).
+Never rewrite `src/missions/mission-data/v1.json`: older attempts retain their mission/engine versions and original judging semantics.
 
-## Local data, privacy and access
+## Data, privacy and accessibility
 
-A random pseudonym is enough. No age, email or real name is required. Records stay in this browser’s IndexedDB; a different browser/device does not automatically share them. Team mode is single-device pass-and-play, not internet multiplayer. Instructor metrics show this browser only.
+Settings → **Export all local data** downloads versioned JSON. **Import data** validates size, structure, versions, geometry, programs and replay identities before showing merge/replace confirmation; failed durable writes preserve the prior dataset. Merge keeps existing immutable IDs. Instructor CSV neutralizes formula prefixes. Scoped learner/lab deletion differs from typed erase-all. Downloads must be deleted separately.
 
-Settings exports versioned JSON and validates imports before an explicit merge or replacement confirmation. Existing IDs win during merge; failed durable writes leave the previous dataset intact. Imports reject unknown versions, invalid geometry/ASTs, duplicate IDs, unsafe structure, identity/trace mismatches and unsupported completion claims. A documented pre-release v0 alias shape migrates deterministically; unknown data is not silently rewritten. Instructor exports CSV and confirms all-data deletion. Downloaded files are not deleted by clearing the app. On shared school devices, other people with the same browser profile can inspect local data. Do not put personal information in optional reasoning or exported files. Hosting services may log ordinary page requests.
+Records stay in this origin's IndexedDB, not an encrypted vault or cross-device backup. Anyone sharing the browser profile can inspect them. Use pseudonyms and keep optional reasoning nonidentifying. No registration, ads, analytics, external fonts or learner-content inference service is built in. A static host can still log IP addresses/page paths. [Privacy details](docs/SECURITY_PRIVACY.md).
 
-[Security/privacy details](docs/SECURITY_PRIVACY.md). Local fonts and original SVGs avoid third-party asset requests. No analytics or remote error telemetry exists. Offline operation is limited to loaded/cached assets; no service-worker/PWA installation claim yet.
+Keyboard navigation, named native controls, dialog focus restoration/Escape, code-text inspection, numeric world editing, large text, high contrast and reduced motion support access. Axe and keyboard checks cover tested states, not a comprehensive accessibility certification. Spatial Blockly authoring may need a pointer; phone screens have a laptop advisory. No physical-device or screen-reader user study is claimed.
 
-## Deployment readiness
+## Verification and honest limits
 
-`npm run build` produces `dist/`; `npm run preview -- --port 4173` serves it locally. SPA route fallback configs are included for Vercel (`vercel.json`) and Netlify/Cloudflare-compatible static hosting (`public/_redirects`). Deployment is **not claimed**: the current Vercel CLI reports no configured credentials. See [deployment handoff](docs/DEPLOYMENT.md) for the exact owner authorization and post-publication checks.
+The fetched `abd9d0a` checkpoint has [successful cross-browser CI](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40129455981): **396 tests / 29 files**, **105 Chromium + 105 Firefox E2E**, no failed/flaky browser cases. The Part K reruns, current checked commits and CI are tracked separately in [TEST_REPORT](docs/TEST_REPORT.md) and [Part K acceptance](docs/PART_K_ACCEPTANCE.md); these links supersede historical counts.
 
-After the owner authorizes a hosting account, from this repository:
+Known limits: six of fourteen ideas require optional investigation rather than a wrong first-action prediction; single-rule mental models and scoring need human educational validation; synchronous bounded search and cooperative main-thread interpretation are not worker execution; Blockly is a large lazy chunk (about 799 kB minified); no WebKit, physical Chromebook, causal learning study, cloud classroom, hardware control, service-worker/PWA or public deployment is claimed. Loaded/cached assets can work without new requests, but unloaded chunks may require the network. [Measured performance and bounds](docs/PERFORMANCE_REPORT.md).
 
-```bash
-vercel login
-vercel --prod
-# Or publish dist/ to an authorized static host with SPA rewrites.
-```
+`npm run build` supplies `dist/` with SPA fallbacks for static hosting. Local preview is not publication. An owner-authorized hosting project and public deep-route smoke tests remain pending; see [DEPLOYMENT](docs/DEPLOYMENT.md). Part L has not been started.
 
-Then verify the actual public URL, direct `/missions/m01` refresh, privacy/network behavior and the guided journey. Never substitute localhost or an invented URL for deployment proof.
+## Human validation, ownership and credits
 
-## Current limitations and next work
-
-The I/J gate map distinguishes tested implementation from pending human review and hosting authorization. Six of fourteen possible ideas require optional investigation rather than a wrong first-action answer in the eight missions. Mental models simplify one rule at a time; scores are heuristics, not probabilities. Counterexample search is bounded and may return a factual no-candidate explanation. Numeric world controls provide accessible alternatives to pointer editing. Blockly spatial authoring can require a pointer; inert program text is available for inspection. The interpreter yields cooperatively within hard budgets on the main thread; presentation playback is separate from physical time. No worker/PWA, WebKit, physical Chromebook, human usability study or public deployment is claimed. The lazy Blockly bundle emits a documented size warning. ESLint 9 is retained for current jsx-a11y peer compatibility. Dedicated Parts K/L have not been started.
-
-## Student ownership, AI disclosure and licensing
-
-This session’s source, original SVGs, docs and tests are AI-assisted. Student review/contributions have **not** been invented. Creators must personally inspect and revise core algorithms, test actual behavior and document real work before competition submission. [AI_ASSISTANCE_LOG](docs/AI_ASSISTANCE_LOG.md) lists review questions. [USER_TESTING](docs/USER_TESTING.md) is a blank protocol, not fabricated results. [DEMO_SCRIPT](docs/DEMO_SCRIPT.md) and [SUBMISSION_GUIDE](docs/SUBMISSION_GUIDE.md) separate foundation from later shipping work. Third-party notices are in [LICENSE_NOTICES](docs/LICENSE_NOTICES.md). No LEGO or other proprietary affiliation is implied. The repository owner must choose the project’s distribution license; bundled dependencies retain theirs.
+- [Usability protocol](docs/USER_TESTING_PROTOCOL.md), [blank learner/instructor forms](docs/USER_TESTING_FORM.md), [unfilled results](docs/USER_TESTING_RESULTS.md): **not yet conducted**. No testimonials or improvement percentages are supplied.
+- [AI assistance history](docs/AI_ASSISTANCE_LOG.md), [source ownership review](docs/SOURCE_OWNERSHIP_REVIEW.md), [disclosure draft](docs/AI_DISCLOSURE_DRAFT.md): actual student implementation/revision and understanding need evidence; git author names alone establish neither.
+- [2026 competition review and draft answers](docs/CONGRESSIONAL_APP_CHALLENGE_2026.md): verified sources, conflicting official deadline notices and owner actions; no eligibility certification or completed submission.
+- [Third-party notices](docs/LICENSE_NOTICES.md): Blockly Apache-2.0; React and other dependency licenses remain their own. Complete Blockly license is bundled in `public/assets/blockly/LICENSE`; Geist and IBM Plex Mono SIL OFL texts are in `public/assets/licenses/`. See package LICENSE files for authoritative terms.
+- The repository has **no project distribution license selected**. Public visibility does not imply an MIT or other grant. Original app SVG artwork is AI-assisted. LEGO, SPIKE Prime and FIRST/FLL references describe motivation only; no affiliation or endorsement is implied.
 
 ## Troubleshooting
 
-- Blank/failed screen: use the visible reload recovery; inspect actual console errors, not a fabricated success message.
-- Storage unavailable/corrupt: the visible notice identifies in-memory mode; export before closing. Erase requires explicit confirmation; imports never silently replace existing data.
-- Missing editor socket/disconnected block: connect one supported program and Apply blocks; errors identify the block/input. Previews are not executable.
-- Loop budget reached: reduce repeats or make the condition change; do not disable the budget.
-- Port in use: choose another dev port; E2E expects 4173, so keep its configuration and preview consistent.
-- Shared-computer continuation: fetch/pull clean main, read HANDOFF and run gates. Do not infer completion from chat history or a stale marker.
-
-## Part F robotics/debugger
-
-New runs use continuous swept-circle contact, bounded small-step interpretation, source-linked sensor/comparison/loop/function traces, distinct **Step code**/**Step tick**,1–4× outcome-invariant replay and **Stop & Edit** locking. Nominal Free Lab is600×360cm with a16cm robot; explicit authored mission worlds retain their original scale. Null distance comparisons are errors unless guarded with **is detected AND**. Noise is off by default and seed-labeled when enabled. Stage camera pan and SVG snapshot downloads are local.
-
-Existing A–E attempts retain their original execution-version checksums. New attempts/team results record engineVersion2; missing/1 means historical replay. See [Part F acceptance](docs/PART_F_ACCEPTANCE.md) for exact limits, numerical tests and intentional semantics. The reusable continuation prompt in AGENTS.md/HANDOFF.md preserves main-only commits and honest verification.
+- **Old UI / missing route:** rebuild before preview; confirm the printed port and current source. Don't replace a collaborator's server blindly.
+- **Storage warning:** continue in memory only knowingly; export before closing. Browser clearing/private sessions can erase local progress.
+- **Missing socket or disconnected blocks:** connect one supported program, Apply blocks, and follow the source-linked error. Code preview never executes.
+- **Budget stop / null reading:** repair termination or use `is detected AND` before a numeric comparison; keep the safety caps.
+- **Port 4173 busy:** inspect its owner; coordinate a fresh production build. Test configuration and server URL must agree.
+- **Shared-computer continuation:** clean main → fetch/fast-forward → read HANDOFF → run gates. Never infer completion or student authorship from chat or commit names.

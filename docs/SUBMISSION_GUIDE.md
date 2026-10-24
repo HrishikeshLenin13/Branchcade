@@ -1,15 +1,10 @@
-# Competition handoff — later shipping work
+# Competition preparation index
 
-This Parts A–C foundation is not the completed competition release. The creator must verify current official contest rules and dates before submitting; no date or eligibility rule is guessed here.
+Part K's [2026 source review and answer drafts](CONGRESSIONAL_APP_CHALLENGE_2026.md) replaces the old foundation-only shipping outline. Read its official deadline discrepancy and unresolved eligibility/contribution issues before making plans.
 
-Checklist for a later real submission:
+- [Narration](DEMO_VIDEO_SCRIPT.md), [storyboard](DEMO_STORYBOARD.md), [recording checklist](DEMO_RECORDING_CHECKLIST.md).
+- [Source ownership](SOURCE_OWNERSHIP_REVIEW.md), [student workbook](STUDENT_TECHNICAL_REVIEW.md), [AI disclosure draft](AI_DISCLOSURE_DRAFT.md).
+- [Human review protocol](USER_TESTING_PROTOCOL.md), [blank forms](USER_TESTING_FORM.md), [unfilled results](USER_TESTING_RESULTS.md).
+- [Actual engineering evidence and pending actions](PART_K_ACCEPTANCE.md), [local/public hosting distinction](DEPLOYMENT.md).
 
-- Complete the remaining curriculum, simulator, instructional, accessibility and release gates in SPEC.
-- Personally review, revise and explain core student contributions; document actual changes and AI assistance.
-- Review official current rulebook, disclosure, video duration, district and submission requirements.
-- Verify a public deployment; do not substitute a localhost URL or invented link.
-- Record a real demonstration and screenshots with no private tabs/learner identities.
-- Prepare problem/solution summary, languages, source materials, licenses, privacy notice and actual test results.
-- Claim no fabricated classroom results or guaranteed effectiveness.
-
-Actual implementation and deployment state: HANDOFF.md and STATUS.json.
+These are prepared materials, not an uploaded video, completed human study, verified student contribution, eligibility certification or submitted entry. Part L has not begun.

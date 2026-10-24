@@ -1,0 +1,6 @@
+
+> branchcade@0.1.0 verify:spec
+> node scripts/verify-spec.mjs modified
+
+MODIFIED PASS: current invocation/main scope present
+found 0 vulnerabilities
