@@ -78,3 +78,49 @@ describe('Part H mission judge', () => {
     )
   })
 })
+
+describe('Part H versioned import validation', () => {
+  it('re-judges v2 records with scenarios and rejects a forged mission version', async () => {
+    const { recordPrediction } = await import('../src/learning/predictions')
+    const { stableHash } = await import('../src/domain/invariants')
+    const { appendAttempt } = await import('../src/storage/repositories')
+    const { emptyData } = await import('../src/storage/migrations')
+    const { exportJson, validateImport } = await import('../src/storage/import-export')
+    const { fixtureProfile } = await import('../src/test/fixtures')
+    const mission = findMission('m01')!
+    const run = execute(mission.world, mission.starterProgram)
+    const startedAt = new Date().toISOString()
+    const prediction = await recordPrediction(
+      fixtureProfile.id,
+      mission.world,
+      mission.starterProgram,
+      'move',
+      3,
+    )
+    const data = appendAttempt(
+      { ...emptyData(), profile: fixtureProfile },
+      {
+        schemaVersion: 1,
+        engineVersion: 2,
+        missionVersion: mission.version,
+        id: 'versioned-attempt',
+        learnerId: fixtureProfile.id,
+        missionId: 'm01',
+        attemptIndex: 1,
+        startedAt,
+        completedAt: new Date().toISOString(),
+        prediction,
+        world: mission.world,
+        program: mission.starterProgram,
+        traceHash: await stableHash(run.events),
+        diagnosticResponses: [],
+        reassessment: null,
+        goalOutcome: judgeMission(mission, mission.world, mission.starterProgram, run),
+      },
+    )
+    expect((await validateImport(exportJson(data))).attempts).toEqual(data.attempts)
+    const forged = structuredClone(data)
+    forged.attempts[0]!.missionVersion = 7
+    await expect(validateImport(exportJson(forged))).rejects.toThrow('Unsupported mission version')
+  })
+})
