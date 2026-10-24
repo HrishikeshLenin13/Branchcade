@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Master prompt Part F on the updated A-E main foundation",
+  "scope": "Friend #3: verify/finish Part F, implement Part G; Part H excluded by project lead",
   "branchPolicy": "main only",
   "parts": {
     "A": "verified",
@@ -8,7 +8,9 @@
     "C": "verified; static build supplied, hosting authorization pending",
     "D": "verified visual/responsive implementation; tested browser viewport and accessibility evidence",
     "E": "verified implemented screen flows: 158 unit/component/integration tests, 80 production browser tests across Chromium/Firefox, successful GitHub CI",
-    "F": "Implemented F1-F6; local checkpoint:199 unit/component/integration tests,48 Chromium browser checks. Cross-browser CI pending."
+    "F": "Independently re-verified 2026-10-24 from 963ec3a: one sensor wall-clamp defect fixed, F6 mandatory map added; 220 unit tests and Chromium E2E pass locally. Firefox/CI not verifiable from this session.",
+    "G": "not_started",
+    "H": "excluded from this invocation by project lead"
   },
   "phases": [
     {
@@ -73,18 +75,18 @@
       "status": "not_started"
     }
   ],
-  "lastVerifiedAt": "2026-10-23",
+  "lastVerifiedAt": "2026-10-24",
   "deployment": {
     "status": "not_deployed",
     "reason": "Vercel CLI identity check returned invalid token; deploy-ready static build supplied."
   },
   "scopeNote": "F1-F6 implementation and local regressions verified. G-L and remaining chronological phase gates are not newly certified. Historical execution versions preserved. No deployment or human study claimed.",
   "currentCheckpoint": {
-    "baseCommit": "bc4c9c0d6b9d8fe7e472ee22382ee959c5e2f353",
-    "unitTests": 199,
-    "chromiumBrowserTests": 48,
+    "baseCommit": "963ec3a558866c2c777f0287970be6f579e3a01f",
+    "unitTests": 220,
+    "chromiumBrowserTests": 49,
     "build": "passed",
-    "ciConclusion": "pending push",
+    "ciConclusion": "not observable from this session (no GitHub API access)",
     "legacyFingerprints": 40
   }
 }

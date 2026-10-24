@@ -32,3 +32,7 @@ An optional `engineVersion` on attempts/team results is2 for new runs and absent
 ## Evidence boundary
 
 The local baseline passed158 unit/component/integration tests and40 Chromium browser checks. Current checkpoint counts and final CI evidence are recorded in HANDOFF/TEST_REPORT/STATUS. Initial new SVG footprint labeling triggered three axe checks; the label was moved into a proper SVG title and the unchanged accessibility assertions were rerun. No deployment, physical Chromebook, human learning study or student algorithm review is claimed by this work.
+
+## Independent re-verification (friend #3, 2026-10-24)
+
+All F1–F6 rows above were re-checked against source and tests from base `963ec3a`. One real sensor defect was fixed (an origin on or past a wall now reads 0 for that wall instead of skipping it). `tests/f-mandatory.test.ts` maps each F6 mandatory numerical case to an explicit assertion. Playback reveal is a pure tested function (`revealCursor`). Saved historical attempts are unaffected: the legacy v1 runner is untouched and the 40 legacy fingerprints still pass.
