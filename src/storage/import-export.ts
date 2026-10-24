@@ -8,6 +8,9 @@ import { execute, executeRecorded } from '../interpreter/interpreter'
 import { judgeGoals } from '../missions/goals'
 import { MISSION_CATALOG } from '../missions/catalog'
 import { probesForMission } from '../learning/probes'
+import { buildProbe } from '../learning/probe-templates'
+import { attemptObservations } from '../learning/investigation'
+import { transferPool } from '../learning/transfer'
 import { actualAction } from '../interpreter/trace'
 import { supportedConceptHashes, trimConceptProgress } from './progress-records'
 export function parseImport(raw: string): AppExport {
@@ -66,19 +69,35 @@ export async function validateImport(raw: string): Promise<AppExport> {
       : { passed: false, facts: ['Free exploration is not a scored mission'] }
     if (canonicalJson(expected) !== canonicalJson(a.goalOutcome))
       throw new Error('Goal outcome does not match actual execution')
+    // Pre-G attempts used a fixed per-mission probe order; Part G probes are adaptive, so each
+    // `g.*` answer is checked by rebuilding its exact scenario and allowed choices.
     const missionProbes = mission ? probesForMission(mission) : []
+    const adaptive = a.diagnosticResponses.some((r) => r.probeId.startsWith('g.'))
     if (
-      a.diagnosticResponses.some(
-        (r, i) =>
-          missionProbes[i]?.id !== r.probeId ||
-          !missionProbes[i]?.choices.some((c) => c.id === r.choiceId),
-      )
+      adaptive
+        ? a.diagnosticResponses.some(
+            (r) =>
+              !buildProbe(r.probeId)?.choices.some((c) => c.id === r.choiceId) ||
+              a.diagnosticResponses.filter((x) => x.probeId === r.probeId).length > 1,
+          )
+        : a.diagnosticResponses.some(
+            (r, i) =>
+              missionProbes[i]?.id !== r.probeId ||
+              !missionProbes[i]?.choices.some((c) => c.id === r.choiceId),
+          )
     )
       throw new Error('Invalid or reordered diagnostic responses')
+    if (a.experimentResponses?.length) {
+      const observed = attemptObservations(a, mission).filter((o) => o.source === 'experiment')
+      if (observed.length !== a.experimentResponses.length)
+        throw new Error('Experiment answer does not match a re-executed scenario')
+    }
+    const pool = mission ? transferPool(mission) : []
     for (const t of [...(a.reassessment ? [a.reassessment] : []), ...(a.transferRetries ?? [])]) {
       let matches = false
-      for (const variant of mission?.variants ?? []) {
+      for (const variant of pool) {
         if (
+          (!t.scenarioId || t.scenarioId === variant.id) &&
           t.worldHash === (await stableHash(variant.world)) &&
           t.programHash === (await stableHash(variant.program)) &&
           t.worldHash !== a.prediction.worldHash &&
