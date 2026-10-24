@@ -3,6 +3,7 @@ import { WorldSchema } from '../domain/schemas'
 import {
   assess,
   missionBranchObservation,
+  missionDetailObservation,
   missionObservation,
   predict,
   probeObservation,
@@ -14,6 +15,7 @@ import {
 } from './diagnosis'
 import { applyEdit, searchCounterexamples, type CxField, type CxSearch } from './counterexamples'
 import { findTransfer } from './transfer'
+import { curriculumFor } from '../missions/curriculum'
 import { ALL_PROBE_IDS, buildProbe } from './probe-templates'
 import { TAXONOMY } from './taxonomy'
 import type { QuestionKind } from './mental-models'
@@ -54,6 +56,18 @@ export function attemptObservations(attempt: Attempt, mission?: Mission): Observ
     uncertain: attempt.prediction.uncertain || attempt.assessmentSkipped,
   })
   if (branch) out.push(branch)
+  const detailPrompt = mission ? curriculumFor(mission.id)?.detail?.prompt : undefined
+  const detail = missionDetailObservation({
+    answerId: `${attempt.id}-mission-detail`,
+    missionId: attempt.missionId,
+    key: attemptKey(attempt),
+    world,
+    program: attempt.program,
+    detail: attempt.prediction.detail,
+    prompt: detailPrompt ?? 'the second question',
+    uncertain: attempt.prediction.uncertain || attempt.assessmentSkipped,
+  })
+  if (detail) out.push(detail)
   for (const r of attempt.diagnosticResponses) {
     if (!r.probeId.startsWith('g.')) continue
     const o = probeObservation(`${attempt.id}-${r.probeId}`, r.probeId, r.choiceId)

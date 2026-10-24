@@ -571,3 +571,56 @@ export async function hypothesisRecords(
     })),
   )
 }
+
+/** Part H mission-specific second question (e.g. "how many turns?") committed with the
+ * prediction. Same moment as the first answer, so it shares the mission independence key. */
+export function missionDetailObservation(input: {
+  answerId: string
+  missionId: string
+  key: string
+  world: World
+  program: Program
+  detail: { question: string; answer: string } | undefined
+  prompt: string
+  uncertain?: boolean
+}): Observation | null {
+  if (input.uncertain || !input.detail) return null
+  const question = input.detail.question as QuestionKind
+  const p = predict(
+    input.key,
+    input.world,
+    input.program,
+    question,
+    relevantHypotheses(input.world, input.program),
+  )
+  if (!p || p.truth === 'none') return null
+  return {
+    answerId: input.answerId,
+    source: 'mission',
+    independenceKey: `mission:${input.missionId}`,
+    scenarioKey: `${input.key}#detail`,
+    question,
+    situation: `your answer to “${input.prompt}”`,
+    learnerAnswer: input.detail.answer,
+    truth: p.truth,
+    predictions: p.predictions,
+  }
+}
+
+/** Answer options for a second question: the real answer mixed with what every idea would
+ * predict (plus neighbours for counts), so the option list never gives the answer away. */
+export function detailChoices(key: string, world: World, program: Program, question: QuestionKind) {
+  const p = predict(key, world, program, question, HYPOTHESIS_CODES)
+  if (!p || p.truth === 'none') return []
+  const answers = new Set(
+    [p.truth, ...Object.values(p.predictions)].filter((a) => a !== 'error' && a !== 'none'),
+  )
+  const numeric = [...answers].every((a) => /^\d+(\.\d+)?$/.test(a))
+  if (numeric) {
+    const n = Number(p.truth)
+    for (const extra of [n - 1, n + 1]) if (extra >= 0) answers.add(String(extra))
+  }
+  return [...answers]
+    .sort((a, b) => (numeric ? Number(a) - Number(b) : a.localeCompare(b)))
+    .map((a) => ({ id: a, label: answerLabel(question, a) }))
+}
