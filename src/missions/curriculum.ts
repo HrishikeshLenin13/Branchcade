@@ -2,13 +2,23 @@ import type { Mission, Program, World } from '../domain/types'
 import { readSensors } from '../engine/sensors'
 import { initialRobot } from '../engine/robot'
 import { REFERENCE_PROGRAMS } from './catalog'
-import { blindLineProgram } from './catalog'
+import { blindLineProgram, lapProgram } from './catalog'
 import { MISSION_META } from './catalog'
 import { missionConcepts } from '../learning/concepts'
 import { buildProbe } from '../learning/probe-templates'
 import { transferPool } from '../learning/transfer'
 import type { QuestionKind } from '../learning/mental-models'
-import { colorLit, compare, distance, floor, lit, move, program, stop } from '../learning/scenarios'
+import {
+  colorLit,
+  compare,
+  distance,
+  floor,
+  lit,
+  move,
+  program,
+  stop,
+  turn,
+} from '../learning/scenarios'
 
 /** Part H authored teaching material for each mission. Programs and worlds here are
  * ordinary validated data; every claim about them is checked by tests/h-curriculum. */
@@ -249,4 +259,61 @@ CURRICULUM.m03 = {
       explanation: '20 < 25 is true, so it stops too early at 20 cm.',
     },
   ],
+}
+
+CURRICULUM.m04 = {
+  narrative:
+    'The robot should trace three sides of a square and park at the last corner. The starter repeats one time too many and ends up back where it began. Count the loop iterations in the trace and fix the count.',
+  targetConcept: 'How many times a repeat loop runs its blocks',
+  vocabulary: [
+    { term: 'repeat loop', meaning: 'Runs the blocks inside it an exact number of times.' },
+    { term: 'iteration', meaning: 'One trip through the blocks inside a loop.' },
+    { term: 'heading', meaning: 'The direction the robot faces, in degrees.' },
+  ],
+  expectedPrediction: { action: 'move', reason: 'The first block inside the loop is move 10 cm.' },
+  failureExamples: [
+    'Repeat 4 draws a whole square and returns to the start.',
+    'Copying move-turn three times without a loop reaches the corner but skips the loop concept.',
+  ],
+  teacherNote:
+    'Off-by-one counting is common: learners often count corners or sides differently. The waypoint goal makes “three sides” concrete, and the loop-iteration goal makes the loop itself required rather than hand-copied moves.',
+  probeIds: ['g.repeat-turns.3', 'g.repeat-distance.2'],
+  hints: [
+    'In the timeline, find the REPEAT_ITERATION rows. How many are there?',
+    'Each iteration drives one side and turns once. Four iterations make four sides, a full square. Two iterations would make an L shape.',
+    'Compare this different program: repeat 2 → move 10 cm, turn 90°. Where would it end, and how many turns would it make?',
+  ],
+  hintExample: lapProgram(2),
+  mistakeVariants: [
+    {
+      id: 'extra-lap',
+      label: 'Starter: repeat 4',
+      program: lapProgram(4),
+      fails: 'Goal 1 (reach): not met',
+      explanation: 'The fourth side brings the robot back to the start.',
+    },
+    {
+      id: 'short-lap',
+      label: 'Repeat 2',
+      program: lapProgram(2),
+      fails: 'Goal 1 (reach): not met',
+      explanation: 'Two sides end at the second corner.',
+    },
+    {
+      id: 'unrolled',
+      label: 'Hand-copied moves, no loop',
+      program: program('m04-unrolled', [
+        move('s1', 10),
+        turn('c1', 90),
+        move('s2', 10),
+        turn('c2', 90),
+        move('s3', 10),
+        turn('c3', 90),
+        stop(),
+      ]),
+      fails: 'Concept check: the robot got there',
+      explanation: 'It reaches the corner, but this mission practises the repeat loop.',
+    },
+  ],
+  detail: { question: 'turn-count', prompt: 'How many times will the robot turn in total?' },
 }
