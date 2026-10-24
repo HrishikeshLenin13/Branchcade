@@ -82,3 +82,17 @@ The table below records interaction families sharing a state transition. Automat
 | Review evidence (reassess)                                         | Timeline of mission → questions → experiments → transfers plus the evidence summary                                               | E2E, survives reload                                                      |
 | Why this next? (reassess, Progress, library banner)                | Planner reason built from saved evidence                                                                                          | E2E on reassess and Progress                                              |
 | Progress concept rows / View evidence                              | Derived G5 status, rule text, counts, per-attempt idea labels                                                                     | E2E; mastery unit tests                                                   |
+
+## Part H controls (2026-10-24)
+
+| Route/control                         | Expected result                                                                                                             | Verified evidence                                            |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Mission briefing                      | Narrative, live starting readings, vocabulary, every success condition and scenario, capstone rules, collapsed teacher note | `e2e/missions-h.spec.ts` briefing journey                    |
+| Help → Show next hint (×2)            | Hint 1 → 2 → 3; hint 3 shows a related, different program; each viewed hint recorded as help                                | hint-ladder journey                                          |
+| Show solution… → Yes / Not now        | Confirmation explains “solution-assisted”; solution shown read-only, program unchanged; counted on Instructor               | hint-ladder journey (Instructor shows “1 solution-assisted”) |
+| Optional: one more prediction         | Mission-specific second question with options from the real answer and every idea; result shown after the run               | second-question journey                                      |
+| Optional: predict the branch          | Shown only when the program has an if/else                                                                                  | manual check (M04 shows only the second question)            |
+| Goal outcome list                     | One line per goal, scenario and concept-check fact                                                                          | reference and flawed-variant journeys                        |
+| Completion checklist / Capstone recap | Done / Not yet per criterion; M08 completes only when all are met                                                           | capstone journeys (complete and not complete)                |
+| Mission preview (library)             | Narrative, target concept, vocabulary before starting                                                                       | manual check                                                 |
+| Instructor teacher notes              | Collapsed teacher note per mission plus solution-assisted counts                                                            | hint-ladder journey + manual check                           |
