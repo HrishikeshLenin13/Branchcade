@@ -44,7 +44,7 @@ import { transferAdvice } from '../../learning/recommendations'
 import { attemptDiagnosis, attemptObservations } from '../../learning/investigation'
 import { detailChoices, hypothesisRecords } from '../../learning/diagnosis'
 import { observe, runModel } from '../../learning/mental-models'
-import { curriculumFor } from '../../missions/curriculum'
+import { curriculumFor, situation } from '../../missions/curriculum'
 import { answerLabel, quote } from '../../learning/probe-templates'
 import { chooseTransfer, findTransfer } from '../../learning/transfer'
 import { recommend } from '../../learning/adaptive-planner'
@@ -86,7 +86,8 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     pendingWrites = useSession((state) => state.pendingWrites),
     ephemeral = useSession((state) => state.ephemeral)
   const missionId = free ? 'lab' : mission.id,
-    detail = free ? undefined : curriculumFor(mission.id)?.detail
+    lesson = free ? undefined : curriculumFor(mission.id),
+    detail = lesson?.detail
   const [fresh] = useState(
     () =>
       new URLSearchParams(window.location.search).has('new') ||
@@ -1787,12 +1788,53 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                   : (MISSION_META[mission.id]?.objective ??
                     `Investigate ${mission.conceptGoals.join(' and ')}.`)}
               </p>
+              {!free && lesson && (
+                <>
+                  <p data-testid="mission-narrative">{lesson.narrative}</p>
+                  <p className="fact">{situation(world).text}</p>
+                  <h3>Words to know</h3>
+                  <dl className="vocabulary">
+                    {lesson.vocabulary.map((v) => (
+                      <div key={v.term}>
+                        <dt>{v.term}</dt>
+                        <dd>{v.meaning}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </>
+              )}
               <h3>Success conditions</h3>
               <ul>
                 {mission.successPredicate.map((goal, index) => (
                   <li key={index}>{describeGoal(goal)}</li>
                 ))}
               </ul>
+              {!free && mission.successScenarios?.length ? (
+                <>
+                  <h3>The same program must also work here</h3>
+                  <ul data-testid="success-scenarios">
+                    {mission.successScenarios.map((scenario) => (
+                      <li key={scenario.id}>
+                        <strong>{scenario.label}:</strong>{' '}
+                        {scenario.goals.map((goal) => describeGoal(goal)).join(' ')}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
+              {!free && mission.capstone && (
+                <p className="fact">
+                  Capstone: to complete it you also write your explanation in the prediction, run at
+                  least one counterexample experiment and pass a new-numbers challenge.
+                </p>
+              )}
+              {!free && lesson && (
+                <details>
+                  <summary>For teachers</summary>
+                  <p>{lesson.teacherNote}</p>
+                  <p>Common wrong turns: {lesson.failureExamples.join(' ')}</p>
+                </details>
+              )}
               <p>
                 Measurements use centimeters and fixed 50 ms ticks. Mission history and locked
                 predictions cannot be back-edited.

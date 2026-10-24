@@ -646,3 +646,19 @@
 .evidence-timeline {
   margin-top: 16px;
 }
+.vocabulary {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+.vocabulary div {
+  display: grid;
+  grid-template-columns: minmax(110px, auto) 1fr;
+  gap: 8px;
+}
+.vocabulary dt {
+  font-weight: 600;
+}
+.vocabulary dd {
+  margin: 0;
+}
