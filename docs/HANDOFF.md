@@ -1,4 +1,20 @@
-# Branchcade Part F checkpoint
+# Branchcade handoff
+
+## Friend #3 session — Part F verification (2026-10-24)
+
+Project: Branchcade
+Current completed scope: Part F independently re-verified and finished; Part G in progress (see the section added after this one when it lands). Part H is excluded from this invocation by the project lead.
+Current branch: main (no other branches created)
+Base commit verified: 963ec3a558866c2c777f0287970be6f579e3a01f (clean, equal to origin/main at session start)
+Start environment: cloud container, Node v22.22.0 / npm 10.9.4 (repo pins Node 24; CI uses Node 24)
+Changed files/modules: src/engine/sensors.ts (wall clamp fix), src/engine/geometry.ts (comment), src/features/lab/useTracePlayback.ts (pure revealCursor), tests/f-mandatory.test.ts, docs.
+Features actually working: everything in PART_F_ACCEPTANCE.md, re-verified against source; legacy v1 attempts are untouched.
+Manual browser checks actually performed: M01 run/branch facts, Step tick → Tick 1, Step code, Why did that happen? → exact compare row, Lab load. 0 console errors, 0 external requests (1366×768 Chromium, production preview).
+Automated commands + actual outcomes: format:check pass; scan:secrets pass; verify:spec modified pass; npm run check pass (220/220 tests, 20 files); Chromium E2E 49/49 pass; npm audit 0 vulnerabilities. Firefox was not run locally because the container has Chromium only.
+Push status: this session's GitHub account has no push permission on HrishikeshLenin13/Branchcade, so commits were made locally on main and handed over as a git bundle/patch series. GitHub Actions could not be observed from this session.
+Known limitations: same as the Part F section below; Blockly chunk is about 800KB; computation runs on the main thread in bounded batches, not in a worker.
+
+## Previous: Branchcade Part F checkpoint
 
 Authorized scope: implement master-prompt F1–F6 on the updated A–E repository and regress previous functionality. Branch: main only.
 Fetched/fast-forwarded base: bc4c9c0d6b9d8fe7e472ee22382ee959c5e2f353. Its D/E work is preserved, not replaced with the older A/C checkout. The current commit is identified by git log; no self-referential hash is invented.

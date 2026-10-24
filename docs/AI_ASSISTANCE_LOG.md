@@ -13,3 +13,7 @@ Required human review remains uncompleted: explain the ray/centimeter origin; co
 ## Part F,2026-10-23
 
 The assistant fetched and fast-forwarded updated main from bc4c9c0, read the full F1–F6 requirements, and ran the D–E baseline. AI-authored work covers continuous collision math, globally nearest legal grid spawn search, explicit-stack interpreter/cancellation/budgets, trace/debug playback, null guard Blockly adapter, versioned legacy compatibility, tests and supporting documentation. Context7 supplied current official React effect/rAF cleanup and Blockly highlighting documentation; installed Blockly TypeScript declarations verified centerOnBlock. Playwright MCP exercised real tick/code stepping, exact comparison selection and runtime-error block navigation. Chrome DevTools inspected console and fetch/XHR requests. Numerical tests validate algorithms; screenshots and browser regressions validate presentation. No student authorship, human study, learning effect or algorithm review is fabricated. Student review of every AI-assisted algorithm remains uncompleted until the student actually performs it.
+
+## Part F verification and Part G, 2026-10-24 (friend #3 session)
+
+Run by Claude Code (Anthropic), started from a collaborator's Claude account at the project lead's request. The assistant re-verified Part F, fixed the sensor wall-clamp defect, and added the F6 mandatory test map. Part G work is logged in the section below as it lands. No student authorship or review is claimed. Student review of every AI-assisted algorithm is still outstanding.

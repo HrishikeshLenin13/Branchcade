@@ -79,3 +79,15 @@ GitHub run [40034287198](https://github.com/HrishikeshLenin13/Branchcade/actions
 - Playwright MCP verified Tick1 after Step tick, Tick10 after code action, exact comparison row24<20=false, and source error navigation with an actual highlighted Blockly condition. Chrome DevTools reported no warnings/errors and no fetch/XHR on the audited local page.
 - An initial SVG footprint aria-label produced three axe failures; it was replaced with an SVG title and all unchanged axe checks passed.
 - Limits rollback ran on /tmp/branchcade-f-rollback.ts and restored original bytes/behavior; src/domain/constants.ts remains changed. See evidence/f/VERIFICATION.txt for commands/outputs.
+
+## Part F independent verification (friend #3), 2026-10-24
+
+Base: `963ec3a` (clean, matches origin/main). Environment: cloud container, Node v22.22.0 / npm 10.9.4 (the repo pins Node 24 in `.nvmrc`; CI still uses Node 24). Chromium only locally: the project pins Playwright 1.64.1 (browser build 1248) while the container ships build 1243, so a local-only, uncommitted config pointed Playwright at `/opt/pw-browsers/chromium`. Firefox was not run locally.
+
+- Baseline before any change: format, secret scan, lint, strict typecheck, **205/205** Vitest tests (19 files), production build, **49/49** Chromium E2E, `npm audit` 0 vulnerabilities.
+- I re-read F1–F6 against `src/engine/*`, `src/interpreter/*`, `useTracePlayback.ts` and the F suites. Every F6 mandatory numerical case had coverage, but it was spread across five files. `tests/f-mandatory.test.ts` now maps each listed case to one assertion block (15 tests).
+- **Defect found and fixed:** when the distance sensor origin sat on or beyond a world wall (floating-point rounding at contact, or a sensor offset larger than the chassis radius), `readSensors` skipped that wall and reported a far wall or `null`. Wall distances are now clamped at 0. The new test failed before the fix and passes after it.
+- Playback reveal logic was extracted into the pure `revealCursor` so that 1× and 4× playback are proven to reveal identical events and the same final state.
+- Comments on floor-zone tie-breaking were corrected: ties go by declared index, not lexicographic ID, which matches the behavior and tests.
+- Real browser check (production preview, 1366×768): M01 shows `24 < 20 is false. Else branch selected`. Step tick gives Tick 1 · Paused. Step code animates the full motor action. "Why did that happen?" selects `compare · condition 24 < 20 is false`. 0 console errors and 0 non-local requests. Screenshot: `evidence/f/verify-m01-why-1366.png`.
+- After the fixes: **220/220** Vitest tests (20 files), lint/typecheck/build pass, Chromium E2E rerun recorded in HANDOFF.
