@@ -163,7 +163,7 @@ const whileFloor = (id: string, op: '==' | '!=', color: 'white' | 'black', step 
 
 CURRICULUM.m02 = {
   narrative:
-    'A black tape line marks the parking spot. The starter program just drives 30 cm and never looks at the floor. Use the floor colour sensor so the robot stops on the line, wherever the line is.',
+    'A black tape line marks the parking spot. The starter program checks the floor sensor but waits for the wrong colour, so the robot never sets off. Fix the condition so it drives across the white floor and stops on the line, wherever the line is.',
   targetConcept: 'Using the floor colour sensor in a loop condition to make a programmed stop',
   vocabulary: [
     {
@@ -173,24 +173,37 @@ CURRICULUM.m02 = {
     { term: 'while loop', meaning: 'Repeats its blocks as long as its condition stays true.' },
     { term: 'footprint', meaning: 'The exact spot the sensor reads, shown under the robot.' },
   ],
-  expectedPrediction: { action: 'move', reason: 'The repeat block starts with move 1 cm.' },
+  expectedPrediction: {
+    action: 'stop',
+    reason:
+      'The floor under the robot is white, so “floor = black” is false and the loop never runs.',
+  },
   failureExamples: [
+    'Waiting for black means the loop never starts on white floor.',
     'Driving a fixed 30 cm rolls right over the line and stops on white.',
     'Stopping a few centimetres late still misses the 2-tick window after the sensor reaches black.',
   ],
   teacherNote:
-    'Watch for learners who expect the colour sensor to “see” the line ahead. The line only counts once the sensor footprint is on it; the second scenario moves and thins the line so a hard-coded distance cannot pass.',
+    'Learners who think the colour sensor “sees” the line ahead expect this robot to move; the second question (how far does it drive?) makes that visible. The line only counts once the sensor footprint is on it, and the second scenario moves and thins the line so a hard-coded distance cannot pass.',
   probeIds: ['g.color-read.12', 'g.color-ahead.12', 'g.while-start-black.black'],
   hints: [
-    'Which sensor can tell the difference between white floor and the black line?',
-    'The floor sensor reads white until its footprint reaches the tape, then black. A simpler example: “while floor = white: move 1 cm” keeps going only on white.',
+    'What colour is the floor under the robot right now, and what colour is the loop waiting for?',
+    'The loop runs only while floor = black, but the robot starts on white, so it never runs. A simpler example: “while floor = white: move 1 cm” keeps going only on white.',
     'Compare this different program: while floor ≠ black → move 1 cm, then stop. How is its condition different from “floor = white”?',
   ],
   hintExample: whileFloor('hint-m02', '!=', 'black'),
   mistakeVariants: [
     {
+      id: 'wrong-colour',
+      label: 'Starter: loop while floor = black',
+      program: whileFloor('m02-wrong', '==', 'black'),
+      fails: 'Goal 1 (color-stop-within): not met',
+      explanation:
+        'The floor starts white, so the loop never runs and the robot never reaches the line.',
+    },
+    {
       id: 'blind',
-      label: 'Starter: fixed 30 cm, no sensor',
+      label: 'Fixed 30 cm, no sensor',
       program: blindLineProgram(),
       fails: 'Goal 1 (color-stop-within): not met',
       explanation: 'The robot drives over the line and stops on white.',
@@ -201,14 +214,6 @@ CURRICULUM.m02 = {
       program: program('m02-late', [move('drive', 25), stop()]),
       fails: 'Goal 1 (color-stop-within): not met',
       explanation: 'It reaches black at 20 cm but only stops 5 cm (5 ticks) later.',
-    },
-    {
-      id: 'wrong-colour',
-      label: 'Loop while floor = black',
-      program: whileFloor('m02-wrong', '==', 'black'),
-      fails: 'Goal 1 (color-stop-within): not met',
-      explanation:
-        'The floor starts white, so the loop never runs and the robot never reaches the line.',
     },
   ],
   detail: {
