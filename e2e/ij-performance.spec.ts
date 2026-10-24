@@ -8,10 +8,14 @@ import {
   largeEditorProgram,
   timedTraceProgram,
 } from '../tests/ij-fixtures'
+import { makeDefaultWorld } from '../src/engine/world'
 const header = (page: Page) => page.locator('.world-panel > .panel-header')
-async function importStressWorlds(page: Page, labIds?: readonly string[]) {
-  const now = new Date().toISOString(),
-    world = obstacleHeavyWorld()
+async function importStressWorlds(
+  page: Page,
+  labIds?: readonly string[],
+  world = obstacleHeavyWorld(),
+) {
+  const now = new Date().toISOString()
   const labs = [
     {
       schemaVersion: 1,
@@ -111,9 +115,15 @@ test('I/J production 1500-event inspector stays bounded, filters, pages and repl
 test('I/J 180-statement Blockly workspace survives apply, unmount and repeated route navigation', async ({
   page,
 }, testInfo) => {
+  // This deliberately hydrates a large Blockly workspace. CI needed over 5s for its
+  // first Firefox mount, while the same workspace completed on retry; keep this local
+  // to the stress scenario instead of changing the suite-wide timeout.
+  test.setTimeout(60_000)
   const errors: string[] = []
+  const blocklySvg = page.locator('.blocklySvg')
+  const expectBlocklyVisible = () => expect(blocklySvg).toBeVisible({ timeout: 15_000 })
   page.on('pageerror', (error) => errors.push(error.message))
-  await importStressWorlds(page, ['ij-large-editor'])
+  await importStressWorlds(page, ['ij-large-editor'], makeDefaultWorld())
   await page
     .getByRole('combobox', { name: 'Saved world collection', exact: true })
     .selectOption('ij-large-editor')
@@ -128,7 +138,7 @@ test('I/J 180-statement Blockly workspace survives apply, unmount and repeated r
     : null
   const begin = performance.now()
   await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
-  await expect(page.locator('.blocklySvg')).toBeVisible()
+  await expectBlocklyVisible()
   await page.getByRole('button', { name: 'Apply blocks', exact: true }).click()
   await expect(
     page.getByText('Program applied. Record a new prediction to run it.', { exact: true }),
@@ -158,7 +168,7 @@ test('I/J 180-statement Blockly workspace survives apply, unmount and repeated r
   const repeatedDisposal: { cycle: number; dom: unknown; metrics: unknown }[] = []
   for (let cycle = 0; cycle < 3; cycle++) {
     await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
-    await expect(page.locator('.blocklySvg')).toBeVisible()
+    await expectBlocklyVisible()
     await page.getByRole('button', { name: 'Close block editor', exact: true }).click()
     await expect(page.locator('.blocklySvg')).toHaveCount(0)
     await page.evaluate(
