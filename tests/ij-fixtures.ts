@@ -127,3 +127,24 @@ export function nestedProgram(seed: number): Program {
     ],
   }
 }
+
+export function timedTraceProgram(): Program {
+  return {
+    schemaVersion: 1,
+    id: 'ij-timed-trace',
+    body: [
+      {
+        nodeId: 'timed-repeat',
+        kind: 'repeat',
+        count: { nodeId: 'repeat-count', kind: 'literal', type: 'number', value: 100 },
+        body: [
+          {
+            nodeId: 'wait',
+            kind: 'wait',
+            durationMs: { nodeId: 'wait-ms', kind: 'literal', type: 'number', value: 750 },
+          },
+        ],
+      },
+    ],
+  }
+}

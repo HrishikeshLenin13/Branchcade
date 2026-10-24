@@ -22,6 +22,8 @@ try {
     taxonomy,
     validation,
     invariants,
+    imports,
+    records,
   ] = await Promise.all([
     server.ssrLoadModule('/src/interpreter/interpreter.ts'),
     server.ssrLoadModule('/tests/ij-fixtures.ts'),
@@ -31,6 +33,8 @@ try {
     server.ssrLoadModule('/src/learning/taxonomy.ts'),
     server.ssrLoadModule('/src/interpreter/validate.ts'),
     server.ssrLoadModule('/src/domain/invariants.ts'),
+    server.ssrLoadModule('/src/storage/import-export.ts'),
+    server.ssrLoadModule('/tests/ij-record-fixture.ts'),
   ])
   const world = fixtures.obstacleHeavyWorld(),
     program = fixtures.longTraceProgram(),
@@ -74,6 +78,15 @@ try {
       ranked: search.ranked.length,
     })
   }
+  const collection = await records.attemptCollection(50)
+  const rawCollection = imports.exportJson(collection)
+  const importBytes = new TextEncoder().encode(rawCollection).byteLength
+  await measure(
+    '50 executed-record full validated import',
+    () => imports.validateImport(rawCollection),
+    5,
+  )
+  const collectionMetrics = { records: collection.attempts.length, importBytes, byteLimit: 500000 }
   models.clearModelCache?.()
   globalThis.gc?.()
   const before = process.memoryUsage().heapUsed
@@ -94,6 +107,7 @@ try {
     obstacles: world.obstacles.length,
     results,
     coldCounterexamples,
+    collectionMetrics,
     cacheStress: {
       runs: retainedRuns,
       heapBeforeBytes: before,

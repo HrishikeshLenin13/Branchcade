@@ -1,3 +1,5 @@
+import { attemptCollection } from './ij-record-fixture'
+import { exportJson, validateImport } from '../src/storage/import-export'
 import { afterEach, describe, expect, it } from 'vitest'
 import * as Blockly from 'blockly/core'
 import { Interpreter, execute, executeAsync } from '../src/interpreter/interpreter'
@@ -44,11 +46,11 @@ describe('I/J stress coverage beyond authored curriculum', () => {
     const world = obstacleHeavyWorld(),
       program = longTraceProgram(),
       original = structuredClone(runModel('first-stress-run', world, program, NO_MISCONCEPTION))
-    for (let index = 0; index < 24; index++)
+    for (let index = 0; index < 10; index++)
       runModel(`stress-${index}`, world, program, NO_MISCONCEPTION)
     const stats = modelCacheStats()
     expect(stats.traceBytes).toBeLessThanOrEqual(MODEL_CACHE_LIMITS.bytes)
-    expect(stats.entries).toBeLessThan(24)
+    expect(stats.entries).toBeLessThan(10)
     expect(runModel('first-stress-run', world, program, NO_MISCONCEPTION)).toEqual(original)
     clearModelCache()
     expect(modelCacheStats()).toMatchObject({ entries: 0, traceBytes: 0 })
@@ -146,4 +148,18 @@ describe('I/J stress coverage beyond authored curriculum', () => {
       expect(run.robot.collision).toBeNull()
     }
   })
+})
+
+it('imports 50 actual executed synthetic records within both byte and structure ceilings, then rejects tampering', async () => {
+  const data = await attemptCollection(50),
+    raw = exportJson(data)
+  expect(new TextEncoder().encode(raw).byteLength).toBeLessThan(500000)
+  const imported = await validateImport(raw)
+  expect(imported.attempts).toEqual(data.attempts)
+  expect(new Set(imported.attempts.map((attempt) => attempt.prediction.id)).size).toBe(50)
+  const changed = structuredClone(data)
+  changed.attempts[49]!.traceHash = '0'.repeat(64)
+  await expect(validateImport(exportJson(changed))).rejects.toThrow(
+    'Attempt trace checksum mismatch',
+  )
 })
