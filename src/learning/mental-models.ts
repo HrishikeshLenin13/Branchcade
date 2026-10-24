@@ -121,13 +121,33 @@ export interface ModelRun {
   perceivedEnd: number | null
 }
 
-const cache = new Map<string, ModelRun>()
+// A result can hold a full 4 MB trace. An entry-count-only cap allowed thousands
+// of those traces to survive navigation. Bound both trace payload and entry overhead.
+export const MODEL_CACHE_LIMITS = { bytes: 8 * 1024 * 1024, entries: 512 } as const
+const cache = new Map<string, { run: ModelRun; bytes: number }>()
+let cacheBytes = 0
+export function modelCacheStats() {
+  return {
+    entries: cache.size,
+    traceBytes: cacheBytes,
+    maxEntries: MODEL_CACHE_LIMITS.entries,
+    maxTraceBytes: MODEL_CACHE_LIMITS.bytes,
+  }
+}
+export function clearModelCache() {
+  cache.clear()
+  cacheBytes = 0
+}
 /** Executes one scenario under one model. `key` must uniquely identify world+program
  * (callers use generated probe/candidate ids); results are memoized because they are pure. */
 export function runModel(key: string, world: World, program: Program, model: ModelCode): ModelRun {
   const cacheKey = `${key}|${model}`
   const hit = cache.get(cacheKey)
-  if (hit) return hit
+  if (hit) {
+    cache.delete(cacheKey)
+    cache.set(cacheKey, hit)
+    return hit.run
+  }
   const machine = new ModelInterpreter(world, program, model)
   const perceivedStart = machine.perceive()
   while (!['completed', 'stopped', 'error', 'budget_exceeded'].includes(machine.status))
@@ -139,8 +159,19 @@ export function runModel(key: string, world: World, program: Program, model: Mod
     perceivedStart,
     perceivedEnd: machine.perceive(),
   }
-  if (cache.size > 4000) cache.clear()
-  cache.set(cacheKey, run)
+  const bytes = machine.traceByteLength + 1024 + cacheKey.length * 2
+  while (
+    cache.size &&
+    (cache.size >= MODEL_CACHE_LIMITS.entries || cacheBytes + bytes > MODEL_CACHE_LIMITS.bytes)
+  ) {
+    const oldestKey = cache.keys().next().value!
+    cacheBytes -= cache.get(oldestKey)!.bytes
+    cache.delete(oldestKey)
+  }
+  if (bytes <= MODEL_CACHE_LIMITS.bytes) {
+    cache.set(cacheKey, { run, bytes })
+    cacheBytes += bytes
+  }
   return run
 }
 
