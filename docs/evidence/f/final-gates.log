@@ -1,0 +1,25 @@
+
+> branchcade@0.1.0 check
+> npm run lint && npm run typecheck && npm run test -- --run && npm run build
+
+
+> branchcade@0.1.0 lint
+> eslint . --max-warnings 0
+
+
+/Users/HrishiL/Desktop/Branchcade/src/features/inspector/TraceView.tsx
+  96:15  error  Compilation Skipped: Existing memoization could not be preserved
+
+React Compiler has skipped optimizing this component because the existing manual memoization could not be preserved. This dependency may be mutated later, which could cause the value to change unexpectedly.
+
+/Users/HrishiL/Desktop/Branchcade/src/features/inspector/TraceView.tsx:96:15
+  94 |   const comparisonIds = useMemo(
+  95 |     () => conditionComparisonIds(program, branch?.evaluation?.expressionId),
+> 96 |     [program, branch?.evaluation?.expressionId],
+     |               ^^^^^^ This dependency may be modified later
+  97 |   )
+  98 |   const comparison =
+  99 |     current?.kind === 'compare'  react-hooks/preserve-manual-memoization
+
+✖ 1 problem (1 error, 0 warnings)
+

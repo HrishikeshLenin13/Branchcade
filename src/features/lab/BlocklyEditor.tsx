@@ -99,7 +99,11 @@ export default function BlocklyEditor({
     if (block) ws?.centerOnBlock(block.id)
   }, [activeNodeId, focusNonce])
   useEffect(() => {
-    workspace.current?.getAllBlocks(false).forEach((block) => block.setMovable(!readOnly))
+    workspace.current?.getAllBlocks(false).forEach((block) => {
+      block.setMovable(!readOnly)
+      block.setEditable(!readOnly)
+      block.setDeletable(!readOnly)
+    })
   }, [readOnly])
   const apply = () => {
     try {
@@ -132,7 +136,7 @@ export default function BlocklyEditor({
         <div className="button-row">
           <Button
             variant="outline"
-            disabled={!undo}
+            disabled={!undo || readOnly}
             title={!undo ? 'No block edit to undo' : 'Undo the last block edit'}
             onClick={() => workspace.current?.undo(false)}
           >
@@ -140,7 +144,7 @@ export default function BlocklyEditor({
           </Button>
           <Button
             variant="outline"
-            disabled={!redo}
+            disabled={!redo || readOnly}
             title={!redo ? 'No block edit to redo' : 'Redo the last block edit'}
             onClick={() => workspace.current?.undo(true)}
           >
@@ -169,6 +173,7 @@ export default function BlocklyEditor({
         </Button>
         <Button
           variant="outline"
+          disabled={readOnly}
           onClick={() => {
             workspace.current?.cleanUp()
             setStatus('Connected program blocks arranged vertically.')
@@ -179,13 +184,15 @@ export default function BlocklyEditor({
       </div>
       <p className="muted">
         Movement, sensors, logic, loops, variables, helpers and debug blocks become a bounded,
-        validated program. Names use letters, numbers, underscores or hyphens. Generated pseudocode
-        is read-only. For keyboard or screen reader use, inspect the text steps; Blockly’s spatial
+        validated program. Unapplied workspace edits do not run; the main program preview is the
+        executed AST. Names use letters, numbers, underscores or hyphens. Generated pseudocode is
+        read-only. For keyboard or screen reader use, inspect the text steps; Blockly’s spatial
         editing may need a pointer.
       </p>
       <div
         className="blockly-container"
         ref={container}
+        inert={readOnly}
         style={{ display: tab === 'blocks' ? 'block' : 'none' }}
       />
       {tab === 'code' && (
@@ -193,7 +200,11 @@ export default function BlocklyEditor({
           {preview}
         </pre>
       )}
-      <p role="status">{status}</p>
+      <p role="status">
+        {readOnly
+          ? 'Recorded run locked. Use Stop & Edit before changing or applying blocks.'
+          : status}
+      </p>
       {error && (
         <p role="alert" className="error">
           {error}

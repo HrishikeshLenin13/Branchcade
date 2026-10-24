@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import type { World, RobotState, ExecutionEvent } from '../../domain/types'
 import { readSensors } from '../../engine/sensors'
 import { readSensors as legacySensors } from '../../interpreter/legacy/sensors'
@@ -20,6 +20,7 @@ export function Stage({
   onRobotMove,
   engineVersion = 2,
   snapshotDisabled = false,
+  goals = world.goals,
 }: {
   world: World
   robot: RobotState
@@ -33,6 +34,7 @@ export function Stage({
   onRobotMove?: (xCm: number, yCm: number) => void
   engineVersion?: 1 | 2
   snapshotDisabled?: boolean
+  goals?: World['goals']
 }) {
   const svg = useRef<SVGSVGElement>(null),
     wrap = useRef<HTMLDivElement>(null),
@@ -49,11 +51,29 @@ export function Stage({
     [ray, setRay] = useState(true),
     [follow, setFollow] = useState(false),
     [pan, setPan] = useState({ xCm: 0, yCm: 0 }),
+    [labelSize, setLabelSize] = useState(3.5),
     [details, setDetails] = useState(false),
     [robotDetails, setRobotDetails] = useState(false),
     [fullscreenError, setFullscreenError] = useState('')
   const viewWidth = world.widthCm / zoom,
     viewHeight = world.heightCm / zoom
+  // Annotation size follows the actual camera matrix, not physics units.
+  useEffect(() => {
+    const node = svg.current
+    if (!node) return
+    const update = () => {
+      const matrix = node.getScreenCTM?.()
+      if (matrix && Math.abs(matrix.a) > 1e-9) setLabelSize(12 / Math.abs(matrix.a))
+    }
+    update()
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', update)
+      return () => window.removeEventListener('resize', update)
+    }
+    const observer = new ResizeObserver(update)
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [viewWidth, viewHeight])
   const center = follow
     ? robot.position
     : { xCm: world.widthCm / 2 + pan.xCm, yCm: world.heightCm / 2 + pan.yCm }
@@ -330,7 +350,7 @@ export function Stage({
               stroke="#6CC4D3"
               strokeWidth=".5"
             />
-            <text x={point.xCm + 3} y={point.yCm} fontSize="3" fill="#D6E6EC">
+            <text x={point.xCm + 3} y={point.yCm} fontSize={labelSize} fill="#D6E6EC">
               {i + 1}
             </text>
           </g>
@@ -344,20 +364,30 @@ export function Stage({
             strokeDasharray="2 2"
           />
           <text
-            x={world.spawn.position.xCm}
-            y={world.spawn.position.yCm - world.spawn.radiusCm - 4}
+            x={
+              world.spawn.position.xCm > 4 * labelSize
+                ? world.spawn.position.xCm - world.spawn.radiusCm - 2
+                : world.spawn.position.xCm + world.spawn.radiusCm + 2
+            }
+            textAnchor={world.spawn.position.xCm > 4 * labelSize ? 'end' : 'start'}
+            y={world.spawn.position.yCm + labelSize * 0.35}
             fill="#9EE2ED"
             stroke="none"
-            fontSize="3"
+            fontSize={labelSize}
           >
             Start
           </text>
         </g>
-        {world.goals
+        {goals
           .filter((g) => g.kind === 'reach')
           .map((g, i) => (
             <g key={`goal-${i}`}>
               <title>Goal marker</title>
+              <path
+                d={`M${g.position.xCm - 2} ${g.position.yCm}h4M${g.position.xCm} ${g.position.yCm - 2}v4`}
+                stroke="#A5D898"
+                strokeWidth=".5"
+              />
               <circle
                 cx={g.position.xCm}
                 cy={g.position.yCm}
@@ -368,9 +398,12 @@ export function Stage({
               />
               <text
                 x={g.position.xCm}
-                y={g.position.yCm - g.toleranceCm - 2}
+                y={Math.min(
+                  world.heightCm - labelSize * 0.4,
+                  g.position.yCm + Math.max(g.toleranceCm, 2) + labelSize * 1.2,
+                )}
                 fill="#A5D898"
-                fontSize="3"
+                fontSize={labelSize}
               >
                 Goal
               </text>
@@ -493,16 +526,23 @@ export function Stage({
           <title>Floor sensor footprint (center point sample)</title>
         </circle>
         {grid && (
-          <text x="8" y={world.heightCm - 6} fill="#C4D1D7" fontSize="2.8" fontFamily="monospace">
+          <text
+            x="8"
+            y={world.heightCm - 6}
+            fill="#C4D1D7"
+            fontSize={labelSize}
+            fontFamily="monospace"
+          >
             1 grid square = 10 cm
           </text>
         )}
         {sensorLabels && (
           <text
             x={sensors.ray.origin.xCm}
-            y={Math.max(5, sensors.ray.origin.yCm - 7)}
+            y={Math.max(labelSize * 1.2, sensors.ray.origin.yCm - Math.max(7, labelSize * 1.4))}
+            data-testid="distance-label"
             fill="#9EE2ED"
-            fontSize="3.5"
+            fontSize={labelSize}
             fontFamily="monospace"
           >
             {sensors.distanceCm === null ? 'out of range' : `${sensors.distanceCm.toFixed(1)} cm`}

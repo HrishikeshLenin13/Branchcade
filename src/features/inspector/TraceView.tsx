@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ExecutionEvent, World, Program, RobotState } from '../../domain/types'
 import { readSensors } from '../../engine/sensors'
 import { readSensors as legacySensors } from '../../interpreter/legacy/sensors'
 import { pseudocode } from '../../interpreter/pseudocode'
 import { LIMITS } from '../../domain/constants'
+import { LEGACY_LIMITS } from '../../interpreter/legacy/limits'
+import { stableHash } from '../../domain/invariants'
+import { conditionComparisonIds } from '../../interpreter/debugger'
+import { rebuildSnapshot } from '../../interpreter/source-replay'
 import { Button } from '../../components/ui/button'
 const TABS = ['Live state', 'Timeline', 'Why?', 'Variables', 'Program'] as const
 export function TraceView({
@@ -16,6 +20,7 @@ export function TraceView({
   runId,
   error,
   engineVersion = 2,
+  traceHash,
 }: {
   events: ExecutionEvent[]
   cursor: number
@@ -26,11 +31,45 @@ export function TraceView({
   runId?: string
   error?: string | null
   engineVersion?: 1 | 2
+  traceHash?: string
 }) {
   const [tab, setTab] = useState<(typeof TABS)[number]>('Timeline'),
     [query, setQuery] = useState(''),
     [kind, setKind] = useState('all'),
-    [page, setPage] = useState(0)
+    [page, setPage] = useState(0),
+    [rebuilding, setRebuilding] = useState(false),
+    [rebuildNotice, setRebuildNotice] = useState('')
+  const rebuildControl = useRef<AbortController | null>(null)
+  useEffect(() => () => rebuildControl.current?.abort(), [])
+  const limits =
+    engineVersion === 1
+      ? { ...LEGACY_LIMITS, callDepth: LEGACY_LIMITS.stack, traceBytes: null }
+      : LIMITS
+  const rebuild = async () => {
+    if (!world || !program || rebuilding) return
+    const controller = new AbortController()
+    rebuildControl.current = controller
+    setRebuilding(true)
+    setRebuildNotice('Rebuilding from the original program, world and seed…')
+    try {
+      const proof = {
+        programHash: await stableHash(program),
+        worldHash: await stableHash(world),
+        traceHash: traceHash ?? (await stableHash(events)),
+        eventCursor: cursor,
+      }
+      const snapshot = await rebuildSnapshot(world, program, proof, controller.signal)
+      onCursor(snapshot.eventCursor)
+      setRebuildNotice(
+        `Verified source replay: event ${snapshot.eventCursor}, tick ${snapshot.robot.tick}. Trace checksum matches; recorded attempt unchanged.`,
+      )
+    } catch (error) {
+      setRebuildNotice(error instanceof Error ? error.message : 'Replay rebuild failed')
+    } finally {
+      rebuildControl.current = null
+      setRebuilding(false)
+    }
+  }
   const current = events[cursor - 1],
     branch = events.slice(0, cursor).findLast((event) => event.kind === 'branch'),
     state = robot ?? current?.after,
@@ -52,13 +91,17 @@ export function TraceView({
   const previousBranch = branch
     ? events.slice(0, branch.seq).findLast((e) => e.kind === 'branch')
     : undefined
+  const comparisonIds = useMemo(
+    () => conditionComparisonIds(program, branch?.evaluation?.expressionId),
+    [program, branch?.evaluation?.expressionId],
+  )
   const comparison =
     current?.kind === 'compare'
       ? current
       : branch
         ? events
             .slice((previousBranch?.seq ?? -1) + 1, branch.seq)
-            .findLast((e) => e.kind === 'compare')
+            .findLast((e) => e.kind === 'compare' && comparisonIds.has(e.nodeId))
         : undefined
   return (
     <section className="trace-panel" aria-label="Execution inspector">
@@ -314,11 +357,36 @@ export function TraceView({
             </p>
             <p>
               {error ? `Execution issue: ${error}` : 'Bounded interpreter completed.'}{' '}
-              {events.length} / {LIMITS.events} events; {events.at(-1)?.tick ?? 0} / {LIMITS.ticks}{' '}
-              ticks. Instruction budget {LIMITS.instructions}; call depth limit {LIMITS.callDepth}.
-              Trace cap {LIMITS.traceBytes / 1_000_000} MB.
+              {events.length} / {limits.events} events; {events.at(-1)?.tick ?? 0} / {limits.ticks}{' '}
+              ticks. Instruction budget {limits.instructions}; call depth limit {limits.callDepth}.
+              {limits.traceBytes
+                ? `Trace cap ${limits.traceBytes / 1_000_000} MB.`
+                : 'Historical event/tick caps apply.'}
             </p>
             {program && <pre className="code-preview">{pseudocode(program)}</pre>}
+            {world && program && engineVersion === 2 && (
+              <>
+                <Button
+                  variant="outline"
+                  disabled={rebuilding}
+                  onClick={() => {
+                    void rebuild()
+                  }}
+                >
+                  Rebuild snapshot from source
+                </Button>
+                {rebuilding && (
+                  <Button variant="outline" onClick={() => rebuildControl.current?.abort()}>
+                    Cancel rebuild
+                  </Button>
+                )}
+                <p role="status">{rebuildNotice}</p>
+                <p>
+                  Cache-independent recovery verifies program, world and trace hashes using the
+                  original seed. It never changes a saved prediction or score.
+                </p>
+              </>
+            )}
           </div>
         )}
       </div>

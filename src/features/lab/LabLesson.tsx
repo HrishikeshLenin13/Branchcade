@@ -846,9 +846,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           variant="outline"
           disabled={!result?.status || tickTarget === cursor}
           title={
-            !result?.status
-              ? 'Legacy attempts retain action snapshots; start a new run for fixed-tick stepping'
-              : 'Advance exactly one 50 ms physics tick'
+            !result
+              ? 'Run a program before stepping its physics ticks'
+              : !result.status
+                ? 'Legacy attempts retain action snapshots; start a new run for fixed-tick stepping'
+                : tickTarget === cursor
+                  ? 'No physics ticks remain; use Step code for terminal events'
+                  : 'Advance exactly one 50 ms physics tick'
           }
           onClick={() => result && selectCursor(tickTarget)}
         >
@@ -1073,6 +1077,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             robot={animated ?? robot}
             engineVersion={result && !result.status ? 1 : 2}
             snapshotDisabled={playing || busy}
+            goals={free ? world.goals : mission.successPredicate}
             events={result?.events}
             cursor={cursor}
             sensorLabels={data.profile?.settings.sensorLabels !== false}
@@ -1484,6 +1489,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               runId={attemptId}
               error={result.error}
               engineVersion={result.status ? 2 : 1}
+              traceHash={data.attempts.find((item) => item.id === attemptId)?.traceHash}
             />
           )}
           {showTrace && !result && (

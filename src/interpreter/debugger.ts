@@ -1,4 +1,4 @@
-import type { ExecutionEvent, RobotState, World } from '../domain/types'
+import type { ExecutionEvent, RobotState, World, Program } from '../domain/types'
 import { replayAt } from '../engine/replay'
 export { replayAt as inspectEvent } from '../engine/replay'
 const motionKinds = new Set(['move', 'turn', 'wait'])
@@ -72,4 +72,41 @@ export class ReplayTimeline {
   get snapshotCount() {
     return this.ring.length
   }
+}
+
+/** Exact comparison descendants of the branch's own AST condition, never an
+ * unrelated earlier inspect/assignment that happened to emit a comparison. */
+export function conditionComparisonIds(
+  program: Program | undefined,
+  nodeId: string | undefined,
+): Set<string> {
+  const ids = new Set<string>(nodeId ? [nodeId] : [])
+  if (!program || !nodeId) return ids
+  const pending: unknown[] = [program]
+  let root: unknown
+  while (pending.length) {
+    const item = pending.pop()
+    if (item && typeof item === 'object') {
+      if ('nodeId' in item && item.nodeId === nodeId) {
+        root = item
+        break
+      }
+      pending.push(...Object.values(item))
+    }
+  }
+  const children: unknown[] = root ? [root] : []
+  while (children.length) {
+    const item = children.pop()
+    if (item && typeof item === 'object') {
+      if (
+        'kind' in item &&
+        item.kind === 'compare' &&
+        'nodeId' in item &&
+        typeof item.nodeId === 'string'
+      )
+        ids.add(item.nodeId)
+      children.push(...Object.values(item))
+    }
+  }
+  return ids
 }
