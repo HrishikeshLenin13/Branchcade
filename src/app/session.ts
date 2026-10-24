@@ -121,7 +121,7 @@ export const useSession = create<Session>((set, get) => ({
     const current = get().data
     if (localProfiles(current).length >= 20)
       throw new Error(
-        'This browser supports up to 20 local learners. Export or clear a learner first.',
+        'This browser supports up to 20 local learners. Select an existing alias, or export a backup before erasing all local data in Settings.',
       )
     const profile = newProfile(nickname)
     await get().replace({ ...current, profile, profiles: localProfiles(current) })

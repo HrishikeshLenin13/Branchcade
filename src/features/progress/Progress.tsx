@@ -18,6 +18,7 @@ import { conceptEvidence } from '../../learning/mastery'
 import { recommend } from '../../learning/adaptive-planner'
 import { conceptTitle, missionConcepts, type ConceptId } from '../../learning/concepts'
 import { attemptDiagnosis } from '../../learning/investigation'
+import { soloAchievements } from '../../learning/achievements'
 import './local-records.css'
 export default function Progress() {
   const data = useSession((s) => s.data),
@@ -41,6 +42,7 @@ export default function Progress() {
     practiced = evidence.filter((c) => c.status !== 'not_explored')
   const next = recommend(attempts, MISSION_CATALOG, profile?.completedMissions ?? [], evidence),
     recommendation = MISSION_CATALOG.find((m) => m.id === next.missionId) ?? MISSION_CATALOG[0]!
+  const achievements = soloAchievements(attempts, MISSION_CATALOG)
   const conceptAttempts = (id: ConceptId) =>
     attempts.filter((a) => {
       const m = MISSION_CATALOG.find((x) => x.id === a.missionId)
@@ -123,6 +125,47 @@ export default function Progress() {
             <Button asChild>
               <Link to={`/missions/${recommendation.id}`}>Start recommended mission</Link>
             </Button>
+          </section>
+          <section className="paper">
+            <h2>Evidence stamps</h2>
+            <p className="muted">
+              These describe saved work for this alias. Running a program alone earns no stamp.
+              Sensor Detective follows your current evidence and can change after a new answer.
+            </p>
+            <ul className="evidence-stamps" data-testid="evidence-stamps">
+              <li>
+                <strong>First Trace · {achievements.firstTrace ? 'Recorded' : 'Not yet'}</strong>
+                <p>Commit a prediction and answer a program investigation question.</p>
+                {achievements.firstTrace && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setSelected(achievements.firstTrace!.attemptId)}
+                  >
+                    Review First Trace evidence
+                  </Button>
+                )}
+              </li>
+              <li>
+                <strong>
+                  Sensor Detective · {achievements.sensorDetective ? 'Supported' : 'Not yet'}
+                </strong>
+                <p>
+                  {achievements.sensorDetective ??
+                    'Needs different correct sensor predictions without help, a correct new-numbers challenge and a written reason, with no current conflicting evidence.'}
+                </p>
+              </li>
+              {achievements.completed.map((stamp) => (
+                <li key={stamp.missionId}>
+                  <strong>Completed investigation · {stamp.title}</strong>
+                  <p>
+                    Saved goal and transfer checks satisfy this mission’s versioned completion rule.
+                  </p>
+                  <Button variant="outline" onClick={() => setSelected(stamp.attemptId)}>
+                    Review completion evidence for {stamp.missionId.toUpperCase()}
+                  </Button>
+                </li>
+              ))}
+            </ul>
           </section>
           <section className="paper">
             <h2>Concept evidence</h2>
