@@ -1,6 +1,6 @@
 # Third-party dependency notices
 
-Generated from the committed npm lock metadata. Dependencies keep their original licenses; package LICENSE files are the authoritative full texts. No proprietary robot logos or images are bundled. Geist and IBM Plex font notices are retained in their installed packages. Project distribution-license selection belongs to the repository owner; no student authorship is fabricated.
+Generated from the committed npm lock metadata. Dependencies keep their original licenses; package LICENSE files are the authoritative full texts. No proprietary robot logos or images are bundled. Unmodified Geist and IBM Plex Mono copyright/SIL OFL texts are also copied to public/assets/licenses so static builds carry their font notices. Project distribution-license selection belongs to the repository owner; no student authorship is fabricated.
 
 | Package                                  | Locked version | License metadata |
 | ---------------------------------------- | -------------- | ---------------- |
