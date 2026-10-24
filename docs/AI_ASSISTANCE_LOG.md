@@ -17,3 +17,7 @@ The assistant fetched and fast-forwarded updated main from bc4c9c0, read the ful
 ## Part F verification and Part G, 2026-10-24 (friend #3 session)
 
 Run by Claude Code (Anthropic), started from a collaborator's Claude account at the project lead's request. The assistant re-verified Part F, fixed the sensor wall-clamp defect, and added the F6 mandatory test map. Part G work is logged in the section below as it lands. No student authorship or review is claimed. Student review of every AI-assisted algorithm is still outstanding.
+
+### Part G (same session)
+
+AI-authored: the taxonomy copy; the mental-model interpreter seams and `ModelInterpreter`; 22 probe templates; the evidence engine and probe selection; counterexample search; the transfer pool and difficulty rule; concept mastery and the planner; the Investigation/Experiment components; the Progress/Instructor/library integration; tests and docs. The assistant chose numeric constants (support weights 1/0.5, the independence rule, `PERCEIVED_NEAR_CM = 30`, MAX_PROBES 3+1, search budget 80, difficulty margins); a student should review and justify or change them. Student review is still required, for example: explain why one wrong answer isn't enough; trace how `selectNextProbe` picks a question; explain why a collision can't count as evidence for "the sensor stops the robot"; and change one model and watch which tests fail. Not yet done.
