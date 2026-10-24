@@ -89,7 +89,7 @@ export default function Home() {
       <section className="home-bottom">
         <div>
           <span className="section-index">Your first investigation</span>
-          <h2>The 20 cm question</h2>
+          <h2>The Wall Problem</h2>
           <p>One sensor, two branches, and a result you can explain.</p>
           <Link className="text-link" to="/missions/m01">
             Open the guided mission <ArrowUpRight size={16} />

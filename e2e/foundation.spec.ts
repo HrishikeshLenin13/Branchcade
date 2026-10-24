@@ -5,7 +5,7 @@ async function start(page: import('@playwright/test').Page) {
   await page.getByRole('button', { name: 'Next', exact: true }).click()
   await page.getByRole('button', { name: 'Next', exact: true }).click()
   await page.getByRole('button', { name: 'Create my local alias & start' }).click()
-  await expect(page.getByRole('heading', { name: 'The 20 cm question', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'The Wall Problem', exact: true })).toBeVisible()
 }
 async function run(page: import('@playwright/test').Page, wrong = false) {
   if (wrong) await page.getByRole('radio', { name: 'Stop in place', exact: true }).check()

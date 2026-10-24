@@ -33,15 +33,31 @@ export function thresholdProgram(threshold = 20): Program {
 export const FIRST_MISSION = MissionSchema.parse({
   schemaVersion: 1,
   id: 'm01',
-  version: 1,
-  title: 'The 20 cm question',
+  version: 2,
+  title: 'The Wall Problem',
   conceptGoals: ['conditionals', 'distance-sensors'],
   prerequisiteIds: [],
   world: makeWorld(),
   starterProgram: thresholdProgram(),
+  // v2 (Part H): a correct programmed stop before the wall in two different scenarios.
+  // A physical bump never counts as the stop.
   successPredicate: [
-    { kind: 'branch', nodeId: 'decision', expected: false },
+    { kind: 'branch', expected: false },
     { kind: 'distance', minCm: 9.9 },
+    { kind: 'programmed-stop' },
+    { kind: 'final-distance', minCm: 5 },
+  ],
+  successScenarios: [
+    {
+      id: 'close-wall',
+      label: 'wall 12 cm away',
+      world: makeWorld(12),
+      goals: [
+        { kind: 'branch', expected: true },
+        { kind: 'programmed-stop' },
+        { kind: 'final-distance', minCm: 5 },
+      ],
+    },
   ],
   failureExplanation: 'Inspect the reading and the comparison before choosing a branch.',
   variants: [{ id: 'transfer', world: makeWorld(32), program: thresholdProgram(35) }],
