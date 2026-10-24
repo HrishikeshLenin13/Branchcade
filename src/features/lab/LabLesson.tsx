@@ -179,9 +179,14 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       draft?.stage === 'investigate' ||
         Boolean(
           saved &&
+          !free &&
           !saved.prediction.uncertain &&
-          saved.prediction.action !==
-            actualAction(executeRecorded(saved.world, saved.program, saved.engineVersion).events),
+          (saved.engineVersion === 2
+            ? attemptDiagnosis(saved, mission).wrongAnswers > 0
+            : saved.prediction.action !==
+              actualAction(
+                executeRecorded(saved.world, saved.program, saved.engineVersion).events,
+              )),
         ),
     ),
     [assessmentSkipped, setAssessmentSkipped] = useState(saved?.assessmentSkipped ?? false),
@@ -434,7 +439,11 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       setCursor(runResult.events.length)
       setPlaying(false)
       setAssessmentSkipped(skip || uncertain)
-      setShowInvestigation(!free && !p.uncertain && p.action !== actualAction(runResult.events))
+      // Any committed answer that differs from the run (first action, branch or second
+      // question) opens the investigation; correct answers never do.
+      setShowInvestigation(
+        !free && !p.uncertain && attemptDiagnosis(attempt, mission).wrongAnswers > 0,
+      )
       setNotice(
         `${skip ? 'Free exploration executed.' : p.uncertain ? 'Uncertainty recorded; no misconception inferred.' : 'Prediction locked before reveal.'} Actual result ${useSession.getState().ephemeral ? 'kept in memory for this session' : 'saved on this device'}.`,
       )
