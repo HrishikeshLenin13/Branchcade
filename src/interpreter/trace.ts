@@ -15,3 +15,10 @@ export function actualAction(events: readonly ExecutionEvent[]): Prediction['act
 export function branchFacts(events: readonly ExecutionEvent[]): string {
   return events.find((e) => e.kind === 'branch')?.facts.join('. ') ?? 'No branch was executed'
 }
+/** Branch facts when a decision ran; otherwise the recorded reason the run ended. */
+export function runFacts(events: readonly ExecutionEvent[]): string {
+  if (events.some((e) => e.kind === 'branch')) return branchFacts(events)
+  const end = events.findLast((e) => e.kind === 'program_stop')
+  const reason = end?.facts[0]?.replace('PROGRAM_STOP: ', '') ?? 'no stop recorded'
+  return `No if/else decision ran. The run ended by ${reason === 'completion' ? 'finishing its blocks' : reason === 'explicit stop' ? 'a stop block' : reason}`
+}
