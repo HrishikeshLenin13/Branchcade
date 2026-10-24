@@ -153,6 +153,11 @@ export class Interpreter {
       errorNodeId: this.errorNodeId,
     }
   }
+  /** Exact UTF-8 size already counted while emitting; consumers can bound caches
+   * without serializing the same immutable trace again. */
+  get traceByteLength() {
+    return this.bytes
+  }
   pause() {
     if (this.status === 'running' || this.status === 'ready') this.status = 'paused'
   }

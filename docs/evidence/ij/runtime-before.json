@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-10-24T06:08:19.701Z",
+  "commit": "f9871ba0efa20f9f3e63b5aaa489f13ed5a9b91d",
+  "runtime": "v24.22.1",
+  "platform": "darwin/arm64",
+  "gcAvailable": true,
+  "traceEvents": 1503,
+  "traceBytes": 1251459,
+  "obstacles": 100,
+  "results": [
+    {
+      "name": "100 obstacles / 1200+ events execute",
+      "samplesMs": [
+        19.157,
+        18.42,
+        18.424,
+        16.935,
+        18.452,
+        15.7,
+        16.856
+      ],
+      "medianMs": 18.42,
+      "maxMs": 19.157
+    },
+    {
+      "name": "long trace canonical SHA-256",
+      "samplesMs": [
+        25.403,
+        49.98,
+        21.241,
+        22.034,
+        24.669,
+        21.403,
+        21.319
+      ],
+      "medianMs": 22.034,
+      "maxMs": 49.98
+    },
+    {
+      "name": "180-statement AST validation",
+      "samplesMs": [
+        0.615,
+        0.343,
+        0.45,
+        0.356,
+        0.299,
+        0.233,
+        0.215
+      ],
+      "medianMs": 0.343,
+      "maxMs": 0.615
+    }
+  ],
+  "coldCounterexamples": [
+    {
+      "missionId": "m01",
+      "durationMs": 39.597,
+      "examined": 15,
+      "ranked": 15
+    },
+    {
+      "missionId": "m02",
+      "durationMs": 16.901,
+      "examined": 4,
+      "ranked": 4
+    },
+    {
+      "missionId": "m03",
+      "durationMs": 25.546,
+      "examined": 16,
+      "ranked": 15
+    },
+    {
+      "missionId": "m04",
+      "durationMs": 65.732,
+      "examined": 4,
+      "ranked": 4
+    },
+    {
+      "missionId": "m05",
+      "durationMs": 42.18,
+      "examined": 16,
+      "ranked": 13
+    },
+    {
+      "missionId": "m06",
+      "durationMs": 8.34,
+      "examined": 1,
+      "ranked": 1
+    },
+    {
+      "missionId": "m07",
+      "durationMs": 41.326,
+      "examined": 18,
+      "ranked": 18
+    },
+    {
+      "missionId": "m08",
+      "durationMs": 79.451,
+      "examined": 16,
+      "ranked": 16
+    }
+  ],
+  "cacheStress": {
+    "runs": 60,
+    "heapBeforeBytes": 54998856,
+    "heapAfterBytes": 155209320,
+    "deltaBytes": 100210464,
+    "stats": null
+  }
+}
