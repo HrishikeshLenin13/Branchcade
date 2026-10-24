@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ExecutionEvent, World, Program, RobotState } from '../../domain/types'
 import { readSensors } from '../../engine/sensors'
 import { readSensors as legacySensors } from '../../interpreter/legacy/sensors'
@@ -91,10 +91,7 @@ export function TraceView({
   const previousBranch = branch
     ? events.slice(0, branch.seq).findLast((e) => e.kind === 'branch')
     : undefined
-  const comparisonIds = useMemo(
-    () => conditionComparisonIds(program, branch?.evaluation?.expressionId),
-    [program, branch?.evaluation?.expressionId],
-  )
+  const comparisonIds = conditionComparisonIds(program, branch?.evaluation?.expressionId)
   const comparison =
     current?.kind === 'compare'
       ? current
