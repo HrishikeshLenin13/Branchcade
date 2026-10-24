@@ -449,6 +449,20 @@ export const CounterexampleSchema = z.strictObject({
   validationChecksum: hash,
   noCandidateReason: text.nullable(),
 })
+/** One committed prediction inside a counterexample experiment (Part G4/E8). The scenario
+ * is rebuilt from the attempt's own world/program plus this single edit, so the stored
+ * answer can always be re-checked against the simulator. */
+export const ExperimentResponseSchema = z.strictObject({
+  /** Set when the experiment edits a verified probe scenario instead of the mission. */
+  baseProbeId: id.optional(),
+  field: id,
+  target: text.max(128),
+  value: text.max(64),
+  question: id,
+  predicted: text.max(64),
+  actual: text.max(64),
+  recordedAt: time,
+})
 export const AppSettingsSchema = z.strictObject({
   schemaVersion: v,
   theme: z.enum(['light', 'dark', 'system']),
@@ -470,6 +484,8 @@ export const ReassessmentSchema = z
     actualAction: z.enum(['move', 'stop', 'turn', 'wait']),
     correct: z.boolean(),
     recordedAt: time,
+    /** Transfer-pool scenario id (Part G5). Absent on records made before G. */
+    scenarioId: id.optional(),
   })
   .refine(
     (r) => r.correct === (r.predictedAction === r.actualAction),
@@ -532,6 +548,7 @@ export const AttemptSchema = z
     hintIds: z.array(id).max(20).optional(),
     assessmentSkipped: z.boolean().optional(),
     experimentUsed: z.boolean().optional(),
+    experimentResponses: z.array(ExperimentResponseSchema).max(20).optional(),
     goalOutcome: z.strictObject({ passed: z.boolean(), facts: z.array(text).max(20) }),
   })
   .refine(
@@ -547,6 +564,9 @@ export const AttemptSchema = z
   .refine(
     (a) =>
       a.diagnosticResponses.every((r) => Date.parse(r.recordedAt) >= Date.parse(a.completedAt)) &&
+      (a.experimentResponses ?? []).every(
+        (r) => Date.parse(r.recordedAt) >= Date.parse(a.completedAt),
+      ) &&
       (!a.reassessment || Date.parse(a.reassessment.recordedAt) >= Date.parse(a.completedAt)) &&
       (!a.transferRetries?.length || Boolean(a.reassessment)) &&
       (a.transferRetries ?? []).every(

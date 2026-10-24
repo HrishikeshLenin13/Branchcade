@@ -23,6 +23,7 @@ export type TeamSession = z.infer<typeof S.TeamSessionSchema>
 export type AppSettings = z.infer<typeof S.AppSettingsSchema>
 export type AppExport = z.infer<typeof S.ExportSchema>
 export type Reassessment = z.infer<typeof S.ReassessmentSchema>
+export type ExperimentResponse = z.infer<typeof S.ExperimentResponseSchema>
 
 export type SavedLab = z.infer<typeof S.SavedLabSchema>
 export type Draft = z.infer<typeof S.DraftSchema>
