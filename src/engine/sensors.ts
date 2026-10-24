@@ -10,22 +10,21 @@ export function readSensors(
   const origin = transformOffset(robot.position, robot.headingDeg, config.originOffset)
   const r = (robot.headingDeg * Math.PI) / 180,
     direction = { xCm: Math.cos(r), yCm: Math.sin(r) }
+  // A sensor origin pressed onto/past a wall (float rounding at contact, or an offset larger
+  // than the chassis) reads 0 for that wall instead of skipping it and reporting a far wall.
   const wallDistances = [
     direction.xCm > 1e-9
-      ? (world.widthCm - origin.xCm) / direction.xCm
+      ? Math.max(0, (world.widthCm - origin.xCm) / direction.xCm)
       : direction.xCm < -1e-9
-        ? -origin.xCm / direction.xCm
+        ? Math.max(0, -origin.xCm / direction.xCm)
         : Infinity,
     direction.yCm > 1e-9
-      ? (world.heightCm - origin.yCm) / direction.yCm
+      ? Math.max(0, (world.heightCm - origin.yCm) / direction.yCm)
       : direction.yCm < -1e-9
-        ? -origin.yCm / direction.yCm
+        ? Math.max(0, -origin.yCm / direction.yCm)
         : Infinity,
   ]
-  let distance =
-      world.boundaryDetectable === false
-        ? Infinity
-        : Math.min(...wallDistances.filter((t) => t >= 0)),
+  let distance = world.boundaryDetectable === false ? Infinity : Math.min(...wallDistances),
     hitId: string | null = world.boundaryDetectable === false ? null : 'world-boundary'
   for (const o of world.obstacles.filter((o) => o.solid)) {
     const t =
@@ -46,6 +45,7 @@ export function readSensors(
     ? Math.max(0, Math.min(config.maxRangeCm, distance + noise))
     : config.maxRangeCm
   const point = transformOffset(robot.position, robot.headingDeg, config.colorOffset)
+  // Highest priority wins; Array.prototype.sort is stable, so equal priorities keep declared order.
   const floor = [...world.floorZones]
     .sort((a, b) => b.priority - a.priority)
     .find((z) => containsZone(point, z))

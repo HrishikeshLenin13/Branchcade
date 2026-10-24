@@ -51,7 +51,8 @@ export function hitsObstacle(p: Vec2, radius: number, o: Obstacle): boolean {
   const y = Math.max(o.position.yCm, Math.min(p.yCm, o.position.yCm + o.heightCm))
   return Math.hypot(p.xCm - x, p.yCm - y) < radius - EPS
 }
-/** Closed zone boundaries. Equal priority resolves by stable lexicographic ID. */
+/** Closed zone boundaries: a sample exactly on an edge is inside. Priority ties are
+ * resolved by declared index in sensors.ts. */
 export function containsZone(p: Vec2, z: FloorZone): boolean {
   if (z.kind === 'rectangle')
     return (
