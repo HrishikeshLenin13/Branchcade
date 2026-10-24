@@ -23,8 +23,15 @@ export function TeamReport({ team }: { team: TeamSession }) {
               }{' '}
               distinct assigned roles ·{' '}
               {team.predictionHistory.filter((p) => p.prediction.learnerId === m.learnerId).length}{' '}
-              predictions · {team.contributions.filter((c) => c.learnerId === m.learnerId).length}{' '}
-              recorded contributions.
+              {team.predictionHistory.filter((p) => p.prediction.learnerId === m.learnerId)
+                .length === 1
+                ? 'prediction'
+                : 'predictions'}{' '}
+              · {team.contributions.filter((c) => c.learnerId === m.learnerId).length} recorded{' '}
+              {team.contributions.filter((c) => c.learnerId === m.learnerId).length === 1
+                ? 'contribution'
+                : 'contributions'}
+              .
             </p>
             {earned?.earned && (
               <p className="evidence-stamps" data-testid="team-role-variety">

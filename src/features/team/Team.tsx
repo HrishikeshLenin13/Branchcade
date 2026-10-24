@@ -21,6 +21,7 @@ import {
 } from '../../collaboration/learning'
 import { TeamHelp } from './TeamHelp'
 import { TeamReport } from './TeamReport'
+import { TeamHypothesis } from './TeamHypothesis'
 import { curriculumFor } from '../../missions/curriculum'
 import { answerLabel } from '../../learning/probe-templates'
 import { immutable } from '../../domain/invariants'
@@ -62,7 +63,6 @@ export default function Team() {
   const [handoff, setHandoff] = useState(true),
     [action, setAction] = useState<Prediction['action']>('move'),
     [contribution, setContribution] = useState(''),
-    [hypothesis, setHypothesis] = useState(''),
     [switchId, setSwitchId] = useState(''),
     [detailAnswer, setDetailAnswer] = useState('')
   const [busy, setBusy] = useState(false),
@@ -376,23 +376,25 @@ export default function Team() {
                 <h2>Shared objective</h2>
                 <p>{mission.failureExplanation}</p>
                 <p>{mission.conceptGoals.join(' · ')}</p>
-                <TeamHelp
-                  key={`${team.id}:${team.rotationIndex}`}
-                  team={team}
-                  busy={busy}
-                  onRecord={(kind) => perform(() => save(recordTeamAssistance(team, kind)))}
-                />
-                <Button
-                  variant="outline"
-                  disabled={
-                    team.predictions.length > 0 ||
-                    team.phase === 'result' ||
-                    team.phase === 'huddle'
-                  }
-                  onClick={() => setEditor(!editor)}
-                >
-                  Edit team program
-                </Button>
+                <div className="button-row">
+                  <TeamHelp
+                    key={`${team.id}:${team.rotationIndex}`}
+                    team={team}
+                    busy={busy}
+                    onRecord={(kind) => perform(() => save(recordTeamAssistance(team, kind)))}
+                  />
+                  <Button
+                    variant="outline"
+                    disabled={
+                      team.predictions.length > 0 ||
+                      team.phase === 'result' ||
+                      team.phase === 'huddle'
+                    }
+                    onClick={() => setEditor(!editor)}
+                  >
+                    Edit team program
+                  </Button>
+                </div>
                 {team.predictions.length > 0 && (
                   <p className="muted">
                     The program is locked after the first private prediction. Rotate roles after the
@@ -506,7 +508,6 @@ export default function Team() {
                         onClick={() => {
                           setHandoff(true)
                           setReview(false)
-                          setHypothesis('')
                           void perform(() => save(advanceTeamRound(team)))
                         }}
                       >
@@ -581,24 +582,17 @@ export default function Team() {
                           )}
                       </article>
                     ))}
-                    <label>
-                      Team hypothesis
-                      <textarea
-                        maxLength={500}
-                        value={hypothesis || team.teamHypothesis}
-                        onChange={(e) => setHypothesis(e.target.value)}
-                      />
-                    </label>
-                    <Button
-                      variant="outline"
-                      disabled={!hypothesis.trim()}
-                      onClick={() => void perform(() => save(chooseHypothesis(team, hypothesis)))}
-                    >
-                      Discuss & choose
-                    </Button>
-                    <Button disabled={!team.teamHypothesis || busy} onClick={() => void run()}>
-                      Run the shared program
-                    </Button>
+                    <TeamHypothesis
+                      key={`${team.id}:${team.rotationIndex}`}
+                      saved={team.teamHypothesis}
+                      busy={busy}
+                      onChoose={(draft) => {
+                        void perform(() => save(chooseHypothesis(team, draft)))
+                      }}
+                      onRun={() => {
+                        void run()
+                      }}
+                    />
                   </>
                 ) : ready ? (
                   <>
@@ -754,7 +748,7 @@ export default function Team() {
                 ? 'This deletes the current team session and its assignment. Solo learner records and other teams remain saved. Export the session first if you need it.'
                 : confirm === 'end'
                   ? 'This locks the session for review. Its recorded contributions will remain saved.'
-                  : 'Aliases change only after confirmation. Every locked prediction, role and contribution remains attached to the same local learner ID.'}
+                  : 'Aliases change only after confirmation. Every locked prediction, role and contribution remains attached to the same local learner ID. Roster size stays fixed during a recorded session; export and reset the team to change its members.'}
             </DialogDescription>
           </DialogHeader>
           {confirm === 'edit' &&

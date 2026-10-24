@@ -19,15 +19,34 @@ async function turn(page: Page, alias: string, note: string, action = 'move') {
   await expect(page.getByRole('textbox', { name: 'Role contribution', exact: true })).toHaveCount(0)
   await expect(page.getByText(note, { exact: true })).toHaveCount(0)
 }
-async function huddleRun(page: Page) {
+async function huddleRun(page: Page, verifyDraftRecovery = false) {
   await page.getByRole('button', { name: 'Team huddle — reveal evidence', exact: true }).click()
   await expect(
     page.getByRole('button', { name: 'Run the shared program', exact: true }),
   ).toBeDisabled()
+  await expect(page.getByRole('textbox', { name: 'Team hypothesis', exact: true })).toHaveValue('')
   await page
     .getByRole('textbox', { name: 'Team hypothesis', exact: true })
     .fill('Test team: compare the real sensor value with the program condition.')
   await page.getByRole('button', { name: 'Discuss & choose', exact: true }).click()
+  if (verifyDraftRecovery) {
+    await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText(
+      'Saved locally.',
+    )
+    await page.reload()
+    const input = page.getByRole('textbox', { name: 'Team hypothesis', exact: true })
+    await expect(input).toHaveValue(
+      'Test team: compare the real sensor value with the program condition.',
+    )
+    await input.fill('')
+    await expect(input).toHaveValue('')
+    await expect(page.getByRole('button', { name: 'Discuss & choose', exact: true })).toBeDisabled()
+    await expect(
+      page.getByRole('button', { name: 'Run the shared program', exact: true }),
+    ).toBeDisabled()
+    await input.fill('Revised test hypothesis: the edited threshold selects stop.')
+    await page.getByRole('button', { name: 'Discuss & choose', exact: true }).click()
+  }
   await page.getByRole('button', { name: 'Run the shared program', exact: true }).click()
   await expect(page.getByTestId('team-goal-outcome')).toBeVisible()
 }
@@ -86,7 +105,21 @@ for (const size of [2, 3, 4, 5, 6])
     expect(file.teams[0]!.predictions).toHaveLength(size)
     expect(file.teams[0]!.results[0]!.goalPassed).toBe(true)
     expect(file.attempts).toEqual([])
-    await page.getByRole('button', { name: 'Rotate roles & start next round', exact: true }).click()
+    if (size === 2) {
+      await page.getByText('Instructor: skip rotation', { exact: true }).click()
+      await expect(
+        page.getByRole('button', { name: 'Skip rotation with logged reason', exact: true }),
+      ).toBeDisabled()
+      await page
+        .getByRole('textbox', { name: 'Reason for keeping the roles', exact: true })
+        .fill('Synthetic teacher accommodation: finish reading this role together.')
+      await page
+        .getByRole('button', { name: 'Skip rotation with logged reason', exact: true })
+        .click()
+    } else
+      await page
+        .getByRole('button', { name: 'Rotate roles & start next round', exact: true })
+        .click()
     await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText(
       'Saved locally.',
     )
@@ -101,6 +134,10 @@ for (const size of [2, 3, 4, 5, 6])
     expect(rotated.teams[0]!.results).toHaveLength(1)
     expect(rotated.teams[0]!.predictionHistory).toHaveLength(size)
     expect(rotated.teams[0]!.contributions).toHaveLength(size)
+    if (size === 2) {
+      expect(rotated.teams[0]!.members).toEqual(file.teams[0]!.members)
+      expect(rotated.teams[0]!.rotationSkips[0]!.reason).toContain('teacher accommodation')
+    }
     if (size === 3)
       await page.screenshot({
         path: testInfo.outputPath('ij-team-handoff-chromebook.png'),
@@ -129,11 +166,14 @@ test('I/J shared Blockly field edits affect actual judging and prior result snap
   await editThreshold('20', '25')
   for (let i = 1; i <= 2; i++)
     await turn(page, `Robot ${i}`, `Test role ${i}: threshold is now 25.`, 'stop')
-  await huddleRun(page)
+  await huddleRun(page, true)
   await expect(page.getByTestId('team-goal-outcome')).toContainText(
     'Shared program needs another test.',
   )
   const failed = await exportTeam(page)
+  expect(failed.teams[0]!.results[0]!.hypothesis).toBe(
+    'Revised test hypothesis: the edited threshold selects stop.',
+  )
   await page.getByRole('button', { name: 'Rotate roles & start next round', exact: true }).click()
   await editThreshold('25', '20')
   for (let i = 1; i <= 2; i++)
@@ -143,6 +183,10 @@ test('I/J shared Blockly field edits affect actual judging and prior result snap
     'Shared program met the mission goals.',
   )
   await expect(page.getByTestId('team-role-variety')).toHaveCount(2)
+  await page.getByText('Preserved round results', { exact: true }).click()
+  await expect(
+    page.getByRole('heading', { name: 'Round 1: needs another test', exact: true }),
+  ).toBeVisible()
   const repaired = await exportTeam(page)
   expect(repaired.teams[0]!.results[0]).toEqual(failed.teams[0]!.results[0])
   expect(repaired.teams[0]!.results.map((r) => r.goalPassed)).toEqual([false, true])
@@ -169,6 +213,9 @@ test('I/J shared hint ladder, confirmed solution and optional private second ans
     page.getByRole('alertdialog', { name: 'Show the team solution?', exact: true }),
   ).toContainText('never individual mastery')
   await expect(page.getByTestId('team-solution')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Keep investigating', exact: true }).click()
+  await expect(page.getByTestId('team-solution')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Show team solution…', exact: true }).click()
   await page.getByRole('button', { name: 'Yes, show the team solution', exact: true }).click()
   await expect(page.getByTestId('team-solution')).toContainText('repeat 3')
   await page.keyboard.press('Escape')
@@ -197,6 +244,10 @@ test('I/J shared hint ladder, confirmed solution and optional private second ans
   await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
   await page.reload()
   await expect(page.getByTestId('team-detail-results')).toContainText('Actual run: 4 turns')
+  await page.getByText('Recorded shared assistance', { exact: true }).click()
+  await expect(
+    page.getByText(/show-solution · 0 individual predictions already locked/),
+  ).toBeVisible()
   const record = await exportTeam(page)
   expect(record.teams[0]!.assistance).toHaveLength(4)
   expect(record.teams[0]!.results[0]!.assistanceIds).toHaveLength(4)

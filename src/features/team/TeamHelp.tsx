@@ -55,7 +55,7 @@ export function TeamHelp({
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>A shared hint, one step at a time</DialogTitle>
+            <DialogTitle>Shared mission hints</DialogTitle>
             <DialogDescription>
               Help is recorded for this team round. It never edits your code, changes a locked
               prediction or grants individual mastery.
