@@ -1,0 +1,3518 @@
+[
+  {
+    "id": "m01",
+    "version": 1,
+    "world": {
+      "schemaVersion": 1,
+      "id": "threshold-24",
+      "widthCm": 180,
+      "heightCm": 100,
+      "obstacles": [
+        {
+          "id": "obstacle",
+          "kind": "rectangle",
+          "position": {
+            "xCm": 70,
+            "yCm": 25
+          },
+          "widthCm": 8,
+          "heightCm": 50,
+          "solid": true,
+          "material": "wood"
+        }
+      ],
+      "floorZones": [],
+      "waypoints": [],
+      "spawn": {
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "headingDeg": 0,
+        "radiusCm": 6
+      },
+      "goals": [],
+      "collisionConstraints": {
+        "stopOnCollision": true,
+        "allowOverlap": false
+      },
+      "difficulty": "beginner"
+    },
+    "starterProgram": {
+      "schemaVersion": 1,
+      "id": "threshold-program",
+      "body": [
+        {
+          "nodeId": "decision",
+          "kind": "if",
+          "condition": {
+            "nodeId": "condition",
+            "type": "boolean",
+            "kind": "compare",
+            "op": "<",
+            "left": {
+              "nodeId": "sensor",
+              "type": "number",
+              "kind": "sensor",
+              "sensor": "distance"
+            },
+            "right": {
+              "nodeId": "threshold",
+              "type": "number",
+              "kind": "literal",
+              "value": 20
+            }
+          },
+          "then": [
+            {
+              "nodeId": "stop-close",
+              "kind": "stop"
+            }
+          ],
+          "else": [
+            {
+              "nodeId": "move-clear",
+              "kind": "move",
+              "distance": {
+                "nodeId": "travel",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "stop-done",
+              "kind": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    "successPredicate": [
+      {
+        "kind": "branch",
+        "nodeId": "decision",
+        "expected": false
+      },
+      {
+        "kind": "distance",
+        "minCm": 9.9
+      }
+    ],
+    "variants": [
+      {
+        "id": "transfer",
+        "world": {
+          "schemaVersion": 1,
+          "id": "threshold-32",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 78,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "threshold-program",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "sensor",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "threshold",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 35
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-2",
+        "world": {
+          "schemaVersion": 1,
+          "id": "threshold-18",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 64,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "threshold-program",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "sensor",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "threshold",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 15
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-3",
+        "world": {
+          "schemaVersion": 1,
+          "id": "threshold-42",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 88,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "threshold-program",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "sensor",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "threshold",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 45
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "referenceProgram": {
+      "schemaVersion": 1,
+      "id": "threshold-program",
+      "body": [
+        {
+          "nodeId": "decision",
+          "kind": "if",
+          "condition": {
+            "nodeId": "condition",
+            "type": "boolean",
+            "kind": "compare",
+            "op": "<",
+            "left": {
+              "nodeId": "sensor",
+              "type": "number",
+              "kind": "sensor",
+              "sensor": "distance"
+            },
+            "right": {
+              "nodeId": "threshold",
+              "type": "number",
+              "kind": "literal",
+              "value": 20
+            }
+          },
+          "then": [
+            {
+              "nodeId": "stop-close",
+              "kind": "stop"
+            }
+          ],
+          "else": [
+            {
+              "nodeId": "move-clear",
+              "kind": "move",
+              "distance": {
+                "nodeId": "travel",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "stop-done",
+              "kind": "stop"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "m02",
+    "version": 1,
+    "world": {
+      "schemaVersion": 1,
+      "id": "line-60",
+      "widthCm": 180,
+      "heightCm": 100,
+      "obstacles": [],
+      "floorZones": [
+        {
+          "id": "black-line",
+          "kind": "rectangle",
+          "position": {
+            "xCm": 60,
+            "yCm": 20
+          },
+          "widthCm": 8,
+          "heightCm": 60,
+          "color": "black",
+          "priority": 1
+        }
+      ],
+      "waypoints": [],
+      "spawn": {
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "headingDeg": 0,
+        "radiusCm": 6
+      },
+      "goals": [],
+      "collisionConstraints": {
+        "stopOnCollision": true,
+        "allowOverlap": false
+      },
+      "difficulty": "beginner"
+    },
+    "starterProgram": {
+      "schemaVersion": 1,
+      "id": "line-stop",
+      "body": [
+        {
+          "nodeId": "follow-white",
+          "kind": "while",
+          "condition": {
+            "nodeId": "on-white",
+            "type": "boolean",
+            "kind": "compare",
+            "op": "==",
+            "left": {
+              "nodeId": "floor-color",
+              "type": "color",
+              "kind": "sensor",
+              "sensor": "color"
+            },
+            "right": {
+              "nodeId": "white",
+              "type": "color",
+              "kind": "literal",
+              "value": "white"
+            }
+          },
+          "body": [
+            {
+              "nodeId": "line-step",
+              "kind": "move",
+              "distance": {
+                "nodeId": "line-step-distance",
+                "type": "number",
+                "kind": "literal",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    },
+    "successPredicate": [
+      {
+        "kind": "color-stop",
+        "color": "black"
+      },
+      {
+        "kind": "reach",
+        "position": {
+          "xCm": 60,
+          "yCm": 50
+        },
+        "toleranceCm": 1
+      }
+    ],
+    "variants": [
+      {
+        "id": "transfer",
+        "world": {
+          "schemaVersion": 1,
+          "id": "line-62",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [
+            {
+              "id": "black-line",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 62,
+                "yCm": 20
+              },
+              "widthCm": 8,
+              "heightCm": 60,
+              "color": "black",
+              "priority": 1
+            }
+          ],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "line-stop",
+          "body": [
+            {
+              "nodeId": "follow-white",
+              "kind": "while",
+              "condition": {
+                "nodeId": "on-white",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "==",
+                "left": {
+                  "nodeId": "floor-color",
+                  "type": "color",
+                  "kind": "sensor",
+                  "sensor": "color"
+                },
+                "right": {
+                  "nodeId": "white",
+                  "type": "color",
+                  "kind": "literal",
+                  "value": "white"
+                }
+              },
+              "body": [
+                {
+                  "nodeId": "line-step",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "line-step-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-1",
+        "world": {
+          "schemaVersion": 1,
+          "id": "line-65",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [
+            {
+              "id": "black-line",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 65,
+                "yCm": 20
+              },
+              "widthCm": 8,
+              "heightCm": 60,
+              "color": "black",
+              "priority": 1
+            }
+          ],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "line-stop",
+          "body": [
+            {
+              "nodeId": "follow-white",
+              "kind": "while",
+              "condition": {
+                "nodeId": "on-white",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "==",
+                "left": {
+                  "nodeId": "floor-color",
+                  "type": "color",
+                  "kind": "sensor",
+                  "sensor": "color"
+                },
+                "right": {
+                  "nodeId": "white",
+                  "type": "color",
+                  "kind": "literal",
+                  "value": "white"
+                }
+              },
+              "body": [
+                {
+                  "nodeId": "line-step",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "line-step-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-2",
+        "world": {
+          "schemaVersion": 1,
+          "id": "line-68",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [
+            {
+              "id": "black-line",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 68,
+                "yCm": 20
+              },
+              "widthCm": 8,
+              "heightCm": 60,
+              "color": "black",
+              "priority": 1
+            }
+          ],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "line-stop",
+          "body": [
+            {
+              "nodeId": "follow-white",
+              "kind": "while",
+              "condition": {
+                "nodeId": "on-white",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "==",
+                "left": {
+                  "nodeId": "floor-color",
+                  "type": "color",
+                  "kind": "sensor",
+                  "sensor": "color"
+                },
+                "right": {
+                  "nodeId": "white",
+                  "type": "color",
+                  "kind": "literal",
+                  "value": "white"
+                }
+              },
+              "body": [
+                {
+                  "nodeId": "line-step",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "line-step-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 1
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      }
+    ],
+    "referenceProgram": {
+      "schemaVersion": 1,
+      "id": "line-stop",
+      "body": [
+        {
+          "nodeId": "follow-white",
+          "kind": "while",
+          "condition": {
+            "nodeId": "on-white",
+            "kind": "compare",
+            "type": "boolean",
+            "op": "==",
+            "left": {
+              "nodeId": "floor-color",
+              "kind": "sensor",
+              "sensor": "color",
+              "type": "color"
+            },
+            "right": {
+              "nodeId": "white",
+              "kind": "literal",
+              "type": "color",
+              "value": "white"
+            }
+          },
+          "body": [
+            {
+              "nodeId": "line-step",
+              "kind": "move",
+              "distance": {
+                "nodeId": "line-step-distance",
+                "kind": "literal",
+                "type": "number",
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    }
+  },
+  {
+    "id": "m03",
+    "version": 1,
+    "world": {
+      "schemaVersion": 1,
+      "id": "threshold-12",
+      "widthCm": 180,
+      "heightCm": 100,
+      "obstacles": [
+        {
+          "id": "obstacle",
+          "kind": "rectangle",
+          "position": {
+            "xCm": 58,
+            "yCm": 25
+          },
+          "widthCm": 8,
+          "heightCm": 50,
+          "solid": true,
+          "material": "wood"
+        }
+      ],
+      "floorZones": [],
+      "waypoints": [],
+      "spawn": {
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "headingDeg": 0,
+        "radiusCm": 6
+      },
+      "goals": [],
+      "collisionConstraints": {
+        "stopOnCollision": true,
+        "allowOverlap": false
+      },
+      "difficulty": "beginner"
+    },
+    "starterProgram": {
+      "schemaVersion": 1,
+      "id": "threshold-program",
+      "body": [
+        {
+          "nodeId": "decision",
+          "kind": "if",
+          "condition": {
+            "nodeId": "condition",
+            "type": "boolean",
+            "kind": "compare",
+            "op": ">",
+            "left": {
+              "nodeId": "sensor",
+              "type": "number",
+              "kind": "sensor",
+              "sensor": "distance"
+            },
+            "right": {
+              "nodeId": "threshold",
+              "type": "number",
+              "kind": "literal",
+              "value": 20
+            }
+          },
+          "then": [
+            {
+              "nodeId": "stop-close",
+              "kind": "stop"
+            }
+          ],
+          "else": [
+            {
+              "nodeId": "move-clear",
+              "kind": "move",
+              "distance": {
+                "nodeId": "travel",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "stop-done",
+              "kind": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    "successPredicate": [
+      {
+        "kind": "branch",
+        "nodeId": "decision",
+        "expected": true
+      },
+      {
+        "kind": "stopped"
+      },
+      {
+        "kind": "reach",
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "toleranceCm": 0.1
+      }
+    ],
+    "variants": [
+      {
+        "id": "transfer",
+        "world": {
+          "schemaVersion": 1,
+          "id": "threshold-10",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 56,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "threshold-program",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "sensor",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "threshold",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 11
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-1",
+        "world": {
+          "schemaVersion": 1,
+          "id": "threshold-16",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 62,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "threshold-program",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "sensor",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "threshold",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 17
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-2",
+        "world": {
+          "schemaVersion": 1,
+          "id": "threshold-20",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 66,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "threshold-program",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "sensor",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "threshold",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 21
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "referenceProgram": {
+      "schemaVersion": 1,
+      "id": "threshold-program",
+      "body": [
+        {
+          "nodeId": "decision",
+          "kind": "if",
+          "condition": {
+            "nodeId": "condition",
+            "type": "boolean",
+            "kind": "compare",
+            "op": "<",
+            "left": {
+              "nodeId": "sensor",
+              "type": "number",
+              "kind": "sensor",
+              "sensor": "distance"
+            },
+            "right": {
+              "nodeId": "threshold",
+              "type": "number",
+              "kind": "literal",
+              "value": 20
+            }
+          },
+          "then": [
+            {
+              "nodeId": "stop-close",
+              "kind": "stop"
+            }
+          ],
+          "else": [
+            {
+              "nodeId": "move-clear",
+              "kind": "move",
+              "distance": {
+                "nodeId": "travel",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "stop-done",
+              "kind": "stop"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "m04",
+    "version": 1,
+    "world": {
+      "schemaVersion": 1,
+      "id": "three-sides",
+      "widthCm": 180,
+      "heightCm": 100,
+      "obstacles": [],
+      "floorZones": [],
+      "waypoints": [],
+      "spawn": {
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "headingDeg": 0,
+        "radiusCm": 6
+      },
+      "goals": [],
+      "collisionConstraints": {
+        "stopOnCollision": true,
+        "allowOverlap": false
+      },
+      "difficulty": "beginner"
+    },
+    "starterProgram": {
+      "schemaVersion": 1,
+      "id": "square-route",
+      "body": [
+        {
+          "nodeId": "laps",
+          "kind": "repeat",
+          "count": {
+            "nodeId": "lap-count",
+            "type": "number",
+            "kind": "literal",
+            "value": 4
+          },
+          "body": [
+            {
+              "nodeId": "side",
+              "kind": "move",
+              "distance": {
+                "nodeId": "side-distance",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "corner",
+              "kind": "turn",
+              "angle": {
+                "nodeId": "corner-angle",
+                "type": "number",
+                "kind": "literal",
+                "value": 90
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    },
+    "successPredicate": [
+      {
+        "kind": "reach",
+        "position": {
+          "xCm": 40,
+          "yCm": 60
+        },
+        "toleranceCm": 0.1
+      },
+      {
+        "kind": "event",
+        "eventKind": "turn",
+        "count": 3
+      },
+      {
+        "kind": "heading",
+        "headingDeg": 270,
+        "toleranceDeg": 0.1
+      }
+    ],
+    "variants": [
+      {
+        "id": "transfer",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m04-variant-1",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 52
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "square-route",
+          "body": [
+            {
+              "nodeId": "laps",
+              "kind": "repeat",
+              "count": {
+                "nodeId": "lap-count",
+                "type": "number",
+                "kind": "literal",
+                "value": 3
+              },
+              "body": [
+                {
+                  "nodeId": "side",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "side-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "corner",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "corner-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-1",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m04-variant-2",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 54
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "square-route",
+          "body": [
+            {
+              "nodeId": "laps",
+              "kind": "repeat",
+              "count": {
+                "nodeId": "lap-count",
+                "type": "number",
+                "kind": "literal",
+                "value": 3
+              },
+              "body": [
+                {
+                  "nodeId": "side",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "side-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "corner",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "corner-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-2",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m04-variant-3",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 56
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "square-route",
+          "body": [
+            {
+              "nodeId": "laps",
+              "kind": "repeat",
+              "count": {
+                "nodeId": "lap-count",
+                "type": "number",
+                "kind": "literal",
+                "value": 3
+              },
+              "body": [
+                {
+                  "nodeId": "side",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "side-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "corner",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "corner-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      }
+    ],
+    "referenceProgram": {
+      "schemaVersion": 1,
+      "id": "square-route",
+      "body": [
+        {
+          "nodeId": "laps",
+          "kind": "repeat",
+          "count": {
+            "nodeId": "lap-count",
+            "kind": "literal",
+            "type": "number",
+            "value": 3
+          },
+          "body": [
+            {
+              "nodeId": "side",
+              "kind": "move",
+              "distance": {
+                "nodeId": "side-distance",
+                "kind": "literal",
+                "type": "number",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "corner",
+              "kind": "turn",
+              "angle": {
+                "nodeId": "corner-angle",
+                "kind": "literal",
+                "type": "number",
+                "value": 90
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    }
+  },
+  {
+    "id": "m05",
+    "version": 1,
+    "world": {
+      "schemaVersion": 1,
+      "id": "threshold-44",
+      "widthCm": 180,
+      "heightCm": 100,
+      "obstacles": [
+        {
+          "id": "obstacle",
+          "kind": "rectangle",
+          "position": {
+            "xCm": 90,
+            "yCm": 25
+          },
+          "widthCm": 8,
+          "heightCm": 50,
+          "solid": true,
+          "material": "wood"
+        }
+      ],
+      "floorZones": [],
+      "waypoints": [],
+      "spawn": {
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "headingDeg": 0,
+        "radiusCm": 6
+      },
+      "goals": [],
+      "collisionConstraints": {
+        "stopOnCollision": true,
+        "allowOverlap": false
+      },
+      "difficulty": "beginner"
+    },
+    "starterProgram": {
+      "schemaVersion": 1,
+      "id": "safe-approach",
+      "body": [
+        {
+          "nodeId": "approach-loop",
+          "kind": "while",
+          "condition": {
+            "nodeId": "room-to-move",
+            "type": "boolean",
+            "kind": "compare",
+            "op": "<",
+            "left": {
+              "nodeId": "distance-reading",
+              "type": "number",
+              "kind": "sensor",
+              "sensor": "distance"
+            },
+            "right": {
+              "nodeId": "safe-distance",
+              "type": "number",
+              "kind": "literal",
+              "value": 12
+            }
+          },
+          "body": [
+            {
+              "nodeId": "approach-step",
+              "kind": "move",
+              "distance": {
+                "nodeId": "approach-step-distance",
+                "type": "number",
+                "kind": "literal",
+                "value": 2
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    },
+    "successPredicate": [
+      {
+        "kind": "stopped"
+      },
+      {
+        "kind": "distance",
+        "minCm": 31.9
+      },
+      {
+        "kind": "reach",
+        "position": {
+          "xCm": 72,
+          "yCm": 50
+        },
+        "toleranceCm": 0.1
+      }
+    ],
+    "variants": [
+      {
+        "id": "transfer",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m05-variant-1",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 90,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 52
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "safe-approach",
+          "body": [
+            {
+              "nodeId": "approach-loop",
+              "kind": "while",
+              "condition": {
+                "nodeId": "room-to-move",
+                "type": "boolean",
+                "kind": "compare",
+                "op": ">",
+                "left": {
+                  "nodeId": "distance-reading",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "safe-distance",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 12
+                }
+              },
+              "body": [
+                {
+                  "nodeId": "approach-step",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "approach-step-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-1",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m05-variant-2",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 90,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 54
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "safe-approach",
+          "body": [
+            {
+              "nodeId": "approach-loop",
+              "kind": "while",
+              "condition": {
+                "nodeId": "room-to-move",
+                "type": "boolean",
+                "kind": "compare",
+                "op": ">",
+                "left": {
+                  "nodeId": "distance-reading",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "safe-distance",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 12
+                }
+              },
+              "body": [
+                {
+                  "nodeId": "approach-step",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "approach-step-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-2",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m05-variant-3",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 90,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 56
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "safe-approach",
+          "body": [
+            {
+              "nodeId": "approach-loop",
+              "kind": "while",
+              "condition": {
+                "nodeId": "room-to-move",
+                "type": "boolean",
+                "kind": "compare",
+                "op": ">",
+                "left": {
+                  "nodeId": "distance-reading",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "safe-distance",
+                  "type": "number",
+                  "kind": "literal",
+                  "value": 12
+                }
+              },
+              "body": [
+                {
+                  "nodeId": "approach-step",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "approach-step-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 2
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      }
+    ],
+    "referenceProgram": {
+      "schemaVersion": 1,
+      "id": "safe-approach",
+      "body": [
+        {
+          "nodeId": "approach-loop",
+          "kind": "while",
+          "condition": {
+            "nodeId": "room-to-move",
+            "kind": "compare",
+            "type": "boolean",
+            "op": ">",
+            "left": {
+              "nodeId": "distance-reading",
+              "kind": "sensor",
+              "sensor": "distance",
+              "type": "number"
+            },
+            "right": {
+              "nodeId": "safe-distance",
+              "kind": "literal",
+              "type": "number",
+              "value": 12
+            }
+          },
+          "body": [
+            {
+              "nodeId": "approach-step",
+              "kind": "move",
+              "distance": {
+                "nodeId": "approach-step-distance",
+                "kind": "literal",
+                "type": "number",
+                "value": 2
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    }
+  },
+  {
+    "id": "m06",
+    "version": 1,
+    "world": {
+      "schemaVersion": 1,
+      "id": "helper-corner",
+      "widthCm": 180,
+      "heightCm": 100,
+      "obstacles": [],
+      "floorZones": [],
+      "waypoints": [],
+      "spawn": {
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "headingDeg": 0,
+        "radiusCm": 6
+      },
+      "goals": [],
+      "collisionConstraints": {
+        "stopOnCollision": true,
+        "allowOverlap": false
+      },
+      "difficulty": "beginner"
+    },
+    "starterProgram": {
+      "schemaVersion": 1,
+      "id": "helper-route",
+      "body": [
+        {
+          "nodeId": "helper-definition",
+          "kind": "function",
+          "name": "goCorner",
+          "body": [
+            {
+              "nodeId": "helper-forward",
+              "kind": "move",
+              "distance": {
+                "nodeId": "helper-forward-distance",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "helper-turn",
+              "kind": "turn",
+              "angle": {
+                "nodeId": "helper-turn-angle",
+                "type": "number",
+                "kind": "literal",
+                "value": 90
+              }
+            },
+            {
+              "nodeId": "helper-north",
+              "kind": "move",
+              "distance": {
+                "nodeId": "helper-north-distance",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    },
+    "successPredicate": [
+      {
+        "kind": "event",
+        "eventKind": "call",
+        "nodeId": "invoke-helper",
+        "count": 1
+      },
+      {
+        "kind": "reach",
+        "position": {
+          "xCm": 50,
+          "yCm": 60
+        },
+        "toleranceCm": 0.1
+      }
+    ],
+    "variants": [
+      {
+        "id": "transfer",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m06-variant-1",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 52
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "helper-route",
+          "body": [
+            {
+              "nodeId": "helper-definition",
+              "kind": "function",
+              "name": "goCorner",
+              "body": [
+                {
+                  "nodeId": "helper-forward",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "helper-forward-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "helper-turn",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "helper-turn-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                },
+                {
+                  "nodeId": "helper-north",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "helper-north-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "invoke-helper",
+              "kind": "call",
+              "name": "goCorner"
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-1",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m06-variant-2",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 54
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "helper-route",
+          "body": [
+            {
+              "nodeId": "helper-definition",
+              "kind": "function",
+              "name": "goCorner",
+              "body": [
+                {
+                  "nodeId": "helper-forward",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "helper-forward-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "helper-turn",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "helper-turn-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                },
+                {
+                  "nodeId": "helper-north",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "helper-north-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "invoke-helper",
+              "kind": "call",
+              "name": "goCorner"
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-2",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m06-variant-3",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 56
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "helper-route",
+          "body": [
+            {
+              "nodeId": "helper-definition",
+              "kind": "function",
+              "name": "goCorner",
+              "body": [
+                {
+                  "nodeId": "helper-forward",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "helper-forward-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "helper-turn",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "helper-turn-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                },
+                {
+                  "nodeId": "helper-north",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "helper-north-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "invoke-helper",
+              "kind": "call",
+              "name": "goCorner"
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      }
+    ],
+    "referenceProgram": {
+      "schemaVersion": 1,
+      "id": "helper-route",
+      "body": [
+        {
+          "nodeId": "helper-definition",
+          "kind": "function",
+          "name": "goCorner",
+          "body": [
+            {
+              "nodeId": "helper-forward",
+              "kind": "move",
+              "distance": {
+                "nodeId": "helper-forward-distance",
+                "kind": "literal",
+                "type": "number",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "helper-turn",
+              "kind": "turn",
+              "angle": {
+                "nodeId": "helper-turn-angle",
+                "kind": "literal",
+                "type": "number",
+                "value": 90
+              }
+            },
+            {
+              "nodeId": "helper-north",
+              "kind": "move",
+              "distance": {
+                "nodeId": "helper-north-distance",
+                "kind": "literal",
+                "type": "number",
+                "value": 10
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "invoke-helper",
+          "kind": "call",
+          "name": "goCorner"
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    }
+  },
+  {
+    "id": "m07",
+    "version": 1,
+    "world": {
+      "schemaVersion": 1,
+      "id": "threshold-12",
+      "widthCm": 180,
+      "heightCm": 100,
+      "obstacles": [
+        {
+          "id": "obstacle",
+          "kind": "rectangle",
+          "position": {
+            "xCm": 58,
+            "yCm": 25
+          },
+          "widthCm": 8,
+          "heightCm": 50,
+          "solid": true,
+          "material": "wood"
+        }
+      ],
+      "floorZones": [],
+      "waypoints": [],
+      "spawn": {
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "headingDeg": 0,
+        "radiusCm": 6
+      },
+      "goals": [],
+      "collisionConstraints": {
+        "stopOnCollision": true,
+        "allowOverlap": false
+      },
+      "difficulty": "beginner"
+    },
+    "starterProgram": {
+      "schemaVersion": 1,
+      "id": "two-sensors",
+      "body": [
+        {
+          "nodeId": "decision",
+          "kind": "if",
+          "condition": {
+            "nodeId": "both-signals",
+            "type": "boolean",
+            "kind": "boolean",
+            "op": "or",
+            "left": {
+              "nodeId": "condition",
+              "type": "boolean",
+              "kind": "compare",
+              "op": "<",
+              "left": {
+                "nodeId": "sensor",
+                "type": "number",
+                "kind": "sensor",
+                "sensor": "distance"
+              },
+              "right": {
+                "nodeId": "threshold",
+                "type": "number",
+                "kind": "literal",
+                "value": 20
+              }
+            },
+            "right": {
+              "nodeId": "black-check",
+              "type": "boolean",
+              "kind": "compare",
+              "op": "==",
+              "left": {
+                "nodeId": "floor-reading",
+                "type": "color",
+                "kind": "sensor",
+                "sensor": "color"
+              },
+              "right": {
+                "nodeId": "black-value",
+                "type": "color",
+                "kind": "literal",
+                "value": "black"
+              }
+            }
+          },
+          "then": [
+            {
+              "nodeId": "stop-close",
+              "kind": "stop"
+            }
+          ],
+          "else": [
+            {
+              "nodeId": "move-clear",
+              "kind": "move",
+              "distance": {
+                "nodeId": "travel",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "stop-done",
+              "kind": "stop"
+            }
+          ]
+        }
+      ]
+    },
+    "successPredicate": [
+      {
+        "kind": "branch",
+        "nodeId": "decision",
+        "expected": false
+      },
+      {
+        "kind": "distance",
+        "minCm": 9.9
+      }
+    ],
+    "variants": [
+      {
+        "id": "transfer",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m07-variant-1",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 58,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 52
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "two-sensors",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "both-signals",
+                "type": "boolean",
+                "kind": "boolean",
+                "op": "and",
+                "left": {
+                  "nodeId": "condition",
+                  "type": "boolean",
+                  "kind": "compare",
+                  "op": "<",
+                  "left": {
+                    "nodeId": "sensor",
+                    "type": "number",
+                    "kind": "sensor",
+                    "sensor": "distance"
+                  },
+                  "right": {
+                    "nodeId": "threshold",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 20
+                  }
+                },
+                "right": {
+                  "nodeId": "black-check",
+                  "type": "boolean",
+                  "kind": "compare",
+                  "op": "==",
+                  "left": {
+                    "nodeId": "floor-reading",
+                    "type": "color",
+                    "kind": "sensor",
+                    "sensor": "color"
+                  },
+                  "right": {
+                    "nodeId": "black-value",
+                    "type": "color",
+                    "kind": "literal",
+                    "value": "black"
+                  }
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-1",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m07-variant-2",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 58,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 54
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "two-sensors",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "both-signals",
+                "type": "boolean",
+                "kind": "boolean",
+                "op": "and",
+                "left": {
+                  "nodeId": "condition",
+                  "type": "boolean",
+                  "kind": "compare",
+                  "op": "<",
+                  "left": {
+                    "nodeId": "sensor",
+                    "type": "number",
+                    "kind": "sensor",
+                    "sensor": "distance"
+                  },
+                  "right": {
+                    "nodeId": "threshold",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 20
+                  }
+                },
+                "right": {
+                  "nodeId": "black-check",
+                  "type": "boolean",
+                  "kind": "compare",
+                  "op": "==",
+                  "left": {
+                    "nodeId": "floor-reading",
+                    "type": "color",
+                    "kind": "sensor",
+                    "sensor": "color"
+                  },
+                  "right": {
+                    "nodeId": "black-value",
+                    "type": "color",
+                    "kind": "literal",
+                    "value": "black"
+                  }
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-2",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m07-variant-3",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 58,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 56
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "two-sensors",
+          "body": [
+            {
+              "nodeId": "decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "both-signals",
+                "type": "boolean",
+                "kind": "boolean",
+                "op": "and",
+                "left": {
+                  "nodeId": "condition",
+                  "type": "boolean",
+                  "kind": "compare",
+                  "op": "<",
+                  "left": {
+                    "nodeId": "sensor",
+                    "type": "number",
+                    "kind": "sensor",
+                    "sensor": "distance"
+                  },
+                  "right": {
+                    "nodeId": "threshold",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 20
+                  }
+                },
+                "right": {
+                  "nodeId": "black-check",
+                  "type": "boolean",
+                  "kind": "compare",
+                  "op": "==",
+                  "left": {
+                    "nodeId": "floor-reading",
+                    "type": "color",
+                    "kind": "sensor",
+                    "sensor": "color"
+                  },
+                  "right": {
+                    "nodeId": "black-value",
+                    "type": "color",
+                    "kind": "literal",
+                    "value": "black"
+                  }
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "stop-close",
+                  "kind": "stop"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "move-clear",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "travel",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                },
+                {
+                  "nodeId": "stop-done",
+                  "kind": "stop"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "referenceProgram": {
+      "schemaVersion": 1,
+      "id": "two-sensors",
+      "body": [
+        {
+          "nodeId": "decision",
+          "kind": "if",
+          "condition": {
+            "nodeId": "both-signals",
+            "kind": "boolean",
+            "type": "boolean",
+            "op": "and",
+            "left": {
+              "nodeId": "condition",
+              "type": "boolean",
+              "kind": "compare",
+              "op": "<",
+              "left": {
+                "nodeId": "sensor",
+                "type": "number",
+                "kind": "sensor",
+                "sensor": "distance"
+              },
+              "right": {
+                "nodeId": "threshold",
+                "type": "number",
+                "kind": "literal",
+                "value": 20
+              }
+            },
+            "right": {
+              "nodeId": "black-check",
+              "kind": "compare",
+              "type": "boolean",
+              "op": "==",
+              "left": {
+                "nodeId": "floor-reading",
+                "kind": "sensor",
+                "type": "color",
+                "sensor": "color"
+              },
+              "right": {
+                "nodeId": "black-value",
+                "kind": "literal",
+                "type": "color",
+                "value": "black"
+              }
+            }
+          },
+          "then": [
+            {
+              "nodeId": "stop-close",
+              "kind": "stop"
+            }
+          ],
+          "else": [
+            {
+              "nodeId": "move-clear",
+              "kind": "move",
+              "distance": {
+                "nodeId": "travel",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            },
+            {
+              "nodeId": "stop-done",
+              "kind": "stop"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "m08",
+    "version": 1,
+    "world": {
+      "schemaVersion": 1,
+      "id": "threshold-32",
+      "widthCm": 180,
+      "heightCm": 100,
+      "obstacles": [
+        {
+          "id": "obstacle",
+          "kind": "rectangle",
+          "position": {
+            "xCm": 78,
+            "yCm": 25
+          },
+          "widthCm": 8,
+          "heightCm": 50,
+          "solid": true,
+          "material": "wood"
+        }
+      ],
+      "floorZones": [],
+      "waypoints": [],
+      "spawn": {
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "headingDeg": 0,
+        "radiusCm": 6
+      },
+      "goals": [],
+      "collisionConstraints": {
+        "stopOnCollision": true,
+        "allowOverlap": false
+      },
+      "difficulty": "beginner"
+    },
+    "starterProgram": {
+      "schemaVersion": 1,
+      "id": "mystery-route",
+      "body": [
+        {
+          "nodeId": "set-safe",
+          "kind": "set",
+          "name": "safeDistance",
+          "value": {
+            "nodeId": "safe-constant",
+            "type": "number",
+            "kind": "literal",
+            "value": 20
+          }
+        },
+        {
+          "nodeId": "define-escape",
+          "kind": "function",
+          "name": "escape",
+          "body": [
+            {
+              "nodeId": "escape-turn",
+              "kind": "turn",
+              "angle": {
+                "nodeId": "escape-turn-angle",
+                "type": "number",
+                "kind": "literal",
+                "value": 90
+              }
+            },
+            {
+              "nodeId": "escape-move",
+              "kind": "move",
+              "distance": {
+                "nodeId": "escape-move-distance",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "route-decision",
+          "kind": "if",
+          "condition": {
+            "nodeId": "route-condition",
+            "type": "boolean",
+            "kind": "compare",
+            "op": "<",
+            "left": {
+              "nodeId": "route-distance",
+              "type": "number",
+              "kind": "sensor",
+              "sensor": "distance"
+            },
+            "right": {
+              "nodeId": "safe-variable",
+              "type": "number",
+              "kind": "variable",
+              "name": "safeDistance"
+            }
+          },
+          "then": [
+            {
+              "nodeId": "call-escape",
+              "kind": "call",
+              "name": "escape"
+            }
+          ],
+          "else": [
+            {
+              "nodeId": "wrong-route",
+              "kind": "move",
+              "distance": {
+                "nodeId": "wrong-route-distance",
+                "type": "number",
+                "kind": "literal",
+                "value": 10
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    },
+    "successPredicate": [
+      {
+        "kind": "event",
+        "eventKind": "call",
+        "nodeId": "call-escape",
+        "count": 1
+      },
+      {
+        "kind": "reach",
+        "position": {
+          "xCm": 40,
+          "yCm": 60
+        },
+        "toleranceCm": 0.1
+      },
+      {
+        "kind": "heading",
+        "headingDeg": 90,
+        "toleranceDeg": 0.1
+      }
+    ],
+    "variants": [
+      {
+        "id": "transfer",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m08-variant-1",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 78,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 52
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "mystery-route",
+          "body": [
+            {
+              "nodeId": "set-safe",
+              "kind": "set",
+              "name": "safeDistance",
+              "value": {
+                "nodeId": "safe-constant",
+                "type": "number",
+                "kind": "literal",
+                "value": 35
+              }
+            },
+            {
+              "nodeId": "define-escape",
+              "kind": "function",
+              "name": "escape",
+              "body": [
+                {
+                  "nodeId": "escape-turn",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "escape-turn-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                },
+                {
+                  "nodeId": "escape-move",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "escape-move-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "route-decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "route-condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "route-distance",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "safe-variable",
+                  "type": "number",
+                  "kind": "variable",
+                  "name": "safeDistance"
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "call-escape",
+                  "kind": "call",
+                  "name": "escape"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "wrong-route",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "wrong-route-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-1",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m08-variant-2",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 78,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 54
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "mystery-route",
+          "body": [
+            {
+              "nodeId": "set-safe",
+              "kind": "set",
+              "name": "safeDistance",
+              "value": {
+                "nodeId": "safe-constant",
+                "type": "number",
+                "kind": "literal",
+                "value": 35
+              }
+            },
+            {
+              "nodeId": "define-escape",
+              "kind": "function",
+              "name": "escape",
+              "body": [
+                {
+                  "nodeId": "escape-turn",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "escape-turn-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                },
+                {
+                  "nodeId": "escape-move",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "escape-move-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "route-decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "route-condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "route-distance",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "safe-variable",
+                  "type": "number",
+                  "kind": "variable",
+                  "name": "safeDistance"
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "call-escape",
+                  "kind": "call",
+                  "name": "escape"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "wrong-route",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "wrong-route-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      },
+      {
+        "id": "practice-2",
+        "world": {
+          "schemaVersion": 1,
+          "id": "m08-variant-3",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 78,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 56
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "program": {
+          "schemaVersion": 1,
+          "id": "mystery-route",
+          "body": [
+            {
+              "nodeId": "set-safe",
+              "kind": "set",
+              "name": "safeDistance",
+              "value": {
+                "nodeId": "safe-constant",
+                "type": "number",
+                "kind": "literal",
+                "value": 35
+              }
+            },
+            {
+              "nodeId": "define-escape",
+              "kind": "function",
+              "name": "escape",
+              "body": [
+                {
+                  "nodeId": "escape-turn",
+                  "kind": "turn",
+                  "angle": {
+                    "nodeId": "escape-turn-angle",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 90
+                  }
+                },
+                {
+                  "nodeId": "escape-move",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "escape-move-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "route-decision",
+              "kind": "if",
+              "condition": {
+                "nodeId": "route-condition",
+                "type": "boolean",
+                "kind": "compare",
+                "op": "<",
+                "left": {
+                  "nodeId": "route-distance",
+                  "type": "number",
+                  "kind": "sensor",
+                  "sensor": "distance"
+                },
+                "right": {
+                  "nodeId": "safe-variable",
+                  "type": "number",
+                  "kind": "variable",
+                  "name": "safeDistance"
+                }
+              },
+              "then": [
+                {
+                  "nodeId": "call-escape",
+                  "kind": "call",
+                  "name": "escape"
+                }
+              ],
+              "else": [
+                {
+                  "nodeId": "wrong-route",
+                  "kind": "move",
+                  "distance": {
+                    "nodeId": "wrong-route-distance",
+                    "type": "number",
+                    "kind": "literal",
+                    "value": 10
+                  }
+                }
+              ]
+            },
+            {
+              "nodeId": "finish",
+              "kind": "stop"
+            }
+          ]
+        }
+      }
+    ],
+    "referenceProgram": {
+      "schemaVersion": 1,
+      "id": "mystery-route",
+      "body": [
+        {
+          "nodeId": "set-safe",
+          "kind": "set",
+          "name": "safeDistance",
+          "value": {
+            "nodeId": "safe-constant",
+            "kind": "literal",
+            "type": "number",
+            "value": 35
+          }
+        },
+        {
+          "nodeId": "define-escape",
+          "kind": "function",
+          "name": "escape",
+          "body": [
+            {
+              "nodeId": "escape-turn",
+              "kind": "turn",
+              "angle": {
+                "nodeId": "escape-turn-angle",
+                "kind": "literal",
+                "type": "number",
+                "value": 90
+              }
+            },
+            {
+              "nodeId": "escape-move",
+              "kind": "move",
+              "distance": {
+                "nodeId": "escape-move-distance",
+                "kind": "literal",
+                "type": "number",
+                "value": 10
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "route-decision",
+          "kind": "if",
+          "condition": {
+            "nodeId": "route-condition",
+            "kind": "compare",
+            "type": "boolean",
+            "op": "<",
+            "left": {
+              "nodeId": "route-distance",
+              "kind": "sensor",
+              "sensor": "distance",
+              "type": "number"
+            },
+            "right": {
+              "nodeId": "safe-variable",
+              "kind": "variable",
+              "name": "safeDistance",
+              "type": "number"
+            }
+          },
+          "then": [
+            {
+              "nodeId": "call-escape",
+              "kind": "call",
+              "name": "escape"
+            }
+          ],
+          "else": [
+            {
+              "nodeId": "wrong-route",
+              "kind": "move",
+              "distance": {
+                "nodeId": "wrong-route-distance",
+                "kind": "literal",
+                "type": "number",
+                "value": 10
+              }
+            }
+          ]
+        },
+        {
+          "nodeId": "finish",
+          "kind": "stop"
+        }
+      ]
+    }
+  }
+]
