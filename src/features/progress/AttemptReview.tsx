@@ -6,6 +6,8 @@ import { initialRobot } from '../../engine/robot'
 import { Stage } from '../../components/illustration/Stage'
 import { TraceView } from '../inspector/TraceView'
 import { PROBES } from '../../learning/probes'
+import { answerLabel, buildProbe } from '../../learning/probe-templates'
+import type { QuestionKind } from '../../learning/mental-models'
 export function AttemptReview({ attempt }: { attempt: Attempt }) {
   const result = useMemo(
       () => executeRecorded(attempt.world, attempt.program, attempt.engineVersion),
@@ -54,15 +56,27 @@ export function AttemptReview({ attempt }: { attempt: Attempt }) {
         <li>Prediction locked: {new Date(attempt.prediction.recordedAt).toLocaleString()}</li>
         <li>Execution recorded: {new Date(attempt.completedAt).toLocaleString()}</li>
         {attempt.diagnosticResponses.map((r, i) => {
-          const probe = PROBES.find((p) => p.id === r.probeId)
+          const generated = buildProbe(r.probeId)
+          const probe = generated ?? PROBES.find((p) => p.id === r.probeId)
           return (
             <li key={i}>
-              {probe?.rationale ?? r.probeId} · answer:{' '}
-              {probe?.choices.find((c) => c.id === r.choiceId)?.label ?? r.choiceId} ·{' '}
-              {new Date(r.recordedAt).toLocaleString()}
+              {generated?.prompt ?? (probe && 'rationale' in probe ? probe.rationale : r.probeId)} ·
+              answer: {probe?.choices.find((c) => c.id === r.choiceId)?.label ?? r.choiceId}
+              {generated
+                ? ` · real result: ${answerLabel(generated.question, generated.truth, generated.labels)}`
+                : ''}{' '}
+              · {new Date(r.recordedAt).toLocaleString()}
             </li>
           )
         })}
+        {(attempt.experimentResponses ?? []).map((r, i) => (
+          <li key={`x${i}`}>
+            Experiment ({r.field.replaceAll('-', ' ')} → {r.value}): predicted{' '}
+            {answerLabel(r.question as QuestionKind, r.predicted)}, actual{' '}
+            {answerLabel(r.question as QuestionKind, r.actual)} ·{' '}
+            {new Date(r.recordedAt).toLocaleString()}
+          </li>
+        ))}
         <li>
           {attempt.reassessment
             ? `Transfer: predicted ${attempt.reassessment.predictedAction}, actual ${attempt.reassessment.actualAction}; ${attempt.reassessment.correct ? 'matched' : 'needs another example'}.`
