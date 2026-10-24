@@ -38,7 +38,7 @@ import {
 } from '../../missions/catalog'
 import { describeGoal } from '../../missions/goals'
 import { judgeMission } from '../../missions/judge'
-import { missionComplete } from '../../missions/completion'
+import { completionChecks, missionComplete } from '../../missions/completion'
 import { recordPrediction } from '../../learning/predictions'
 import { conceptStatus } from '../../learning/mastery'
 import { transferAdvice } from '../../learning/recommendations'
@@ -1428,12 +1428,21 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                       : 'Your prediction differs. Let’s find out which part was surprising.'}
                 </p>
                 {!free && (
-                  <p className={goalOutcome?.passed ? 'goal-passed' : 'goal-pending'}>
-                    {goalOutcome?.passed
-                      ? 'Mission goal met by the executed trace.'
-                      : 'Mission goal not met yet.'}{' '}
-                    {goalOutcome?.facts.join(' ')}
-                  </p>
+                  <div
+                    className={goalOutcome?.passed ? 'goal-passed' : 'goal-pending'}
+                    data-testid="goal-outcome"
+                  >
+                    <p>
+                      {goalOutcome?.passed
+                        ? 'Mission goal met by the executed trace.'
+                        : 'Mission goal not met yet.'}
+                    </p>
+                    <ul className="goal-facts">
+                      {goalOutcome?.facts.map((fact) => (
+                        <li key={fact}>{fact}</li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
                 <div className="button-row">
                   <Button
@@ -1641,6 +1650,27 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 different executed examples, not evidence that one activity caused learning.
               </p>
               <p data-testid="transfer-advice">{transferAdvice(correct, transfer, diagnosis)}</p>
+              {savedAttempt && (
+                <div className="completion-checklist" data-testid="completion-checklist">
+                  <h3>{mission.capstone ? 'Capstone recap' : 'Completion checklist'}</h3>
+                  <ul>
+                    {completionChecks(savedAttempt, mission).map((check) => (
+                      <li key={check.id} className={check.met ? 'goal-passed' : 'goal-pending'}>
+                        {check.met ? 'Done: ' : 'Not yet: '}
+                        {check.label}
+                      </li>
+                    ))}
+                  </ul>
+                  {mission.capstone && (
+                    <p className="muted">
+                      Your evidence trail: {attemptObservations(savedAttempt, mission).length}{' '}
+                      recorded answers, {savedAttempt.experimentResponses?.length ?? 0} experiment
+                      {(savedAttempt.experimentResponses?.length ?? 0) === 1 ? '' : 's'} and the
+                      trace above. Use “Review evidence” to see them in order.
+                    </p>
+                  )}
+                </div>
+              )}
               {assessmentSkipped && (
                 <p className="muted">
                   Diagnostic questions were skipped, so no possible mix-up was inferred.
@@ -1705,7 +1735,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 >
                   Finish
                 </Button>
-                {goalOutcome?.passed && transfer.correct && nextMission && (
+                {savedAttempt && missionComplete(savedAttempt, mission) && nextMission && (
                   <Link className="button-link" to={`/missions/${nextMission.id}`}>
                     Next mission
                   </Link>

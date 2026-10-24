@@ -662,3 +662,10 @@
 .vocabulary dd {
   margin: 0;
 }
+.goal-facts {
+  margin: 4px 0 0;
+  padding-inline-start: 20px;
+}
+.completion-checklist ul {
+  padding-inline-start: 20px;
+}
