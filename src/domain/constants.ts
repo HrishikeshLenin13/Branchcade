@@ -2,6 +2,7 @@ export const SCHEMA_VERSION = 1 as const
 export const FIXED_STEP_MS = 50
 export const LIMITS = {
   importBytes: 500_000,
+  storedNodes: 1_000_000, // Whole local envelope; import preflight stays at 20,000 nodes.
   nodes: 2_000,
   depth: 32,
   events: 5_000,

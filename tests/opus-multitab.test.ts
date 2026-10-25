@@ -100,7 +100,8 @@ describe('rebaseEnvelope (pure)', () => {
     const merged = rebaseEnvelope(base, ours, null)
     expect(merged.attempts).toEqual([])
     expect(merged.profile).toBeNull()
-    expect(merged.drafts.map((d) => d.id)).toEqual(['d'])
+    // A new draft must not survive without its deleted learner.
+    expect(merged.drafts).toEqual([])
   })
 })
 

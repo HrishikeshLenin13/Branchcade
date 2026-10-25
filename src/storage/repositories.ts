@@ -1,3 +1,4 @@
+import { LIMITS } from '../domain/constants'
 import type { AppExport, Attempt } from '../domain/types'
 import { ExportSchema, AttemptSchema } from '../domain/schemas'
 import { immutable } from '../domain/invariants'
@@ -7,11 +8,16 @@ import { reconcileConceptProgress } from './progress-records'
 import { rebaseEnvelope } from './rebase'
 export async function loadData(): Promise<AppExport> {
   const db = await database()
-  const data: unknown = await db.get('app', 'state')
-  return data === undefined ? emptyData() : migrateData(data)
+  const tx = db.transaction('app', 'readonly')
+  const data: unknown = await tx.store.get('state')
+  const barrier: unknown = await tx.store.get('reset-barrier')
+  await tx.done
+  return data === undefined
+    ? { ...emptyData(), ...(typeof barrier === 'string' ? { exportedAt: barrier } : {}) }
+    : migrateData(data, LIMITS.storedNodes)
 }
 export async function saveData(data: AppExport): Promise<void> {
-  const parsed = ExportSchema.parse({ ...data, exportedAt: new Date().toISOString() })
+  const parsed = migrateData({ ...data, exportedAt: new Date().toISOString() }, LIMITS.storedNodes)
   const db = await database()
   await db.put('app', parsed, 'state')
 }
@@ -23,19 +29,90 @@ export async function saveRebased(
 ): Promise<{ stored: AppExport; foreign: boolean }> {
   const db = await database()
   const tx = db.transaction('app', 'readwrite')
-  const raw: unknown = await tx.store.get('state')
-  const theirs = raw === undefined ? null : migrateData(raw)
-  const merged = rebaseEnvelope(base, ours, theirs)
-  const parsed = ExportSchema.parse({ ...merged, exportedAt: nextStamp(merged.exportedAt) })
-  await tx.store.put(parsed, 'state')
-  await tx.done
-  return { stored: parsed, foreign: !!base && theirs?.exportedAt !== base.exportedAt }
+  const done = tx.done
+  // Attach a rejection handler immediately, including failures during get/validation.
+  void done.catch(() => undefined)
+  try {
+    const raw: unknown = await tx.store.get('state')
+    const barrier: unknown = await tx.store.get('reset-barrier')
+    if (base && typeof barrier === 'string' && Date.parse(base.exportedAt) < Date.parse(barrier))
+      throw new Error(
+        'Local data was reset or replaced in another tab. Export this session, then reload before saving.',
+      )
+    const theirs = raw === undefined ? null : migrateData(raw, LIMITS.storedNodes)
+    const merged = rebaseEnvelope(base, ours, theirs)
+    const parsed = migrateData(
+      {
+        ...merged,
+        exportedAt: nextStamp(
+          ours.exportedAt,
+          theirs?.exportedAt,
+          typeof barrier === 'string' ? barrier : undefined,
+        ),
+      },
+      LIMITS.storedNodes,
+    )
+    await tx.store.put(parsed, 'state')
+    await done
+    return { stored: parsed, foreign: !!base && theirs?.exportedAt !== base.exportedAt }
+  } catch (error) {
+    try {
+      tx.abort()
+    } catch {
+      /* Already aborted or completed; done reports the outcome. */
+    }
+    await done.catch(() => undefined)
+    throw error
+  }
 }
-/** Strictly increasing so two writes in the same millisecond still differ. */
-function nextStamp(previous: string) {
-  const now = Date.now(),
-    last = Date.parse(previous)
-  return new Date(Number.isFinite(last) && last >= now ? last + 1 : now).toISOString()
+/** Atomic explicit replacement. A concurrent change invalidates the reviewed snapshot. */
+export async function saveReplacement(base: AppExport, ours: AppExport): Promise<AppExport> {
+  const db = await database()
+  const tx = db.transaction('app', 'readwrite')
+  const done = tx.done
+  void done.catch(() => undefined)
+  try {
+    const raw: unknown = await tx.store.get('state')
+    const theirs = raw === undefined ? emptyData() : migrateData(raw, LIMITS.storedNodes)
+    const records = (data: AppExport) =>
+      JSON.stringify({ ...data, exportedAt: '', sourceAppVersion: undefined })
+    if (records(base) !== records(theirs))
+      throw new Error(
+        'Local records changed in another tab. Reload and review the import or deletion again.',
+      )
+    const barrier: unknown = await tx.store.get('reset-barrier')
+    const parsed = migrateData(
+      {
+        ...ours,
+        exportedAt: nextStamp(theirs.exportedAt, typeof barrier === 'string' ? barrier : undefined),
+      },
+      LIMITS.storedNodes,
+    )
+    await tx.store.put(parsed, 'state')
+    await tx.store.put(parsed.exportedAt, 'reset-barrier')
+    await done
+    return parsed
+  } catch (error) {
+    try {
+      tx.abort()
+    } catch {
+      /* Transaction already finished. */
+    }
+    await done.catch(() => undefined)
+    throw error
+  }
+}
+/** Strictly newer than every observed revision, even with a clock moving backwards. */
+function nextStamp(...previous: (string | undefined)[]) {
+  return new Date(
+    Math.max(
+      Date.now(),
+      ...previous.map((p) => {
+        const n = p ? Date.parse(p) : NaN
+        return Number.isFinite(n) ? n + 1 : 0
+      }),
+    ),
+  ).toISOString()
 }
 /** Records append; a completed attempt cannot be rewritten to fabricate a successful result. */
 export function appendAttempt(data: AppExport, attempt: Attempt): AppExport {
@@ -48,7 +125,31 @@ export function appendAttempt(data: AppExport, attempt: Attempt): AppExport {
 }
 export async function clearData(): Promise<void> {
   const db = await database()
-  await db.delete('app', 'state')
+  const tx = db.transaction('app', 'readwrite')
+  const done = tx.done
+  void done.catch(() => undefined)
+  try {
+    const raw: unknown = await tx.store.get('state')
+    const previous: unknown = await tx.store.get('reset-barrier')
+    const stamp = nextStamp(
+      raw && typeof raw === 'object' && 'exportedAt' in raw && typeof raw.exportedAt === 'string'
+        ? raw.exportedAt
+        : undefined,
+      typeof previous === 'string' ? previous : undefined,
+    )
+    await tx.store.delete('state')
+    // Non-identifying revision only. No deleted learner data is retained.
+    await tx.store.put(stamp, 'reset-barrier')
+    await done
+  } catch (error) {
+    try {
+      tx.abort()
+    } catch {
+      /* Transaction already finished. */
+    }
+    await done.catch(() => undefined)
+    throw error
+  }
 }
 /** Append-only learning annotations; execution facts, prediction and goal proof stay unchanged. */
 export function annotateAttempt(

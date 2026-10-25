@@ -83,9 +83,7 @@
     {
       "viewport": "1920x1080",
       "errors": [],
-      "origins": [
-        "http://127.0.0.1:4173"
-      ]
+      "origins": ["http://127.0.0.1:4173"]
     },
     {
       "viewport": "1440x900",
@@ -168,9 +166,7 @@
     {
       "viewport": "1440x900",
       "errors": [],
-      "origins": [
-        "http://127.0.0.1:4173"
-      ]
+      "origins": ["http://127.0.0.1:4173"]
     },
     {
       "viewport": "1366x768",
@@ -273,9 +269,7 @@
     {
       "viewport": "1366x768",
       "errors": [],
-      "origins": [
-        "http://127.0.0.1:4173"
-      ]
+      "origins": ["http://127.0.0.1:4173"]
     },
     {
       "viewport": "1024x768",
@@ -358,9 +352,7 @@
     {
       "viewport": "1024x768",
       "errors": [],
-      "origins": [
-        "http://127.0.0.1:4173"
-      ]
+      "origins": ["http://127.0.0.1:4173"]
     },
     {
       "viewport": "768x1024",
@@ -443,9 +435,7 @@
     {
       "viewport": "768x1024",
       "errors": [],
-      "origins": [
-        "http://127.0.0.1:4173"
-      ]
+      "origins": ["http://127.0.0.1:4173"]
     },
     {
       "viewport": "390x844",
@@ -539,9 +529,7 @@
     {
       "viewport": "390x844",
       "errors": [],
-      "origins": [
-        "http://127.0.0.1:4173"
-      ]
+      "origins": ["http://127.0.0.1:4173"]
     }
   ]
 }

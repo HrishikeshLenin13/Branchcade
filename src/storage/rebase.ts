@@ -10,16 +10,42 @@ import { reconcileConceptProgress } from './progress-records'
  * still apply; concurrent edits of one record keep the append-only superset. */
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
 
-/** Learning annotations only ever grow, so the record with more of them is the newer one. */
-const annotations = (a: Attempt) =>
-  a.diagnosticResponses.length +
-  (a.transferRetries?.length ?? 0) +
-  (a.hintIds?.length ?? 0) +
-  (a.experimentResponses?.length ?? 0) +
-  (a.reassessment ? 1 : 0) +
-  (a.experimentUsed ? 1 : 0)
-const newerAttempt = (ours: Attempt, theirs: Attempt) =>
-  annotations(theirs) > annotations(ours) ? theirs : ours
+/** Only annotations may grow. Conflicting answers are not silently chosen or rewritten. */
+function mergeAttempt(ours: Attempt, theirs: Attempt): Attempt {
+  const facts = (a: Attempt) => {
+    const copy = { ...a }
+    for (const key of [
+      'diagnosticResponses',
+      'reassessment',
+      'transferRetries',
+      'hintIds',
+      'experimentUsed',
+      'experimentResponses',
+    ] as const)
+      Reflect.deleteProperty(copy, key)
+    return copy
+  }
+  if (!same(facts(ours), facts(theirs)))
+    throw new Error('Immutable attempt evidence conflict; export this session and reload.')
+  // Ordered answers must be prefix-compatible. Divergent answers require explicit recovery,
+  // rather than manufacturing a learning history that neither tab actually experienced.
+  const extend = <T>(a: T[], b: T[]): T[] => {
+    if (!a.slice(0, Math.min(a.length, b.length)).every((v, i) => same(v, b[i])))
+      throw new Error('Learning answer conflict; export this session and reload.')
+    return a.length >= b.length ? a : b
+  }
+  if (ours.reassessment && theirs.reassessment && !same(ours.reassessment, theirs.reassessment))
+    throw new Error('Revealed transfer answer conflict; export this session and reload.')
+  return {
+    ...theirs,
+    diagnosticResponses: extend(ours.diagnosticResponses, theirs.diagnosticResponses),
+    reassessment: theirs.reassessment ?? ours.reassessment,
+    transferRetries: extend(ours.transferRetries ?? [], theirs.transferRetries ?? []),
+    experimentResponses: extend(ours.experimentResponses ?? [], theirs.experimentResponses ?? []),
+    hintIds: [...new Set([...(theirs.hintIds ?? []), ...(ours.hintIds ?? [])])],
+    experimentUsed: Boolean(ours.experimentUsed || theirs.experimentUsed),
+  }
+}
 
 const unionBy = <T>(a: T[], b: T[], key: (x: T) => string) => [
   ...a,
@@ -78,10 +104,27 @@ export function rebaseEnvelope(
   ours: AppExport,
   theirs: AppExport | null,
 ): AppExport {
-  // Nothing else wrote since this tab's last load/save: ours is already authoritative.
-  if (!base || (theirs ? theirs.exportedAt === base.exportedAt : false)) return ours
-  const stored = theirs ?? {
-    ...base,
+  // Immutable execution facts must agree with the writer's starting snapshot, even
+  // if only that writer changed this record.
+  for (const a of ours.attempts) {
+    const original = base?.attempts.find((b) => b.id === a.id)
+    if (original) {
+      mergeAttempt(a, original)
+      if (
+        a.diagnosticResponses.length < original.diagnosticResponses.length ||
+        (a.transferRetries?.length ?? 0) < (original.transferRetries?.length ?? 0) ||
+        (a.experimentResponses?.length ?? 0) < (original.experimentResponses?.length ?? 0) ||
+        original.hintIds?.some((id) => !a.hintIds?.includes(id)) ||
+        (original.reassessment && !a.reassessment) ||
+        (original.experimentUsed && !a.experimentUsed)
+      )
+        throw new Error('Learning annotations are append-only; export this session and reload.')
+    }
+  }
+  if (base && theirs && same(base, theirs)) return ours
+  if (!base && !theirs) return ours
+  base ??= {
+    ...ours,
     profile: null,
     profiles: [],
     attempts: [],
@@ -90,6 +133,31 @@ export function rebaseEnvelope(
     drafts: [],
     assignments: [],
   }
+  // A timestamp alone is not evidence that optimistic in-memory snapshots are identical.
+  // In particular queued writes may share a stamp but contain different records.
+  if (
+    !theirs &&
+    !base.profile &&
+    !base.profiles.length &&
+    !base.attempts.length &&
+    !base.drafts.length &&
+    !base.teams.length &&
+    !base.savedLabs.length &&
+    !base.assignments.length
+  )
+    return ours
+  if (!theirs)
+    return {
+      ...base,
+      profile: null,
+      profiles: [],
+      attempts: [],
+      teams: [],
+      savedLabs: [],
+      drafts: [],
+      assignments: [],
+    }
+  const stored = theirs
   const people = (d: AppExport) => [...(d.profile ? [d.profile] : []), ...d.profiles]
   const learners = rebaseList(people(base), people(ours), people(stored), bothProfiles)
   const active =
@@ -101,8 +169,12 @@ export function rebaseEnvelope(
       ...ours,
       profile: active,
       profiles: learners.filter((p) => p.id !== active?.id),
-      attempts: rebaseList(base.attempts, ours.attempts, stored.attempts, newerAttempt),
-      teams: rebaseList(base.teams, ours.teams, stored.teams),
+      attempts: rebaseList(base.attempts, ours.attempts, stored.attempts, mergeAttempt),
+      teams: rebaseList(base.teams, ours.teams, stored.teams, () => {
+        throw new Error(
+          'Team edited in another tab. Export this session and reload before continuing.',
+        )
+      }),
       savedLabs: rebaseList(base.savedLabs, ours.savedLabs, stored.savedLabs),
       drafts: rebaseList(base.drafts, ours.drafts, stored.drafts),
       assignments: rebaseList(base.assignments, ours.assignments, stored.assignments),

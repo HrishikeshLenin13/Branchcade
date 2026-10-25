@@ -271,16 +271,19 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     editAfterCancel = useRef(false)
   useEffect(() => () => runControl.current?.abort(), [])
   const saveRef = useRef(saveDraft),
-    draftDirty = useRef(false)
+    draftDirty = useRef(false),
+    draftRevision = useRef(0)
   useEffect(() => {
     saveRef.current = saveDraft
   }, [saveDraft])
   useEffect(() => {
     draftDirty.current = true
+    const revision = ++draftRevision.current
     const timer = window.setTimeout(() => {
       void saveDraft()
         .then(() => {
-          draftDirty.current = false
+          if (draftRevision.current === revision && !useSession.getState().ephemeral)
+            draftDirty.current = false
         })
         .catch((error) =>
           setError(error instanceof Error ? error.message : 'Draft could not be saved.'),
@@ -790,9 +793,17 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               : 'Save the world, code and learning stage locally'
           }
           onClick={() => {
-            void saveDraft().then(() =>
-              setNotice('World, code and learning stage saved on this device.'),
-            )
+            void saveDraft()
+              .then(() =>
+                setNotice(
+                  useSession.getState().ephemeral
+                    ? 'Not saved. Export your current work before closing.'
+                    : 'World, code and learning stage saved on this device.',
+                ),
+              )
+              .catch((error: unknown) =>
+                setError(error instanceof Error ? error.message : 'Draft could not be saved.'),
+              )
           }}
         >
           Save

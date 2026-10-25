@@ -124,7 +124,7 @@ export interface ModelRun {
 // A result can hold a full 4 MB trace. An entry-count-only cap allowed thousands
 // of those traces to survive navigation. Bound both trace payload and entry overhead.
 export const MODEL_CACHE_LIMITS = { bytes: 8 * 1024 * 1024, entries: 512 } as const
-const cache = new Map<string, { run: ModelRun; bytes: number }>()
+const cache = new Map<string, { run: ModelRun; bytes: number; identity: string }>()
 let cacheBytes = 0
 export function modelCacheStats() {
   return {
@@ -138,15 +138,19 @@ export function clearModelCache() {
   cache.clear()
   cacheBytes = 0
 }
-/** Executes one scenario under one model. `key` must uniquely identify world+program
- * (callers use generated probe/candidate ids); results are memoized because they are pure. */
+/** Caller IDs are labels, not proof of scenario identity (imports may reuse IDs).
+ * Compare the complete bounded input serialization before reusing a pure model result. */
 export function runModel(key: string, world: World, program: Program, model: ModelCode): ModelRun {
   const cacheKey = `${key}|${model}`
+  const identity = JSON.stringify([world, program])
   const hit = cache.get(cacheKey)
   if (hit) {
     cache.delete(cacheKey)
-    cache.set(cacheKey, hit)
-    return hit.run
+    if (hit.identity === identity) {
+      cache.set(cacheKey, hit)
+      return hit.run
+    }
+    cacheBytes -= hit.bytes
   }
   const machine = new ModelInterpreter(world, program, model)
   const perceivedStart = machine.perceive()
@@ -159,7 +163,7 @@ export function runModel(key: string, world: World, program: Program, model: Mod
     perceivedStart,
     perceivedEnd: machine.perceive(),
   }
-  const bytes = machine.traceByteLength + 1024 + cacheKey.length * 2
+  const bytes = machine.traceByteLength + 1024 + (cacheKey.length + identity.length) * 2
   while (
     cache.size &&
     (cache.size >= MODEL_CACHE_LIMITS.entries || cacheBytes + bytes > MODEL_CACHE_LIMITS.bytes)
@@ -169,7 +173,7 @@ export function runModel(key: string, world: World, program: Program, model: Mod
     cache.delete(oldestKey)
   }
   if (bytes <= MODEL_CACHE_LIMITS.bytes) {
-    cache.set(cacheKey, { run, bytes })
+    cache.set(cacheKey, { run, bytes, identity })
     cacheBytes += bytes
   }
   return run

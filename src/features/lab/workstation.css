@@ -671,3 +671,20 @@
 .completion-checklist ul {
   padding-inline-start: 20px;
 }
+
+/* Laptop toolbar: two deliberate rows rather than a lone wrapped help control.
+   Wide desktops retain the compact flex layout; narrow screens keep natural wrapping. */
+@media (min-width: 1300px) and (max-width: 1599px) {
+  .workstation-toolbar {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  .workstation-toolbar > button {
+    width: 100%;
+    padding-inline: 6px;
+  }
+  .workstation-toolbar > label {
+    justify-content: center;
+  }
+}

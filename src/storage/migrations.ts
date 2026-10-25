@@ -22,8 +22,8 @@ export function emptyData() {
   })
 }
 /** Only the documented pre-release v0 alias/settings shape migrates. No guessing future data. */
-export function migrateData(input: unknown) {
-  assertBounded(input)
+export function migrateData(input: unknown, maxNodes = 20_000) {
+  assertBounded(input, maxNodes)
   if (input && typeof input === 'object' && 'schemaVersion' in input && input.schemaVersion === 0) {
     const old = input as { schemaVersion: 0; alias?: unknown }
     if (

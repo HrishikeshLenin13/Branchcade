@@ -64,7 +64,7 @@ export function LocalImport({ label = 'Import local data' }: { label?: string })
       </label>
       {busy && <p role="status">Validating and replaying record…</p>}
       {notice && <p role="status">{notice}</p>}
-      {error && (
+      {error && !pending && (
         <p className="error" role="alert">
           {error} Choose another file or cancel; current records remain saved.
         </p>
@@ -105,6 +105,11 @@ export function LocalImport({ label = 'Import local data' }: { label?: string })
             Validation includes strict schema versions, bounded programs, prediction checksums and
             replayed execution. A failed save leaves the current dataset untouched.
           </p>
+          {error && (
+            <p role="alert" className="error">
+              {error}
+            </p>
+          )}
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline" disabled={busy}>
@@ -119,10 +124,10 @@ export function LocalImport({ label = 'Import local data' }: { label?: string })
                 setError('')
                 void (async () => {
                   try {
-                    const target =
-                      mode === 'merge' ? mergeData(useSession.getState().data, pending) : pending
+                    const reviewedBase = useSession.getState().data
+                    const target = mode === 'merge' ? mergeData(reviewedBase, pending) : pending
                     const verified = await validateImport(exportJson(target))
-                    await applyImport(verified)
+                    await applyImport(verified, reviewedBase)
                     setPending(null)
                     setNotice(`${mode === 'merge' ? 'Merged' : 'Replaced'} validated local data.`)
                   } catch (err) {

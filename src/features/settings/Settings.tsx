@@ -246,7 +246,7 @@ export default function Settings() {
         </p>
       </section>
       <p role="status">{notice}</p>
-      {error && (
+      {error && !confirm && (
         <p role="alert" className="error">
           {error}
         </p>
@@ -279,6 +279,11 @@ export default function Settings() {
               Type ERASE to confirm
               <input autoComplete="off" value={typed} onChange={(e) => setTyped(e.target.value)} />
             </label>
+          )}
+          {error && (
+            <p role="alert" className="error">
+              {error}
+            </p>
           )}
           <DialogFooter>
             <DialogClose asChild>
