@@ -49,3 +49,16 @@ Codex fetched and safely fast-forwarded main to the updated A–K checkpoint 3d8
 The real synthetic walkthrough, screenshots, console/network observations, local Chromium results and local Firefox startup failure are recorded in TEST_REPORT and evidence/l. No human participant sessions, student work, owner review, recording/upload, hosting, eligibility or submission are fabricated. Official contest sources were rechecked and their deadline discrepancy remains explicit. A future two-reviewer audit, optional account/sync requirements and exact-approved-asset logo integration are proposals only; no audit agents, accounts, backend or logo were implemented. Student review of the actual algorithms and real contribution evidence remain pending under SOURCE_OWNERSHIP_REVIEW and STUDENT_TECHNICAL_REVIEW.
 
 The first L workflow was green overall but its detailed log exposed one retry-recovered Firefox navigation test. Codex traced that test's full reload to an optimistic Resume assertion before Save durability, added explicit save-completion/indicator assertions, and ran10successful local Chromium repetitions with retries disabled. The test repair is AI-assisted; no application persistence algorithm or timeout/retry policy was changed. TEST_REPORT retains the first flaky result and subsequent remote verification rather than treating a retry as a clean pass.
+
+## Post-L independent audit and repairs, 2026-10-25 (Claude Opus 5.5, Claude Code cloud session)
+
+Requested by the owner through a collaborator's session. AI-authored work:
+
+- the audit harness: `tests/opus-audit-*.test.ts`, `scripts/opus-audit-*.mjs`;
+- the `docs/audit/` reports and evidence;
+- the cross-tab rebase save (`src/storage/rebase.ts`, `saveRebased`, `session.ts` broadcast);
+- M03 mission data v3 with frozen v2 rules (`legacy-v2.ts`, `mission-data/v2-revised.json`);
+- the learning-cycle keyboard region, the stage button sizes and the recovery-link styling;
+- the regression tests.
+
+No Playwright MCP or Chrome DevTools MCP was available; ordinary Playwright scripts were used and are committed. GPT Astra review has not happened. No student authorship, human testing or learning effect is claimed. A student should review the three-way rebase rules and the M03 9.9 cm rule before relying on them.

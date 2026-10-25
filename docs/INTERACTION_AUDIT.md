@@ -1,5 +1,7 @@
 # Current interaction audit — Parts A–C
 
+> **Post-L audit update (2026-10-25):** controls changed by the Opus repairs: the learning-cycle strip is a focusable “Learning cycle” region (keyboard-scrollable at phone width), stage zoom/pan buttons are at least 32 px wide, the unknown-mission page reads “Mission not found” with a button-styled link, and **Next mission** uses the same button styling. Evidence: `e2e/opus-regressions.spec.ts`, [OPUS_REPAIR_REPORT](audit/OPUS_REPAIR_REPORT.md).
+
 Persistent E2E: e2e/foundation.spec.ts, run in Chromium and Firefox. Unit/component tests also cover semantic button/keyboard/dialog behavior, pure contracts, physics, ASTs, storage and role logic. This audit covers enabled controls in the current foundation, not screens that belong to later phases.
 
 | Route/control                                                                        | Expected result                                                                | Verified evidence / accessibility                                                                                                                   |

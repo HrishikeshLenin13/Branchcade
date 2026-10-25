@@ -34,3 +34,7 @@ Source `617b83d` · Chromium 153 headless · captured by `scripts/opus-audit-swe
 ## Not reviewed
 
 Dark mode, high contrast and large-text settings were not captured in this round. Printing was not exercised. No assistive-technology (screen reader) session was performed, so no WCAG conformance claim is made.
+
+## After repairs (addendum, same sweep script)
+
+`evidence/after-repairs/route-sweep.json`: 66 loads, 0 overflow, **0 axe violations**, 0 console/page errors, local origin only. `1366x768_missions_m01.png` matches the baseline layout, and "Lock prediction & run" is in the same position. The first attempt at OPUS-003 had moved it 15% below the fold; existing E2E caught that and it was fixed before commit. The one visible trade-off: at 390 px the stage toolbar now wraps onto three rows instead of two, because its glyph buttons are wider.

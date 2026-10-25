@@ -1,5 +1,21 @@
 # Branchcade verification history
 
+## Post-L Opus independent audit and repairs (2026-10-25)
+
+Baseline `617b83d` (CI [40140698354](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40140698354) success). Linux cloud container, Node 22.22.0 (Node 24 unavailable here), Chromium 153 through Playwright with the preinstalled binary. Firefox was not available locally, so Firefox evidence comes only from GitHub CI. Full detail: [docs/audit/](audit/OPUS_INDEPENDENT_AUDIT.md).
+
+| Check                                                            | Actual result                                                                                                                                                                                                      |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Baseline `npm ci` + `npm run check` at `617b83d`                 | 0 vulnerabilities; lint, strict TS, 396/396 tests in 29 files, build pass                                                                                                                                          |
+| New independent audit suites (`tests/opus-audit-*`)              | 51 tests: 26 physics oracles, mutation probe of 8 missions, diagnosis journeys, 86 counterexample rechecks, hostile imports                                                                                        |
+| Baseline browser sweep                                           | 66 route/viewport loads: 0 overflow, 0 console/page errors, local-origin only; axe found 1 serious issue at 390 px (OPUS-003)                                                                                      |
+| Defects confirmed                                                | P0 1, P1 1, P2 1, P3 6 ([register](audit/OPUS_BUG_REGISTER.md))                                                                                                                                                    |
+| After repairs: `npm test`                                        | 457/457 in 36 files                                                                                                                                                                                                |
+| After repairs: local Chromium E2E (`CI=1`, retries 0, 2 workers) | 109/109 passed ([log](audit/evidence/after-repairs/chromium-e2e.log)). An earlier run of the same tree caught a 1366 px layout regression from the first OPUS-003 attempt (3 failures); it was fixed before commit |
+| OPUS-001 E2E against unrepaired source                           | Failed as intended: expected 1 attempt, received 0 ([log](audit/evidence/after-repairs/opus-001-e2e-on-unrepaired-source.log))                                                                                     |
+| After repairs: browser sweep                                     | 66 loads: 0 overflow, **0 axe violations**, 0 console/page errors, local-origin only                                                                                                                               |
+| Final gates and CI                                               | Recorded in [OPUS_FINAL_VERIFICATION](audit/OPUS_FINAL_VERIFICATION.md)                                                                                                                                            |
+
 ## Part L — fresh release verification (2026-10-24)
 
 Clean main fast-forwarded from `abd9d0a` to fetched `3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e`, preserving all Part K work. Its [baseline CI 40133267764](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40133267764) was independently checked completed/success. This is a new local verification, not a restatement of Part K counts. No runtime source, dependency/lockfile or frozen mission change is made in L.

@@ -270,9 +270,9 @@
     "browserSmoke": "VERIFIED: real M01/Blockly/prediction/trace/probes/experiment/transfer/save/reload/Progress; zero page/console errors/warnings, failed requests/responses or nonlocal origins",
     "releaseReadiness": "docs/RELEASE_READINESS.md",
     "auditProposal": "docs/POST_L_AUDIT_PLAN.md",
-    "futureIndependentAudit": "NOT STARTED — separate owner authorization required",
+    "futureIndependentAudit": "OPUS ROUND DONE 2026-10-25 (docs/audit/); GPT Astra review NOT STARTED",
     "accountSyncImplementation": "NOT STARTED — proposal only",
-    "logoIntegration": "NOT STARTED — exact approved asset not supplied",
+    "logoIntegration": "BLOCKED: APPROVED LOGO ASSET REQUIRED (checked again 2026-10-25)",
     "acceptance": "docs/PART_L_ACCEPTANCE.md",
     "firstCi": {
       "commit": "1b39b337259b580b78d013a7ecfa5933756859ec",
@@ -295,5 +295,32 @@
     "contest": "NOT SUBMITTED",
     "studentContributionReview": "PENDING — extensive AI assistance; significant independent technical implementation unverified",
     "nextScope": "Proposed independent audit only with separate authorization; optional sync/logo implementation later"
+  },
+  "postLAudit": {
+    "reviewer": "Claude Opus 5.5 (Claude Code cloud session); Playwright library + Chromium 153; no MCP browser tools available",
+    "auditedCommit": "617b83daf96c136bd4105df7b0c015dc043f737a",
+    "baselineFindingsCommit": "c2ba103",
+    "findings": {
+      "P0": 1,
+      "P1": 1,
+      "P2": 1,
+      "P3": 6
+    },
+    "fixed": [
+      "OPUS-001 multi-tab attempt loss (3638fb9)",
+      "OPUS-002 M03 v3 drive-on rule (5766b83)",
+      "OPUS-003/004/006 accessibility and recovery UI (e5ca1d5)"
+    ],
+    "openLowSeverity": ["OPUS-005", "OPUS-007", "OPUS-008", "OPUS-009"],
+    "missionDataVersions": "M03 = 3 (v2 rules frozen in src/missions/mission-data/v2-revised.json); M01, M02, M04-M08 = 2; v1.json unchanged",
+    "localUnitTests": 457,
+    "localUnitFiles": 36,
+    "localChromiumTests": 109,
+    "localChromiumFailures": 0,
+    "localChromiumRetries": 0,
+    "localFirefox": "NOT AVAILABLE in this container; CI only",
+    "logoIntegration": "BLOCKED: APPROVED LOGO ASSET REQUIRED",
+    "gptAstraReview": "NOT STARTED",
+    "reports": "docs/audit/"
   }
 }

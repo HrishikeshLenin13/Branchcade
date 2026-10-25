@@ -1,5 +1,36 @@
 # Branchcade handoff
 
+## Current operational handoff — post-L Opus audit and repairs (2026-10-25)
+
+**Scope:** an owner-authorized independent audit of Parts A–L by Claude Opus 5.5, then repairs to the confirmed defects. This is not a new SPEC part. Branch: `main` only. No branches, PRs, force pushes or history rewrites.
+
+**Checkpoints:**
+
+| Step                        | SHA                                                                                            |
+| --------------------------- | ---------------------------------------------------------------------------------------------- |
+| Audited (CI green)          | `617b83d`                                                                                      |
+| Baseline findings preserved | `c2ba103`                                                                                      |
+| Repairs                     | `3638fb9` (P0), `5766b83` (P1), `e5ca1d5` (P2/P3 UI)                                           |
+| Final docs                  | commit after these; CI recorded in [OPUS_FINAL_VERIFICATION](audit/OPUS_FINAL_VERIFICATION.md) |
+
+**What changed:**
+
+1. Saves now rebase across tabs, so a second open tab can no longer silently delete recorded attempts (`src/storage/rebase.ts`).
+2. M03 is mission data **v3** and must drive on in its far-wall scenarios; the v2 rules are frozen in `src/missions/mission-data/v2-revised.json`.
+3. Phone learning-cycle strip is keyboard-scrollable, stage zoom/pan buttons are ≥ 32 px, and the unknown-mission and Next-mission links are styled as buttons.
+
+**Evidence:** [docs/audit/](audit/OPUS_INDEPENDENT_AUDIT.md) (audit, matrix, bug register, visual review, repair report, final verification, GPT Astra handoff) and `docs/audit/evidence/`.
+
+**Not done / still pending:**
+
+- GPT Astra independent review: NOT STARTED.
+- Approved logo: BLOCKED, no asset supplied.
+- Low-severity items OPUS-005/007/008/009 are open.
+- No local Firefox.
+- Human study, student technical review, AI-disclosure approval, eligibility, recording, deployment and submission all remain owner actions.
+
+**Next session:** fetch `main`, read `docs/audit/GPT_ASTRA_HANDOFF.md`, then run `npm ci`, `npm run check` and `npm run test:e2e`.
+
 ## Current operational handoff — Part L (2026-10-24)
 
 **Project:** Branchcade.

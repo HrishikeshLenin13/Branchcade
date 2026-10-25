@@ -71,3 +71,7 @@ Local Firefox launch currently fails before application code with `Could not fin
 ## Limits of the evidence
 
 Main-thread interpreter work remains bounded and async UI execution yields between batches. The benchmark does not establish a universal frame rate or memory bound for all devices. Counterexample synthesis remains synchronous within its bounded search. No worker, speculative geometry rewrite or unmeasured trace-filter optimization was introduced. Performance work preserves deterministic physics, frozen historical execution and all learning correctness checks.
+
+## Post-L note (2026-10-25)
+
+The Opus audit made no performance optimization. The production build still emits the lazy Blockly chunk (798,910 B) and a 256,757 B main chunk. Saves now run read → rebase → write in one IndexedDB transaction. When no other tab has written, rebasing returns immediately. Only after a write from another tab does it JSON-compare records, and that cost was **not measured** for 200 large-trace attempts; it is listed for the next reviewer in [GPT_ASTRA_HANDOFF](audit/GPT_ASTRA_HANDOFF.md).
