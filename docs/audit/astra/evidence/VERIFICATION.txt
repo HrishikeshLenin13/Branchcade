@@ -1,0 +1,32 @@
+Branch: main
+Changed fields: per-request rebase base; append-only attempt annotations; immutable facts conflict; reset/import barrier and monotonic revision; bounded local envelope; cache input identity; manual-save/dirty status; in-dialog error alerts; laptop toolbar layout.
+MODIFIED_FILE: /Users/HrishiL/Desktop/Branchcade/docs/audit/astra/evidence/MODIFIED_FILE.txt
+DIFF_FILE: /Users/HrishiL/Desktop/Branchcade/docs/audit/astra/evidence/DIFF_FILE.patch
+VERIFICATION: /Users/HrishiL/Desktop/Branchcade/docs/audit/astra/evidence/VERIFICATION.txt
+ROLLBACK: /Users/HrishiL/Desktop/Branchcade/docs/audit/astra/evidence/ROLLBACK.sh
+Live authoritative modified source: /Users/HrishiL/Desktop/Branchcade/src/storage/rebase.ts
+Starting checkpoint: 02ce0dddafad5d0b9bd9e529bb0641a0a4e2fd80
+Original/modified per-file SHA256: runtime-hashes.txt. Full original specification and frozen-mission hashes preserved separately.
+
+BASELINE exact command (inside isolated original-source fixture):
+npm exec --yes --package=node@24.22.1 -- npx vitest run tests/astra-storage.test.ts -t 'ASTRA-00[1-4]'
+Input: synthetic envelopes/attempts; original02ce0dd source; current independent six named regressions.
+Literal result: Test Files  1 failed (1); Tests  6 failed | 7 skipped (13)
+Exit status: 1 (expected independently reproduced defects).
+
+MODIFIED exact command (same fixture after copying the modified source paths):
+npm exec --yes --package=node@24.22.1 -- npx vitest run tests/astra-storage.test.ts -t 'ASTRA-00[1-4]'
+Input: identical six synthetic regressions; repaired runtime source.
+Literal result: Test Files  1 passed (1); Tests  6 passed | 7 skipped (13)
+Exit status: 0. The7 filtered tests were outside this selected six-test experiment, not skipped in the full suite.
+
+ROLLBACK exact command:
+./docs/audit/astra/evidence/ROLLBACK.sh /tmp/branchcade-astra-rollback.ILwwvF
+Input: separately marked /tmp/branchcade-astra-rollback.* copy; not the live checkout.
+Literal output: ROLLBACK PASS: original runtime source restored in disposable fixture; live checkout unchanged
+Exit status: 0.
+Re-run exact BASELINE command after rollback:
+Literal result: Test Files  1 failed (1); Tests  6 failed | 7 skipped (13)
+Exit status: 1, expected. Original defective behavior restored, not misreported as a passing repaired test.
+
+Restored behavior/status: original source restored only in disposable fixture; six original failures return. Live MODIFIED_FILE and authoritative application source remain repaired. Raw command output in transaction-baseline.log, transaction-modified.log and transaction-rollback.log.

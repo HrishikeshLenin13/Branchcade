@@ -1,0 +1,29 @@
+
+ RUN  v5.0.5 /Users/HrishiL/Desktop/Branchcade
+
+ ❯ tests/astra-additional.test.ts (3 tests | 1 failed) 3479ms
+   × ASTRA-006 a full 200-attempt mixed-curriculum dataset remains readable after saving 2818ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/astra-additional.test.ts > ASTRA-006 a full 200-attempt mixed-curriculum dataset remains readable after saving
+Error: Input exceeds safe structure limits
+ ❯ assertBounded src/domain/invariants.ts:9:13
+      7|     const { value, depth } = pending.pop()!
+      8|     if (++count > maxNodes || depth > LIMITS.depth)
+      9|       throw new Error('Input exceeds safe structure limits')
+       |             ^
+     10|     if (typeof value === 'number' && !Number.isFinite(value))
+     11|       throw new Error('Numbers must be finite')
+ ❯ migrateData src/storage/migrations.ts:26:3
+ ❯ loadData src/storage/repositories.ts:16:7
+ ❯ tests/astra-additional.test.ts:47:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  06:46:08
+   Duration  8.13s (tests 47%, environment 40%, transform 5%, setup 5%, import 4%)
+

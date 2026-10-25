@@ -1,0 +1,326 @@
+
+> branchcade@0.1.0 check
+> npm run lint && npm run typecheck && npm run test -- --run && npm run build
+
+
+> branchcade@0.1.0 lint
+> eslint . --max-warnings 0
+
+
+> branchcade@0.1.0 typecheck
+> tsc -b --pretty false
+
+
+> branchcade@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.0.5 /Users/HrishiL/Desktop/Branchcade
+
+
+ Test Files  39 passed (39)
+      Tests  478 passed (478)
+   Start at  14:15:40
+   Duration  23.75s (environment 51%, tests 22%, import 11%, transform 8%, setup 7%)
+
+Environment  jsdom was created 39 times · 76.25s total, 51% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+
+
+> branchcade@0.1.0 build
+> tsc -b && vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2198 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                     1.02 kB │ gzip:   0.49 kB
+dist/assets/ibm-plex-mono-vietnamese-400-normal-DDuiU_S-.woff       5.62 kB
+dist/assets/ibm-plex-mono-cyrillic-ext-400-normal-DMdlQ8Kv.woff     5.82 kB
+dist/assets/ibm-plex-mono-vietnamese-400-normal-BulugwFq.woff2      5.86 kB
+dist/assets/ibm-plex-mono-cyrillic-ext-400-normal-xuaO2J-f.woff2    6.91 kB
+dist/assets/ibm-plex-mono-cyrillic-400-normal-CEL4l2ZJ.woff         7.20 kB
+dist/assets/geist-cyrillic-ext-wght-normal-DjL33-gN.woff2           7.42 kB
+dist/assets/geist-vietnamese-wght-normal-6IgcOCM7.woff2             8.00 kB
+dist/assets/ibm-plex-mono-cyrillic-400-normal-BSMlKf0J.woff2        8.35 kB
+dist/assets/ibm-plex-mono-latin-ext-400-normal-D3D2R8hC.woff       11.76 kB
+dist/assets/ibm-plex-mono-latin-400-normal-CvHOgSBP.woff           13.14 kB
+dist/assets/ibm-plex-mono-latin-ext-400-normal-BmRBH3aV.woff2      13.34 kB
+dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2          14.70 kB
+dist/assets/geist-cyrillic-wght-normal-BEAKL7Jp.woff2              15.08 kB
+dist/assets/geist-latin-ext-wght-normal-DC-KSUi6.woff2             16.51 kB
+dist/assets/geist-latin-wght-normal-BgDaEnEv.woff2                 29.40 kB
+dist/assets/local-records-CipOmRCE.css                              2.40 kB │ gzip:   0.85 kB
+dist/assets/LabLesson-B2oOquk_.css                                 10.94 kB │ gzip:   2.58 kB
+dist/assets/index-DaEhxI5M.css                                     53.31 kB │ gzip:  11.79 kB
+dist/assets/predictions-CuAqCkvX.js                                 0.41 kB │ gzip:   0.32 kB
+dist/assets/achievements-CYamxUG6.js                                0.92 kB │ gzip:   0.49 kB
+dist/assets/pseudocode-DSndTcv5.js                                  1.15 kB │ gzip:   0.49 kB
+dist/assets/invariants-DrTmp_SL.js                                  2.15 kB │ gzip:   1.19 kB
+dist/assets/AttemptReview-DiN36ysE.js                               3.19 kB │ gzip:   1.31 kB
+dist/assets/LocalImport-D2zZHYcE.js                                 3.48 kB │ gzip:   1.52 kB
+dist/assets/About-DhHbhTk8.js                                       6.17 kB │ gzip:   2.38 kB
+dist/assets/Settings-Be1gO7KF.js                                    8.25 kB │ gzip:   3.10 kB
+dist/assets/Progress-Dkg9P6n_.js                                    9.23 kB │ gzip:   3.05 kB
+dist/assets/TraceView-BFe1GAGb.js                                  10.56 kB │ gzip:   4.10 kB
+dist/assets/Instructor-DkymzZ5G.js                                 12.45 kB │ gzip:   3.99 kB
+dist/assets/Team-BYhbWNyR.js                                       21.39 kB │ gzip:   6.64 kB
+dist/assets/trace-CL9iomL5.js                                      66.70 kB │ gzip:  22.43 kB
+dist/assets/LabLesson-CzUrCvqM.js                                  71.77 kB │ gzip:  22.12 kB
+dist/assets/button-BAz0-QBO.js                                    172.92 kB │ gzip:  50.24 kB
+dist/assets/dialog-DTnn9prP.js                                    200.14 kB │ gzip:  53.63 kB
+dist/assets/index-vyeKyik7.js                                     256.75 kB │ gzip:  80.90 kB
+dist/assets/BlocklyEditor-DszyHYtk.js                             798.91 kB │ gzip: 214.00 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.45s
+
+> branchcade@0.1.0 test:e2e
+> playwright test --workers=2 --retries=0
+
+
+Running 226 tests using 2 workers
+
+(node:40683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:40682) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    2 [chromium] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=true) (5.0s)
+  ✓    1 [chromium] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=false) (5.4s)
+  ✓    4 [chromium] › e2e/astra-storage.spec.ts:112:1 › Astra quota failure never announces a successful manual Save (1.3s)
+  ✓    3 [chromium] › e2e/astra-storage.spec.ts:81:1 › Astra concurrent tabs append attempts, JSON export is coherent, close/reopen preserves both (3.6s)
+  ✓    5 [chromium] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (3.1s)
+  ✓    6 [chromium] › e2e/foundation.spec.ts:46:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (2.7s)
+  ✓    7 [chromium] › e2e/foundation.spec.ts:75:1 › three teammates predict privately, run actual goals and rotate roles after refresh (2.4s)
+  ✓    8 [chromium] › e2e/foundation.spec.ts:105:1 › settings persist; export/import checked before replacement; malicious import preserves current data (1.9s)
+  ✓    9 [chromium] › e2e/foundation.spec.ts:134:1 › keyboard dialog focus, navigation and not-found recovery (1.3s)
+  ✓   11 [chromium] › e2e/foundation.spec.ts:168:3 › layout 1440 has no global overflow and working navigation (1.8s)
+  ✓   10 [chromium] › e2e/foundation.spec.ts:148:1 › no learner-content requests during prediction, run and diagnosis (3.2s)
+  ✓   12 [chromium] › e2e/foundation.spec.ts:168:3 › layout 1366 has no global overflow and working navigation (1.3s)
+  ✓   13 [chromium] › e2e/foundation.spec.ts:168:3 › layout 1024 has no global overflow and working navigation (1.4s)
+  ✓   14 [chromium] › e2e/foundation.spec.ts:168:3 › layout 390 has no global overflow and working navigation (1.5s)
+  ✓   16 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /start (2.0s)
+  ✓   15 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility / (2.4s)
+  ✓   17 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /missions (2.0s)
+  ✓   18 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /missions/m01 (2.3s)
+  ✓   20 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /team (1.8s)
+  ✓   19 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /lab (2.3s)
+  ✓   21 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /progress (1.8s)
+  ✓   22 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /instructor (2.0s)
+  ✓   23 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /settings (1.7s)
+  ✓   24 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /how-it-works (1.8s)
+  ✓   25 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /not-found (1.4s)
+  ✓   26 [chromium] › e2e/foundation.spec.ts:207:1 › storage blocked stays usable in an explicit in-memory session (1.1s)
+  ✓   28 [chromium] › e2e/foundation.spec.ts:247:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (2.3s)
+  ✓   27 [chromium] › e2e/foundation.spec.ts:224:1 › six-person team completes one real round without any account (2.9s)
+  ✓   29 [chromium] › e2e/foundation.spec.ts:280:1 › Chromebook primary run action is fully visible before scrolling (1.1s)
+  ✓   30 [chromium] › e2e/ij-blockly.spec.ts:11:1 › I/J actual Blockly duplicate, undo, redo and delete preserve the applied program (2.6s)
+  ✓   31 [chromium] › e2e/ij-blockly.spec.ts:43:1 › I/J deleting a required comparison input produces a focusable source error and Undo repairs it (2.6s)
+  ✓   32 [chromium] › e2e/ij-controls.spec.ts:5:1 › I/J layout, disclosure, copy and inspector controls produce their advertised states (2.9s)
+  ✓   33 [chromium] › e2e/ij-controls.spec.ts:66:1 › I/J colored-zone numeric controls change actual sensing and survive saved-world restore (2.5s)
+  ✓   34 [chromium] › e2e/ij-controls.spec.ts:133:1 › I/J preference alternatives and storage retry persist honest local state (1.8s)
+  ✓   35 [chromium] › e2e/ij-instructor.spec.ts:139:1 › I/J instructor filters actual local rows by learner, concept, dates and team; reset, teacher notes and replay work (7.1s)
+  ✓   36 [chromium] › e2e/ij-instructor.spec.ts:207:1 › I/J local assignment persists, selected CSV/JSON contain validated scoped records and print button calls browser print (8.0s)
+  ✓   37 [chromium] › e2e/ij-instructor.spec.ts:263:1 › I/J instructor import rejects future/corrupt records and merging the same local file never doubles actual counts (6.7s)
+  ✓   38 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1920x1080 (6.4s)
+  ✓   39 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1440x900 (6.7s)
+  ✓   40 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1366x768 (6.1s)
+  ✓   41 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1024x768 (5.1s)
+  ✓   42 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 768x1024 (5.0s)
+  ✓   44 [chromium] › e2e/ij-interactions.spec.ts:60:1 › I/J onboarding preserves edits, validates the name and honors a selected controls tutorial (1.9s)
+  ✓   45 [chromium] › e2e/ij-interactions.spec.ts:91:1 › I/J mission sorts, prerequisite practice and read-only preview have their intended results (879ms)
+  ✓   43 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 390x844 (5.2s)
+  ✓   46 [chromium] › e2e/ij-interactions.spec.ts:131:1 › I/J explanation trace, exact 24cm example and privacy anchor work through actual links (1.3s)
+  ✓   47 [chromium] › e2e/ij-interactions.spec.ts:151:1 › I/J credits and shortcut dialogs close with restored focus, and both not-found exits work (1.3s)
+  ✓   48 [chromium] › e2e/ij-interactions.spec.ts:179:1 › I/J controlled dialogs across library, mission, progress, instructor, settings and team restore focus (5.2s)
+  ✓   50 [chromium] › e2e/ij-interactions.spec.ts:270:1 › I/J external attribution controls open their declared isolated destinations (1.8s)
+  ✓   51 [chromium] › e2e/ij-interactions.spec.ts:306:1 › I/J solo, team, instructor, tutorial and skip choices open the selected actual screen (4.7s)
+  ✓   49 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (11.3s)
+  ✓   52 [chromium] › e2e/ij-interactions.spec.ts:353:1 › I/J each mission concept chip toggles a real matching result set (2.3s)
+  ✓   53 [chromium] › e2e/ij-interactions.spec.ts:382:1 › I/J mission card start, result and retry links preserve real completed evidence (2.1s)
+  ✓   54 [chromium] › e2e/ij-lab-controls.spec.ts:20:1 › I/J camera toggles, four pan directions and fullscreen preserve physical readings (2.3s)
+  ✓   55 [chromium] › e2e/ij-lab-controls.spec.ts:72:1 › I/J legal object, zone and robot coordinate edits save and reset a named world (2.7s)
+  ✓   56 [chromium] › e2e/ij-lab-controls.spec.ts:129:1 › I/J every preset and world import preview/cancel/confirm changes actual validated geometry (2.0s)
+  ✓   57 [chromium] › e2e/ij-lab-controls.spec.ts:174:1 › I/J Save, Reset code, Run, Stop and Rewind preserve history; Reset everything unlocks a clean nominal lab (2.7s)
+  ✓   58 [chromium] › e2e/ij-learning-controls.spec.ts:18:1 › I/J optional branch and confidence lock into a real run; summary/share and code-change controls work (2.3s)
+  ✓   59 [chromium] › e2e/ij-learning-controls.spec.ts:54:1 › I/J progress concept evidence, replay, scoped export, retry and recommendation links follow real records (1.7s)
+  ✓   61 [chromium] › e2e/ij-performance.spec.ts:64:1 › I/J production 1500-event inspector stays bounded, filters, pages and replays exact snapshots (2.6s)
+  ✓   60 [chromium] › e2e/ij-learning-controls.spec.ts:85:1 › I/J experiment reset/return and transfer retry preserve old evidence while new attempts unlock prediction (3.2s)
+  ✓   63 [chromium] › e2e/ij-performance.spec.ts:208:1 › I/J cold browser load and long timed replay remain responsive without changing logical clock (5.1s)
+  ✓   64 [chromium] › e2e/ij-performance.spec.ts:295:1 › I/J Blockly editing loads only bundled same-origin assets and never requests sound (1.6s)
+  ✓   62 [chromium] › e2e/ij-performance.spec.ts:115:1 › I/J 180-statement Blockly workspace survives apply, unmount and repeated route navigation (8.0s)
+  ✓   65 [chromium] › e2e/ij-performance.spec.ts:330:1 › I/J fifty executed records import, render in Progress and survive reload (1.9s)
+  ✓   67 [chromium] › e2e/ij-progress.spec.ts:78:1 › evidence stamps follow a real saved investigation, remain learner scoped and clear with it (3.0s)
+  ✓   66 [chromium] › e2e/ij-progress.spec.ts:10:1 › three primary missions earn completion stamps only after real goal and fresh transfer checks (5.1s)
+  ✓   68 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 2 local teammates preserve private handoffs, pause and reload before a real shared result (3.2s)
+  ✓   69 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 3 local teammates preserve private handoffs, pause and reload before a real shared result (3.4s)
+  ✓   70 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 4 local teammates preserve private handoffs, pause and reload before a real shared result (3.3s)
+  ✓   71 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 5 local teammates preserve private handoffs, pause and reload before a real shared result (3.4s)
+  ✓   72 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 6 local teammates preserve private handoffs, pause and reload before a real shared result (4.0s)
+  ✓   73 [chromium] › e2e/ij-team.spec.ts:148:1 › I/J shared Blockly field edits affect actual judging and prior result snapshots survive repair (5.0s)
+  ✓   74 [chromium] › e2e/ij-team.spec.ts:196:1 › I/J shared hint ladder, confirmed solution and optional private second answer survive export/import without individual mastery (7.6s)
+  ✓   75 [chromium] › e2e/ij-team.spec.ts:277:1 › I/J roster sanitization, draft undo, learner switch, end and reset preserve other local learners (5.9s)
+  ✓   76 [chromium] › e2e/learning-g.spec.ts:65:1 › same first wrong answer + different follow-ups → different probes, ideas and experiments (8.4s)
+  ✓   77 [chromium] › e2e/learning-g.spec.ts:92:1 › investigation helpers, generated experiment slider, transfer and saved evidence after reload (8.2s)
+  ✓   78 [chromium] › e2e/learning-g.spec.ts:157:1 › a correct prediction is never forced into a diagnosis (2.0s)
+  ✓   79 [chromium] › e2e/learning-g.spec.ts:169:1 › free lab can generate a validated experiment from the current world and program (1.5s)
+  ✓   80 [chromium] › e2e/learning-g.spec.ts:183:1 › accessibility: investigation and experiment panels have no WCAG A/AA violations (3.7s)
+  ✓   81 [chromium] › e2e/missions-h.spec.ts:54:1 › every mission is completed by its verified reference program in the real workstation (6.6s)
+  ✓   82 [chromium] › e2e/missions-h.spec.ts:71:1 › flawed programs fail exactly the way the curriculum says (3.7s)
+  ✓   83 [chromium] › e2e/missions-h.spec.ts:92:1 › briefing shows the story, live readings, vocabulary, scenarios and teacher note (916ms)
+  ✓   84 [chromium] › e2e/missions-h.spec.ts:106:1 › hint ladder ends in a related program, and the solution needs confirmation and is recorded (1.5s)
+  ✓   85 [chromium] › e2e/missions-h.spec.ts:132:1 › a wrong second answer opens the investigation even when the first action was right (1.9s)
+  ✓   87 [chromium] › e2e/missions-h.spec.ts:186:1 › without a written reason the capstone is not marked complete (2.3s)
+  ✓   86 [chromium] › e2e/missions-h.spec.ts:147:1 › capstone recap lists every criterion and completes only when all are met (4.2s)
+  ✓   88 [chromium] › e2e/opus-regressions.spec.ts:33:1 › OPUS-001 a stale second tab saving does not erase an attempt recorded in the first tab (3.7s)
+  ✓   90 [chromium] › e2e/opus-regressions.spec.ts:77:1 › OPUS-004 stage zoom and pan buttons are at least 24 px in both dimensions (920ms)
+  ✓   89 [chromium] › e2e/opus-regressions.spec.ts:59:1 › OPUS-003 phone-width workstation has no axe violations and the cycle strip is keyboard-scrollable (3.7s)
+  ✓   91 [chromium] › e2e/opus-regressions.spec.ts:88:1 › OPUS-006 an unknown mission names itself and offers a styled way back (926ms)
+  ✓   93 [chromium] › e2e/physics-debugger.spec.ts:69:1 › F pause permits inspection only; Stop & Edit resets before code/world changes (2.3s)
+  ✓   92 [chromium] › e2e/physics-debugger.spec.ts:40:1 › F code/tick steps, pause, rewind, exact explanation and4x replay preserve one attempt (3.6s)
+  ✓   95 [chromium] › e2e/physics-debugger.spec.ts:111:1 › F nominal world, seeded noise and boundary options persist through world export/import (1.3s)
+  ✓   94 [chromium] › e2e/physics-debugger.spec.ts:93:1 › F null comparisons stop at source block and guarded conditions run correctly (2.3s)
+  ✓   96 [chromium] › e2e/physics-debugger.spec.ts:145:1 › F panning/zoom hit transforms and SVG snapshot preserve actual world measurements (1.2s)
+  ✓   97 [chromium] › e2e/physics-debugger.spec.ts:170:1 › F a large looping run remains cancellable and returns to usable editing (2.5s)
+  ✓   98 [chromium] › e2e/physics-debugger.spec.ts:203:1 › F turn/wait programs expose every50ms tick instead of action-sized jumps (3.0s)
+  ✓   99 [chromium] › e2e/physics-debugger.spec.ts:241:1 › F Stop & Edit cancels active computation and unlocks editing in one action (1.5s)
+  ✓  100 [chromium] › e2e/physics-debugger.spec.ts:272:1 › F cache-independent source rebuild restores exact selected tick and does not add attempts (1.9s)
+  ✓  101 [chromium] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors (1.8s)
+  ✓  102 [chromium] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors (1.5s)
+  ✓  103 [chromium] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors (1.6s)
+  ✓  104 [chromium] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors (1.7s)
+  ✓  105 [chromium] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors (2.0s)
+  ✓  106 [chromium] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors (1.8s)
+  ✓  107 [chromium] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors (1.9s)
+  ✓  109 [chromium] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery (1.1s)
+  ✓  108 [chromium] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors (2.1s)
+  ✓  110 [chromium] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview (1.7s)
+  ✓  111 [chromium] › e2e/product.spec.ts:95:1 › replay, speed and camera controls preserve one attempt and exact branch evidence (1.6s)
+  ✓  113 [chromium] › e2e/product.spec.ts:173:1 › Chromebook keeps prediction action visible with reserved scrollbar space (836ms)
+  ✓  112 [chromium] › e2e/product.spec.ts:120:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable (1.9s)
+(node:41322) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:41324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  114 [firefox] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=true) (9.2s)
+  ✓  115 [firefox] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=false) (10.1s)
+  ✓  117 [firefox] › e2e/astra-storage.spec.ts:112:1 › Astra quota failure never announces a successful manual Save (2.4s)
+  ✓  116 [firefox] › e2e/astra-storage.spec.ts:81:1 › Astra concurrent tabs append attempts, JSON export is coherent, close/reopen preserves both (7.1s)
+  ✓  118 [firefox] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (4.9s)
+  ✓  119 [firefox] › e2e/foundation.spec.ts:46:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (3.3s)
+  ✓  120 [firefox] › e2e/foundation.spec.ts:75:1 › three teammates predict privately, run actual goals and rotate roles after refresh (3.1s)
+  ✓  121 [firefox] › e2e/foundation.spec.ts:105:1 › settings persist; export/import checked before replacement; malicious import preserves current data (2.8s)
+  ✓  122 [firefox] › e2e/foundation.spec.ts:134:1 › keyboard dialog focus, navigation and not-found recovery (1.7s)
+  ✓  124 [firefox] › e2e/foundation.spec.ts:168:3 › layout 1440 has no global overflow and working navigation (1.2s)
+  ✓  125 [firefox] › e2e/foundation.spec.ts:168:3 › layout 1366 has no global overflow and working navigation (1.1s)
+  ✓  123 [firefox] › e2e/foundation.spec.ts:148:1 › no learner-content requests during prediction, run and diagnosis (3.4s)
+  ✓  126 [firefox] › e2e/foundation.spec.ts:168:3 › layout 1024 has no global overflow and working navigation (1.1s)
+  ✓  127 [firefox] › e2e/foundation.spec.ts:168:3 › layout 390 has no global overflow and working navigation (1.3s)
+  ✓  128 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility / (2.4s)
+  ✓  129 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /start (2.3s)
+  ✓  131 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /missions/m01 (2.0s)
+  ✓  132 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /lab (1.9s)
+  ✓  130 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /missions (4.2s)
+  ✓  134 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /progress (2.0s)
+  ✓  133 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /team (3.4s)
+  ✓  135 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /instructor (1.9s)
+  ✓  136 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /settings (1.9s)
+  ✓  137 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /how-it-works (1.8s)
+  ✓  138 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /not-found (1.8s)
+  ✓  139 [firefox] › e2e/foundation.spec.ts:207:1 › storage blocked stays usable in an explicit in-memory session (1.4s)
+  ✓  141 [firefox] › e2e/foundation.spec.ts:247:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (1.8s)
+  ✓  140 [firefox] › e2e/foundation.spec.ts:224:1 › six-person team completes one real round without any account (2.9s)
+  ✓  142 [firefox] › e2e/foundation.spec.ts:280:1 › Chromebook primary run action is fully visible before scrolling (1.3s)
+  ✓  144 [firefox] › e2e/ij-blockly.spec.ts:43:1 › I/J deleting a required comparison input produces a focusable source error and Undo repairs it (3.6s)
+  ✓  143 [firefox] › e2e/ij-blockly.spec.ts:11:1 › I/J actual Blockly duplicate, undo, redo and delete preserve the applied program (3.9s)
+  ✓  146 [firefox] › e2e/ij-controls.spec.ts:66:1 › I/J colored-zone numeric controls change actual sensing and survive saved-world restore (2.7s)
+  ✓  145 [firefox] › e2e/ij-controls.spec.ts:5:1 › I/J layout, disclosure, copy and inspector controls produce their advertised states (3.4s)
+  ✓  147 [firefox] › e2e/ij-controls.spec.ts:133:1 › I/J preference alternatives and storage retry persist honest local state (3.8s)
+  ✓  148 [firefox] › e2e/ij-instructor.spec.ts:139:1 › I/J instructor filters actual local rows by learner, concept, dates and team; reset, teacher notes and replay work (10.9s)
+  ✓  149 [firefox] › e2e/ij-instructor.spec.ts:207:1 › I/J local assignment persists, selected CSV/JSON contain validated scoped records and print button calls browser print (10.1s)
+  ✓  150 [firefox] › e2e/ij-instructor.spec.ts:263:1 › I/J instructor import rejects future/corrupt records and merging the same local file never doubles actual counts (8.9s)
+  ✓  151 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1920x1080 (7.2s)
+  ✓  152 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1440x900 (7.8s)
+  ✓  153 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1366x768 (7.9s)
+  ✓  154 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1024x768 (8.0s)
+  ✓  155 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 768x1024 (9.3s)
+  ✓  157 [firefox] › e2e/ij-interactions.spec.ts:60:1 › I/J onboarding preserves edits, validates the name and honors a selected controls tutorial (2.5s)
+  ✓  158 [firefox] › e2e/ij-interactions.spec.ts:91:1 › I/J mission sorts, prerequisite practice and read-only preview have their intended results (1.9s)
+  ✓  159 [firefox] › e2e/ij-interactions.spec.ts:131:1 › I/J explanation trace, exact 24cm example and privacy anchor work through actual links (2.1s)
+  ✓  156 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 390x844 (8.6s)
+  ✓  160 [firefox] › e2e/ij-interactions.spec.ts:151:1 › I/J credits and shortcut dialogs close with restored focus, and both not-found exits work (2.7s)
+  ✓  161 [firefox] › e2e/ij-interactions.spec.ts:179:1 › I/J controlled dialogs across library, mission, progress, instructor, settings and team restore focus (5.8s)
+  ✓  163 [firefox] › e2e/ij-interactions.spec.ts:270:1 › I/J external attribution controls open their declared isolated destinations (3.1s)
+  ✓  164 [firefox] › e2e/ij-interactions.spec.ts:306:1 › I/J solo, team, instructor, tutorial and skip choices open the selected actual screen (8.9s)
+  ✓  165 [firefox] › e2e/ij-interactions.spec.ts:353:1 › I/J each mission concept chip toggles a real matching result set (3.0s)
+  ✓  162 [firefox] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (20.5s)
+  ✓  166 [firefox] › e2e/ij-interactions.spec.ts:382:1 › I/J mission card start, result and retry links preserve real completed evidence (3.9s)
+  ✓  167 [firefox] › e2e/ij-lab-controls.spec.ts:20:1 › I/J camera toggles, four pan directions and fullscreen preserve physical readings (4.3s)
+  ✓  168 [firefox] › e2e/ij-lab-controls.spec.ts:72:1 › I/J legal object, zone and robot coordinate edits save and reset a named world (3.9s)
+  ✓  169 [firefox] › e2e/ij-lab-controls.spec.ts:129:1 › I/J every preset and world import preview/cancel/confirm changes actual validated geometry (3.9s)
+  ✓  171 [firefox] › e2e/ij-learning-controls.spec.ts:18:1 › I/J optional branch and confidence lock into a real run; summary/share and code-change controls work (4.0s)
+  ✓  170 [firefox] › e2e/ij-lab-controls.spec.ts:174:1 › I/J Save, Reset code, Run, Stop and Rewind preserve history; Reset everything unlocks a clean nominal lab (7.7s)
+  ✓  172 [firefox] › e2e/ij-learning-controls.spec.ts:54:1 › I/J progress concept evidence, replay, scoped export, retry and recommendation links follow real records (3.3s)
+  ✓  173 [firefox] › e2e/ij-learning-controls.spec.ts:85:1 › I/J experiment reset/return and transfer retry preserve old evidence while new attempts unlock prediction (5.9s)
+  ✓  174 [firefox] › e2e/ij-performance.spec.ts:64:1 › I/J production 1500-event inspector stays bounded, filters, pages and replays exact snapshots (5.2s)
+  ✓  176 [firefox] › e2e/ij-performance.spec.ts:208:1 › I/J cold browser load and long timed replay remain responsive without changing logical clock (5.8s)
+  ✓  177 [firefox] › e2e/ij-performance.spec.ts:295:1 › I/J Blockly editing loads only bundled same-origin assets and never requests sound (2.1s)
+  ✓  178 [firefox] › e2e/ij-performance.spec.ts:330:1 › I/J fifty executed records import, render in Progress and survive reload (2.6s)
+  ✓  179 [firefox] › e2e/ij-progress.spec.ts:10:1 › three primary missions earn completion stamps only after real goal and fresh transfer checks (7.0s)
+  ✓  180 [firefox] › e2e/ij-progress.spec.ts:78:1 › evidence stamps follow a real saved investigation, remain learner scoped and clear with it (4.1s)
+  ✓  181 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 2 local teammates preserve private handoffs, pause and reload before a real shared result (4.6s)
+  ✓  182 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 3 local teammates preserve private handoffs, pause and reload before a real shared result (4.3s)
+  ✓  183 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 4 local teammates preserve private handoffs, pause and reload before a real shared result (4.3s)
+  ✓  175 [firefox] › e2e/ij-performance.spec.ts:115:1 › I/J 180-statement Blockly workspace survives apply, unmount and repeated route navigation (38.3s)
+  ✓  184 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 5 local teammates preserve private handoffs, pause and reload before a real shared result (6.3s)
+  ✓  185 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 6 local teammates preserve private handoffs, pause and reload before a real shared result (6.0s)
+  ✓  186 [firefox] › e2e/ij-team.spec.ts:148:1 › I/J shared Blockly field edits affect actual judging and prior result snapshots survive repair (6.2s)
+  ✓  187 [firefox] › e2e/ij-team.spec.ts:196:1 › I/J shared hint ladder, confirmed solution and optional private second answer survive export/import without individual mastery (7.7s)
+  ✓  188 [firefox] › e2e/ij-team.spec.ts:277:1 › I/J roster sanitization, draft undo, learner switch, end and reset preserve other local learners (4.2s)
+  ✓  189 [firefox] › e2e/learning-g.spec.ts:65:1 › same first wrong answer + different follow-ups → different probes, ideas and experiments (7.9s)
+  ✓  190 [firefox] › e2e/learning-g.spec.ts:92:1 › investigation helpers, generated experiment slider, transfer and saved evidence after reload (7.5s)
+  ✓  191 [firefox] › e2e/learning-g.spec.ts:157:1 › a correct prediction is never forced into a diagnosis (2.2s)
+  ✓  192 [firefox] › e2e/learning-g.spec.ts:169:1 › free lab can generate a validated experiment from the current world and program (2.0s)
+  ✓  193 [firefox] › e2e/learning-g.spec.ts:183:1 › accessibility: investigation and experiment panels have no WCAG A/AA violations (5.7s)
+  ✓  194 [firefox] › e2e/missions-h.spec.ts:54:1 › every mission is completed by its verified reference program in the real workstation (10.0s)
+  ✓  195 [firefox] › e2e/missions-h.spec.ts:71:1 › flawed programs fail exactly the way the curriculum says (6.0s)
+  ✓  196 [firefox] › e2e/missions-h.spec.ts:92:1 › briefing shows the story, live readings, vocabulary, scenarios and teacher note (1.8s)
+  ✓  198 [firefox] › e2e/missions-h.spec.ts:132:1 › a wrong second answer opens the investigation even when the first action was right (2.6s)
+  ✓  197 [firefox] › e2e/missions-h.spec.ts:106:1 › hint ladder ends in a related program, and the solution needs confirmation and is recorded (3.6s)
+  ✓  200 [firefox] › e2e/missions-h.spec.ts:186:1 › without a written reason the capstone is not marked complete (3.4s)
+  ✓  199 [firefox] › e2e/missions-h.spec.ts:147:1 › capstone recap lists every criterion and completes only when all are met (5.7s)
+  ✓  201 [firefox] › e2e/opus-regressions.spec.ts:33:1 › OPUS-001 a stale second tab saving does not erase an attempt recorded in the first tab (5.0s)
+  ✓  203 [firefox] › e2e/opus-regressions.spec.ts:77:1 › OPUS-004 stage zoom and pan buttons are at least 24 px in both dimensions (1.4s)
+  ✓  204 [firefox] › e2e/opus-regressions.spec.ts:88:1 › OPUS-006 an unknown mission names itself and offers a styled way back (1.5s)
+  ✓  202 [firefox] › e2e/opus-regressions.spec.ts:59:1 › OPUS-003 phone-width workstation has no axe violations and the cycle strip is keyboard-scrollable (7.0s)
+  ✓  205 [firefox] › e2e/physics-debugger.spec.ts:40:1 › F code/tick steps, pause, rewind, exact explanation and4x replay preserve one attempt (4.9s)
+  ✓  206 [firefox] › e2e/physics-debugger.spec.ts:69:1 › F pause permits inspection only; Stop & Edit resets before code/world changes (3.6s)
+  ✓  207 [firefox] › e2e/physics-debugger.spec.ts:93:1 › F null comparisons stop at source block and guarded conditions run correctly (3.3s)
+  ✓  208 [firefox] › e2e/physics-debugger.spec.ts:111:1 › F nominal world, seeded noise and boundary options persist through world export/import (3.7s)
+  ✓  209 [firefox] › e2e/physics-debugger.spec.ts:145:1 › F panning/zoom hit transforms and SVG snapshot preserve actual world measurements (2.2s)
+  ✓  210 [firefox] › e2e/physics-debugger.spec.ts:170:1 › F a large looping run remains cancellable and returns to usable editing (3.1s)
+  ✓  212 [firefox] › e2e/physics-debugger.spec.ts:241:1 › F Stop & Edit cancels active computation and unlocks editing in one action (1.8s)
+  ✓  211 [firefox] › e2e/physics-debugger.spec.ts:203:1 › F turn/wait programs expose every50ms tick instead of action-sized jumps (3.8s)
+  ✓  213 [firefox] › e2e/physics-debugger.spec.ts:272:1 › F cache-independent source rebuild restores exact selected tick and does not add attempts (3.7s)
+  ✓  214 [firefox] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors (4.0s)
+  ✓  215 [firefox] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors (3.3s)
+  ✓  216 [firefox] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors (4.5s)
+  ✓  217 [firefox] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors (3.2s)
+  ✓  218 [firefox] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors (3.4s)
+  ✓  219 [firefox] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors (3.1s)
+  ✓  220 [firefox] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors (3.3s)
+  ✓  221 [firefox] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors (3.4s)
+  ✓  222 [firefox] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery (1.9s)
+  ✓  223 [firefox] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview (2.6s)
+  ✓  224 [firefox] › e2e/product.spec.ts:95:1 › replay, speed and camera controls preserve one attempt and exact branch evidence (2.4s)
+  ✓  226 [firefox] › e2e/product.spec.ts:173:1 › Chromebook keeps prediction action visible with reserved scrollbar space (1.1s)
+  ✓  225 [firefox] › e2e/product.spec.ts:120:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable (3.4s)
+
+  226 passed (7.3m)
+found 0 vulnerabilities

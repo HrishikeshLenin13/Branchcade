@@ -1,0 +1,21 @@
+PASS starter program visible as blocks — 7 blocks
+PASS starter pseudocode has the reversed comparator 
+PASS toolbox drag adds one block — 8 blocks
+PASS snap-connected block is executed in the else branch (applied AST) — if (distanceCm > 20) { stop() } else { move(10 cm) move(10 cm) stop() }
+PASS Undo code restores the previous applied program — if (distanceCm > 20) { stop() } else { move(10 cm) stop() }
+PASS editor blocks follow the restored program — 7 blocks
+PASS drag detached the stop into its own top-level stack — decision,stop-close
+PASS detached block is rejected with a validation message — Connect all blocks into one program before applying. Disconnected blocks never execute silently.Go to block
+PASS Undo reattaches it and the program applies 
+PASS typed threshold 25 — 25
+PASS Undo restores 20 — 20
+PASS Redo reapplies 25 — 25
+PASS comparator dropdown lists operators — = ≠ < ≤ > ≥
+PASS applied AST now matches the visible blocks: distanceCm < 20 — if (distanceCm < 20) { stop() } else { move(10 cm) stop() }
+PASS applied confirmation shown 
+PASS executed comparison uses the edited operator: 12 < 20 is true — 12 < 20 is true. Then branch selected
+PASS M03 v3 goals and both far-wall scenarios met — Mission goal met by the executed trace. Goal 1 (branch): met Goal 2 (programmed-stop): met Goal 3 (reach): met Scenario “wall exactly 20 cm away”: met Scenario 
+PASS completion checklist fully met — Completion checklist Done: Mission goals met in every scenario Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (not 
+PASS result persists after reload 
+PASS Progress shows M03 completion evidence 
+PASS no page or console errors 

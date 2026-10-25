@@ -1,0 +1,390 @@
+verify	Run npm run check	﻿2026-10-25T19:21:38.3486284Z ##[group]Run npm run check
+verify	Run npm run check	2026-10-25T19:21:38.3486489Z ^[[36;1mnpm run check^[[0m
+verify	Run npm run check	2026-10-25T19:21:38.3540301Z shell: /usr/bin/bash -e {0}
+verify	Run npm run check	2026-10-25T19:21:38.3540464Z ##[endgroup]
+verify	Run npm run check	2026-10-25T19:21:38.4219004Z 
+verify	Run npm run check	2026-10-25T19:21:38.4219746Z > branchcade@0.1.0 check
+verify	Run npm run check	2026-10-25T19:21:38.4220301Z > npm run lint && npm run typecheck && npm run test -- --run && npm run build
+verify	Run npm run check	2026-10-25T19:21:38.4220586Z 
+verify	Run npm run check	2026-10-25T19:21:38.4841791Z 
+verify	Run npm run check	2026-10-25T19:21:38.4842487Z > branchcade@0.1.0 lint
+verify	Run npm run check	2026-10-25T19:21:38.4842776Z > eslint . --max-warnings 0
+verify	Run npm run check	2026-10-25T19:21:38.4842883Z 
+verify	Run npm run check	2026-10-25T19:21:44.6187761Z 
+verify	Run npm run check	2026-10-25T19:21:44.6188500Z > branchcade@0.1.0 typecheck
+verify	Run npm run check	2026-10-25T19:21:44.6188855Z > tsc -b --pretty false
+verify	Run npm run check	2026-10-25T19:21:44.6188952Z 
+verify	Run npm run check	2026-10-25T19:21:49.6433298Z 
+verify	Run npm run check	2026-10-25T19:21:49.6433905Z > branchcade@0.1.0 test
+verify	Run npm run check	2026-10-25T19:21:49.6434142Z > vitest --run
+verify	Run npm run check	2026-10-25T19:21:49.6434226Z 
+verify	Run npm run check	2026-10-25T19:21:49.8943959Z 
+verify	Run npm run check	2026-10-25T19:21:49.8947325Z ^[[1m^[[30m^[[46m RUN ^[[49m^[[39m^[[22m ^[[36mv5.0.5 ^[[39m^[[90m/home/runner/work/Branchcade/Branchcade^[[39m
+verify	Run npm run check	2026-10-25T19:21:49.8947801Z 
+verify	Run npm run check	2026-10-25T19:21:50.9699010Z  ^[[32m✓^[[39m tests/opus-audit-oracles.test.ts ^[[2m(^[[22m^[[2m26 tests^[[22m^[[2m)^[[22m^[[32m 166^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:51.2025010Z  ^[[32m✓^[[39m tests/local-records.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 147^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:51.9230038Z  ^[[32m✓^[[39m tests/f-interpreter.test.ts ^[[2m(^[[22m^[[2m21 tests^[[22m^[[2m)^[[22m^[[32m 173^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:52.3186625Z  ^[[32m✓^[[39m tests/g-learning.test.ts ^[[2m(^[[22m^[[2m47 tests^[[22m^[[2m)^[[22m^[[33m 1336^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:52.3187786Z    ^[[32m✓^[[39m G1 taxonomy and executable mental models ^[[2m(5)^[[22m
+verify	Run npm run check	2026-10-25T19:21:52.3188847Z      ^[[33m^[[2m✓^[[22m^[[39m every hypothesis has at least two distinct probe templates that really separate it from the truth^[[33m 459^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:52.3190061Z      ^[[33m^[[2m✓^[[22m^[[39m the no-misconception model is byte-identical to the authoritative interpreter^[[33m 322^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:52.3444237Z  ^[[32m✓^[[39m tests/learning-storage-team.test.ts ^[[2m(^[[22m^[[2m23 tests^[[22m^[[2m)^[[22m^[[32m 244^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:53.2073910Z  ^[[32m✓^[[39m tests/f-physics.test.ts ^[[2m(^[[22m^[[2m14 tests^[[22m^[[2m)^[[22m^[[32m 86^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:53.3228456Z  ^[[32m✓^[[39m tests/ij-team.test.ts ^[[2m(^[[22m^[[2m12 tests^[[22m^[[2m)^[[22m^[[33m 525^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:54.1097203Z  ^[[32m✓^[[39m tests/f-mandatory.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[32m 57^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:54.3697625Z  ^[[32m✓^[[39m tests/ij-achievements.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 164^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:54.6662160Z  ^[[32m✓^[[39m src/features/lab/workstation.test.tsx ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 1111^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:54.6663388Z    ^[[33m^[[2m✓^[[22m^[[39m pauses and resumes the same preserved cursor without creating another attempt^[[33m 624^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:55.2603762Z  ^[[32m✓^[[39m tests/astra-storage.test.ts ^[[2m(^[[22m^[[2m13 tests^[[22m^[[2m)^[[22m^[[32m 76^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:55.9545477Z  ^[[32m✓^[[39m tests/h-curriculum.test.ts ^[[2m(^[[22m^[[2m82 tests^[[22m^[[2m)^[[22m^[[32m 187^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:56.0742816Z  ^[[32m✓^[[39m tests/ij-robustness.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[33m 1017^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:56.0746906Z    ^[[32m✓^[[39m I/J stress coverage beyond authored curriculum ^[[2m(7)^[[22m
+verify	Run npm run check	2026-10-25T19:21:56.0747996Z      ^[[33m^[[2m✓^[[22m^[[39m bounds retained full model traces by bytes as well as entry count and recomputes evictions identically^[[33m 377^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:56.2306601Z  ^[[32m✓^[[39m tests/workstation.test.ts ^[[2m(^[[22m^[[2m28 tests^[[22m^[[2m)^[[22m^[[32m 109^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:56.8756376Z  ^[[32m✓^[[39m tests/h-goals.test.ts ^[[2m(^[[22m^[[2m8 tests^[[22m^[[2m)^[[22m^[[32m 43^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:56.9460585Z  ^[[32m✓^[[39m tests/f-storage.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 59^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:57.0570205Z  ^[[32m✓^[[39m tests/engine.test.ts ^[[2m(^[[22m^[[2m19 tests^[[22m^[[2m)^[[22m^[[32m 20^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:57.8065467Z  ^[[32m✓^[[39m tests/interpreter.test.ts ^[[2m(^[[22m^[[2m21 tests^[[22m^[[2m)^[[22m^[[32m 63^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:57.8808434Z  ^[[32m✓^[[39m tests/opus-multitab.test.ts ^[[2m(^[[22m^[[2m6 tests^[[22m^[[2m)^[[22m^[[32m 50^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:57.9718326Z  ^[[32m✓^[[39m tests/h-judge.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 65^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:58.7120397Z  ^[[32m✓^[[39m tests/contract-completeness.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 49^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:59.0189282Z  ^[[32m✓^[[39m tests/opus-audit-mutation.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 396^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:59.1836606Z  ^[[32m✓^[[39m tests/opus-audit-diagnosis.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 463^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:21:59.1896227Z    ^[[32m✓^[[39m Opus synthetic diagnosis journeys (M01, wrong STOP at 24 cm) ^[[2m(4)^[[22m
+verify	Run npm run check	2026-10-25T19:21:59.1946420Z      ^[[33m^[[2m✓^[[22m^[[39m same first error, different follow-ups → different leading ideas^[[33m 458^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:00.1408543Z  ^[[32m✓^[[39m tests/astra-oracles.test.ts ^[[2m(^[[22m^[[2m5 tests^[[22m^[[2m)^[[22m^[[32m 89^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:00.2663369Z  ^[[32m✓^[[39m tests/opus-audit-counterexamples.test.ts ^[[2m(^[[22m^[[2m9 tests^[[22m^[[2m)^[[22m^[[33m 482^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:00.7055196Z  ^[[32m✓^[[39m src/features/missions/Missions.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[33m 822^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:00.7056275Z    ^[[33m^[[2m✓^[[22m^[[39m search is case-insensitive, recovers an empty result and previews without creating attempts^[[33m 747^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:01.0636118Z  ^[[32m✓^[[39m tests/contracts.test.ts ^[[2m(^[[22m^[[2m15 tests^[[22m^[[2m)^[[22m^[[32m 24^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:01.4643857Z  ^[[32m✓^[[39m src/components/ui/button.test.tsx ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[33m 357^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:01.9750893Z  ^[[32m✓^[[39m tests/curriculum.test.ts ^[[2m(^[[22m^[[2m18 tests^[[22m^[[2m)^[[22m^[[32m 95^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:02.2373841Z  ^[[32m✓^[[39m src/features/onboarding/Onboarding.test.tsx ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[33m 556^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:02.2391757Z    ^[[33m^[[2m✓^[[22m^[[39m retains a nickname across Back and routes the chosen activity with a saved local alias^[[33m 398^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:02.3041020Z  ^[[32m✓^[[39m tests/f-recovery.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 23^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:03.0646680Z ^[[90mstdout^[[2m | tests/astra-additional.test.ts^[[2m > ^[[22m^[[2m200 valid saved attempts survive a complete load without import-only limits
+verify	Run npm run check	2026-10-25T19:22:03.0648036Z ^[[22m^[[39m200-record save+load ms ^[[33m42.8851259999999^[[39m
+verify	Run npm run check	2026-10-25T19:22:03.0648527Z 
+verify	Run npm run check	2026-10-25T19:22:03.0728367Z  ^[[32m✓^[[39m tests/opus-m03-v3.test.ts ^[[2m(^[[22m^[[2m4 tests^[[22m^[[2m)^[[22m^[[32m 16^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:03.6336513Z  ^[[32m✓^[[39m tests/h-learning.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[33m 522^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:03.6424921Z    ^[[32m✓^[[39m mission second question ^[[2m(2)^[[22m
+verify	Run npm run check	2026-10-25T19:22:03.6454477Z      ^[[33m^[[2m✓^[[22m^[[39m a correct first action but an off-by-one turn count now opens the LOOP_COUNT question^[[33m 474^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:03.9310568Z  ^[[32m✓^[[39m tests/h-completion.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 4^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:03.9914241Z  ^[[32m✓^[[39m tests/astra-additional.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[33m 1140^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:03.9915029Z    ^[[33m^[[2m✓^[[22m^[[39m ASTRA-006 a full 200-attempt mixed-curriculum dataset remains readable after saving^[[33m 919^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:04.5126684Z  ^[[32m✓^[[39m tests/opus-audit-import.test.ts ^[[2m(^[[22m^[[2m3 tests^[[22m^[[2m)^[[22m^[[32m 12^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:04.8546918Z  ^[[32m✓^[[39m tests/blockly.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 34^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:04.9457633Z  ^[[32m✓^[[39m tests/f-legacy.test.ts ^[[2m(^[[22m^[[2m2 tests^[[22m^[[2m)^[[22m^[[32m 95^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:05.2322746Z  ^[[32m✓^[[39m tests/session.test.ts ^[[2m(^[[22m^[[2m1 test^[[22m^[[2m)^[[22m^[[32m 7^[[2mms^[[22m^[[39m
+verify	Run npm run check	2026-10-25T19:22:05.2360198Z 
+verify	Run npm run check	2026-10-25T19:22:05.2376108Z ^[[2m Test Files ^[[22m ^[[1m^[[32m39 passed^[[39m^[[22m^[[90m (39)^[[39m
+verify	Run npm run check	2026-10-25T19:22:05.2382352Z ^[[2m      Tests ^[[22m ^[[1m^[[32m478 passed^[[39m^[[22m^[[90m (478)^[[39m
+verify	Run npm run check	2026-10-25T19:22:05.2382981Z ^[[2m   Start at ^[[22m 19:21:49
+verify	Run npm run check	2026-10-25T19:22:05.2384001Z ^[[2m   Duration ^[[22m 15.34s^[[2m (environment 48%, tests 26%, import 14%, setup 6%, transform 5%)^[[22m
+verify	Run npm run check	2026-10-25T19:22:05.2384372Z 
+verify	Run npm run check	2026-10-25T19:22:05.2384945Z ^[[2mEnvironment ^[[22m ^[[33mjsdom was created 39 times^[[39m^[[2m · 19.85s total, 48% of tracked time^[[22m
+verify	Run npm run check	2026-10-25T19:22:05.2385958Z ^[[2m            ^[[22m ^[[2mcreate it once per worker with ^[[22m^[[33mpool: 'vmThreads'^[[39m^[[2m (keeps per-file isolation) or ^[[22m^[[33misolate: false^[[39m^[[2m (shares it across files)^[[22m
+verify	Run npm run check	2026-10-25T19:22:05.2386910Z ^[[2m            ^[[22m ^[[2mlearn more: https://vitest.dev/guide/improving-performance#test-environments^[[22m
+verify	Run npm run check	2026-10-25T19:22:05.2387228Z 
+verify	Run npm run check	2026-10-25T19:22:05.3460443Z 
+verify	Run npm run check	2026-10-25T19:22:05.3461175Z > branchcade@0.1.0 build
+verify	Run npm run check	2026-10-25T19:22:05.3461536Z > tsc -b && vite build
+verify	Run npm run check	2026-10-25T19:22:05.3461676Z 
+verify	Run npm run check	2026-10-25T19:22:10.4243612Z ^[[36mvite v8.3.5 ^[[32mbuilding client environment for production...^[[36m^[[39m
+verify	Run npm run check	2026-10-25T19:22:10.4311185Z transforming...
+verify	Run npm run check	2026-10-25T19:22:10.6800848Z ✓ 2198 modules transformed.
+verify	Run npm run check	2026-10-25T19:22:10.7497678Z rendering chunks...
+verify	Run npm run check	2026-10-25T19:22:10.8500295Z computing gzip size...
+verify	Run npm run check	2026-10-25T19:22:10.8605590Z dist/index.html                                                     1.02 kB │ gzip:   0.49 kB
+verify	Run npm run check	2026-10-25T19:22:10.8606027Z dist/assets/ibm-plex-mono-vietnamese-400-normal-DDuiU_S-.woff       5.62 kB
+verify	Run npm run check	2026-10-25T19:22:10.8606384Z dist/assets/ibm-plex-mono-cyrillic-ext-400-normal-DMdlQ8Kv.woff     5.82 kB
+verify	Run npm run check	2026-10-25T19:22:10.8606870Z dist/assets/ibm-plex-mono-vietnamese-400-normal-BulugwFq.woff2      5.86 kB
+verify	Run npm run check	2026-10-25T19:22:10.8607460Z dist/assets/ibm-plex-mono-cyrillic-ext-400-normal-xuaO2J-f.woff2    6.91 kB
+verify	Run npm run check	2026-10-25T19:22:10.8607990Z dist/assets/ibm-plex-mono-cyrillic-400-normal-CEL4l2ZJ.woff         7.20 kB
+verify	Run npm run check	2026-10-25T19:22:10.8608868Z dist/assets/geist-cyrillic-ext-wght-normal-DjL33-gN.woff2           7.42 kB
+verify	Run npm run check	2026-10-25T19:22:10.8609393Z dist/assets/geist-vietnamese-wght-normal-6IgcOCM7.woff2             8.00 kB
+verify	Run npm run check	2026-10-25T19:22:10.8609914Z dist/assets/ibm-plex-mono-cyrillic-400-normal-BSMlKf0J.woff2        8.35 kB
+verify	Run npm run check	2026-10-25T19:22:10.8610434Z dist/assets/ibm-plex-mono-latin-ext-400-normal-D3D2R8hC.woff       11.76 kB
+verify	Run npm run check	2026-10-25T19:22:10.8610951Z dist/assets/ibm-plex-mono-latin-400-normal-CvHOgSBP.woff           13.14 kB
+verify	Run npm run check	2026-10-25T19:22:10.8611484Z dist/assets/ibm-plex-mono-latin-ext-400-normal-BmRBH3aV.woff2      13.34 kB
+verify	Run npm run check	2026-10-25T19:22:10.8611993Z dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2          14.70 kB
+verify	Run npm run check	2026-10-25T19:22:10.8612542Z dist/assets/geist-cyrillic-wght-normal-BEAKL7Jp.woff2              15.08 kB
+verify	Run npm run check	2026-10-25T19:22:10.8613092Z dist/assets/geist-latin-ext-wght-normal-DC-KSUi6.woff2             16.51 kB
+verify	Run npm run check	2026-10-25T19:22:10.8613642Z dist/assets/geist-latin-wght-normal-BgDaEnEv.woff2                 29.40 kB
+verify	Run npm run check	2026-10-25T19:22:10.8614329Z dist/assets/local-records-CipOmRCE.css                              2.40 kB │ gzip:   0.85 kB
+verify	Run npm run check	2026-10-25T19:22:10.8615150Z dist/assets/LabLesson-B2oOquk_.css                                 10.94 kB │ gzip:   2.58 kB
+verify	Run npm run check	2026-10-25T19:22:10.8615810Z dist/assets/index-DaEhxI5M.css                                     53.31 kB │ gzip:  11.79 kB
+verify	Run npm run check	2026-10-25T19:22:10.8616391Z dist/assets/predictions-CuAqCkvX.js                                 0.41 kB │ gzip:   0.32 kB
+verify	Run npm run check	2026-10-25T19:22:10.8616792Z dist/assets/achievements-CYamxUG6.js                                0.92 kB │ gzip:   0.49 kB
+verify	Run npm run check	2026-10-25T19:22:10.8617187Z dist/assets/pseudocode-DSndTcv5.js                                  1.15 kB │ gzip:   0.49 kB
+verify	Run npm run check	2026-10-25T19:22:10.8617719Z dist/assets/invariants-DrTmp_SL.js                                  2.15 kB │ gzip:   1.19 kB
+verify	Run npm run check	2026-10-25T19:22:10.8618108Z dist/assets/AttemptReview-DiN36ysE.js                               3.19 kB │ gzip:   1.31 kB
+verify	Run npm run check	2026-10-25T19:22:10.8618508Z dist/assets/LocalImport-D2zZHYcE.js                                 3.48 kB │ gzip:   1.52 kB
+verify	Run npm run check	2026-10-25T19:22:10.8618883Z dist/assets/About-DhHbhTk8.js                                       6.17 kB │ gzip:   2.38 kB
+verify	Run npm run check	2026-10-25T19:22:10.8619256Z dist/assets/Settings-Be1gO7KF.js                                    8.25 kB │ gzip:   3.10 kB
+verify	Run npm run check	2026-10-25T19:22:10.8619629Z dist/assets/Progress-Dkg9P6n_.js                                    9.23 kB │ gzip:   3.05 kB
+verify	Run npm run check	2026-10-25T19:22:10.8620129Z dist/assets/TraceView-BFe1GAGb.js                                  10.56 kB │ gzip:   4.10 kB
+verify	Run npm run check	2026-10-25T19:22:10.8620516Z dist/assets/Instructor-DkymzZ5G.js                                 12.45 kB │ gzip:   3.99 kB
+verify	Run npm run check	2026-10-25T19:22:10.8620899Z dist/assets/Team-BYhbWNyR.js                                       21.39 kB │ gzip:   6.64 kB
+verify	Run npm run check	2026-10-25T19:22:10.8621265Z dist/assets/trace-CL9iomL5.js                                      66.70 kB │ gzip:  22.43 kB
+verify	Run npm run check	2026-10-25T19:22:10.8621695Z dist/assets/LabLesson-CzUrCvqM.js                                  71.77 kB │ gzip:  22.12 kB
+verify	Run npm run check	2026-10-25T19:22:10.8622291Z dist/assets/button-BAz0-QBO.js                                    172.92 kB │ gzip:  50.24 kB
+verify	Run npm run check	2026-10-25T19:22:10.8622881Z dist/assets/dialog-DTnn9prP.js                                    200.14 kB │ gzip:  53.63 kB
+verify	Run npm run check	2026-10-25T19:22:10.8623475Z dist/assets/index-vyeKyik7.js                                     256.75 kB │ gzip:  80.90 kB
+verify	Run npm run check	2026-10-25T19:22:10.8624085Z dist/assets/BlocklyEditor-DszyHYtk.js                             798.91 kB │ gzip: 214.00 kB
+verify	Run npm run check	2026-10-25T19:22:10.8624374Z 
+verify	Run npm run check	2026-10-25T19:22:10.8624700Z ^[[33m[plugin builtin:vite-reporter] 
+verify	Run npm run check	2026-10-25T19:22:10.8625066Z (!) Some chunks are larger than 500 kB after minification. Consider:
+verify	Run npm run check	2026-10-25T19:22:10.8625443Z - Using dynamic import() to code-split the application
+verify	Run npm run check	2026-10-25T19:22:10.8626136Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+verify	Run npm run check	2026-10-25T19:22:10.8627112Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.^[[39m
+verify	Run npm run check	2026-10-25T19:22:10.8631785Z ^[[32m✓ built in 438ms^[[39m
+verify	Run npm run test:e2e	﻿2026-10-25T19:22:37.0605035Z ##[group]Run npm run test:e2e
+verify	Run npm run test:e2e	2026-10-25T19:22:37.0605245Z ^[[36;1mnpm run test:e2e^[[0m
+verify	Run npm run test:e2e	2026-10-25T19:22:37.0659495Z shell: /usr/bin/bash -e {0}
+verify	Run npm run test:e2e	2026-10-25T19:22:37.0659672Z ##[endgroup]
+verify	Run npm run test:e2e	2026-10-25T19:22:37.1346733Z 
+verify	Run npm run test:e2e	2026-10-25T19:22:37.1347376Z > branchcade@0.1.0 test:e2e
+verify	Run npm run test:e2e	2026-10-25T19:22:37.1347733Z > playwright test
+verify	Run npm run test:e2e	2026-10-25T19:22:37.1347861Z 
+verify	Run npm run test:e2e	2026-10-25T19:22:43.0137693Z [WebServer] [plugin builtin:vite-reporter] 
+verify	Run npm run test:e2e	2026-10-25T19:22:43.0138320Z [WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+verify	Run npm run test:e2e	2026-10-25T19:22:43.0138892Z [WebServer] - Using dynamic import() to code-split the application
+verify	Run npm run test:e2e	2026-10-25T19:22:43.0139459Z [WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+verify	Run npm run test:e2e	2026-10-25T19:22:43.0140016Z [WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+verify	Run npm run test:e2e	2026-10-25T19:22:44.1911913Z 
+verify	Run npm run test:e2e	2026-10-25T19:22:44.1912630Z Running 226 tests using 2 workers
+verify	Run npm run test:e2e	2026-10-25T19:22:44.1912947Z 
+verify	Run npm run test:e2e	2026-10-25T19:22:47.2999035Z   ✓    1 [chromium] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=true) (2.6s)
+verify	Run npm run test:e2e	2026-10-25T19:22:49.2749634Z   ✓    2 [chromium] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=false) (4.6s)
+verify	Run npm run test:e2e	2026-10-25T19:22:49.9700552Z   ✓    3 [chromium] › e2e/astra-storage.spec.ts:81:1 › Astra concurrent tabs append attempts, JSON export is coherent, close/reopen preserves both (2.7s)
+verify	Run npm run test:e2e	2026-10-25T19:22:50.0490858Z   ✓    4 [chromium] › e2e/astra-storage.spec.ts:112:1 › Astra quota failure never announces a successful manual Save (764ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:51.8675488Z   ✓    5 [chromium] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (1.8s)
+verify	Run npm run test:e2e	2026-10-25T19:22:52.2406465Z   ✓    6 [chromium] › e2e/foundation.spec.ts:46:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (2.1s)
+verify	Run npm run test:e2e	2026-10-25T19:22:53.4376480Z   ✓    7 [chromium] › e2e/foundation.spec.ts:75:1 › three teammates predict privately, run actual goals and rotate roles after refresh (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:22:53.9463232Z   ✓    9 [chromium] › e2e/foundation.spec.ts:134:1 › keyboard dialog focus, navigation and not-found recovery (498ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:54.0867310Z   ✓    8 [chromium] › e2e/foundation.spec.ts:105:1 › settings persist; export/import checked before replacement; malicious import preserves current data (1.8s)
+verify	Run npm run test:e2e	2026-10-25T19:22:54.5609627Z   ✓   11 [chromium] › e2e/foundation.spec.ts:168:3 › layout 1440 has no global overflow and working navigation (463ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:54.9910907Z   ✓   12 [chromium] › e2e/foundation.spec.ts:168:3 › layout 1366 has no global overflow and working navigation (423ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:55.4066891Z   ✓   13 [chromium] › e2e/foundation.spec.ts:168:3 › layout 1024 has no global overflow and working navigation (405ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:55.4116855Z   ✓   10 [chromium] › e2e/foundation.spec.ts:148:1 › no learner-content requests during prediction, run and diagnosis (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:22:55.9344367Z   ✓   14 [chromium] › e2e/foundation.spec.ts:168:3 › layout 390 has no global overflow and working navigation (516ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:56.4615211Z   ✓   15 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility / (1.0s)
+verify	Run npm run test:e2e	2026-10-25T19:22:56.9578118Z   ✓   16 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /start (1.0s)
+verify	Run npm run test:e2e	2026-10-25T19:22:57.4842254Z   ✓   17 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /missions (1.0s)
+verify	Run npm run test:e2e	2026-10-25T19:22:57.7559241Z   ✓   18 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /missions/m01 (786ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:58.2813871Z   ✓   19 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /lab (784ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:58.5065605Z   ✓   20 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /team (741ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:59.0883159Z   ✓   21 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /progress (799ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:59.2632642Z   ✓   22 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /instructor (747ms)
+verify	Run npm run test:e2e	2026-10-25T19:22:59.8359845Z   ✓   23 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /settings (739ms)
+verify	Run npm run test:e2e	2026-10-25T19:23:00.0126653Z   ✓   24 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /how-it-works (741ms)
+verify	Run npm run test:e2e	2026-10-25T19:23:00.5751920Z   ✓   25 [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /not-found (732ms)
+verify	Run npm run test:e2e	2026-10-25T19:23:00.7627897Z   ✓   26 [chromium] › e2e/foundation.spec.ts:207:1 › storage blocked stays usable in an explicit in-memory session (741ms)
+verify	Run npm run test:e2e	2026-10-25T19:23:02.1794213Z   ✓   27 [chromium] › e2e/foundation.spec.ts:224:1 › six-person team completes one real round without any account (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:23:02.3438919Z   ✓   28 [chromium] › e2e/foundation.spec.ts:247:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:23:02.8059992Z   ✓   29 [chromium] › e2e/foundation.spec.ts:280:1 › Chromebook primary run action is fully visible before scrolling (618ms)
+verify	Run npm run test:e2e	2026-10-25T19:23:04.5132348Z   ✓   30 [chromium] › e2e/ij-blockly.spec.ts:11:1 › I/J actual Blockly duplicate, undo, redo and delete preserve the applied program (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:23:04.7713643Z   ✓   31 [chromium] › e2e/ij-blockly.spec.ts:43:1 › I/J deleting a required comparison input produces a focusable source error and Undo repairs it (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:23:06.7656710Z   ✓   33 [chromium] › e2e/ij-controls.spec.ts:66:1 › I/J colored-zone numeric controls change actual sensing and survive saved-world restore (1.9s)
+verify	Run npm run test:e2e	2026-10-25T19:23:06.8157139Z   ✓   32 [chromium] › e2e/ij-controls.spec.ts:5:1 › I/J layout, disclosure, copy and inspector controls produce their advertised states (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:23:08.6911755Z   ✓   34 [chromium] › e2e/ij-controls.spec.ts:133:1 › I/J preference alternatives and storage retry persist honest local state (1.9s)
+verify	Run npm run test:e2e	2026-10-25T19:23:13.2404022Z   ✓   35 [chromium] › e2e/ij-instructor.spec.ts:139:1 › I/J instructor filters actual local rows by learner, concept, dates and team; reset, teacher notes and replay work (6.4s)
+verify	Run npm run test:e2e	2026-10-25T19:23:16.4513036Z   ✓   36 [chromium] › e2e/ij-instructor.spec.ts:207:1 › I/J local assignment persists, selected CSV/JSON contain validated scoped records and print button calls browser print (7.7s)
+verify	Run npm run test:e2e	2026-10-25T19:23:19.9022471Z   ✓   37 [chromium] › e2e/ij-instructor.spec.ts:263:1 › I/J instructor import rejects future/corrupt records and merging the same local file never doubles actual counts (6.7s)
+verify	Run npm run test:e2e	2026-10-25T19:23:20.1937116Z   ✓   38 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1920x1080 (3.7s)
+verify	Run npm run test:e2e	2026-10-25T19:23:23.5716869Z   ✓   39 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1440x900 (3.7s)
+verify	Run npm run test:e2e	2026-10-25T19:23:23.8192844Z   ✓   40 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1366x768 (3.6s)
+verify	Run npm run test:e2e	2026-10-25T19:23:27.6960809Z   ✓   41 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1024x768 (4.1s)
+verify	Run npm run test:e2e	2026-10-25T19:23:28.4963374Z   ✓   42 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 768x1024 (4.7s)
+verify	Run npm run test:e2e	2026-10-25T19:23:29.6681901Z   ✓   44 [chromium] › e2e/ij-interactions.spec.ts:60:1 › I/J onboarding preserves edits, validates the name and honors a selected controls tutorial (1.2s)
+verify	Run npm run test:e2e	2026-10-25T19:23:30.1551843Z   ✓   45 [chromium] › e2e/ij-interactions.spec.ts:91:1 › I/J mission sorts, prerequisite practice and read-only preview have their intended results (480ms)
+verify	Run npm run test:e2e	2026-10-25T19:23:31.4517612Z   ✓   46 [chromium] › e2e/ij-interactions.spec.ts:131:1 › I/J explanation trace, exact 24cm example and privacy anchor work through actual links (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:23:31.9413850Z   ✓   43 [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 390x844 (4.2s)
+verify	Run npm run test:e2e	2026-10-25T19:23:32.2273700Z   ✓   47 [chromium] › e2e/ij-interactions.spec.ts:151:1 › I/J credits and shortcut dialogs close with restored focus, and both not-found exits work (767ms)
+verify	Run npm run test:e2e	2026-10-25T19:23:34.6851879Z   ✓   48 [chromium] › e2e/ij-interactions.spec.ts:179:1 › I/J controlled dialogs across library, mission, progress, instructor, settings and team restore focus (2.7s)
+verify	Run npm run test:e2e	2026-10-25T19:23:35.6468479Z   ✓   50 [chromium] › e2e/ij-interactions.spec.ts:270:1 › I/J external attribution controls open their declared isolated destinations (950ms)
+verify	Run npm run test:e2e	2026-10-25T19:23:38.6784239Z   ✓   51 [chromium] › e2e/ij-interactions.spec.ts:306:1 › I/J solo, team, instructor, tutorial and skip choices open the selected actual screen (3.0s)
+verify	Run npm run test:e2e	2026-10-25T19:23:40.0226517Z   ✓   52 [chromium] › e2e/ij-interactions.spec.ts:353:1 › I/J each mission concept chip toggles a real matching result set (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:23:40.6608826Z   ✓   49 [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (8.4s)
+verify	Run npm run test:e2e	2026-10-25T19:23:41.4026240Z   ✓   53 [chromium] › e2e/ij-interactions.spec.ts:382:1 › I/J mission card start, result and retry links preserve real completed evidence (1.4s)
+verify	Run npm run test:e2e	2026-10-25T19:23:42.6106757Z   ✓   54 [chromium] › e2e/ij-lab-controls.spec.ts:20:1 › I/J camera toggles, four pan directions and fullscreen preserve physical readings (1.9s)
+verify	Run npm run test:e2e	2026-10-25T19:23:43.4501971Z   ✓   55 [chromium] › e2e/ij-lab-controls.spec.ts:72:1 › I/J legal object, zone and robot coordinate edits save and reset a named world (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:23:44.1706046Z   ✓   56 [chromium] › e2e/ij-lab-controls.spec.ts:129:1 › I/J every preset and world import preview/cancel/confirm changes actual validated geometry (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:23:45.6685209Z   ✓   57 [chromium] › e2e/ij-lab-controls.spec.ts:174:1 › I/J Save, Reset code, Run, Stop and Rewind preserve history; Reset everything unlocks a clean nominal lab (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:23:46.1536227Z   ✓   58 [chromium] › e2e/ij-learning-controls.spec.ts:18:1 › I/J optional branch and confidence lock into a real run; summary/share and code-change controls work (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:23:47.2837590Z   ✓   59 [chromium] › e2e/ij-learning-controls.spec.ts:54:1 › I/J progress concept evidence, replay, scoped export, retry and recommendation links follow real records (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:23:48.8591160Z   ✓   60 [chromium] › e2e/ij-learning-controls.spec.ts:85:1 › I/J experiment reset/return and transfer retry preserve old evidence while new attempts unlock prediction (2.7s)
+verify	Run npm run test:e2e	2026-10-25T19:23:49.5180574Z   ✓   61 [chromium] › e2e/ij-performance.spec.ts:64:1 › I/J production 1500-event inspector stays bounded, filters, pages and replays exact snapshots (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:23:53.8526214Z   ✓   63 [chromium] › e2e/ij-performance.spec.ts:208:1 › I/J cold browser load and long timed replay remain responsive without changing logical clock (4.3s)
+verify	Run npm run test:e2e	2026-10-25T19:23:53.9647408Z   ✓   62 [chromium] › e2e/ij-performance.spec.ts:115:1 › I/J 180-statement Blockly workspace survives apply, unmount and repeated route navigation (5.1s)
+verify	Run npm run test:e2e	2026-10-25T19:23:55.1875484Z   ✓   64 [chromium] › e2e/ij-performance.spec.ts:295:1 › I/J Blockly editing loads only bundled same-origin assets and never requests sound (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:23:55.9853912Z   ✓   65 [chromium] › e2e/ij-performance.spec.ts:330:1 › I/J fifty executed records import, render in Progress and survive reload (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:23:58.7212730Z   ✓   67 [chromium] › e2e/ij-progress.spec.ts:78:1 › evidence stamps follow a real saved investigation, remain learner scoped and clear with it (2.7s)
+verify	Run npm run test:e2e	2026-10-25T19:24:01.2676795Z   ✓   66 [chromium] › e2e/ij-progress.spec.ts:10:1 › three primary missions earn completion stamps only after real goal and fresh transfer checks (6.1s)
+verify	Run npm run test:e2e	2026-10-25T19:24:01.5356666Z   ✓   68 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 2 local teammates preserve private handoffs, pause and reload before a real shared result (2.8s)
+verify	Run npm run test:e2e	2026-10-25T19:24:04.0555957Z   ✓   69 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 3 local teammates preserve private handoffs, pause and reload before a real shared result (2.8s)
+verify	Run npm run test:e2e	2026-10-25T19:24:04.9372245Z   ✓   70 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 4 local teammates preserve private handoffs, pause and reload before a real shared result (3.4s)
+verify	Run npm run test:e2e	2026-10-25T19:24:06.6017295Z   ✓   71 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 5 local teammates preserve private handoffs, pause and reload before a real shared result (2.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:08.2691910Z   ✓   72 [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 6 local teammates preserve private handoffs, pause and reload before a real shared result (3.3s)
+verify	Run npm run test:e2e	2026-10-25T19:24:10.2929197Z   ✓   73 [chromium] › e2e/ij-team.spec.ts:148:1 › I/J shared Blockly field edits affect actual judging and prior result snapshots survive repair (3.7s)
+verify	Run npm run test:e2e	2026-10-25T19:24:13.1617072Z   ✓   74 [chromium] › e2e/ij-team.spec.ts:196:1 › I/J shared hint ladder, confirmed solution and optional private second answer survive export/import without individual mastery (4.9s)
+verify	Run npm run test:e2e	2026-10-25T19:24:13.7161688Z   ✓   75 [chromium] › e2e/ij-team.spec.ts:277:1 › I/J roster sanitization, draft undo, learner switch, end and reset preserve other local learners (3.4s)
+verify	Run npm run test:e2e	2026-10-25T19:24:17.2583657Z   ✓   76 [chromium] › e2e/learning-g.spec.ts:65:1 › same first wrong answer + different follow-ups → different probes, ideas and experiments (4.1s)
+verify	Run npm run test:e2e	2026-10-25T19:24:17.5383793Z   ✓   77 [chromium] › e2e/learning-g.spec.ts:92:1 › investigation helpers, generated experiment slider, transfer and saved evidence after reload (3.8s)
+verify	Run npm run test:e2e	2026-10-25T19:24:18.3180740Z   ✓   78 [chromium] › e2e/learning-g.spec.ts:157:1 › a correct prediction is never forced into a diagnosis (1.1s)
+verify	Run npm run test:e2e	2026-10-25T19:24:18.9328019Z   ✓   79 [chromium] › e2e/learning-g.spec.ts:169:1 › free lab can generate a validated experiment from the current world and program (1.4s)
+verify	Run npm run test:e2e	2026-10-25T19:24:20.8524926Z   ✓   80 [chromium] › e2e/learning-g.spec.ts:183:1 › accessibility: investigation and experiment panels have no WCAG A/AA violations (2.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:24.7538997Z   ✓   81 [chromium] › e2e/missions-h.spec.ts:54:1 › every mission is completed by its verified reference program in the real workstation (5.8s)
+verify	Run npm run test:e2e	2026-10-25T19:24:24.9973747Z   ✓   82 [chromium] › e2e/missions-h.spec.ts:71:1 › flawed programs fail exactly the way the curriculum says (4.1s)
+verify	Run npm run test:e2e	2026-10-25T19:24:25.5079247Z   ✓   83 [chromium] › e2e/missions-h.spec.ts:92:1 › briefing shows the story, live readings, vocabulary, scenarios and teacher note (748ms)
+verify	Run npm run test:e2e	2026-10-25T19:24:26.6914112Z   ✓   84 [chromium] › e2e/missions-h.spec.ts:106:1 › hint ladder ends in a related program, and the solution needs confirmation and is recorded (1.7s)
+verify	Run npm run test:e2e	2026-10-25T19:24:26.7342498Z   ✓   85 [chromium] › e2e/missions-h.spec.ts:132:1 › a wrong second answer opens the investigation even when the first action was right (1.2s)
+verify	Run npm run test:e2e	2026-10-25T19:24:29.0516705Z   ✓   87 [chromium] › e2e/missions-h.spec.ts:186:1 › without a written reason the capstone is not marked complete (2.3s)
+verify	Run npm run test:e2e	2026-10-25T19:24:30.2399366Z   ✓   86 [chromium] › e2e/missions-h.spec.ts:147:1 › capstone recap lists every criterion and completes only when all are met (3.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:32.2726814Z   ✓   88 [chromium] › e2e/opus-regressions.spec.ts:33:1 › OPUS-001 a stale second tab saving does not erase an attempt recorded in the first tab (3.2s)
+verify	Run npm run test:e2e	2026-10-25T19:24:32.8074979Z   ✓   89 [chromium] › e2e/opus-regressions.spec.ts:59:1 › OPUS-003 phone-width workstation has no axe violations and the cycle strip is keyboard-scrollable (2.6s)
+verify	Run npm run test:e2e	2026-10-25T19:24:33.3875553Z   ✓   91 [chromium] › e2e/opus-regressions.spec.ts:88:1 › OPUS-006 an unknown mission names itself and offers a styled way back (573ms)
+verify	Run npm run test:e2e	2026-10-25T19:24:33.4366865Z   ✓   90 [chromium] › e2e/opus-regressions.spec.ts:77:1 › OPUS-004 stage zoom and pan buttons are at least 24 px in both dimensions (1.2s)
+verify	Run npm run test:e2e	2026-10-25T19:24:34.9861196Z   ✓   93 [chromium] › e2e/physics-debugger.spec.ts:69:1 › F pause permits inspection only; Stop & Edit resets before code/world changes (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:36.3906193Z   ✓   94 [chromium] › e2e/physics-debugger.spec.ts:93:1 › F null comparisons stop at source block and guarded conditions run correctly (1.4s)
+verify	Run npm run test:e2e	2026-10-25T19:24:36.9989493Z   ✓   92 [chromium] › e2e/physics-debugger.spec.ts:40:1 › F code/tick steps, pause, rewind, exact explanation and4x replay preserve one attempt (3.6s)
+verify	Run npm run test:e2e	2026-10-25T19:24:37.3962854Z   ✓   95 [chromium] › e2e/physics-debugger.spec.ts:111:1 › F nominal world, seeded noise and boundary options persist through world export/import (1.0s)
+verify	Run npm run test:e2e	2026-10-25T19:24:38.3944909Z   ✓   96 [chromium] › e2e/physics-debugger.spec.ts:145:1 › F panning/zoom hit transforms and SVG snapshot preserve actual world measurements (1.4s)
+verify	Run npm run test:e2e	2026-10-25T19:24:39.3516633Z   ✓   97 [chromium] › e2e/physics-debugger.spec.ts:170:1 › F a large looping run remains cancellable and returns to usable editing (1.9s)
+verify	Run npm run test:e2e	2026-10-25T19:24:40.8352337Z   ✓   99 [chromium] › e2e/physics-debugger.spec.ts:241:1 › F Stop & Edit cancels active computation and unlocks editing in one action (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:40.9792765Z   ✓   98 [chromium] › e2e/physics-debugger.spec.ts:203:1 › F turn/wait programs expose every50ms tick instead of action-sized jumps (2.6s)
+verify	Run npm run test:e2e	2026-10-25T19:24:42.3187945Z   ✓  100 [chromium] › e2e/physics-debugger.spec.ts:272:1 › F cache-independent source rebuild restores exact selected tick and does not add attempts (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:42.4438696Z   ✓  101 [chromium] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors (1.4s)
+verify	Run npm run test:e2e	2026-10-25T19:24:43.8360833Z   ✓  102 [chromium] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:43.9536792Z   ✓  103 [chromium] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:45.4056839Z   ✓  104 [chromium] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:24:45.5159032Z   ✓  105 [chromium] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:24:46.8850092Z   ✓  106 [chromium] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:46.9891538Z   ✓  107 [chromium] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:47.7003870Z   ✓  109 [chromium] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery (701ms)
+verify	Run npm run test:e2e	2026-10-25T19:24:48.5199704Z   ✓  108 [chromium] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:24:48.8746362Z   ✓  110 [chromium] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview (1.2s)
+verify	Run npm run test:e2e	2026-10-25T19:24:50.0705670Z   ✓  111 [chromium] › e2e/product.spec.ts:95:1 › replay, speed and camera controls preserve one attempt and exact branch evidence (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:24:50.6866675Z   ✓  113 [chromium] › e2e/product.spec.ts:173:1 › Chromebook keeps prediction action visible with reserved scrollbar space (610ms)
+verify	Run npm run test:e2e	2026-10-25T19:24:50.9717595Z   ✓  112 [chromium] › e2e/product.spec.ts:120:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable (2.1s)
+verify	Run npm run test:e2e	2026-10-25T19:24:55.9099503Z   ✓  114 [firefox] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=true) (4.3s)
+verify	Run npm run test:e2e	2026-10-25T19:24:57.7260866Z   ✓  115 [firefox] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=false) (5.8s)
+verify	Run npm run test:e2e	2026-10-25T19:24:59.0371116Z   ✓  117 [firefox] › e2e/astra-storage.spec.ts:112:1 › Astra quota failure never announces a successful manual Save (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:24:59.3469161Z   ✓  116 [firefox] › e2e/astra-storage.spec.ts:81:1 › Astra concurrent tabs append attempts, JSON export is coherent, close/reopen preserves both (3.4s)
+verify	Run npm run test:e2e	2026-10-25T19:25:01.9227587Z   ✓  119 [firefox] › e2e/foundation.spec.ts:46:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import (2.5s)
+verify	Run npm run test:e2e	2026-10-25T19:25:02.2876607Z   ✓  118 [firefox] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete (3.2s)
+verify	Run npm run test:e2e	2026-10-25T19:25:04.1915585Z   ✓  121 [firefox] › e2e/foundation.spec.ts:105:1 › settings persist; export/import checked before replacement; malicious import preserves current data (1.9s)
+verify	Run npm run test:e2e	2026-10-25T19:25:04.2987034Z   ✓  120 [firefox] › e2e/foundation.spec.ts:75:1 › three teammates predict privately, run actual goals and rotate roles after refresh (2.4s)
+verify	Run npm run test:e2e	2026-10-25T19:25:05.2067436Z   ✓  122 [firefox] › e2e/foundation.spec.ts:134:1 › keyboard dialog focus, navigation and not-found recovery (1.0s)
+verify	Run npm run test:e2e	2026-10-25T19:25:05.9511424Z   ✓  124 [firefox] › e2e/foundation.spec.ts:168:3 › layout 1440 has no global overflow and working navigation (733ms)
+verify	Run npm run test:e2e	2026-10-25T19:25:06.3905288Z   ✓  123 [firefox] › e2e/foundation.spec.ts:148:1 › no learner-content requests during prediction, run and diagnosis (2.1s)
+verify	Run npm run test:e2e	2026-10-25T19:25:06.7350759Z   ✓  125 [firefox] › e2e/foundation.spec.ts:168:3 › layout 1366 has no global overflow and working navigation (772ms)
+verify	Run npm run test:e2e	2026-10-25T19:25:07.2366255Z   ✓  126 [firefox] › e2e/foundation.spec.ts:168:3 › layout 1024 has no global overflow and working navigation (834ms)
+verify	Run npm run test:e2e	2026-10-25T19:25:07.6086175Z   ✓  127 [firefox] › e2e/foundation.spec.ts:168:3 › layout 390 has no global overflow and working navigation (860ms)
+verify	Run npm run test:e2e	2026-10-25T19:25:08.5767307Z   ✓  128 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility / (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:25:08.9154959Z   ✓  129 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /start (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:25:10.1763299Z   ✓  130 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /missions (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:25:11.3142123Z   ✓  132 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /lab (1.1s)
+verify	Run npm run test:e2e	2026-10-25T19:25:11.6263317Z   ✓  131 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /missions/m01 (2.7s)
+verify	Run npm run test:e2e	2026-10-25T19:25:12.8408949Z   ✓  134 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /progress (1.2s)
+verify	Run npm run test:e2e	2026-10-25T19:25:13.9133372Z   ✓  135 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /instructor (1.1s)
+verify	Run npm run test:e2e	2026-10-25T19:25:14.0845487Z   ✓  133 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /team (2.8s)
+verify	Run npm run test:e2e	2026-10-25T19:25:15.2156360Z   ✓  136 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /settings (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:25:15.4507357Z   ✓  137 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /how-it-works (1.4s)
+verify	Run npm run test:e2e	2026-10-25T19:25:16.3316580Z   ✓  138 [firefox] › e2e/foundation.spec.ts:199:3 › accessibility /not-found (1.1s)
+verify	Run npm run test:e2e	2026-10-25T19:25:16.4490016Z   ✓  139 [firefox] › e2e/foundation.spec.ts:207:1 › storage blocked stays usable in an explicit in-memory session (988ms)
+verify	Run npm run test:e2e	2026-10-25T19:25:17.9745540Z   ✓  141 [firefox] › e2e/foundation.spec.ts:247:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:25:18.7757882Z   ✓  140 [firefox] › e2e/foundation.spec.ts:224:1 › six-person team completes one real round without any account (2.4s)
+verify	Run npm run test:e2e	2026-10-25T19:25:18.8559646Z   ✓  142 [firefox] › e2e/foundation.spec.ts:280:1 › Chromebook primary run action is fully visible before scrolling (866ms)
+verify	Run npm run test:e2e	2026-10-25T19:25:20.9578518Z   ✓  144 [firefox] › e2e/ij-blockly.spec.ts:43:1 › I/J deleting a required comparison input produces a focusable source error and Undo repairs it (2.1s)
+verify	Run npm run test:e2e	2026-10-25T19:25:21.4863385Z   ✓  143 [firefox] › e2e/ij-blockly.spec.ts:11:1 › I/J actual Blockly duplicate, undo, redo and delete preserve the applied program (2.7s)
+verify	Run npm run test:e2e	2026-10-25T19:25:23.8000497Z   ✓  145 [firefox] › e2e/ij-controls.spec.ts:5:1 › I/J layout, disclosure, copy and inspector controls produce their advertised states (2.8s)
+verify	Run npm run test:e2e	2026-10-25T19:25:23.8625140Z   ✓  146 [firefox] › e2e/ij-controls.spec.ts:66:1 › I/J colored-zone numeric controls change actual sensing and survive saved-world restore (2.3s)
+verify	Run npm run test:e2e	2026-10-25T19:25:25.8234782Z   ✓  147 [firefox] › e2e/ij-controls.spec.ts:133:1 › I/J preference alternatives and storage retry persist honest local state (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:25:31.0919319Z   ✓  148 [firefox] › e2e/ij-instructor.spec.ts:139:1 › I/J instructor filters actual local rows by learner, concept, dates and team; reset, teacher notes and replay work (7.2s)
+verify	Run npm run test:e2e	2026-10-25T19:25:33.2681720Z   ✓  149 [firefox] › e2e/ij-instructor.spec.ts:207:1 › I/J local assignment persists, selected CSV/JSON contain validated scoped records and print button calls browser print (7.3s)
+verify	Run npm run test:e2e	2026-10-25T19:25:37.6786204Z   ✓  150 [firefox] › e2e/ij-instructor.spec.ts:263:1 › I/J instructor import rejects future/corrupt records and merging the same local file never doubles actual counts (6.6s)
+verify	Run npm run test:e2e	2026-10-25T19:25:38.5037103Z   ✓  151 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1920x1080 (5.2s)
+verify	Run npm run test:e2e	2026-10-25T19:25:44.5548567Z   ✓  153 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1366x768 (6.0s)
+verify	Run npm run test:e2e	2026-10-25T19:25:44.6815456Z   ✓  152 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1440x900 (7.0s)
+verify	Run npm run test:e2e	2026-10-25T19:25:49.8647104Z   ✓  154 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1024x768 (5.3s)
+verify	Run npm run test:e2e	2026-10-25T19:25:50.1936103Z   ✓  155 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 768x1024 (5.5s)
+verify	Run npm run test:e2e	2026-10-25T19:25:52.1023089Z   ✓  157 [firefox] › e2e/ij-interactions.spec.ts:60:1 › I/J onboarding preserves edits, validates the name and honors a selected controls tutorial (1.9s)
+verify	Run npm run test:e2e	2026-10-25T19:25:52.9307780Z   ✓  158 [firefox] › e2e/ij-interactions.spec.ts:91:1 › I/J mission sorts, prerequisite practice and read-only preview have their intended results (821ms)
+verify	Run npm run test:e2e	2026-10-25T19:25:54.2395531Z   ✓  159 [firefox] › e2e/ij-interactions.spec.ts:131:1 › I/J explanation trace, exact 24cm example and privacy anchor work through actual links (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:25:55.5856462Z   ✓  160 [firefox] › e2e/ij-interactions.spec.ts:151:1 › I/J credits and shortcut dialogs close with restored focus, and both not-found exits work (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:25:55.6239548Z   ✓  156 [firefox] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 390x844 (5.8s)
+verify	Run npm run test:e2e	2026-10-25T19:25:59.4340343Z   ✓  161 [firefox] › e2e/ij-interactions.spec.ts:179:1 › I/J controlled dialogs across library, mission, progress, instructor, settings and team restore focus (3.8s)
+verify	Run npm run test:e2e	2026-10-25T19:26:00.7978934Z   ✓  163 [firefox] › e2e/ij-interactions.spec.ts:270:1 › I/J external attribution controls open their declared isolated destinations (1.4s)
+verify	Run npm run test:e2e	2026-10-25T19:26:05.4254388Z   ✓  164 [firefox] › e2e/ij-interactions.spec.ts:306:1 › I/J solo, team, instructor, tutorial and skip choices open the selected actual screen (4.6s)
+verify	Run npm run test:e2e	2026-10-25T19:26:07.4296861Z   ✓  165 [firefox] › e2e/ij-interactions.spec.ts:353:1 › I/J each mission concept chip toggles a real matching result set (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:26:07.4339573Z   ✓  162 [firefox] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes (11.8s)
+verify	Run npm run test:e2e	2026-10-25T19:26:09.7446986Z   ✓  167 [firefox] › e2e/ij-lab-controls.spec.ts:20:1 › I/J camera toggles, four pan directions and fullscreen preserve physical readings (2.3s)
+verify	Run npm run test:e2e	2026-10-25T19:26:10.6270940Z   ✓  166 [firefox] › e2e/ij-interactions.spec.ts:382:1 › I/J mission card start, result and retry links preserve real completed evidence (3.2s)
+verify	Run npm run test:e2e	2026-10-25T19:26:12.0322699Z   ✓  168 [firefox] › e2e/ij-lab-controls.spec.ts:72:1 › I/J legal object, zone and robot coordinate edits save and reset a named world (2.3s)
+verify	Run npm run test:e2e	2026-10-25T19:26:12.9826159Z   ✓  169 [firefox] › e2e/ij-lab-controls.spec.ts:129:1 › I/J every preset and world import preview/cancel/confirm changes actual validated geometry (2.3s)
+verify	Run npm run test:e2e	2026-10-25T19:26:15.1206928Z   ✓  170 [firefox] › e2e/ij-lab-controls.spec.ts:174:1 › I/J Save, Reset code, Run, Stop and Rewind preserve history; Reset everything unlocks a clean nominal lab (3.1s)
+verify	Run npm run test:e2e	2026-10-25T19:26:15.2882186Z   ✓  171 [firefox] › e2e/ij-learning-controls.spec.ts:18:1 › I/J optional branch and confidence lock into a real run; summary/share and code-change controls work (2.3s)
+verify	Run npm run test:e2e	2026-10-25T19:26:17.6560187Z   ✓  172 [firefox] › e2e/ij-learning-controls.spec.ts:54:1 › I/J progress concept evidence, replay, scoped export, retry and recommendation links follow real records (2.5s)
+verify	Run npm run test:e2e	2026-10-25T19:26:18.5412469Z   ✓  173 [firefox] › e2e/ij-learning-controls.spec.ts:85:1 › I/J experiment reset/return and transfer retry preserve old evidence while new attempts unlock prediction (3.2s)
+verify	Run npm run test:e2e	2026-10-25T19:26:20.4308224Z   ✓  174 [firefox] › e2e/ij-performance.spec.ts:64:1 › I/J production 1500-event inspector stays bounded, filters, pages and replays exact snapshots (2.8s)
+verify	Run npm run test:e2e	2026-10-25T19:26:24.8536649Z   ✓  176 [firefox] › e2e/ij-performance.spec.ts:208:1 › I/J cold browser load and long timed replay remain responsive without changing logical clock (4.4s)
+verify	Run npm run test:e2e	2026-10-25T19:26:27.2839903Z   ✓  177 [firefox] › e2e/ij-performance.spec.ts:295:1 › I/J Blockly editing loads only bundled same-origin assets and never requests sound (2.4s)
+verify	Run npm run test:e2e	2026-10-25T19:26:29.3147494Z   ✓  178 [firefox] › e2e/ij-performance.spec.ts:330:1 › I/J fifty executed records import, render in Progress and survive reload (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:26:34.8860692Z   ✓  179 [firefox] › e2e/ij-progress.spec.ts:10:1 › three primary missions earn completion stamps only after real goal and fresh transfer checks (5.6s)
+verify	Run npm run test:e2e	2026-10-25T19:26:35.5906970Z   ✓  175 [firefox] › e2e/ij-performance.spec.ts:115:1 › I/J 180-statement Blockly workspace survives apply, unmount and repeated route navigation (17.0s)
+verify	Run npm run test:e2e	2026-10-25T19:26:37.9126833Z   ✓  180 [firefox] › e2e/ij-progress.spec.ts:78:1 › evidence stamps follow a real saved investigation, remain learner scoped and clear with it (3.0s)
+verify	Run npm run test:e2e	2026-10-25T19:26:38.8694412Z   ✓  181 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 2 local teammates preserve private handoffs, pause and reload before a real shared result (3.3s)
+verify	Run npm run test:e2e	2026-10-25T19:26:41.3673927Z   ✓  182 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 3 local teammates preserve private handoffs, pause and reload before a real shared result (3.4s)
+verify	Run npm run test:e2e	2026-10-25T19:26:42.4430069Z   ✓  183 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 4 local teammates preserve private handoffs, pause and reload before a real shared result (3.6s)
+verify	Run npm run test:e2e	2026-10-25T19:26:45.0144107Z   ✓  184 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 5 local teammates preserve private handoffs, pause and reload before a real shared result (3.6s)
+verify	Run npm run test:e2e	2026-10-25T19:26:46.3349854Z   ✓  185 [firefox] › e2e/ij-team.spec.ts:59:3 › I/J 6 local teammates preserve private handoffs, pause and reload before a real shared result (3.9s)
+verify	Run npm run test:e2e	2026-10-25T19:26:49.7810843Z   ✓  186 [firefox] › e2e/ij-team.spec.ts:148:1 › I/J shared Blockly field edits affect actual judging and prior result snapshots survive repair (4.8s)
+verify	Run npm run test:e2e	2026-10-25T19:26:51.4797760Z   ✓  187 [firefox] › e2e/ij-team.spec.ts:196:1 › I/J shared hint ladder, confirmed solution and optional private second answer survive export/import without individual mastery (5.1s)
+verify	Run npm run test:e2e	2026-10-25T19:26:53.1779298Z   ✓  188 [firefox] › e2e/ij-team.spec.ts:277:1 › I/J roster sanitization, draft undo, learner switch, end and reset preserve other local learners (3.4s)
+verify	Run npm run test:e2e	2026-10-25T19:26:57.1145514Z   ✓  189 [firefox] › e2e/learning-g.spec.ts:65:1 › same first wrong answer + different follow-ups → different probes, ideas and experiments (5.6s)
+verify	Run npm run test:e2e	2026-10-25T19:26:57.8285976Z   ✓  190 [firefox] › e2e/learning-g.spec.ts:92:1 › investigation helpers, generated experiment slider, transfer and saved evidence after reload (4.6s)
+verify	Run npm run test:e2e	2026-10-25T19:26:58.7086791Z   ✓  191 [firefox] › e2e/learning-g.spec.ts:157:1 › a correct prediction is never forced into a diagnosis (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:26:59.4299475Z   ✓  192 [firefox] › e2e/learning-g.spec.ts:169:1 › free lab can generate a validated experiment from the current world and program (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:27:01.8679669Z   ✓  193 [firefox] › e2e/learning-g.spec.ts:183:1 › accessibility: investigation and experiment panels have no WCAG A/AA violations (3.1s)
+verify	Run npm run test:e2e	2026-10-25T19:27:05.8861744Z   ✓  195 [firefox] › e2e/missions-h.spec.ts:71:1 › flawed programs fail exactly the way the curriculum says (4.0s)
+verify	Run npm run test:e2e	2026-10-25T19:27:06.9596288Z   ✓  196 [firefox] › e2e/missions-h.spec.ts:92:1 › briefing shows the story, live readings, vocabulary, scenarios and teacher note (1.1s)
+verify	Run npm run test:e2e	2026-10-25T19:27:07.5472468Z   ✓  194 [firefox] › e2e/missions-h.spec.ts:54:1 › every mission is completed by its verified reference program in the real workstation (8.1s)
+verify	Run npm run test:e2e	2026-10-25T19:27:08.6140564Z   ✓  197 [firefox] › e2e/missions-h.spec.ts:106:1 › hint ladder ends in a related program, and the solution needs confirmation and is recorded (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:27:09.2616190Z   ✓  198 [firefox] › e2e/missions-h.spec.ts:132:1 › a wrong second answer opens the investigation even when the first action was right (1.7s)
+verify	Run npm run test:e2e	2026-10-25T19:27:11.7122347Z   ✓  200 [firefox] › e2e/missions-h.spec.ts:186:1 › without a written reason the capstone is not marked complete (2.4s)
+verify	Run npm run test:e2e	2026-10-25T19:27:12.4643255Z   ✓  199 [firefox] › e2e/missions-h.spec.ts:147:1 › capstone recap lists every criterion and completes only when all are met (3.8s)
+verify	Run npm run test:e2e	2026-10-25T19:27:15.5673454Z   ✓  201 [firefox] › e2e/opus-regressions.spec.ts:33:1 › OPUS-001 a stale second tab saving does not erase an attempt recorded in the first tab (3.8s)
+verify	Run npm run test:e2e	2026-10-25T19:27:16.1292921Z   ✓  202 [firefox] › e2e/opus-regressions.spec.ts:59:1 › OPUS-003 phone-width workstation has no axe violations and the cycle strip is keyboard-scrollable (3.7s)
+verify	Run npm run test:e2e	2026-10-25T19:27:16.6517083Z   ✓  203 [firefox] › e2e/opus-regressions.spec.ts:77:1 › OPUS-004 stage zoom and pan buttons are at least 24 px in both dimensions (1.1s)
+verify	Run npm run test:e2e	2026-10-25T19:27:17.1575920Z   ✓  204 [firefox] › e2e/opus-regressions.spec.ts:88:1 › OPUS-006 an unknown mission names itself and offers a styled way back (1.0s)
+verify	Run npm run test:e2e	2026-10-25T19:27:19.1453386Z   ✓  206 [firefox] › e2e/physics-debugger.spec.ts:69:1 › F pause permits inspection only; Stop & Edit resets before code/world changes (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:27:20.3774786Z   ✓  205 [firefox] › e2e/physics-debugger.spec.ts:40:1 › F code/tick steps, pause, rewind, exact explanation and4x replay preserve one attempt (3.7s)
+verify	Run npm run test:e2e	2026-10-25T19:27:21.9057780Z   ✓  208 [firefox] › e2e/physics-debugger.spec.ts:111:1 › F nominal world, seeded noise and boundary options persist through world export/import (1.5s)
+verify	Run npm run test:e2e	2026-10-25T19:27:22.3222427Z   ✓  207 [firefox] › e2e/physics-debugger.spec.ts:93:1 › F null comparisons stop at source block and guarded conditions run correctly (3.2s)
+verify	Run npm run test:e2e	2026-10-25T19:27:23.1247934Z   ✓  209 [firefox] › e2e/physics-debugger.spec.ts:145:1 › F panning/zoom hit transforms and SVG snapshot preserve actual world measurements (1.2s)
+verify	Run npm run test:e2e	2026-10-25T19:27:24.3589417Z   ✓  210 [firefox] › e2e/physics-debugger.spec.ts:170:1 › F a large looping run remains cancellable and returns to usable editing (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:27:25.6896594Z   ✓  212 [firefox] › e2e/physics-debugger.spec.ts:241:1 › F Stop & Edit cancels active computation and unlocks editing in one action (1.3s)
+verify	Run npm run test:e2e	2026-10-25T19:27:26.2645810Z   ✓  211 [firefox] › e2e/physics-debugger.spec.ts:203:1 › F turn/wait programs expose every50ms tick instead of action-sized jumps (3.1s)
+verify	Run npm run test:e2e	2026-10-25T19:27:27.6798041Z   ✓  213 [firefox] › e2e/physics-debugger.spec.ts:272:1 › F cache-independent source rebuild restores exact selected tick and does not add attempts (2.0s)
+verify	Run npm run test:e2e	2026-10-25T19:27:28.4973194Z   ✓  214 [firefox] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:27:29.8886163Z   ✓  215 [firefox] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:27:31.9103016Z   ✓  216 [firefox] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors (3.4s)
+verify	Run npm run test:e2e	2026-10-25T19:27:32.0779940Z   ✓  217 [firefox] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:27:34.1308329Z   ✓  218 [firefox] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:27:34.2512437Z   ✓  219 [firefox] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors (2.1s)
+verify	Run npm run test:e2e	2026-10-25T19:27:36.2755651Z   ✓  220 [firefox] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors (2.1s)
+verify	Run npm run test:e2e	2026-10-25T19:27:36.5026620Z   ✓  221 [firefox] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors (2.2s)
+verify	Run npm run test:e2e	2026-10-25T19:27:37.5123747Z   ✓  222 [firefox] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery (1.2s)
+verify	Run npm run test:e2e	2026-10-25T19:27:38.2996764Z   ✓  223 [firefox] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview (1.8s)
+verify	Run npm run test:e2e	2026-10-25T19:27:39.0992693Z   ✓  224 [firefox] › e2e/product.spec.ts:95:1 › replay, speed and camera controls preserve one attempt and exact branch evidence (1.6s)
+verify	Run npm run test:e2e	2026-10-25T19:27:39.8815316Z   ✓  226 [firefox] › e2e/product.spec.ts:173:1 › Chromebook keeps prediction action visible with reserved scrollbar space (773ms)
+verify	Run npm run test:e2e	2026-10-25T19:27:40.8435782Z   ✓  225 [firefox] › e2e/product.spec.ts:120:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable (2.5s)
+verify	Run npm run test:e2e	2026-10-25T19:27:41.1562849Z 
+verify	Run npm run test:e2e	2026-10-25T19:27:41.1567056Z   226 passed (5.1m)
+verify	Run npm audit	﻿2026-10-25T19:27:41.3297498Z ##[group]Run npm audit
+verify	Run npm audit	2026-10-25T19:27:41.3297808Z ^[[36;1mnpm audit^[[0m
+verify	Run npm audit	2026-10-25T19:27:41.3351301Z shell: /usr/bin/bash -e {0}
+verify	Run npm audit	2026-10-25T19:27:41.3351456Z ##[endgroup]
+verify	Run npm audit	2026-10-25T19:27:41.6731434Z found 0 vulnerabilities

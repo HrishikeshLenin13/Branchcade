@@ -1,0 +1,535 @@
+{
+  "browser": "156.0.8078.4",
+  "synthetic": true,
+  "states": [
+    {
+      "viewport": "1920x1080",
+      "route": "/",
+      "headingReadyMs": 310,
+      "overflow": false,
+      "heading": "Figure out why your robot did that."
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/start",
+      "headingReadyMs": 122,
+      "overflow": false,
+      "heading": "A little curiosity.No account required."
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/missions",
+      "headingReadyMs": 133,
+      "overflow": false,
+      "heading": "Small programs.Big discoveries."
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/missions/m01",
+      "headingReadyMs": 885,
+      "overflow": false,
+      "heading": "The Wall Problem",
+      "screenshot": "1920-_missions_m01.jpg"
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/lab",
+      "headingReadyMs": 853,
+      "overflow": false,
+      "heading": "The sensor lab"
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/team",
+      "headingReadyMs": 846,
+      "overflow": false,
+      "heading": "Different roles.One investigation."
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/progress",
+      "headingReadyMs": 862,
+      "overflow": false,
+      "heading": "Your learning notebook"
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/instructor",
+      "headingReadyMs": 850,
+      "overflow": false,
+      "heading": "Look at the evidence.Not a label."
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/settings",
+      "headingReadyMs": 850,
+      "overflow": false,
+      "heading": "Make yourself comfortable."
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/how-it-works",
+      "headingReadyMs": 847,
+      "overflow": false,
+      "heading": "You can follow the why."
+    },
+    {
+      "viewport": "1920x1080",
+      "route": "/does-not-exist",
+      "headingReadyMs": 61,
+      "overflow": false,
+      "heading": "This path isn’t in the lab."
+    },
+    {
+      "viewport": "1920x1080",
+      "errors": [],
+      "origins": ["http://127.0.0.1:4173"]
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/",
+      "headingReadyMs": 167,
+      "overflow": false,
+      "heading": "Figure out why your robot did that."
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/start",
+      "headingReadyMs": 68,
+      "overflow": false,
+      "heading": "A little curiosity.No account required."
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/missions",
+      "headingReadyMs": 69,
+      "overflow": false,
+      "heading": "Small programs.Big discoveries."
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/missions/m01",
+      "headingReadyMs": 858,
+      "overflow": false,
+      "heading": "The Wall Problem",
+      "screenshot": "1440-_missions_m01.jpg"
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/lab",
+      "headingReadyMs": 849,
+      "overflow": false,
+      "heading": "The sensor lab"
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/team",
+      "headingReadyMs": 840,
+      "overflow": false,
+      "heading": "Different roles.One investigation."
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/progress",
+      "headingReadyMs": 858,
+      "overflow": false,
+      "heading": "Your learning notebook"
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/instructor",
+      "headingReadyMs": 849,
+      "overflow": false,
+      "heading": "Look at the evidence.Not a label."
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/settings",
+      "headingReadyMs": 848,
+      "overflow": false,
+      "heading": "Make yourself comfortable."
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/how-it-works",
+      "headingReadyMs": 855,
+      "overflow": false,
+      "heading": "You can follow the why."
+    },
+    {
+      "viewport": "1440x900",
+      "route": "/does-not-exist",
+      "headingReadyMs": 68,
+      "overflow": false,
+      "heading": "This path isn’t in the lab."
+    },
+    {
+      "viewport": "1440x900",
+      "errors": [],
+      "origins": ["http://127.0.0.1:4173"]
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/",
+      "headingReadyMs": 165,
+      "overflow": false,
+      "heading": "Figure out why your robot did that.",
+      "screenshot": "1366-_.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/start",
+      "headingReadyMs": 79,
+      "overflow": false,
+      "heading": "A little curiosity.No account required.",
+      "screenshot": "1366-_start.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/missions",
+      "headingReadyMs": 72,
+      "overflow": false,
+      "heading": "Small programs.Big discoveries.",
+      "screenshot": "1366-_missions.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/missions/m01",
+      "headingReadyMs": 855,
+      "overflow": false,
+      "heading": "The Wall Problem",
+      "screenshot": "1366-_missions_m01.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/lab",
+      "headingReadyMs": 856,
+      "overflow": false,
+      "heading": "The sensor lab",
+      "screenshot": "1366-_lab.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/team",
+      "headingReadyMs": 854,
+      "overflow": false,
+      "heading": "Different roles.One investigation.",
+      "screenshot": "1366-_team.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/progress",
+      "headingReadyMs": 837,
+      "overflow": false,
+      "heading": "Your learning notebook",
+      "screenshot": "1366-_progress.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/instructor",
+      "headingReadyMs": 838,
+      "overflow": false,
+      "heading": "Look at the evidence.Not a label.",
+      "screenshot": "1366-_instructor.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/settings",
+      "headingReadyMs": 834,
+      "overflow": false,
+      "heading": "Make yourself comfortable.",
+      "screenshot": "1366-_settings.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/how-it-works",
+      "headingReadyMs": 834,
+      "overflow": false,
+      "heading": "You can follow the why.",
+      "screenshot": "1366-_how-it-works.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "route": "/does-not-exist",
+      "headingReadyMs": 55,
+      "overflow": false,
+      "heading": "This path isn’t in the lab.",
+      "axe": []
+    },
+    {
+      "viewport": "1366x768",
+      "errors": [],
+      "origins": ["http://127.0.0.1:4173"]
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/",
+      "headingReadyMs": 203,
+      "overflow": false,
+      "heading": "Figure out why your robot did that."
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/start",
+      "headingReadyMs": 129,
+      "overflow": false,
+      "heading": "A little curiosity.No account required."
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/missions",
+      "headingReadyMs": 174,
+      "overflow": false,
+      "heading": "Small programs.Big discoveries."
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/missions/m01",
+      "headingReadyMs": 433,
+      "overflow": false,
+      "heading": "The Wall Problem",
+      "screenshot": "1024-_missions_m01.jpg"
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/lab",
+      "headingReadyMs": 864,
+      "overflow": false,
+      "heading": "The sensor lab"
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/team",
+      "headingReadyMs": 836,
+      "overflow": false,
+      "heading": "Different roles.One investigation."
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/progress",
+      "headingReadyMs": 865,
+      "overflow": false,
+      "heading": "Your learning notebook"
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/instructor",
+      "headingReadyMs": 854,
+      "overflow": false,
+      "heading": "Look at the evidence.Not a label."
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/settings",
+      "headingReadyMs": 845,
+      "overflow": false,
+      "heading": "Make yourself comfortable."
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/how-it-works",
+      "headingReadyMs": 853,
+      "overflow": false,
+      "heading": "You can follow the why."
+    },
+    {
+      "viewport": "1024x768",
+      "route": "/does-not-exist",
+      "headingReadyMs": 71,
+      "overflow": false,
+      "heading": "This path isn’t in the lab."
+    },
+    {
+      "viewport": "1024x768",
+      "errors": [],
+      "origins": ["http://127.0.0.1:4173"]
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/",
+      "headingReadyMs": 152,
+      "overflow": false,
+      "heading": "Figure out why your robot did that."
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/start",
+      "headingReadyMs": 65,
+      "overflow": false,
+      "heading": "A little curiosity.No account required."
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/missions",
+      "headingReadyMs": 65,
+      "overflow": false,
+      "heading": "Small programs.Big discoveries."
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/missions/m01",
+      "headingReadyMs": 852,
+      "overflow": false,
+      "heading": "The Wall Problem",
+      "screenshot": "768-_missions_m01.jpg"
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/lab",
+      "headingReadyMs": 850,
+      "overflow": false,
+      "heading": "The sensor lab"
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/team",
+      "headingReadyMs": 841,
+      "overflow": false,
+      "heading": "Different roles.One investigation."
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/progress",
+      "headingReadyMs": 853,
+      "overflow": false,
+      "heading": "Your learning notebook"
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/instructor",
+      "headingReadyMs": 847,
+      "overflow": false,
+      "heading": "Look at the evidence.Not a label."
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/settings",
+      "headingReadyMs": 850,
+      "overflow": false,
+      "heading": "Make yourself comfortable."
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/how-it-works",
+      "headingReadyMs": 852,
+      "overflow": false,
+      "heading": "You can follow the why."
+    },
+    {
+      "viewport": "768x1024",
+      "route": "/does-not-exist",
+      "headingReadyMs": 66,
+      "overflow": false,
+      "heading": "This path isn’t in the lab."
+    },
+    {
+      "viewport": "768x1024",
+      "errors": [],
+      "origins": ["http://127.0.0.1:4173"]
+    },
+    {
+      "viewport": "390x844",
+      "route": "/",
+      "headingReadyMs": 161,
+      "overflow": false,
+      "heading": "Figure out why your robot did that.",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/start",
+      "headingReadyMs": 63,
+      "overflow": false,
+      "heading": "A little curiosity.No account required.",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/missions",
+      "headingReadyMs": 72,
+      "overflow": false,
+      "heading": "Small programs.Big discoveries.",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/missions/m01",
+      "headingReadyMs": 861,
+      "overflow": false,
+      "heading": "The Wall Problem",
+      "screenshot": "390-_missions_m01.jpg",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/lab",
+      "headingReadyMs": 839,
+      "overflow": false,
+      "heading": "The sensor lab",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/team",
+      "headingReadyMs": 847,
+      "overflow": false,
+      "heading": "Different roles.One investigation.",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/progress",
+      "headingReadyMs": 847,
+      "overflow": false,
+      "heading": "Your learning notebook",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/instructor",
+      "headingReadyMs": 859,
+      "overflow": false,
+      "heading": "Look at the evidence.Not a label.",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/settings",
+      "headingReadyMs": 417,
+      "overflow": false,
+      "heading": "Make yourself comfortable.",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/how-it-works",
+      "headingReadyMs": 395,
+      "overflow": false,
+      "heading": "You can follow the why.",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "route": "/does-not-exist",
+      "headingReadyMs": 94,
+      "overflow": false,
+      "heading": "This path isn’t in the lab.",
+      "axe": []
+    },
+    {
+      "viewport": "390x844",
+      "errors": [],
+      "origins": ["http://127.0.0.1:4173"]
+    }
+  ]
+}

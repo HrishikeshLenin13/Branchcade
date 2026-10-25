@@ -1,0 +1,61 @@
+{
+  "configuredServerNamesOnly": {
+    "linear": {
+      "enabled": true
+    },
+    "node_repl": {
+      "enabled": true
+    },
+    "computer-use": {
+      "enabled": false
+    },
+    "vercel": {
+      "enabled": true
+    },
+    "playwright": {
+      "enabled": true
+    },
+    "figma": {
+      "enabled": true
+    },
+    "shadcn": {
+      "enabled": true
+    },
+    "context7": {
+      "enabled": true
+    },
+    "chrome-devtools": {
+      "enabled": true
+    }
+  },
+  "credentialsOrEnvironmentValuesRecorded": false,
+  "actuallyUsed": [
+    "Context7 resolve-library-id/query-docs for idb transactions",
+    "Playwright MCP navigate/click/snapshot",
+    "Chrome DevTools MCP isolated page/console/network",
+    "GitHub MCP repository metadata"
+  ],
+  "otherVerification": [
+    "Playwright library/Test",
+    "Vitest",
+    "npm",
+    "GitHub CLI exact-SHA Actions and raw logs"
+  ],
+  "notClaimed": [
+    "Figma design",
+    "shadcn generation of new components",
+    "all configured servers authenticated or exercised"
+  ],
+  "availableMcpToolNamespaces": [
+    "artifact_session",
+    "chrome_devtools",
+    "code_review",
+    "codex_app",
+    "codex_apps connectors",
+    "context7",
+    "figma",
+    "node_repl",
+    "playwright",
+    "shadcn"
+  ]
+}

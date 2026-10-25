@@ -62,3 +62,9 @@ Requested by the owner through a collaborator's session. AI-authored work:
 - the regression tests.
 
 No Playwright MCP or Chrome DevTools MCP was available; ordinary Playwright scripts were used and are committed. GPT Astra review has not happened. No student authorship, human testing or learning effect is claimed. A student should review the three-way rebase rules and the M03 9.9 cm rule before relying on them.
+
+## 2026-10-25 — independent Astra hardening assistance
+
+Codex performed the owner-authorized post-L review, wrote new adversarial regressions, preserved initial findings at045744c, compared the detailed Opus reports, and implemented local storage/learning-cache/recovery/laptop-toolbar repairs. Source, tests, scripts and audit documentation are AI-assisted. Context7 idb transaction documentation, Playwright MCP real interactions, Chrome DevTools isolated console/network, GitHub MCP metadata, local Playwright/Vitest and GitHub CLI verification were actually used. No extra reviewer/subagent was spawned. Exact model branding in the requested report is a reviewer role, not independent proof of a specific serving model.
+
+No learner study or human authoring was invented; no independent student implementation or contest eligibility was certified. All QA aliases/data are synthetic. Historical Opus reports and frozen missions remain intact. Final raw test/CI outcomes are in docs/audit/astra/FINAL_VERIFICATION.md.

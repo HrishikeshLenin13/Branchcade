@@ -1,0 +1,111 @@
+{
+  "browser": "156.0.8078.4",
+  "steps": [
+    {
+      "name": "starter program visible as blocks",
+      "ok": true,
+      "detail": "7 blocks"
+    },
+    {
+      "name": "starter pseudocode has the reversed comparator",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "toolbox drag adds one block",
+      "ok": true,
+      "detail": "8 blocks"
+    },
+    {
+      "name": "snap-connected block is executed in the else branch (applied AST)",
+      "ok": true,
+      "detail": "if (distanceCm > 20) { stop() } else { move(10 cm) move(10 cm) stop() }"
+    },
+    {
+      "name": "Undo code restores the previous applied program",
+      "ok": true,
+      "detail": "if (distanceCm > 20) { stop() } else { move(10 cm) stop() }"
+    },
+    {
+      "name": "editor blocks follow the restored program",
+      "ok": true,
+      "detail": "7 blocks"
+    },
+    {
+      "name": "drag detached the stop into its own top-level stack",
+      "ok": true,
+      "detail": "decision,stop-close"
+    },
+    {
+      "name": "detached block is rejected with a validation message",
+      "ok": true,
+      "detail": "Connect all blocks into one program before applying. Disconnected blocks never execute silently.Go to block"
+    },
+    {
+      "name": "Undo reattaches it and the program applies",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "typed threshold 25",
+      "ok": true,
+      "detail": "25"
+    },
+    {
+      "name": "Undo restores 20",
+      "ok": true,
+      "detail": "20"
+    },
+    {
+      "name": "Redo reapplies 25",
+      "ok": true,
+      "detail": "25"
+    },
+    {
+      "name": "comparator dropdown lists operators",
+      "ok": true,
+      "detail": "= ≠ < ≤ > ≥"
+    },
+    {
+      "name": "applied AST now matches the visible blocks: distanceCm < 20",
+      "ok": true,
+      "detail": "if (distanceCm < 20) { stop() } else { move(10 cm) stop() }"
+    },
+    {
+      "name": "applied confirmation shown",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "executed comparison uses the edited operator: 12 < 20 is true",
+      "ok": true,
+      "detail": "12 < 20 is true. Then branch selected"
+    },
+    {
+      "name": "M03 v3 goals and both far-wall scenarios met",
+      "ok": true,
+      "detail": "Mission goal met by the executed trace. Goal 1 (branch): met Goal 2 (programmed-stop): met Goal 3 (reach): met Scenario “wall exactly 20 cm away”: met Scenario “wall 30 cm away”: met"
+    },
+    {
+      "name": "completion checklist fully met",
+      "ok": true,
+      "detail": "Completion checklist Done: Mission goals met in every scenario Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (not “not sure yet”)"
+    },
+    {
+      "name": "result persists after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Progress shows M03 completion evidence",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no page or console errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "errors": []
+}

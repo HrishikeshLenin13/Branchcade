@@ -1,0 +1,19 @@
+{
+  "unitTests": 478,
+  "unitFiles": 39,
+  "browserTests": {
+    "chromium": 113,
+    "firefox": 113
+  },
+  "totalBrowserTests": 226,
+  "failed": 0,
+  "flaky": 0,
+  "retried": 0,
+  "skipped": 0,
+  "dependencyVulnerabilities": 0,
+  "command": "npm run check && npm run test:e2e -- --workers=2 --retries=0 && npm audit",
+  "exitStatus": 0,
+  "sourceCommit": "6d606d6a418f25a8bf5ac3aef141e89f4308ce05",
+  "browserDuration": "7.3m",
+  "unitDuration": "23.75s"
+}

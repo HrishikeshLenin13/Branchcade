@@ -1,0 +1,23 @@
+PASS starter program visible as blocks — 7 blocks
+PASS starter pseudocode has the reversed comparator 
+PASS toolbox drag adds one block — 8 blocks
+PASS snap-connected block is executed in the else branch (applied AST) — if (distanceCm > 20) { stop() } else { move(10 cm) move(10 cm) stop() }
+PASS Undo code restores the previous applied program — if (distanceCm > 20) { stop() } else { move(10 cm) stop() }
+PASS editor blocks follow the restored program — 7 blocks
+PASS drag detached the stop into its own top-level stack — decision,stop-close
+PASS detached block is rejected with a validation message — Connect all blocks into one program before applying. Disconnected blocks never execute silently.Go to block
+PASS Undo reattaches it and the program applies 
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.fill: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.blocklyHtmlInput')[22m
+
+    at /Users/HrishiL/Desktop/Branchcade/scripts/opus-audit-blockly.mjs:133:41 {
+  log: [ "  - waiting for locator('.blocklyHtmlInput')" ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.22.1

@@ -1,0 +1,10 @@
+firefox 157.0 Branchcade · Make the logic click
+webkit LAUNCH/SMOKE FAILED browserType.launch: Executable doesn't exist at /Users/HrishiL/Library/Caches/ms-playwright/webkit-2370/pw_run.sh
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     npx playwright install                                 ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝

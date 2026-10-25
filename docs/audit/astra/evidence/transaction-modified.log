@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 /private/tmp/branchcade-astra-rollback.ILwwvF
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed | 7 skipped (13)
+   Start at  14:15:52
+   Duration  4.16s (environment 50%, transform 19%, import 12%, tests 12%, setup 7%)
+

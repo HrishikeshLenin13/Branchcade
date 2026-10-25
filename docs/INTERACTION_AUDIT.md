@@ -641,3 +641,12 @@ The committed [machine inventory](evidence/ij/control-inventory.json) contains 9
 
 Index counts: SPEC ACTION: 383; OBSERVED ACTION: 74; VISIBLE ONLY: 68; DISABLED: 4. These are control-index counts, not test totals or a claim that every enabled control was hand-clicked.
 <!-- IJ_CONTROL_MATRIX_END -->
+
+## Astra production hardening (2026-10-25)
+
+- Save after injected IndexedDB quota failure: displays **Not saved. Export your current work before closing.**, retains prior committed data; global status does not say Saved locally. `e2e/astra-storage.spec.ts`.
+- Scoped learner deletion across two tabs, with BroadcastChannel enabled and disabled: stale Save/Retry cannot resurrect records. Intervening autosave yields explicit reviewed-snapshot conflict; alert is inside the active dialog, Keep data/reload/review recovers. `e2e/astra-storage.spec.ts`.
+- Concurrent two-tab appends: both attempts remain; exported JSON opened and compared with storage; close/reopen retained them. `e2e/astra-storage.spec.ts`.
+- Real persistent Chromium/Firefox/WebKit processes close and relaunch, preserving a real M01 attempt; exact causal comparison selected. `scripts/astra-browser-smoke.mjs`, `docs/audit/astra/evidence/browser-restart/`.
+- Laptop toolbar1300–1599px uses two deliberately aligned rows, no controls removed or reordered. M01six viewports and Home/start/library/Lab/team/progress/instructor/settings/about images opened;66 route/viewport sweep0 overflow and22 axe checks0 violations. Screens remain browser emulations, not physical-device checks.
+- Playwright MCP clicked Home→Missions→M01→Lock prediction &run→Why did that happen. Chrome DevTools isolated baseline/final contexts inspect real console/network; ordinary scripts capture complete request-origin behavior. No fabricated screen-reader or classroom evaluation.

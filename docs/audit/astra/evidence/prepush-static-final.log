@@ -1,0 +1,25 @@
+
+> branchcade@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+> branchcade@0.1.0 scan:secrets
+> node scripts/scan-secrets.mjs
+
+Secret scan passed (579 source/document paths; no matching credentials).
+
+> branchcade@0.1.0 verify:spec
+> node scripts/verify-spec.mjs modified
+
+MODIFIED PASS: current invocation/main scope present
+PASS: 15 Part K documents; 103 local links; 16 workbook concepts; pending human actions; actual synthetic rehearsal evidence.
+
+> branchcade@0.1.0 lint
+> eslint . --max-warnings 0
+
+
+> branchcade@0.1.0 typecheck
+> tsc -b --pretty false
+

@@ -1,0 +1,745 @@
+diff --git a/src/app/session.ts b/src/app/session.ts
+index f843216..a6192f0 100644
+--- a/src/app/session.ts
++++ b/src/app/session.ts
+@@ -2,10 +2,18 @@ import { create } from 'zustand'
+ import type { AppExport, LearnerProfile } from '../domain/types'
+ import { ExportSchema } from '../domain/schemas'
+ import { DEFAULT_SETTINGS, emptyData } from '../storage/migrations'
+-import { loadData, saveData, saveRebased, clearData } from '../storage/repositories'
++import { loadData, saveReplacement, saveRebased, clearData } from '../storage/repositories'
+ import { opaqueId } from '../domain/invariants'
+ import { mergeData } from '../storage/import-export'
+ let writeQueue = Promise.resolve()
++function enqueue<T>(operation: () => Promise<T>): Promise<T> {
++  const result = writeQueue.then(operation)
++  writeQueue = result.then(
++    () => undefined,
++    () => undefined,
++  )
++  return result
++}
+ let initialization: Promise<void> | undefined
+ let readRecoveryPending = false
+ /** The envelope this tab last loaded or wrote. Saves rebase this tab's changes since then
+@@ -14,7 +22,7 @@ let lastStored: AppExport | null = null
+ /** Same-origin tabs announce committed writes so their in-memory copies stay current. */
+ const channel =
+   typeof BroadcastChannel === 'undefined' ? null : new BroadcastChannel('branchcade-local')
+-const announce = () => channel?.postMessage({ type: 'saved' })
++const announce = (reset = false) => channel?.postMessage({ type: reset ? 'reset' : 'saved' })
+ export function localProfiles(data: AppExport): LearnerProfile[] {
+   return [...(data.profile ? [data.profile] : []), ...data.profiles]
+ }
+@@ -45,7 +53,7 @@ type Session = {
+   pendingWrites: number
+   initialize: () => Promise<void>
+   replace: (data: AppExport) => Promise<void>
+-  applyImport: (data: AppExport) => Promise<void>
++  applyImport: (data: AppExport, reviewedBase?: AppExport) => Promise<void>
+   start: () => Promise<LearnerProfile>
+   createLearner: (nickname?: string) => Promise<LearnerProfile>
+   selectLearner: (id: string) => Promise<void>
+@@ -83,47 +91,46 @@ export const useSession = create<Session>((set, get) => ({
+     })())
+   },
+   replace: async (data) => {
+-    const parsed = ExportSchema.parse(data)
++    const base = get().data
++    const parsed = ExportSchema.parse({ ...data, exportedAt: base.exportedAt })
+     set({ data: parsed })
+     if (get().ephemeral) return
+     set((s) => ({ pendingWrites: s.pendingWrites + 1 }))
+-    const operation = writeQueue
+-      .then(async () => {
+-        if (get().ephemeral) return
+-        const { stored, foreign } = await saveRebased(lastStored, parsed)
+-        lastStored = stored
+-        // Adopt records another tab saved, unless this tab has already moved on (the next
+-        // queued write rebases those too).
+-        if (foreign && get().data === parsed && !sameRecords(stored, parsed)) set({ data: stored })
+-        announce()
+-      })
+-      .catch(() =>
+-        set({
+-          ephemeral: true,
+-          notice: 'Saving failed. Your current work stays in memory; export it before closing.',
+-        }),
+-      )
+-    writeQueue = operation
++    const operation = enqueue(async () => {
++      if (get().ephemeral) return
++      const { stored } = await saveRebased(base, parsed)
++      lastStored = stored
++      // Adopt records another tab saved, unless this tab has already moved on (the next
++      // queued write rebases those too).
++      if (get().data === parsed) set({ data: stored })
++      announce()
++    }).catch((error: unknown) =>
++      set({
++        ephemeral: true,
++        notice: `Saving failed. Your current work stays in memory; export it before closing. ${error instanceof Error ? error.message : ''}`,
++      }),
++    )
+     try {
+       await operation
+     } finally {
+       set((s) => ({ pendingWrites: Math.max(0, s.pendingWrites - 1) }))
+     }
+   },
+-  applyImport: async (data) => {
+-    const parsed = ExportSchema.parse(data)
+-    await writeQueue
+-    // Commit to IndexedDB before exposing a replacement. A failed import leaves current data untouched.
++  applyImport: async (data, reviewedBase) => {
++    const base = reviewedBase ?? get().data,
++      parsed = ExportSchema.parse(data)
+     set((s) => ({ pendingWrites: s.pendingWrites + 1 }))
+     try {
+-      const { stored } = await saveRebased(lastStored, parsed)
+-      lastStored = stored
+-      readRecoveryPending = false
+-      set({ data: stored, ephemeral: false, notice: 'Validated local data imported and saved.' })
+-      announce()
+-    } catch {
++      await enqueue(async () => {
++        const stored = await saveReplacement(base, parsed)
++        lastStored = stored
++        readRecoveryPending = false
++        set({ data: stored, ephemeral: false, notice: 'Validated local data imported and saved.' })
++        announce(true)
++      })
++    } catch (error) {
+       throw new Error(
+-        'Import was not saved. Your previous local data is unchanged; export it and retry storage.',
++        `Import was not saved. Your previous local data is unchanged; export it and retry storage. ${error instanceof Error ? error.message : ''}`,
+       )
+     } finally {
+       set((s) => ({ pendingWrites: Math.max(0, s.pendingWrites - 1) }))
+@@ -179,28 +186,30 @@ export const useSession = create<Session>((set, get) => ({
+     })
+   },
+   retryStorage: async () => {
+-    await writeQueue
+     set((s) => ({ pendingWrites: s.pendingWrites + 1 }))
+     try {
+-      let current = get().data
+-      // An unreadable saved envelope is never overwritten by Retry. Recover and merge it first.
+-      if (readRecoveryPending) current = mergeData(current, await loadData())
+-      await saveData(current)
+-      lastStored = await loadData()
+-      current = lastStored
+-      readRecoveryPending = false
+-      announce()
+-      set({
+-        data: current,
+-        ephemeral: false,
+-        notice: 'Storage is available. Your current work is saved locally.',
++      return await enqueue(async () => {
++        let current = get().data
++        let base = lastStored
++        if (readRecoveryPending) {
++          base = await loadData()
++          current = mergeData(base, current)
++        }
++        const { stored } = await saveRebased(base, current)
++        lastStored = stored
++        readRecoveryPending = false
++        announce()
++        set({
++          data: stored,
++          ephemeral: false,
++          notice: 'Storage is available. Your current work is saved locally.',
++        })
++        return true
+       })
+-      return true
+-    } catch {
++    } catch (error) {
+       set({
+         ephemeral: true,
+-        notice:
+-          'Storage is still unavailable. Your current work remains in memory; export before closing.',
++        notice: `Storage is still unavailable. Your current work remains in memory; export before closing. ${error instanceof Error ? error.message : ''}`,
+       })
+       return false
+     } finally {
+@@ -209,17 +218,21 @@ export const useSession = create<Session>((set, get) => ({
+   },
+   continueWithoutSaving: () => set({ notice: '' }),
+   erase: async () => {
+-    await writeQueue
++    set((s) => ({ pendingWrites: s.pendingWrites + 1 }))
+     try {
+-      await clearData()
+-      readRecoveryPending = false
+-      const empty = emptyData()
+-      lastStored = empty
+-      set({ data: empty, ephemeral: false, notice: 'All local learner data deleted.' })
+-      announce()
++      await enqueue(async () => {
++        await clearData()
++        readRecoveryPending = false
++        const empty = await loadData()
++        lastStored = empty
++        set({ data: empty, ephemeral: false, notice: 'All local learner data deleted.' })
++        announce(true)
++      })
+     } catch {
+       set({ notice: 'Deletion did not complete. Close other Branchcade tabs and retry.' })
+       throw new Error('Local deletion failed')
++    } finally {
++      set((s) => ({ pendingWrites: Math.max(0, s.pendingWrites - 1) }))
+     }
+   },
+ }))
+@@ -227,13 +240,28 @@ export const useSession = create<Session>((set, get) => ({
+ function sameRecords(a: AppExport, b: AppExport) {
+   return JSON.stringify({ ...a, exportedAt: '' }) === JSON.stringify({ ...b, exportedAt: '' })
+ }
+-channel?.addEventListener('message', () => {
++channel?.addEventListener('message', (event: MessageEvent<unknown>) => {
+   const state = useSession.getState()
++  if (
++    event.data &&
++    typeof event.data === 'object' &&
++    'type' in event.data &&
++    event.data.type === 'reset'
++  ) {
++    if (state.ready)
++      useSession.setState({
++        ephemeral: true,
++        notice:
++          'Local data was reset or replaced in another tab. Export any unsaved work, then reload before continuing.',
++      })
++    return
++  }
+   // A tab with its own writes in flight picks the other tab's records up when it saves.
+   if (!state.ready || state.ephemeral || state.pendingWrites || readRecoveryPending) return
++  const observed = state.data
+   void loadData()
+     .then((loaded) => {
+-      if (useSession.getState().pendingWrites) return
++      if (useSession.getState().pendingWrites || useSession.getState().data !== observed) return
+       lastStored = loaded
+       if (!sameRecords(loaded, useSession.getState().data)) useSession.setState({ data: loaded })
+     })
+diff --git a/src/domain/constants.ts b/src/domain/constants.ts
+index c132086..2129709 100644
+--- a/src/domain/constants.ts
++++ b/src/domain/constants.ts
+@@ -2,6 +2,7 @@ export const SCHEMA_VERSION = 1 as const
+ export const FIXED_STEP_MS = 50
+ export const LIMITS = {
+   importBytes: 500_000,
++  storedNodes: 1_000_000, // Whole local envelope; import preflight stays at 20,000 nodes.
+   nodes: 2_000,
+   depth: 32,
+   events: 5_000,
+diff --git a/src/features/lab/LabLesson.tsx b/src/features/lab/LabLesson.tsx
+index 478433f..97c4b95 100644
+--- a/src/features/lab/LabLesson.tsx
++++ b/src/features/lab/LabLesson.tsx
+@@ -271,16 +271,19 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
+     editAfterCancel = useRef(false)
+   useEffect(() => () => runControl.current?.abort(), [])
+   const saveRef = useRef(saveDraft),
+-    draftDirty = useRef(false)
++    draftDirty = useRef(false),
++    draftRevision = useRef(0)
+   useEffect(() => {
+     saveRef.current = saveDraft
+   }, [saveDraft])
+   useEffect(() => {
+     draftDirty.current = true
++    const revision = ++draftRevision.current
+     const timer = window.setTimeout(() => {
+       void saveDraft()
+         .then(() => {
+-          draftDirty.current = false
++          if (draftRevision.current === revision && !useSession.getState().ephemeral)
++            draftDirty.current = false
+         })
+         .catch((error) =>
+           setError(error instanceof Error ? error.message : 'Draft could not be saved.'),
+@@ -790,9 +793,17 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
+               : 'Save the world, code and learning stage locally'
+           }
+           onClick={() => {
+-            void saveDraft().then(() =>
+-              setNotice('World, code and learning stage saved on this device.'),
+-            )
++            void saveDraft()
++              .then(() =>
++                setNotice(
++                  useSession.getState().ephemeral
++                    ? 'Not saved. Export your current work before closing.'
++                    : 'World, code and learning stage saved on this device.',
++                ),
++              )
++              .catch((error: unknown) =>
++                setError(error instanceof Error ? error.message : 'Draft could not be saved.'),
++              )
+           }}
+         >
+           Save
+diff --git a/src/features/lab/workstation.css b/src/features/lab/workstation.css
+index a27d793..8fa3ffa 100644
+--- a/src/features/lab/workstation.css
++++ b/src/features/lab/workstation.css
+@@ -671,3 +671,20 @@
+ .completion-checklist ul {
+   padding-inline-start: 20px;
+ }
++
++/* Laptop toolbar: two deliberate rows rather than a lone wrapped help control.
++   Wide desktops retain the compact flex layout; narrow screens keep natural wrapping. */
++@media (min-width: 1300px) and (max-width: 1599px) {
++  .workstation-toolbar {
++    display: grid;
++    grid-template-columns: repeat(9, minmax(0, 1fr));
++    align-items: stretch;
++  }
++  .workstation-toolbar > button {
++    width: 100%;
++    padding-inline: 6px;
++  }
++  .workstation-toolbar > label {
++    justify-content: center;
++  }
++}
+diff --git a/src/features/settings/LocalImport.tsx b/src/features/settings/LocalImport.tsx
+index e4df409..739a6f3 100644
+--- a/src/features/settings/LocalImport.tsx
++++ b/src/features/settings/LocalImport.tsx
+@@ -64,7 +64,7 @@ export function LocalImport({ label = 'Import local data' }: { label?: string })
+       </label>
+       {busy && <p role="status">Validating and replaying record…</p>}
+       {notice && <p role="status">{notice}</p>}
+-      {error && (
++      {error && !pending && (
+         <p className="error" role="alert">
+           {error} Choose another file or cancel; current records remain saved.
+         </p>
+@@ -105,6 +105,11 @@ export function LocalImport({ label = 'Import local data' }: { label?: string })
+             Validation includes strict schema versions, bounded programs, prediction checksums and
+             replayed execution. A failed save leaves the current dataset untouched.
+           </p>
++          {error && (
++            <p role="alert" className="error">
++              {error}
++            </p>
++          )}
+           <DialogFooter>
+             <DialogClose asChild>
+               <Button variant="outline" disabled={busy}>
+@@ -119,10 +124,10 @@ export function LocalImport({ label = 'Import local data' }: { label?: string })
+                 setError('')
+                 void (async () => {
+                   try {
+-                    const target =
+-                      mode === 'merge' ? mergeData(useSession.getState().data, pending) : pending
++                    const reviewedBase = useSession.getState().data
++                    const target = mode === 'merge' ? mergeData(reviewedBase, pending) : pending
+                     const verified = await validateImport(exportJson(target))
+-                    await applyImport(verified)
++                    await applyImport(verified, reviewedBase)
+                     setPending(null)
+                     setNotice(`${mode === 'merge' ? 'Merged' : 'Replaced'} validated local data.`)
+                   } catch (err) {
+diff --git a/src/features/settings/Settings.tsx b/src/features/settings/Settings.tsx
+index 6133512..8935e40 100644
+--- a/src/features/settings/Settings.tsx
++++ b/src/features/settings/Settings.tsx
+@@ -246,7 +246,7 @@ export default function Settings() {
+         </p>
+       </section>
+       <p role="status">{notice}</p>
+-      {error && (
++      {error && !confirm && (
+         <p role="alert" className="error">
+           {error}
+         </p>
+@@ -280,6 +280,11 @@ export default function Settings() {
+               <input autoComplete="off" value={typed} onChange={(e) => setTyped(e.target.value)} />
+             </label>
+           )}
++          {error && (
++            <p role="alert" className="error">
++              {error}
++            </p>
++          )}
+           <DialogFooter>
+             <DialogClose asChild>
+               <Button variant="outline" disabled={busy}>
+diff --git a/src/learning/mental-models.ts b/src/learning/mental-models.ts
+index 952fe9c..5f89824 100644
+--- a/src/learning/mental-models.ts
++++ b/src/learning/mental-models.ts
+@@ -124,7 +124,7 @@ export interface ModelRun {
+ // A result can hold a full 4 MB trace. An entry-count-only cap allowed thousands
+ // of those traces to survive navigation. Bound both trace payload and entry overhead.
+ export const MODEL_CACHE_LIMITS = { bytes: 8 * 1024 * 1024, entries: 512 } as const
+-const cache = new Map<string, { run: ModelRun; bytes: number }>()
++const cache = new Map<string, { run: ModelRun; bytes: number; identity: string }>()
+ let cacheBytes = 0
+ export function modelCacheStats() {
+   return {
+@@ -138,15 +138,19 @@ export function clearModelCache() {
+   cache.clear()
+   cacheBytes = 0
+ }
+-/** Executes one scenario under one model. `key` must uniquely identify world+program
+- * (callers use generated probe/candidate ids); results are memoized because they are pure. */
++/** Caller IDs are labels, not proof of scenario identity (imports may reuse IDs).
++ * Compare the complete bounded input serialization before reusing a pure model result. */
+ export function runModel(key: string, world: World, program: Program, model: ModelCode): ModelRun {
+   const cacheKey = `${key}|${model}`
++  const identity = JSON.stringify([world, program])
+   const hit = cache.get(cacheKey)
+   if (hit) {
+     cache.delete(cacheKey)
+-    cache.set(cacheKey, hit)
+-    return hit.run
++    if (hit.identity === identity) {
++      cache.set(cacheKey, hit)
++      return hit.run
++    }
++    cacheBytes -= hit.bytes
+   }
+   const machine = new ModelInterpreter(world, program, model)
+   const perceivedStart = machine.perceive()
+@@ -159,7 +163,7 @@ export function runModel(key: string, world: World, program: Program, model: Mod
+     perceivedStart,
+     perceivedEnd: machine.perceive(),
+   }
+-  const bytes = machine.traceByteLength + 1024 + cacheKey.length * 2
++  const bytes = machine.traceByteLength + 1024 + (cacheKey.length + identity.length) * 2
+   while (
+     cache.size &&
+     (cache.size >= MODEL_CACHE_LIMITS.entries || cacheBytes + bytes > MODEL_CACHE_LIMITS.bytes)
+@@ -169,7 +173,7 @@ export function runModel(key: string, world: World, program: Program, model: Mod
+     cache.delete(oldestKey)
+   }
+   if (bytes <= MODEL_CACHE_LIMITS.bytes) {
+-    cache.set(cacheKey, { run, bytes })
++    cache.set(cacheKey, { run, bytes, identity })
+     cacheBytes += bytes
+   }
+   return run
+diff --git a/src/storage/migrations.ts b/src/storage/migrations.ts
+index 2e64805..002687e 100644
+--- a/src/storage/migrations.ts
++++ b/src/storage/migrations.ts
+@@ -22,8 +22,8 @@ export function emptyData() {
+   })
+ }
+ /** Only the documented pre-release v0 alias/settings shape migrates. No guessing future data. */
+-export function migrateData(input: unknown) {
+-  assertBounded(input)
++export function migrateData(input: unknown, maxNodes = 20_000) {
++  assertBounded(input, maxNodes)
+   if (input && typeof input === 'object' && 'schemaVersion' in input && input.schemaVersion === 0) {
+     const old = input as { schemaVersion: 0; alias?: unknown }
+     if (
+diff --git a/src/storage/rebase.ts b/src/storage/rebase.ts
+index dd57a98..f24a9c2 100644
+--- a/src/storage/rebase.ts
++++ b/src/storage/rebase.ts
+@@ -10,16 +10,42 @@ import { reconcileConceptProgress } from './progress-records'
+  * still apply; concurrent edits of one record keep the append-only superset. */
+ const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
+ 
+-/** Learning annotations only ever grow, so the record with more of them is the newer one. */
+-const annotations = (a: Attempt) =>
+-  a.diagnosticResponses.length +
+-  (a.transferRetries?.length ?? 0) +
+-  (a.hintIds?.length ?? 0) +
+-  (a.experimentResponses?.length ?? 0) +
+-  (a.reassessment ? 1 : 0) +
+-  (a.experimentUsed ? 1 : 0)
+-const newerAttempt = (ours: Attempt, theirs: Attempt) =>
+-  annotations(theirs) > annotations(ours) ? theirs : ours
++/** Only annotations may grow. Conflicting answers are not silently chosen or rewritten. */
++function mergeAttempt(ours: Attempt, theirs: Attempt): Attempt {
++  const facts = (a: Attempt) => {
++    const copy = { ...a }
++    for (const key of [
++      'diagnosticResponses',
++      'reassessment',
++      'transferRetries',
++      'hintIds',
++      'experimentUsed',
++      'experimentResponses',
++    ] as const)
++      Reflect.deleteProperty(copy, key)
++    return copy
++  }
++  if (!same(facts(ours), facts(theirs)))
++    throw new Error('Immutable attempt evidence conflict; export this session and reload.')
++  // Ordered answers must be prefix-compatible. Divergent answers require explicit recovery,
++  // rather than manufacturing a learning history that neither tab actually experienced.
++  const extend = <T>(a: T[], b: T[]): T[] => {
++    if (!a.slice(0, Math.min(a.length, b.length)).every((v, i) => same(v, b[i])))
++      throw new Error('Learning answer conflict; export this session and reload.')
++    return a.length >= b.length ? a : b
++  }
++  if (ours.reassessment && theirs.reassessment && !same(ours.reassessment, theirs.reassessment))
++    throw new Error('Revealed transfer answer conflict; export this session and reload.')
++  return {
++    ...theirs,
++    diagnosticResponses: extend(ours.diagnosticResponses, theirs.diagnosticResponses),
++    reassessment: theirs.reassessment ?? ours.reassessment,
++    transferRetries: extend(ours.transferRetries ?? [], theirs.transferRetries ?? []),
++    experimentResponses: extend(ours.experimentResponses ?? [], theirs.experimentResponses ?? []),
++    hintIds: [...new Set([...(theirs.hintIds ?? []), ...(ours.hintIds ?? [])])],
++    experimentUsed: Boolean(ours.experimentUsed || theirs.experimentUsed),
++  }
++}
+ 
+ const unionBy = <T>(a: T[], b: T[], key: (x: T) => string) => [
+   ...a,
+@@ -78,10 +104,27 @@ export function rebaseEnvelope(
+   ours: AppExport,
+   theirs: AppExport | null,
+ ): AppExport {
+-  // Nothing else wrote since this tab's last load/save: ours is already authoritative.
+-  if (!base || (theirs ? theirs.exportedAt === base.exportedAt : false)) return ours
+-  const stored = theirs ?? {
+-    ...base,
++  // Immutable execution facts must agree with the writer's starting snapshot, even
++  // if only that writer changed this record.
++  for (const a of ours.attempts) {
++    const original = base?.attempts.find((b) => b.id === a.id)
++    if (original) {
++      mergeAttempt(a, original)
++      if (
++        a.diagnosticResponses.length < original.diagnosticResponses.length ||
++        (a.transferRetries?.length ?? 0) < (original.transferRetries?.length ?? 0) ||
++        (a.experimentResponses?.length ?? 0) < (original.experimentResponses?.length ?? 0) ||
++        original.hintIds?.some((id) => !a.hintIds?.includes(id)) ||
++        (original.reassessment && !a.reassessment) ||
++        (original.experimentUsed && !a.experimentUsed)
++      )
++        throw new Error('Learning annotations are append-only; export this session and reload.')
++    }
++  }
++  if (base && theirs && same(base, theirs)) return ours
++  if (!base && !theirs) return ours
++  base ??= {
++    ...ours,
+     profile: null,
+     profiles: [],
+     attempts: [],
+@@ -90,6 +133,31 @@ export function rebaseEnvelope(
+     drafts: [],
+     assignments: [],
+   }
++  // A timestamp alone is not evidence that optimistic in-memory snapshots are identical.
++  // In particular queued writes may share a stamp but contain different records.
++  if (
++    !theirs &&
++    !base.profile &&
++    !base.profiles.length &&
++    !base.attempts.length &&
++    !base.drafts.length &&
++    !base.teams.length &&
++    !base.savedLabs.length &&
++    !base.assignments.length
++  )
++    return ours
++  if (!theirs)
++    return {
++      ...base,
++      profile: null,
++      profiles: [],
++      attempts: [],
++      teams: [],
++      savedLabs: [],
++      drafts: [],
++      assignments: [],
++    }
++  const stored = theirs
+   const people = (d: AppExport) => [...(d.profile ? [d.profile] : []), ...d.profiles]
+   const learners = rebaseList(people(base), people(ours), people(stored), bothProfiles)
+   const active =
+@@ -101,8 +169,12 @@ export function rebaseEnvelope(
+       ...ours,
+       profile: active,
+       profiles: learners.filter((p) => p.id !== active?.id),
+-      attempts: rebaseList(base.attempts, ours.attempts, stored.attempts, newerAttempt),
+-      teams: rebaseList(base.teams, ours.teams, stored.teams),
++      attempts: rebaseList(base.attempts, ours.attempts, stored.attempts, mergeAttempt),
++      teams: rebaseList(base.teams, ours.teams, stored.teams, () => {
++        throw new Error(
++          'Team edited in another tab. Export this session and reload before continuing.',
++        )
++      }),
+       savedLabs: rebaseList(base.savedLabs, ours.savedLabs, stored.savedLabs),
+       drafts: rebaseList(base.drafts, ours.drafts, stored.drafts),
+       assignments: rebaseList(base.assignments, ours.assignments, stored.assignments),
+diff --git a/src/storage/repositories.ts b/src/storage/repositories.ts
+index 65d1ba0..febdae3 100644
+--- a/src/storage/repositories.ts
++++ b/src/storage/repositories.ts
+@@ -1,3 +1,4 @@
++import { LIMITS } from '../domain/constants'
+ import type { AppExport, Attempt } from '../domain/types'
+ import { ExportSchema, AttemptSchema } from '../domain/schemas'
+ import { immutable } from '../domain/invariants'
+@@ -7,11 +8,16 @@ import { reconcileConceptProgress } from './progress-records'
+ import { rebaseEnvelope } from './rebase'
+ export async function loadData(): Promise<AppExport> {
+   const db = await database()
+-  const data: unknown = await db.get('app', 'state')
+-  return data === undefined ? emptyData() : migrateData(data)
++  const tx = db.transaction('app', 'readonly')
++  const data: unknown = await tx.store.get('state')
++  const barrier: unknown = await tx.store.get('reset-barrier')
++  await tx.done
++  return data === undefined
++    ? { ...emptyData(), ...(typeof barrier === 'string' ? { exportedAt: barrier } : {}) }
++    : migrateData(data, LIMITS.storedNodes)
+ }
+ export async function saveData(data: AppExport): Promise<void> {
+-  const parsed = ExportSchema.parse({ ...data, exportedAt: new Date().toISOString() })
++  const parsed = migrateData({ ...data, exportedAt: new Date().toISOString() }, LIMITS.storedNodes)
+   const db = await database()
+   await db.put('app', parsed, 'state')
+ }
+@@ -23,19 +29,90 @@ export async function saveRebased(
+ ): Promise<{ stored: AppExport; foreign: boolean }> {
+   const db = await database()
+   const tx = db.transaction('app', 'readwrite')
+-  const raw: unknown = await tx.store.get('state')
+-  const theirs = raw === undefined ? null : migrateData(raw)
+-  const merged = rebaseEnvelope(base, ours, theirs)
+-  const parsed = ExportSchema.parse({ ...merged, exportedAt: nextStamp(merged.exportedAt) })
+-  await tx.store.put(parsed, 'state')
+-  await tx.done
+-  return { stored: parsed, foreign: !!base && theirs?.exportedAt !== base.exportedAt }
++  const done = tx.done
++  // Attach a rejection handler immediately, including failures during get/validation.
++  void done.catch(() => undefined)
++  try {
++    const raw: unknown = await tx.store.get('state')
++    const barrier: unknown = await tx.store.get('reset-barrier')
++    if (base && typeof barrier === 'string' && Date.parse(base.exportedAt) < Date.parse(barrier))
++      throw new Error(
++        'Local data was reset or replaced in another tab. Export this session, then reload before saving.',
++      )
++    const theirs = raw === undefined ? null : migrateData(raw, LIMITS.storedNodes)
++    const merged = rebaseEnvelope(base, ours, theirs)
++    const parsed = migrateData(
++      {
++        ...merged,
++        exportedAt: nextStamp(
++          ours.exportedAt,
++          theirs?.exportedAt,
++          typeof barrier === 'string' ? barrier : undefined,
++        ),
++      },
++      LIMITS.storedNodes,
++    )
++    await tx.store.put(parsed, 'state')
++    await done
++    return { stored: parsed, foreign: !!base && theirs?.exportedAt !== base.exportedAt }
++  } catch (error) {
++    try {
++      tx.abort()
++    } catch {
++      /* Already aborted or completed; done reports the outcome. */
++    }
++    await done.catch(() => undefined)
++    throw error
++  }
+ }
+-/** Strictly increasing so two writes in the same millisecond still differ. */
+-function nextStamp(previous: string) {
+-  const now = Date.now(),
+-    last = Date.parse(previous)
+-  return new Date(Number.isFinite(last) && last >= now ? last + 1 : now).toISOString()
++/** Atomic explicit replacement. A concurrent change invalidates the reviewed snapshot. */
++export async function saveReplacement(base: AppExport, ours: AppExport): Promise<AppExport> {
++  const db = await database()
++  const tx = db.transaction('app', 'readwrite')
++  const done = tx.done
++  void done.catch(() => undefined)
++  try {
++    const raw: unknown = await tx.store.get('state')
++    const theirs = raw === undefined ? emptyData() : migrateData(raw, LIMITS.storedNodes)
++    const records = (data: AppExport) =>
++      JSON.stringify({ ...data, exportedAt: '', sourceAppVersion: undefined })
++    if (records(base) !== records(theirs))
++      throw new Error(
++        'Local records changed in another tab. Reload and review the import or deletion again.',
++      )
++    const barrier: unknown = await tx.store.get('reset-barrier')
++    const parsed = migrateData(
++      {
++        ...ours,
++        exportedAt: nextStamp(theirs.exportedAt, typeof barrier === 'string' ? barrier : undefined),
++      },
++      LIMITS.storedNodes,
++    )
++    await tx.store.put(parsed, 'state')
++    await tx.store.put(parsed.exportedAt, 'reset-barrier')
++    await done
++    return parsed
++  } catch (error) {
++    try {
++      tx.abort()
++    } catch {
++      /* Transaction already finished. */
++    }
++    await done.catch(() => undefined)
++    throw error
++  }
++}
++/** Strictly newer than every observed revision, even with a clock moving backwards. */
++function nextStamp(...previous: (string | undefined)[]) {
++  return new Date(
++    Math.max(
++      Date.now(),
++      ...previous.map((p) => {
++        const n = p ? Date.parse(p) : NaN
++        return Number.isFinite(n) ? n + 1 : 0
++      }),
++    ),
++  ).toISOString()
+ }
+ /** Records append; a completed attempt cannot be rewritten to fabricate a successful result. */
+ export function appendAttempt(data: AppExport, attempt: Attempt): AppExport {
+@@ -48,7 +125,31 @@ export function appendAttempt(data: AppExport, attempt: Attempt): AppExport {
+ }
+ export async function clearData(): Promise<void> {
+   const db = await database()
+-  await db.delete('app', 'state')
++  const tx = db.transaction('app', 'readwrite')
++  const done = tx.done
++  void done.catch(() => undefined)
++  try {
++    const raw: unknown = await tx.store.get('state')
++    const previous: unknown = await tx.store.get('reset-barrier')
++    const stamp = nextStamp(
++      raw && typeof raw === 'object' && 'exportedAt' in raw && typeof raw.exportedAt === 'string'
++        ? raw.exportedAt
++        : undefined,
++      typeof previous === 'string' ? previous : undefined,
++    )
++    await tx.store.delete('state')
++    // Non-identifying revision only. No deleted learner data is retained.
++    await tx.store.put(stamp, 'reset-barrier')
++    await done
++  } catch (error) {
++    try {
++      tx.abort()
++    } catch {
++      /* Transaction already finished. */
++    }
++    await done.catch(() => undefined)
++    throw error
++  }
+ }
+ /** Append-only learning annotations; execution facts, prediction and goal proof stay unchanged. */
+ export function annotateAttempt(

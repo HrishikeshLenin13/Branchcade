@@ -1,5 +1,17 @@
 # Branchcade handoff
 
+## Current operational handoff — Astra independent hardening (2026-10-25)
+
+- **Branch:** main only; clean fast-forward from `3d8b5f5` to `02ce0dd` at startup. Baseline independent findings committed/pushed as `045744c`. Preserve older sections below as history, not current scope.
+- **Repairs:** queued-save base capture; append-only/immutable attempt conflict handling; atomic import/delete review and reset barrier; monotonic revisions/baseless merges; safe retry; symmetric large local-envelope bounds; model-cache input identity; honest Save/dirty state and in-modal errors; scoped laptop toolbar. No engine/interpreter/frozen mission/package/public brand changes.
+- **Evidence:** docs/audit/astra/INDEPENDENT_FINDINGS.md is frozen and checksum-verified. New regression failures on old source and disposable-copy rollback are retained. REPAIR_REPORT, OPUS_COMPARISON, REQUIREMENT_MATRIX and PRODUCTION_READINESS distinguish facts and remaining gaps.
+- **Latest local evidence:**478 unit tests in 39 files pass;113 Chromium tests pass; 113 Firefox tests also passed (226 total, retries 0); exact pushed-SHA CI is recorded in FINAL_VERIFICATION. Chromium 156,Firefox 157andWebKit 27.2 passed separate real browser-process restart smoke. Six viewport sweep:66 loads,0 overflow/console exceptions,22 axe checks0 violations.
+- **Conflict policy:** ordinary writes three-way rebase per request; incompatible answers/teams reject rather than inventing merged history. Import/delete reviews use compare-and-swap and reset stamp. Other stale tabs export/reload; Retry never resurrects cleared data. Mutable draft/lab/assignment conflicts retain last-writer policy. Larger local dataset read bounds do not relax500KB/20,000-node import protection.
+- **Limits:** no physical Chromebook/touch/screen-reader certification; WebKit is supplementary smoke, not maintained full suite. No public host, study, student contribution, approved logo, video upload or contest submission established. M05 finite aligned-scenario equality limitation remains versioned and documented.
+- **First next action:** inspect FINAL_VERIFICATION and exact-SHA CI before extending scope. Fetch/compare main safely. Never force push or roll back the live checkout. Reusable continuation prompt is in FUTURE_IMPROVEMENTS.
+
+**Verified source GitHub CI:**6d606d6a418f25a8bf5ac3aef141e89f4308ce05, [40225633060](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40225633060), success; raw logs: 478 unit +113 Chromium +113 Firefox,0 failed/flaky/retry-recovered/skipped tests, audit 0. This containing documentation commit must also be checked after push. Only main exists remotely.
+
 ## Current operational handoff — post-L Opus audit and repairs (2026-10-25)
 
 **Scope:** an owner-authorized independent audit of Parts A–L by Claude Opus 5.5, then repairs to the confirmed defects. This is not a new SPEC part. Branch: `main` only. No branches, PRs, force pushes or history rewrites.

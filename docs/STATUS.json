@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Part L L1–L4: current A–K engineering verification, release/submission readiness and operational handoff; main only; future audit/account-sync/logo implementation excluded",
+  "scope": "Owner-authorized independent post-L Astra production hardening on updated A\u2013L; main only; local-first and historical compatibility preserved",
   "branchPolicy": "main only",
   "parts": {
     "A": "verified",
@@ -13,8 +13,8 @@
     "H": "Implemented 2026-10-24: eight missions upgraded to data version 2 (scenarios, new goal kinds, curriculum, hint ladder, Show solution, second questions, capstone completion), v1 frozen for older records. 368 unit tests, 59 Chromium E2E locally; GitHub Actions green on c7e1091 (Chromium + Firefox). See PART_H_ACCEPTANCE.md.",
     "I": "Technical implementation and twelve-gate independent audit completed; final QA/CI evidence is recorded in TEST_REPORT and PARTS_IJ_ACCEPTANCE. Human review and hosting remain explicit external actions.",
     "J": "Persistent expanded unit, Chromium/Firefox CI, real interaction/visual, import/security and measured stress/performance coverage; see TEST_REPORT and PERFORMANCE_REPORT.",
-    "K": "Prepared K1–K4 materials and software rehearsal; human actions remain pending. See PART_K_ACCEPTANCE.md.",
-    "L": "VERIFIED: L1–L4 engineering/release-handoff checkpoint complete; final source CI passed396 unit+105 Chromium+105 Firefox with zero failed/flaky tests; human release/submission pending"
+    "K": "Prepared K1\u2013K4 materials and software rehearsal; human actions remain pending. See PART_K_ACCEPTANCE.md.",
+    "L": "VERIFIED: L1\u2013L4 engineering/release-handoff checkpoint complete; final source CI passed396 unit+105 Chromium+105 Firefox with zero failed/flaky tests; human release/submission pending"
   },
   "phases": [
     {
@@ -147,7 +147,7 @@
     },
     {
       "id": "08",
-      "name": "Local2–6 team learning",
+      "name": "Local2\u20136 team learning",
       "status": "verified",
       "technicalStatus": "VERIFIED",
       "proof": {
@@ -155,7 +155,7 @@
         "tests": [
           "ij-team/local-records/ij-achievements tests",
           "ij-team.spec.ts",
-          "all sizes2–6,6round role coverage, private answers/shared hints, immutable results/reload/export"
+          "all sizes2\u20136,6round role coverage, private answers/shared hints, immutable results/reload/export"
         ],
         "report": "docs/TEST_REPORT.md",
         "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
@@ -240,7 +240,7 @@
   },
   "partK": {
     "documentation": "VERIFIED PREPARED:15 documents,93 local link targets,16 workbook concepts and25 targeted test paths checked; local gates passed; human actions pending",
-    "humanProtocol": "PREPARED; NOT YET CONDUCTED — AWAITING ACTUAL PARTICIPANTS",
+    "humanProtocol": "PREPARED; NOT YET CONDUCTED \u2014 AWAITING ACTUAL PARTICIPANTS",
     "sourceOwnershipInventory": "PREPARED; independent student implementation UNVERIFIED",
     "demoScript": "PREPARED; planned 2:48 and 2:35 alternate, not measured media",
     "demoSoftwareRehearsal": "VERIFIED: actual M01, probes, wall30/12, transfer32/35, durable Progress; synthetic choices only",
@@ -260,7 +260,7 @@
   "partL": {
     "status": "VERIFIED",
     "baselineCommit": "3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e",
-    "scope": "L1–L4 verification and release/handoff records; future audit and account/sync/logo implementation not begun",
+    "scope": "L1\u2013L4 verification and release/handoff records; future audit and account/sync/logo implementation not begun",
     "localUnitTests": 396,
     "localUnitFiles": 29,
     "localChromiumTests": 105,
@@ -270,8 +270,8 @@
     "browserSmoke": "VERIFIED: real M01/Blockly/prediction/trace/probes/experiment/transfer/save/reload/Progress; zero page/console errors/warnings, failed requests/responses or nonlocal origins",
     "releaseReadiness": "docs/RELEASE_READINESS.md",
     "auditProposal": "docs/POST_L_AUDIT_PLAN.md",
-    "futureIndependentAudit": "OPUS ROUND DONE 2026-10-25 (docs/audit/); GPT Astra review NOT STARTED",
-    "accountSyncImplementation": "NOT STARTED — proposal only",
+    "futureIndependentAudit": "Opus and Astra independent reports prepared; see docs/audit/",
+    "accountSyncImplementation": "NOT STARTED \u2014 proposal only",
     "logoIntegration": "BLOCKED: APPROVED LOGO ASSET REQUIRED (checked again 2026-10-25)",
     "acceptance": "docs/PART_L_ACCEPTANCE.md",
     "firstCi": {
@@ -289,12 +289,12 @@
     "remoteFlakyTests": 0
   },
   "release": {
-    "engineering": "ENGINEERING COMPLETE for the verified Part L checkpoint; final containing-docs CI must also be inspected",
-    "publicHosting": "NOT DEPLOYED — no authorized provider connection/public URL",
+    "engineering": "Astra hardening source6d606d6 locally and exact-source CI verified; bounded gaps documented in docs/audit/astra/; final documentation CI checked separately",
+    "publicHosting": "NOT DEPLOYED \u2014 no authorized provider connection/public URL",
     "video": "NOT RECORDED OR UPLOADED",
     "contest": "NOT SUBMITTED",
-    "studentContributionReview": "PENDING — extensive AI assistance; significant independent technical implementation unverified",
-    "nextScope": "Proposed independent audit only with separate authorization; optional sync/logo implementation later"
+    "studentContributionReview": "PENDING \u2014 extensive AI assistance; significant independent technical implementation unverified",
+    "nextScope": "Owner release actions and explicitly authorized future work; no automatic cloud sync/deployment/submission"
   },
   "postLAudit": {
     "reviewer": "Claude Opus 5.5 (Claude Code cloud session); Playwright library + Chromium 153; no MCP browser tools available",
@@ -320,8 +320,62 @@
     "localChromiumRetries": 0,
     "localFirefox": "NOT AVAILABLE in this container; CI only",
     "logoIntegration": "BLOCKED: APPROVED LOGO ASSET REQUIRED",
-    "gptAstraReview": "NOT STARTED",
+    "gptAstraReview": "Independent findings045744c; repairs and final verification in docs/audit/astra/",
     "reports": "docs/audit/",
     "gapClosure": "2026-10-25: real Blockly gestures 21/21, all-mission browser journeys + export/deletion 81/81 (scripts/opus-audit-blockly.mjs, scripts/opus-audit-missions.mjs); team sizes 2-6 still existing-E2E only"
+  },
+  "astraAudit": {
+    "startedFrom": "02ce0dddafad5d0b9bd9e529bb0641a0a4e2fd80",
+    "independentFindingsCommit": "045744c32d48bd8c53e5894f63a2e02b7452284e",
+    "date": "2026-10-25",
+    "status": "Local and source CI verified; containing documentation CI must be checked after push",
+    "reports": "docs/audit/astra/",
+    "requirementGroups": 59,
+    "passedGroups": 47,
+    "partialGroups": 6,
+    "blockedGroups": 4,
+    "notTestedGroups": 2,
+    "confirmedIssueGroups": 9,
+    "severityCounts": {
+      "P0": 5,
+      "P1": 1,
+      "P2": 2,
+      "P3": 1
+    },
+    "localUnitTests": 478,
+    "localUnitFiles": 39,
+    "localChromiumTests": 113,
+    "localFirefox": "157.0: full maintained113tests pass, retries0",
+    "webkit": "27.2 production M01/trace/persistent-browser-restart smoke passed, not full suite",
+    "publicDeployment": "NOT PERFORMED",
+    "humanResearch": "PENDING",
+    "studentContributionEligibility": "PENDING",
+    "approvedLogo": "BLOCKED: approved asset required",
+    "knownLimits": [
+      "M05 exact-equality generalization outside authored aligned cases",
+      "Mutable draft last-writer wins",
+      "500KB imported backup limit may exclude large complete envelopes",
+      "Spatial Blockly authoring accessibility",
+      "No physical device or actual screen-reader review"
+    ],
+    "repairedSourceCommit": "6d606d6a418f25a8bf5ac3aef141e89f4308ce05",
+    "sourceCiUrl": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40225633060",
+    "sourceCiConclusion": "success",
+    "naturalBlocklyChecks": 21,
+    "localFirefoxTests": 113,
+    "localFailures": 0,
+    "localFlakes": 0,
+    "localRetries": 0,
+    "localSkips": 0,
+    "localAuditVulnerabilities": 0,
+    "sourceCiUnitTests": 478,
+    "sourceCiChromiumTests": 113,
+    "sourceCiFirefoxTests": 113,
+    "sourceCiFailures": 0,
+    "sourceCiFlakes": 0,
+    "sourceCiRetryRecovered": 0,
+    "sourceCiSkippedTests": 0,
+    "staticGates": "format/secrets/spec/K-doc/lint/typecheck passed",
+    "supplementalExportDeleteRace": "Chromium/Firefox/WebKit all passed replay-validated coherent exports during deletion"
   }
 }

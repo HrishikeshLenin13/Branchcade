@@ -1,0 +1,3 @@
+# Capture provenance
+
+This actual production rehearsal was rerun during the2026-10-25Astra audit on the modified working tree based on045744c. The reused K script's `checkedDate` is a historical hardcoded2026-10-24label, not this capture's date. Its sourceCommit is Git HEAD before the uncommitted repair was committed; it does not assert a clean tree. Read the repaired-source commit and source diff in FINAL_VERIFICATION. All recorded UI actions, trace facts, screenshots, network/error observations and synthetic-only labels are actual results of this rerun. No historical K/L evidence was overwritten.

@@ -75,3 +75,18 @@ Main-thread interpreter work remains bounded and async UI execution yields betwe
 ## Post-L note (2026-10-25)
 
 The Opus audit made no performance optimization. The production build still emits the lazy Blockly chunk (798,910 B) and a 256,757 B main chunk. Saves now run read → rebase → write in one IndexedDB transaction. When no other tab has written, rebasing returns immediately. Only after a write from another tab does it JSON-compare records, and that cost was **not measured** for 200 large-trace attempts; it is listed for the next reviewer in [GPT_ASTRA_HANDOFF](audit/GPT_ASTRA_HANDOFF.md).
+
+## Astra hardening measurements (2026-10-25)
+
+Starting source02ce0dd vs repaired source; macOS arm64, Node24.22.1. Script `scripts/astra-metrics.mjs` executes200genuine synthetic attempt snapshots/trace hashes through fake-indexeddb. Five samples per side; same370,093-byte fixture shape. This measures CPU/merge cost, not real-disk latency or a school Chromebook. Other QA workloads ran concurrently; the noisy differences are not a speed-up claim.
+
+| 200-record workload | Baseline median ms | Repaired median ms |
+| ------------------- | -----------------: | -----------------: |
+| Initial write       |              17.48 |              31.02 |
+| Uncontested save    |              44.84 |              73.18 |
+| Foreign rebase      |              72.82 |              93.32 |
+| Load                |              17.56 |              23.16 |
+
+Raw: `docs/audit/astra/evidence/metrics-before.json`, `metrics-after-final.json`. Additional validation/immutable conflict/reset-barrier checks trade modest cost for correctness. Cache1000warm calls rose0.88→6.12ms total in this small scenario because hits now serialize/check input identity (~6microseconds per call observed). Cold model3.98→5.30ms is noisy and not an optimization claim. Existing8MiB/512entry accounting now includes identity memory. The independent200 mixed-mission regression catches the former save-then-load structural-bound failure; simple200-record fixtures alone missed it. No schema/dependency/worker rewrite was attempted.
+
+Production capture:66 route/viewport loads,0 page exceptions/overflow; heading-ready timings are in final-browser/report.json and include concurrent QA and route warmup, not network/Lighthouse certification. Full maintained stress tests cover1500+events,180statementworkspaces,cache eviction and repeated navigation. Physical-device and long-session assistive review remain pending. Existing lazy Blockly~799kB warning retained.

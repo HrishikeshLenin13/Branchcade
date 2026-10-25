@@ -168,3 +168,7 @@ Known limits: six of fourteen ideas require optional investigation rather than a
 - **Budget stop / null reading:** repair termination or use `is detected AND` before a numeric comparison; keep the safety caps.
 - **Port 4173 busy:** inspect its owner; coordinate a fresh production build. Test configuration and server URL must agree.
 - **Shared-computer continuation:** clean main → fetch/fast-forward → read HANDOFF → run gates. Never infer completion or student authorship from chat or commit names.
+
+### Independent production hardening
+
+The post-L Astra audit adds data-integrity regressions and repairs for queued/cross-tab saves, immutable learning annotations, deletion/import conflicts, large local envelopes and scenario-cache identity. Manual Save no longer claims durability after quota failure. Read the [verification](docs/audit/astra/FINAL_VERIFICATION.md), [requirements/remaining gaps](docs/audit/astra/REQUIREMENT_MATRIX.md) and [production checklist](docs/audit/astra/PRODUCTION_READINESS.md). A green engineering checkpoint is not a public deployment, human study or contest submission.

@@ -1,5 +1,18 @@
 # Branchcade verification history
 
+## Astra independent production hardening (2026-10-25)
+
+Source checkpoint **6d606d6a418f25a8bf5ac3aef141e89f4308ce05**, starting02ce0dd; independent initial findings045744c. Detailed reports: [Astra verification](audit/astra/FINAL_VERIFICATION.md), [matrix](audit/astra/REQUIREMENT_MATRIX.md), [repairs](audit/astra/REPAIR_REPORT.md).
+
+- Fresh npm ci with Node 24.22.1/npm 11.19.0. Final check:478 unit tests/39 files, lint/strictTS/build pass.
+- Full local production browser suite:113 Chromium +113 Firefox =226passed (7.3m), retries 0,0 failed/flaky/skipped. Actual supported local Firefox 157passed; older reports of startup failure are historical.
+- Format/secrets/spec/K-doc preflight and npm audit 0passed. Existing ESLint deprecation/Blockly chunk warnings retained, no gate weakened.
+- New21unit regressions/oracles and4persistent browser tests; six original storage failures and the model-cache/200mixed-record failures retained. Disposable-copy rollback restores the original failures without changing live code.
+- Six viewport sweep66routes,0global overflow/page/console exceptions;22axechecks0violations. All6M01screens and9other routes visually opened. Natural Blockly21/21real-gesture checks, M01complete investigation rehearsal, and Chromium/Firefox/WebKit browser-process restart smoke pass. WebKit is supplementary smoke, not full suite.
+- Exact-SHA source CI [40225633060](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40225633060) completed success; raw logs show478 unit +113 Chromium +113 Firefox,0 failed/flaky/retry-recovered/skipped tests and audit 0. Containing documentation CI must also be inspected; no self-referential invented hash.
+- Prior baseline-doc CI045744c failed generated JSON formatting; first repaired deletion race correctly rejected stale review and exposed an obscured dialog alert. Both failures are documented, not hidden.
+- No engine/interpreter/frozen mission/package/public brand change. No deployment, human study, significant student implementation, approved logo or contest submission asserted.
+
 ## Post-L Opus independent audit and repairs (2026-10-25)
 
 Baseline `617b83d` (CI [40140698354](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40140698354) success). Linux cloud container, Node 22.22.0 (Node 24 unavailable here), Chromium 153 through Playwright with the preinstalled binary. Firefox was not available locally, so Firefox evidence comes only from GitHub CI. Full detail: [docs/audit/](audit/OPUS_INDEPENDENT_AUDIT.md).

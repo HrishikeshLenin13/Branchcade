@@ -1,0 +1,44 @@
+{
+  "node": "v24.22.1",
+  "platform": "darwin",
+  "storage": "fake-indexeddb; CPU/merge comparison, not real disk latency",
+  "attempts": 200,
+  "bytes": 370093,
+  "samples": [
+    {
+      "initialMs": 27.938540999999987,
+      "saveMs": 46.86670900000013,
+      "rebaseMs": 46.865957999999864,
+      "loadMs": 15.490375000000085
+    },
+    {
+      "initialMs": 16.263916999999992,
+      "saveMs": 38.99983300000008,
+      "rebaseMs": 52.48129199999994,
+      "loadMs": 17.50262500000008
+    },
+    {
+      "initialMs": 17.48041699999999,
+      "saveMs": 47.28933300000017,
+      "rebaseMs": 72.81799999999998,
+      "loadMs": 18.310791999999992
+    },
+    {
+      "initialMs": 16.221457999999984,
+      "saveMs": 40.013291999999865,
+      "rebaseMs": 77.51958300000001,
+      "loadMs": 17.56487500000003
+    },
+    {
+      "initialMs": 20.592415999999957,
+      "saveMs": 44.83866699999999,
+      "rebaseMs": 92.18195800000012,
+      "loadMs": 19.275249999999915
+    }
+  ],
+  "cache": {
+    "coldMs": 3.9806250000001455,
+    "warm1000Ms": 0.880666999999903
+  },
+  "traces": "Attempts store scenario snapshots and trace hashes; complete traces are re-executed, not persisted."
+}

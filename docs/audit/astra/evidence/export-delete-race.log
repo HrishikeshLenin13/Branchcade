@@ -1,0 +1,29 @@
+[
+  {
+    "browser": "chromium",
+    "version": "156.0.8078.4",
+    "passed": true,
+    "exportedAttempts": 1,
+    "finalAttempts": 0,
+    "replayValidated": true,
+    "synthetic": true
+  },
+  {
+    "browser": "firefox",
+    "version": "157.0",
+    "passed": true,
+    "exportedAttempts": 1,
+    "finalAttempts": 0,
+    "replayValidated": true,
+    "synthetic": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "passed": true,
+    "exportedAttempts": 1,
+    "finalAttempts": 0,
+    "replayValidated": true,
+    "synthetic": true
+  }
+]
