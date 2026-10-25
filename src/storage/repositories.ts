@@ -4,6 +4,7 @@ import { immutable } from '../domain/invariants'
 import { database } from './db'
 import { emptyData, migrateData } from './migrations'
 import { reconcileConceptProgress } from './progress-records'
+import { rebaseEnvelope } from './rebase'
 export async function loadData(): Promise<AppExport> {
   const db = await database()
   const data: unknown = await db.get('app', 'state')
@@ -13,6 +14,28 @@ export async function saveData(data: AppExport): Promise<void> {
   const parsed = ExportSchema.parse({ ...data, exportedAt: new Date().toISOString() })
   const db = await database()
   await db.put('app', parsed, 'state')
+}
+/** Read, rebase and write in one readwrite transaction, so another tab's records saved
+ * since `base` survive (see rebase.ts). Returns the envelope actually stored. */
+export async function saveRebased(
+  base: AppExport | null,
+  ours: AppExport,
+): Promise<{ stored: AppExport; foreign: boolean }> {
+  const db = await database()
+  const tx = db.transaction('app', 'readwrite')
+  const raw: unknown = await tx.store.get('state')
+  const theirs = raw === undefined ? null : migrateData(raw)
+  const merged = rebaseEnvelope(base, ours, theirs)
+  const parsed = ExportSchema.parse({ ...merged, exportedAt: nextStamp(merged.exportedAt) })
+  await tx.store.put(parsed, 'state')
+  await tx.done
+  return { stored: parsed, foreign: !!base && theirs?.exportedAt !== base.exportedAt }
+}
+/** Strictly increasing so two writes in the same millisecond still differ. */
+function nextStamp(previous: string) {
+  const now = Date.now(),
+    last = Date.parse(previous)
+  return new Date(Number.isFinite(last) && last >= now ? last + 1 : now).toISOString()
 }
 /** Records append; a completed attempt cannot be rewritten to fabricate a successful result. */
 export function appendAttempt(data: AppExport, attempt: Attempt): AppExport {

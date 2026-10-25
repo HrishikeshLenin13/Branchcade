@@ -1,0 +1,47 @@
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+
+Running 1 test using 1 worker
+
+[1/1] [chromium] › e2e/opus-regressions.spec.ts:32:1 › OPUS-001 a stale second tab saving does not erase an attempt recorded in the first tab
+  1) [chromium] › e2e/opus-regressions.spec.ts:32:1 › OPUS-001 a stale second tab saving does not erase an attempt recorded in the first tab 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+      50 |   await expect.poll(async () => (await stored(b))?.exportedAt).not.toBe(before)
+      51 |   await b.waitForTimeout(600)
+    > 52 |   expect((await stored(b))?.attempts).toBe(1)
+         |                                       ^
+      53 |   const c = await context.newPage()
+      54 |   await c.goto('/progress')
+      55 |   expect((await stored(c))?.attempts).toBe(1)
+        at /home/user/hrishikeshlenin13/branchcade/e2e/opus-regressions.spec.ts:52:39
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/opus-regressions-OPUS-001--73db0-t-recorded-in-the-first-tab-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/opus-regressions-OPUS-001--73db0-t-recorded-in-the-first-tab-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/opus-regressions-OPUS-001--73db0-t-recorded-in-the-first-tab-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/opus-regressions-OPUS-001--73db0-t-recorded-in-the-first-tab-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/opus-regressions-OPUS-001--73db0-t-recorded-in-the-first-tab-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    [chromium] › e2e/opus-regressions.spec.ts:32:1 › OPUS-001 a stale second tab saving does not erase an attempt recorded in the first tab 

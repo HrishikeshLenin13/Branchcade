@@ -23,6 +23,7 @@ const read = (page) =>
                     drafts: d.drafts.length,
                     labs: d.savedLabs.length,
                     profile: d.profile?.nickname,
+                    exportedAt: d.exportedAt,
                   }
                 : null,
             )
@@ -54,4 +55,10 @@ await c.goto(base + '/progress', { waitUntil: 'networkidle' })
 await c.waitForTimeout(800)
 await c.screenshot({ path: process.argv[2] + '/multitab-progress-after.png' })
 console.log('fresh tab sees:', JSON.stringify(await read(c)))
+// Idle loop check: with three tabs open and nobody acting, the stored envelope must stop changing.
+await a.waitForTimeout(1500)
+const idle1 = (await read(a)).exportedAt
+await a.waitForTimeout(4000)
+const idle2 = (await read(a)).exportedAt
+console.log('idle writes over 4 s:', idle1 === idle2 ? 'none' : `changed ${idle1} -> ${idle2}`)
 await browser.close()

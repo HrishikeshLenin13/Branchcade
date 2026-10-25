@@ -348,7 +348,7 @@ describe('durable session and learner isolation', () => {
         ...emptyData(),
         profile: { ...fixtureProfile, nickname: 'Replacement' },
       })
-    vi.spyOn(repositories, 'saveData').mockRejectedValueOnce(new Error('Quota exceeded'))
+    vi.spyOn(repositories, 'saveRebased').mockRejectedValueOnce(new Error('Quota exceeded'))
     await expect(useSession.getState().applyImport(replacement)).rejects.toThrow(
       'previous local data is unchanged',
     )

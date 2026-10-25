@@ -2,12 +2,19 @@ import { create } from 'zustand'
 import type { AppExport, LearnerProfile } from '../domain/types'
 import { ExportSchema } from '../domain/schemas'
 import { DEFAULT_SETTINGS, emptyData } from '../storage/migrations'
-import { loadData, saveData, clearData } from '../storage/repositories'
+import { loadData, saveData, saveRebased, clearData } from '../storage/repositories'
 import { opaqueId } from '../domain/invariants'
 import { mergeData } from '../storage/import-export'
 let writeQueue = Promise.resolve()
 let initialization: Promise<void> | undefined
 let readRecoveryPending = false
+/** The envelope this tab last loaded or wrote. Saves rebase this tab's changes since then
+ * onto whatever another tab stored meanwhile, instead of overwriting it (OPUS-001). */
+let lastStored: AppExport | null = null
+/** Same-origin tabs announce committed writes so their in-memory copies stay current. */
+const channel =
+  typeof BroadcastChannel === 'undefined' ? null : new BroadcastChannel('branchcade-local')
+const announce = () => channel?.postMessage({ type: 'saved' })
 export function localProfiles(data: AppExport): LearnerProfile[] {
   return [...(data.profile ? [data.profile] : []), ...data.profiles]
 }
@@ -58,7 +65,9 @@ export const useSession = create<Session>((set, get) => ({
     if (get().ready) return Promise.resolve()
     return (initialization ??= (async () => {
       try {
-        set({ data: await loadData(), ready: true })
+        const loaded = await loadData()
+        lastStored = loaded
+        set({ data: loaded, ready: true })
         readRecoveryPending = false
       } catch {
         readRecoveryPending = true
@@ -79,7 +88,15 @@ export const useSession = create<Session>((set, get) => ({
     if (get().ephemeral) return
     set((s) => ({ pendingWrites: s.pendingWrites + 1 }))
     const operation = writeQueue
-      .then(() => (get().ephemeral ? undefined : saveData(parsed)))
+      .then(async () => {
+        if (get().ephemeral) return
+        const { stored, foreign } = await saveRebased(lastStored, parsed)
+        lastStored = stored
+        // Adopt records another tab saved, unless this tab has already moved on (the next
+        // queued write rebases those too).
+        if (foreign && get().data === parsed && !sameRecords(stored, parsed)) set({ data: stored })
+        announce()
+      })
       .catch(() =>
         set({
           ephemeral: true,
@@ -99,9 +116,11 @@ export const useSession = create<Session>((set, get) => ({
     // Commit to IndexedDB before exposing a replacement. A failed import leaves current data untouched.
     set((s) => ({ pendingWrites: s.pendingWrites + 1 }))
     try {
-      await saveData(parsed)
+      const { stored } = await saveRebased(lastStored, parsed)
+      lastStored = stored
       readRecoveryPending = false
-      set({ data: parsed, ephemeral: false, notice: 'Validated local data imported and saved.' })
+      set({ data: stored, ephemeral: false, notice: 'Validated local data imported and saved.' })
+      announce()
     } catch {
       throw new Error(
         'Import was not saved. Your previous local data is unchanged; export it and retry storage.',
@@ -167,7 +186,10 @@ export const useSession = create<Session>((set, get) => ({
       // An unreadable saved envelope is never overwritten by Retry. Recover and merge it first.
       if (readRecoveryPending) current = mergeData(current, await loadData())
       await saveData(current)
+      lastStored = await loadData()
+      current = lastStored
       readRecoveryPending = false
+      announce()
       set({
         data: current,
         ephemeral: false,
@@ -191,10 +213,29 @@ export const useSession = create<Session>((set, get) => ({
     try {
       await clearData()
       readRecoveryPending = false
-      set({ data: emptyData(), ephemeral: false, notice: 'All local learner data deleted.' })
+      const empty = emptyData()
+      lastStored = empty
+      set({ data: empty, ephemeral: false, notice: 'All local learner data deleted.' })
+      announce()
     } catch {
       set({ notice: 'Deletion did not complete. Close other Branchcade tabs and retry.' })
       throw new Error('Local deletion failed')
     }
   },
 }))
+/** Same records, ignoring the write stamp. */
+function sameRecords(a: AppExport, b: AppExport) {
+  return JSON.stringify({ ...a, exportedAt: '' }) === JSON.stringify({ ...b, exportedAt: '' })
+}
+channel?.addEventListener('message', () => {
+  const state = useSession.getState()
+  // A tab with its own writes in flight picks the other tab's records up when it saves.
+  if (!state.ready || state.ephemeral || state.pendingWrites || readRecoveryPending) return
+  void loadData()
+    .then((loaded) => {
+      if (useSession.getState().pendingWrites) return
+      lastStored = loaded
+      if (!sameRecords(loaded, useSession.getState().data)) useSession.setState({ data: loaded })
+    })
+    .catch(() => undefined)
+})

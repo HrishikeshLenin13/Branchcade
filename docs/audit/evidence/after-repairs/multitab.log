@@ -1,0 +1,5 @@
+before A run: {"attempts":0,"drafts":2,"labs":0,"profile":"Robot 1112","exportedAt":"2026-10-25T04:23:16.777Z"}
+after A records attempt: {"attempts":1,"drafts":2,"labs":0,"profile":"Robot 1112","exportedAt":"2026-10-25T04:23:18.194Z"}
+after B saves draft: {"attempts":1,"drafts":2,"labs":0,"profile":"Robot 1112","exportedAt":"2026-10-25T04:23:18.648Z"}
+fresh tab sees: {"attempts":1,"drafts":2,"labs":0,"profile":"Robot 1112","exportedAt":"2026-10-25T04:23:18.648Z"}
+idle writes over 4 s: none
