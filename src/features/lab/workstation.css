@@ -688,3 +688,15 @@
     justify-content: center;
   }
 }
+/* Says why disabled controls are unavailable; sits in the toolbar's free space. */
+.toolbar-hint {
+  flex: 1 1 180px;
+  margin: 0;
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: var(--muted);
+  align-self: center;
+}
+.toolbar-hint:empty {
+  display: none;
+}

@@ -811,6 +811,11 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <Button
           variant="outline"
           disabled={editLocked || busy}
+          title={
+            editLocked || busy
+              ? 'Code is locked to the current run. Press Stop & Edit to change it.'
+              : 'Restore the starter program; earlier attempts stay saved'
+          }
           onClick={() => {
             if (
               JSON.stringify(program) === JSON.stringify(mission.starterProgram) ||
@@ -844,7 +849,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <Button
           variant="outline"
           disabled={!result || cursor >= result.events.length}
-          title="Play the next statement or branch, including its 50 ms motor ticks"
+          title={
+            !result
+              ? 'Run a program before stepping through its statements'
+              : cursor >= result.events.length
+                ? 'At the end of the run; use Rewind or Replay to step again'
+                : 'Play the next statement or branch, including its 50 ms motor ticks'
+          }
           onClick={stepAction}
         >
           Step code
@@ -868,6 +879,11 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <Button
           variant="outline"
           disabled={(busy && !executing) || (!editLocked && !executing)}
+          title={
+            executing || editLocked
+              ? 'Stop this run and unlock the code and world for editing'
+              : 'Nothing to stop yet: code and world are already editable'
+          }
           onClick={() => {
             if (executing) {
               editAfterCancel.current = true
@@ -881,6 +897,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <Button
           variant="outline"
           disabled={!playing}
+          title={playing ? 'Stop the replay here' : 'Available while a run or replay is playing'}
           onClick={() => {
             setPlaying(false)
             setNotice('Stopped by learner. The recorded outcome stays unchanged.')
@@ -891,6 +908,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <Button
           variant="outline"
           disabled={!result || cursor === 0}
+          title={
+            !result
+              ? 'Run the program first; Rewind steps back through a recorded run'
+              : cursor === 0
+                ? 'Already at the start of the run'
+                : 'Step back one recorded event'
+          }
           onClick={() => selectCursor(Math.max(0, cursor - 1))}
         >
           Rewind
@@ -898,6 +922,11 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <Button
           variant="outline"
           disabled={!result}
+          title={
+            result
+              ? 'Replay the exact saved run; no new attempt is added'
+              : 'Run the program first; Replay re-plays a recorded run'
+          }
           onClick={() => {
             setCursor(0)
             setStepTarget(undefined)
@@ -959,6 +988,14 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <Button variant="outline" onClick={() => setDialog('shortcuts')}>
           Keyboard shortcuts
         </Button>
+        {/* Disabled buttons cannot show hover tooltips, so say why they are unavailable. */}
+        <p className="toolbar-hint" data-testid="toolbar-hint">
+          {!result
+            ? 'Step, Rewind and Replay unlock after you run the program.'
+            : editLocked
+              ? 'Code and world are locked to this run. Press Stop & Edit to change them.'
+              : ''}
+        </p>
       </div>
       {error && (
         <p className="error" role="alert">
@@ -999,6 +1036,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               <Button
                 variant="outline"
                 disabled={!programHistory.canUndo || editLocked || busy}
+                title={
+                  editLocked || busy
+                    ? 'Code is locked to the current run. Press Stop & Edit to change it.'
+                    : programHistory.canUndo
+                      ? 'Undo the last applied program change'
+                      : 'No applied program change to undo yet'
+                }
                 onClick={() => {
                   programHistory.undo()
                   reset()
@@ -1009,6 +1053,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               <Button
                 variant="outline"
                 disabled={!programHistory.canRedo || editLocked || busy}
+                title={
+                  editLocked || busy
+                    ? 'Code is locked to the current run. Press Stop & Edit to change it.'
+                    : programHistory.canRedo
+                      ? 'Redo the program change you undid'
+                      : 'Nothing to redo'
+                }
                 onClick={() => {
                   programHistory.redo()
                   reset()
@@ -1236,6 +1287,11 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                   variant="outline"
                   key={variant.id}
                   disabled={editLocked || busy}
+                  title={
+                    editLocked || busy
+                      ? 'Press Stop & Edit before switching to another world variant'
+                      : 'Start a fresh attempt in this world variant'
+                  }
                   onClick={() => {
                     changeWorld(variant.world)
                     programHistory.set(variant.program)

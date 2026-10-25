@@ -470,6 +470,7 @@ export default function Instructor() {
         </label>
         <Button
           disabled={!selectedTeam}
+          title={selectedTeam ? undefined : 'Select a local team above to assign it a mission'}
           onClick={() =>
             void assign().catch((e: unknown) =>
               setError(e instanceof Error ? e.message : 'Assignment failed'),

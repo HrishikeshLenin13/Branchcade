@@ -168,6 +168,11 @@ export default function Settings() {
         <Button
           variant="outline"
           disabled={!data.savedLabs.length && !data.drafts.some((d) => d.missionId === 'lab')}
+          title={
+            !data.savedLabs.length && !data.drafts.some((d) => d.missionId === 'lab')
+              ? 'No saved labs or lab drafts to clear'
+              : 'Remove saved Free Lab worlds and the lab draft'
+          }
           onClick={() => setConfirm('labs')}
         >
           Clear saved labs

@@ -123,10 +123,32 @@ export function WorldEditor({
             ))}
           </select>
         </label>
-        <Button variant="outline" disabled={disabled || !canUndo} onClick={onUndo}>
+        <Button
+          variant="outline"
+          disabled={disabled || !canUndo}
+          title={
+            disabled
+              ? 'World is locked to the current run. Press Stop & Edit to change it.'
+              : canUndo
+                ? 'Undo the last world edit'
+                : 'No world edit to undo yet'
+          }
+          onClick={onUndo}
+        >
           Undo world edit
         </Button>
-        <Button variant="outline" disabled={disabled || !canRedo} onClick={onRedo}>
+        <Button
+          variant="outline"
+          disabled={disabled || !canRedo}
+          title={
+            disabled
+              ? 'World is locked to the current run. Press Stop & Edit to change it.'
+              : canRedo
+                ? 'Redo the world edit you undid'
+                : 'Nothing to redo'
+          }
+          onClick={onRedo}
+        >
           Redo world edit
         </Button>
       </div>
@@ -199,7 +221,14 @@ export function WorldEditor({
       </p>
       <details className="world-edit-details">
         <summary>Edit obstacles, zones & robot</summary>
-        <fieldset disabled={disabled}>
+        <fieldset
+          disabled={disabled}
+          title={
+            disabled
+              ? 'World is locked to the current run. Press Stop & Edit to change it.'
+              : undefined
+          }
+        >
           <legend>Geometry · centimeters</legend>
           <div className="button-row">
             <Button
@@ -637,6 +666,13 @@ export function WorldEditor({
         <div className="button-row">
           <Button
             disabled={disabled || !name.trim()}
+            title={
+              disabled
+                ? 'World is locked to the current run. Press Stop & Edit to change it.'
+                : !name.trim()
+                  ? 'Type a world name first'
+                  : 'Save this world to your local collection'
+            }
             onClick={() => {
               void onSave(name.trim())
                 .then(() => setSavedSnapshot(world))
@@ -648,6 +684,11 @@ export function WorldEditor({
           <Button
             variant="outline"
             disabled={disabled}
+            title={
+              disabled
+                ? 'World is locked to the current run. Press Stop & Edit to change it.'
+                : 'Restore the preset or your latest saved world'
+            }
             onClick={() => {
               if (
                 window.confirm(
