@@ -1,0 +1,30 @@
+
+ RUN  v5.0.5 /Users/HrishiL/Desktop/Branchcade
+
+ ❯ tests/astra-additional.test.ts (2 tests | 1 failed) 2556ms
+   × ASTRA-005 a replacement import with a reused attempt ID cannot reuse another scenario truth 42ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/astra-additional.test.ts > ASTRA-005 a replacement import with a reused attempt ID cannot reuse another scenario truth
+AssertionError: expected 'move' to be 'stop' // Object.is equality
+
+Expected: "stop"
+Received: "move"
+
+ ❯ tests/astra-additional.test.ts:14:103
+     12|   const key = attemptKey({ id: 'user-controlled-import-id' })
+     13|   expect(observe('first-action', runModel(key, makeWorld(24), threshol…
+     14|   expect(observe('first-action', runModel(key, makeWorld(12), threshol…
+       |                                                                                                       ^
+     15| })
+     16| it('ASTRA-006 200 valid saved attempts survive a complete load without…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  01:28:53
+   Duration  13.28s (environment 51%, tests 20%, transform 11%, setup 9%, import 8%)
+

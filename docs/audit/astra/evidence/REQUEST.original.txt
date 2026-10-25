@@ -1,0 +1,1441 @@
+# BRANCHCADE — GPT ASTRA INDEPENDENT PRODUCTION HARDENING
+## Full Application Audit, Engineering Repairs, UX Improvements and Release Verification
+
+**Repository:** https://github.com/HrishikeshLenin13/Branchcade  
+**Existing MacBook checkout:** `~/Desktop/Branchcade`  
+**Branch:** `main` ONLY  
+**Master specification:** `docs/SPEC.md`  
+**Post-L audit plan:** `docs/POST_L_AUDIT_PLAN.md`  
+**Opus handoff:** `docs/audit/GPT_ASTRA_HANDOFF.md`  
+**Last verified starting checkpoint:** `02ce0dddafad5d0b9bd9e529bb0641a0a4e2fd80`
+
+# 0. PRIMARY MISSION
+
+You are GPT Astra, serving as Branchcade's second independent principal software engineer, software quality auditor, robotics systems engineer, security reviewer, accessibility reviewer and product usability engineer.
+
+Your assignment is to take the existing Branchcade application and make it as technically reliable, polished, usable and production-ready as the current architecture permits.
+
+You have authorization to:
+
+1. Independently audit the entire existing application.
+2. Identify genuine software bugs, correctness gaps, weak implementations and misleading product behavior.
+3. Reproduce those failures with independent evidence.
+4. Fix confirmed defects.
+5. Strengthen automated tests.
+6. Improve legitimate accessibility and interface problems.
+7. Improve performance when measurements justify a change.
+8. Harden local storage and application lifecycle behavior.
+9. Preserve educational and simulation correctness.
+10. Update technical documentation.
+11. Commit and push verified code directly to `main`.
+12. Produce a complete, truthful final verification report.
+
+This assignment is not limited to documentation.
+
+**DO REAL ENGINEERING WORK.**
+
+Do not simply run the existing tests, say they passed, and declare the application perfect.
+
+Do not invent bugs, weaken existing requirements, or rebuild everything unnecessarily.
+
+The aim is production-quality software backed by observable evidence.
+
+---
+
+# 1. FIRST ACTION — UPDATE THE MACBOOK REPOSITORY
+
+The application has received important commits from a separate Claude Opus 5.5 session. The local MacBook may contain an older version.
+
+**Before reviewing or editing any source, synchronize it safely with the latest GitHub `main`.**
+
+Start by locating the checkout.
+
+The expected location is:
+
+`~/Desktop/Branchcade`
+
+If that directory does not exist, search for the existing checkout in reasonable user-accessible project locations, without destructive operations.
+
+If no checkout exists, clone the repository to the Desktop.
+
+Use these commands as appropriate:
+
+```bash
+cd ~/Desktop/Branchcade
+
+pwd
+git status --short --branch
+git branch --show-current
+git remote -v
+git fetch origin --prune
+
+git rev-parse HEAD
+git rev-parse origin/main
+git log -8 --oneline origin/main
+```
+
+**Git safety requirements:**
+
+- Confirm the current branch is `main`.
+- Preserve every existing local change.
+- Do not discard any files.
+- Do not reset or force-pull.
+- If there are uncommitted changes, inspect and preserve them before updating.
+- If the remote is ahead and the working tree is clean, use `git pull --ff-only origin main`.
+- If histories diverge, stop the update and explain the conflict rather than deleting work.
+- Do not start work against an outdated checkpoint.
+
+After updating, record the new exact SHA.
+
+The latest verified SHA when this prompt was written was:
+
+`02ce0dddafad5d0b9bd9e529bb0641a0a4e2fd80`
+
+If GitHub has newer commits, use the newer SHA and inspect the changes.
+
+Check the existing runtime:
+
+```bash
+node --version
+npm --version
+cat .nvmrc
+```
+
+If nvm is available:
+
+```bash
+nvm install
+nvm use
+```
+
+Branchcade's pinned runtime is Node 24.22.1.
+
+Install and verify:
+
+```bash
+npm ci
+npm run check
+npx playwright install chromium firefox
+```
+
+Inspect `package.json` and `playwright.config.ts` to understand how the test runners work.
+
+Do not change dependencies merely to silence warnings.
+
+Do not run a stale existing production preview. Build fresh source before browser inspection.
+
+Start an isolated production preview when appropriate:
+
+```bash
+npm run build
+npm run preview -- --port 4173 --strictPort
+```
+
+Use another terminal or managed process for testing.
+
+---
+
+# 2. EXISTING PROJECT BACKGROUND
+
+Branchcade is a sophisticated browser-based robotics educational application.
+
+Its purpose is to help learners understand programming logic by observing actual simulated robot behavior, making predictions, investigating mistakes and testing alternative explanations.
+
+Its core learning cycle is:
+
+**Observe → Predict → Execute → Compare → Investigate → Experiment → Transfer → Reassess.**
+
+The application uses:
+
+- React.
+- TypeScript.
+- Vite.
+- React Router.
+- Blockly.
+- A custom deterministic robot simulation engine.
+- A safe bounded AST interpreter.
+- IndexedDB local-first persistence.
+- Structured execution traces.
+- Misconception-based learning algorithms.
+- Eight authored robotics missions.
+- Team learning.
+- Instructor and learner dashboards.
+- Vitest and Playwright.
+- GitHub Actions.
+
+The original master specification spans Parts A–L.
+
+Previous development agents built and verified those parts.
+
+Do not start over.
+
+## Simulation system
+
+Existing functionality includes:
+
+- Robot movement and turning.
+- Fixed logical simulation ticks.
+- Continuous collision detection.
+- Rectangular and circular obstacles.
+- World-boundary handling.
+- Distance sensing.
+- Floor-color sensing.
+- Blockly AST validation.
+- Conditionals.
+- Loops.
+- Variables.
+- Functions.
+- Execution budgets.
+- Cancellation.
+- Source-linked debugging.
+- Code and tick stepping.
+- Replay.
+
+The existing engine uses versioned execution semantics.
+
+Old execution data must remain compatible.
+
+## Learning intelligence
+
+Existing functionality includes:
+
+- Fourteen modeled misconceptions.
+- Diagnostic questions.
+- Competing mental models.
+- Supporting and contradicting evidence.
+- Counterexample generation.
+- Physical scenario experiments.
+- Adaptive transfer challenges.
+- Concept understanding and progress evidence.
+
+This is a deterministic TypeScript system.
+
+Do not describe it as an LLM or neural-network tutoring engine.
+
+## Missions
+
+The existing missions are M01–M08.
+
+The previous Opus session corrected M03 to mission data version 3.
+
+All other current missions remain version 2.
+
+Frozen historical data includes:
+
+`src/missions/mission-data/v1.json`
+
+`src/missions/mission-data/v2-revised.json`
+
+Never silently modify historical mission semantics.
+
+Do not break recorded attempt hashes, versioned judging or replay.
+
+## Persistence and teams
+
+The application is local-first.
+
+It has:
+
+- Anonymous learner aliases.
+- Versioned saved attempts.
+- Saved mission drafts.
+- Local team sessions for 2–6 learners.
+- Instructor reporting from local records.
+- JSON and CSV exports.
+- Validated imports.
+- Local data deletion.
+- Recovery handling.
+
+There is currently no account service or cloud backend.
+
+Do not add either during this assignment.
+
+---
+
+# 3. CURRENT OPUS AUDIT RESULTS
+
+Claude Opus 5.5 recently audited the application and identified real defects that the previous tests missed.
+
+The current source checkpoint includes these fixes.
+
+## OPUS-001 — Cross-tab data loss
+
+Severity: P0.
+
+Before repair, tab B could save an old in-memory data envelope and silently erase attempts recorded by tab A.
+
+Opus added:
+
+`src/storage/rebase.ts`
+
+and updated the save and session paths so writes rebase against current IndexedDB state.
+
+The implementation also uses cross-tab notification to refresh state.
+
+**This is the highest-risk recent architectural change.**
+
+Do not automatically assume it is correct.
+
+## OPUS-002 — Incorrect M03 grading
+
+Severity: P1.
+
+Previously, M03 could be completed by a program that never drove forward.
+
+Opus created M03 version 3 with a movement requirement and preserved previous v2 mission behavior.
+
+Audit this carefully, especially replay, historical judging and imports.
+
+## OPUS-003, OPUS-004, OPUS-006
+
+Accessibility and interface corrections:
+
+- Keyboard-scrollable learning-cycle display.
+- Larger stage-control targets.
+- Improved unknown-mission recovery and navigation-link styling.
+
+Verify these changes independently.
+
+## Outstanding Opus observations
+
+Four lower-priority issues remain:
+
+**OPUS-005:** Workstation toolbar wraps awkwardly at laptop widths.
+
+**OPUS-007:** Mental-model cache may reuse an incorrect result if callers provide colliding keys. No normal production collision was established.
+
+**OPUS-008:** M05 accepts a fragile loop solution based on exact equality. This may be a curriculum-design limitation, not necessarily a bug.
+
+**OPUS-009:** A beforeunload warning may trigger immediately after opening an unedited mission.
+
+Do not blindly copy these findings.
+
+Independently reproduce them.
+
+Fix confirmed correctness defects. Improve visual issues only when the change is justified.
+
+---
+
+# 4. INDEPENDENCE REQUIREMENT
+
+This is the second reviewer of the application.
+
+Your findings must be independent.
+
+Follow this order:
+
+### Round 1 — Independent analysis
+
+Read:
+
+- `AGENTS.md`
+- `docs/SPEC.md`
+- `docs/ARCHITECTURE.md`
+- `docs/POST_L_AUDIT_PLAN.md`
+- Source code
+- Test infrastructure
+
+Conduct your own initial audit using the latest source.
+
+Use clean browser contexts.
+
+Create your initial audit report BEFORE using Opus's findings as the sole basis for your conclusions.
+
+### Round 2 — Compare with Opus
+
+After recording independent results, read:
+
+- `docs/audit/GPT_ASTRA_HANDOFF.md`
+- `docs/audit/OPUS_BUG_REGISTER.md`
+- `docs/audit/OPUS_REPAIR_REPORT.md`
+- `docs/audit/OPUS_REQUIREMENT_MATRIX.md`
+- `docs/audit/OPUS_FINAL_VERIFICATION.md`
+
+Compare and reconcile.
+
+Identify:
+
+- Defects confirmed by both models.
+- Defects found only by Astra.
+- Opus fixes that might introduce regressions.
+- Opus claims not independently validated.
+- Existing tests that provide insufficient evidence.
+
+Keep the original independent report intact.
+
+Do not change your initial findings afterward merely to agree with Opus.
+
+---
+
+# 5. MCP AND BROWSER REQUIREMENTS
+
+Discover all installed and available MCP servers.
+
+Use relevant capabilities such as:
+
+- Playwright browser MCP.
+- Chrome DevTools MCP.
+- GitHub MCP.
+- Browser automation.
+- DOM inspection.
+- Console inspection.
+- Network inspection.
+- Screenshot capture.
+- Performance tracing.
+- Accessibility testing.
+
+If an MCP capability is unavailable, do not pretend to use it.
+
+Fall back to supported Playwright scripts and standard local tooling.
+
+Use actual browser interactions instead of only inspecting source.
+
+Test the built production application, not solely Vite development mode.
+
+Use isolated synthetic learner profiles, never actual student records.
+
+Do not publish sensitive traces or private browser data.
+
+---
+
+# 6. FULL FEATURE AUDIT MATRIX
+
+Build a complete requirements matrix mapping every relevant feature to the master specification.
+
+For each requirement record:
+
+- Requirement ID.
+- Feature.
+- Expected behavior.
+- Actual observed behavior.
+- Source files.
+- Test method.
+- Browser and version.
+- Evidence.
+- Status.
+- Severity if broken.
+- Required fix.
+- Regression test.
+- Final verification result.
+
+Statuses:
+
+- PASS.
+- FAIL.
+- PARTIAL.
+- BLOCKED.
+- NOT TESTED.
+
+Never call something PASS solely because the source code contains a button or because a historical test once passed.
+
+---
+
+# 7. AUDIT THE COMPLETE USER EXPERIENCE
+
+Perform real browser journeys covering:
+
+## Home and onboarding
+
+- First launch.
+- New learner.
+- Returning learner.
+- Alias generation.
+- Onboarding and skip.
+- Starting and resuming missions.
+- Browser navigation.
+- Unknown routes.
+- Recovery.
+
+## Blockly editor
+
+- Open and close.
+- Drag and connect.
+- Detach.
+- Change fields.
+- Change operators.
+- Insert and delete.
+- Undo and redo.
+- Reset.
+- Apply.
+- Source error highlighting.
+- Long programs.
+- Deeply nested programs.
+- Loops and functions.
+- Save and restore.
+- Navigation with dirty edits.
+
+Verify that the visible Blockly workspace matches the executable AST.
+
+## Robotics physics
+
+- Movement.
+- Turning.
+- Wall boundaries.
+- Obstacle collision.
+- Distance rays.
+- Sensor range.
+- Floor-color sensing.
+- Equal-threshold comparisons.
+- Floating-point behavior.
+- Null sensor readings.
+- Long execution.
+- Cancellation.
+
+Use independent mathematical test oracles.
+
+## Debugger
+
+- Step code.
+- Step tick.
+- Pause.
+- Resume.
+- Rewind.
+- Playback speeds.
+- Trace selection.
+- Source block focus.
+- Immutable recorded results.
+
+## All eight missions
+
+Independently exercise M01–M08.
+
+Verify:
+
+- Starter programs.
+- Predictions.
+- Correct and incorrect branches.
+- Hints.
+- Reference solutions.
+- Flawed solutions.
+- Mission judging.
+- Transfer challenges.
+- Completion.
+- Reload.
+- Historical attempt preservation.
+
+Give special attention to:
+
+- M03 v3 judging.
+- M05 fragile exact-equality loop behavior.
+- M08 capstone completion.
+
+## Diagnosis and experimentation
+
+- Correct answers.
+- Wrong answers.
+- Ambiguous evidence.
+- Contradictory evidence.
+- Different learner mental models.
+- Probe selection.
+- Generated counterexamples.
+- Program/world edits.
+- Actual resulting traces.
+- Transfer reassessment.
+- Persisted understanding evidence.
+
+## Free Lab
+
+- Stage editing.
+- Geometry.
+- Sensor changes.
+- Camera controls.
+- Zoom and pan.
+- Undo.
+- Save and reload.
+- Import/export.
+- Validation and recovery.
+
+## Team mode
+
+Exercise team sizes 2, 3, 4, 5 and 6.
+
+Test:
+
+- Private answers.
+- Role rotation.
+- Shared contributions.
+- Team predictions.
+- Handoffs.
+- Shared code.
+- Assistance.
+- Progress separation.
+- Resume.
+- Export.
+- Historical records.
+
+## Progress and instructor
+
+Populate synthetic records.
+
+Check:
+
+- Learner progress.
+- Achievement stamps.
+- Filters.
+- Assignments.
+- Notes.
+- Replay.
+- CSV.
+- JSON.
+- Print.
+- Delete and reset.
+
+Inspect exported file contents, not merely successful download notifications.
+
+---
+
+# 8. MOST IMPORTANT DEEP AUDIT — CONCURRENT STORAGE
+
+Treat the Opus storage repair as a high-risk security/correctness boundary.
+
+Inspect:
+
+- `src/storage/rebase.ts`
+- `src/storage/repositories.ts`
+- `src/app/session.ts`
+- IndexedDB transactions.
+- Schema validators.
+- Import/export.
+- BroadcastChannel behavior.
+
+Independently test at least these cases:
+
+### Case A — Two tabs append different attempts
+
+Both records must survive.
+
+### Case B — Two tabs modify the same attempt
+
+Immutable execution evidence must not be silently replaced.
+
+Permissible annotations should merge only according to documented rules.
+
+### Case C — Tab A deletes a learner while tab B continues editing
+
+Deleted data must not be resurrected accidentally.
+
+### Case D — Import replaces data while another tab autosaves
+
+The outcome must follow an explicit and consistent conflict policy.
+
+### Case E — Save failure
+
+Quota, blocked storage or transaction failure must not silently claim that data was saved.
+
+### Case F — Simultaneous deletion and export
+
+Exports must reflect a coherent state and preserve scope.
+
+### Case G — Large existing dataset
+
+Use approximately 200 synthetic attempts with representative traces to measure write and merge cost.
+
+### Case H — Multiple tabs and browser restart
+
+Verified committed data must survive close/reopen.
+
+### Case I — Historical records
+
+Old engine/mission versions remain valid.
+
+### Case J — Cross-browser behavior
+
+Test supported Chromium and Firefox environments, and WebKit when available.
+
+Keep a repeatable failing test for any discovered defect.
+
+Avoid changing the storage schema unless the change is essential and the migration is independently tested.
+
+This area has priority over cosmetic features.
+
+---
+
+# 9. MISSION JUDGING AND CURRICULUM CORRECTNESS
+
+Perform adversarial tests against every mission's grading rules.
+
+Existing tests cover many reference programs, but this does not prove that every incorrect program is rejected.
+
+Create mutations such as:
+
+- Delete a movement.
+- Replace movement with stop.
+- Reverse condition.
+- Change threshold.
+- Change loop count.
+- Remove a function call.
+- Skip sensor checks.
+- Manipulate equality conditions.
+- Change logic operators.
+- Create an infinite loop.
+- Make a program that passes one scenario but fails another.
+
+Run the real mission judge.
+
+For each surviving mutation, determine whether it is:
+
+1. A genuinely correct alternative solution.
+2. A curriculum-design weakness.
+3. An incorrect grading result.
+4. An inconclusive case requiring further review.
+
+Do not simply reject all alternative solutions.
+
+For any required curriculum fix, preserve historical mission results using explicit versioned data.
+
+Do not modify frozen v1 or v2 snapshots.
+
+Do not silently rejudge old student records under new curriculum rules.
+
+---
+
+# 10. LEARNING INTELLIGENCE QUALITY
+
+Analyze:
+
+- `src/learning/mental-models.ts`
+- `src/learning/diagnosis.ts`
+- `src/learning/probe-templates.ts`
+- `src/learning/counterexamples.ts`
+- `src/learning/transfer.ts`
+- `src/learning/mastery.ts`
+
+Review all fourteen misconception models.
+
+Verify:
+
+- Mental-model predictions match actual model semantics.
+- Diagnostic evidence isn't duplicated.
+- One wrong answer doesn't cause false certainty.
+- Contradictions are handled.
+- Different probe answers produce appropriate differences.
+- Explanations are grounded in evidence.
+- Generated experiments are executable.
+- A generated counterexample actually distinguishes candidate models.
+- Mastery is not awarded for assisted or copied answers.
+- Old evidence remains immutable.
+
+Specifically investigate OPUS-007.
+
+Determine whether the model-cache key collision can occur through real application flows.
+
+If yes, reproduce and fix it.
+
+If no, consider hardening the cache contract with canonical input identities, but avoid introducing expensive hashing or unnecessary complexity without justification.
+
+Add independent regression tests for any change.
+
+---
+
+# 11. SECURITY AND PRIVACY HARDENING
+
+Branchcade serves young learners.
+
+Treat privacy as a first-class engineering requirement.
+
+Inspect:
+
+- Dynamic HTML rendering.
+- Input validation.
+- Blockly program safety.
+- Imported JSON validation.
+- CSV formula escaping.
+- File handling.
+- Browser storage.
+- Source maps and production bundles.
+- Dependency vulnerabilities.
+- Error-message leakage.
+- Unexpected network requests.
+- Third-party dependencies.
+- Dangerous URLs.
+- Security headers.
+- Data deletion behavior.
+
+The current application is intentionally local-first.
+
+No learner account or cloud sync currently exists.
+
+**DO NOT INTRODUCE ANY UNAPPROVED PERSONAL DATA COLLECTION.**
+
+Use synthetic data for all tests.
+
+If a security defect is found:
+
+1. Reproduce it safely.
+2. Fix it.
+3. Add regression coverage.
+4. Record the affected attack surface.
+5. Verify the fix from a clean state.
+
+Never commit secrets or private student records.
+
+---
+
+# 12. ACCESSIBILITY AND INTERACTION AUDIT
+
+Run axe and actual keyboard interaction checks.
+
+Check:
+
+- Tab navigation.
+- Keyboard focus.
+- Focus restoration.
+- Dialog focus management.
+- Error announcements.
+- Accessible names.
+- Semantic HTML.
+- Reduced motion.
+- High contrast.
+- Text scaling.
+- Screen reader behavior where tooling is available.
+- Touch target sizes.
+- Disabled control meaning.
+- Blockly keyboard accessibility.
+- Horizontal scroll accessibility.
+
+Audit responsive layouts at:
+
+- 1920×1080.
+- 1440×900.
+- 1366×768.
+- 1024×768.
+- 768×1024.
+- 390×844.
+
+Use screenshots and direct inspection.
+
+Fix broken or inaccessible core interactions.
+
+Do not simply suppress axe warnings.
+
+---
+
+# 13. UI/UX IMPROVEMENTS
+
+I want Branchcade to feel like a carefully engineered, professional educational product.
+
+Assess the actual interface.
+
+Focus on:
+
+- Information hierarchy.
+- Clear primary actions.
+- Discoverability.
+- Layout stability.
+- Visual consistency.
+- Mission progress clarity.
+- Error recovery.
+- Empty states.
+- Disabled states.
+- Loading feedback.
+- Dense workbench controls.
+- Dialog ergonomics.
+- Text readability.
+- Scroll behavior.
+- Device responsiveness.
+
+Avoid generic AI-generated design.
+
+Do not create arbitrary purple gradients, glossy cards, excessive animation or unnecessary shadows.
+
+Preserve the established design system.
+
+You are authorized to make carefully scoped design improvements where a concrete usability problem is supported by inspection.
+
+For example, investigate OPUS-005's toolbar wrapping.
+
+Fix it if a better responsive layout can be implemented without hiding functionality.
+
+Do not perform an unnecessary complete redesign.
+
+Every changed control must be actually tested.
+
+---
+
+# 14. PERFORMANCE AND RESOURCE USAGE
+
+Benchmark the current application before optimizing.
+
+Examine:
+
+- First-load performance.
+- Blockly lazy initialization.
+- Large Blockly workspaces.
+- Trace display.
+- Long execution runs.
+- Repeated navigation.
+- Counterexample search.
+- Mental-model cache.
+- Large local datasets.
+- Storage rebasing.
+- Browser memory.
+- Animation responsiveness.
+- Unmounted editor cleanup.
+
+Document baseline and revised measurements under comparable conditions.
+
+Potential improvements may include:
+
+- Avoiding unnecessary full-envelope comparisons.
+- Reducing expensive repeated derivations.
+- Better memoization.
+- Correct cache invalidation.
+- More efficient DOM updates.
+- More robust async cancellation.
+- Improved editor resource cleanup.
+
+Only implement optimizations when there is a measurable benefit or demonstrated resource failure.
+
+Preserve deterministic results and historical execution compatibility.
+
+---
+
+# 15. REAL PRODUCTION HARDENING
+
+Assess whether Branchcade could reliably serve real users.
+
+Check:
+
+- Clean install.
+- Production build.
+- Static asset resolution.
+- Route fallback.
+- Direct deep links.
+- Browser refresh.
+- Unknown-route recovery.
+- Font loading.
+- Blockly media loading.
+- Runtime errors.
+- Resource requests.
+- Console warnings.
+- Network dependencies.
+- Storage failures.
+- Safe degradation.
+- Security headers for intended hosting.
+
+Review:
+
+- `vite.config.ts`
+- `vercel.json`
+- `public/_redirects`
+- `index.html`
+- `docs/DEPLOYMENT.md`
+
+If a public hosting project is not authorized, do not invent or deploy one.
+
+Prepare a reproducible deployment readiness checklist.
+
+Production-ready must mean more than a successful `npm run build`.
+
+Distinguish:
+
+- Engineering verified.
+- Browser tested.
+- Deployment ready.
+- Publicly deployed.
+- Operationally supported.
+
+Do not conflate these statuses.
+
+---
+
+# 16. LOGO AND BRAND INTEGRATION
+
+The owner wants a polished final Branchcade visual identity.
+
+The current repository has `public/favicon.svg` and a built-in navigation mark.
+
+An externally approved final logo has not been located in the last verified GitHub checkpoint.
+
+Search the current working directory for any owner-supplied approved logo asset.
+
+If present and explicitly authorized:
+
+- Preserve its original source file.
+- Integrate it into the navigation.
+- Update the favicon.
+- Update applicable metadata.
+- Update README branding.
+- Check mobile and desktop layouts.
+- Check dark and light appearance.
+- Verify accessible name and contrast.
+- Inspect actual screenshots.
+
+If no approved logo exists, mark this task BLOCKED and do not generate an arbitrary replacement.
+
+Do not let logo integration delay fixing critical defects.
+
+---
+
+# 17. REPAIR WORKFLOW
+
+First preserve your initial independent audit.
+
+Create:
+
+`docs/audit/astra/INDEPENDENT_FINDINGS.md`
+
+`docs/audit/astra/REQUIREMENT_MATRIX.md`
+
+`docs/audit/astra/BUG_REGISTER.md`
+
+`docs/audit/astra/BASELINE_METRICS.md`
+
+Then compare with the Opus reports.
+
+For each confirmed defect:
+
+1. Record reproduction steps.
+2. Assign severity.
+3. Locate root cause.
+4. Implement the smallest appropriate fix.
+5. Add a test that fails on the old behavior.
+6. Confirm the repaired behavior.
+7. Check relevant regression suites.
+8. Retest with actual browser interactions.
+9. Document risk and compatibility.
+10. Commit the verified correction.
+
+Severity definitions:
+
+**P0:** Data loss, corrupted simulation or learning evidence, serious security/privacy failure, widespread crashes.
+
+**P1:** Broken essential feature, incorrect mission grading, major user-workflow failure or inaccessible critical functionality.
+
+**P2:** Significant but nonblocking usability, reliability, layout, performance or error-recovery issue.
+
+**P3:** Low-risk polish, minor inconsistency or optional improvement.
+
+Fix every confirmed P0/P1 issue.
+
+Fix justified P2 issues where possible.
+
+Handle P3 work selectively, avoiding unnecessary regressions.
+
+If a defect remains unresolved, document it accurately.
+
+Do not call an uncertain issue fixed merely because a plausible code change was made.
+
+---
+
+# 18. ENGINEERING QUALITY STANDARDS
+
+Avoid:
+
+- Arbitrary timeouts as substitutes for synchronization.
+- Weakening tests.
+- Silent catch blocks.
+- `any` type escapes without compelling reasons.
+- Duplicated core business logic.
+- Broad architectural rewrites without measured need.
+- Introducing unnecessary dependencies.
+- Huge unreviewable commits.
+- Inconsistent data versions.
+- Unbounded background work.
+- Rewriting stored evidence.
+- Inventing metrics.
+- Hiding test failures.
+- Replacing existing functionality with placeholders.
+- Exposing secrets.
+
+Prefer:
+
+- Explicit invariants.
+- Strong TypeScript typing.
+- Small pure functions.
+- Deterministic simulation.
+- Versioned schema changes.
+- Reproducible tests.
+- Independent expected-value calculations.
+- Clear error states.
+- Data-loss prevention.
+- Accessible interactions.
+- Fewer, better-supported dependencies.
+- Clear source documentation.
+
+Do not optimize solely for code line count or test count.
+
+A smaller, safer implementation is preferable to unnecessary complexity.
+
+---
+
+# 19. AUTOMATED VERIFICATION
+
+After meaningful changes, run focused tests.
+
+Before finalizing, run:
+
+```bash
+npm ci
+npm run format:check
+npm run scan:secrets
+npm run verify:spec -- modified
+node scripts/verify-k-docs.mjs
+npm run check
+npm run test:e2e
+npm audit
+```
+
+Use the scripts from the actual fetched `package.json`.
+
+If formatting checks fail, fix formatting and rerun verification.
+
+Do not loosen static analysis or remove tests just to pass.
+
+Check whether the local Firefox browser can launch.
+
+If local Firefox fails before application code, record the environment failure and verify Firefox through the GitHub Actions run.
+
+Where available, independently test WebKit/Safari, even if the maintained CI only uses Chromium and Firefox.
+
+Track separately:
+
+- Passed.
+- Failed.
+- Skipped.
+- Flaky.
+- Retried.
+- Not run.
+
+A green CI workflow with retry-recovered failures is not the same as a clean zero-flake run.
+
+Preserve failure traces when needed.
+
+---
+
+# 20. EXTRA RELIABILITY TESTING
+
+Add meaningful tests beyond the existing suite where gaps are demonstrated.
+
+Strong candidates include:
+
+- Multi-tab simultaneous learner edits.
+- Deletion followed by stale autosave.
+- Concurrent import and normal save.
+- Mission version migration.
+- M03 v2/v3 compatibility.
+- M05 loop edge cases.
+- Model cache collisions.
+- Large record import/export.
+- Corrupt storage recovery.
+- Property-based geometry tests.
+- Repeated run determinism.
+- Dynamic Blockly workspace editing.
+- Dialog keyboard behavior.
+- Browser reload during investigation.
+- Team resumption after navigation.
+- Print and file download verification.
+
+Use property-based or fuzz testing when valuable.
+
+Record seeds for reproducibility.
+
+Do not create thousands of trivial assertions just to inflate the test count.
+
+---
+
+# 21. RELEASE DEADLINE AND CHANGE SAFETY
+
+The Congressional App Challenge's earlier published deadline is October 26, 2026, at 11 AM Central; another official page has displayed a later deadline.
+
+Until clarified, use the earlier cutoff for planning.
+
+Because the deadline is imminent, protect the competition submission.
+
+Prioritize high-confidence correctness, security and data-integrity fixes.
+
+Avoid risky, speculative architecture changes before the entry is submitted.
+
+Do not introduce:
+
+- Cloud sync.
+- User accounts.
+- A new backend.
+- New billing.
+- Social features.
+- A completely new visual system.
+- Unverified curriculum reworks.
+- Unapproved analytics or tracking.
+
+Major new features can be evaluated as a separate post-submission roadmap.
+
+If an architectural rewrite would threaten release stability, document it instead of attempting it during this hardening pass.
+
+---
+
+# 22. GITHUB WORKFLOW
+
+Work on `main` only.
+
+No branches, PRs, force pushes or history rewrites.
+
+Do not modify frozen historical mission data.
+
+Commit coherent verified changes, with meaningful commit messages.
+
+Examples:
+
+`test(storage): reproduce cross-tab deletion and autosave conflict`
+
+`fix(storage): prevent stale write after learner deletion`
+
+`fix(learning): include scenario identity in model cache`
+
+`fix(ui): improve responsive workstation toolbar`
+
+`test(missions): add adversarial mission completion cases`
+
+`docs(audit): record independent Astra findings`
+
+These are illustrative.
+
+Do not commit a speculative fix before verifying the underlying defect.
+
+Before each push:
+
+- Inspect `git diff`.
+- Confirm `main`.
+- Fetch the remote.
+- Compare SHAs.
+- Check that nobody else has added overlapping commits.
+- Reconcile safely if necessary.
+- Push normally.
+
+If the remote advances and there is a conflict, preserve work rather than forcing the push.
+
+Inspect GitHub Actions for the exact pushed SHA.
+
+Do not report success merely because `git push` returned without an error.
+
+---
+
+# 23. REQUIRED FINAL REPORTS
+
+Create:
+
+`docs/audit/astra/INDEPENDENT_FINDINGS.md`
+
+`docs/audit/astra/REQUIREMENT_MATRIX.md`
+
+`docs/audit/astra/BUG_REGISTER.md`
+
+`docs/audit/astra/OPUS_COMPARISON.md`
+
+`docs/audit/astra/REPAIR_REPORT.md`
+
+`docs/audit/astra/FINAL_VERIFICATION.md`
+
+`docs/audit/astra/PRODUCTION_READINESS.md`
+
+`docs/audit/astra/FUTURE_IMPROVEMENTS.md`
+
+Store safe, authentic screenshots/traces under:
+
+`docs/audit/astra/evidence/`
+
+Update:
+
+- `docs/HANDOFF.md`
+- `docs/STATUS.json`
+- `docs/TEST_REPORT.md`
+- `docs/INTERACTION_AUDIT.md` if interactions change.
+- `docs/PERFORMANCE_REPORT.md` if measured performance changes.
+- `README.md` if functionality or verified metrics change.
+
+Preserve the original Opus reports.
+
+Do not overwrite Opus findings to make the two reviewers agree.
+
+---
+
+# 24. PRODUCTION READINESS ACCEPTANCE GATES
+
+Before claiming engineering production readiness, verify:
+
+### Correctness
+
+- No unresolved known P0 issue.
+- No unresolved known P1 issue.
+- Existing learning and simulation invariants preserved.
+- Mission judging verified.
+- Historical data compatibility tested.
+
+### Reliability
+
+- Durable saves.
+- Safe concurrent tabs.
+- Safe imports.
+- Predictable reset/delete behavior.
+- Error recovery.
+- No silent data loss.
+
+### Browser behavior
+
+- Core journeys actually work.
+- Blockly editing actually works.
+- Missions actually complete correctly.
+- Team mode works at supported sizes.
+- Progress and instructor views reflect real local data.
+- Deep links and refresh work.
+- No blocking console errors.
+
+### Security and privacy
+
+- No unexpected learner-data requests.
+- Inputs and imports validated.
+- No arbitrary source execution.
+- Secrets not exposed.
+- Local erasure works.
+- Security limitations documented.
+
+### Accessibility
+
+- Critical workflows keyboard accessible.
+- Meaningful focus states.
+- No known serious automated accessibility violations on the tested routes.
+- Assistive-technology gaps documented honestly.
+
+### Performance
+
+- No demonstrated major resource leak.
+- Large workspaces remain responsive.
+- Simulation work stays bounded.
+- Baseline/repaired measurements documented.
+
+### Testing
+
+- Fresh install.
+- Clean build.
+- Lint and TypeScript pass.
+- Unit suite passes.
+- Chromium suite passes.
+- Firefox suite passes through supported environment.
+- No unexplained skips.
+- No hidden retry-recovered failures.
+- GitHub CI success on the actual final commit.
+
+### Documentation
+
+- Actual features documented.
+- Test results accurate.
+- Known limitations transparent.
+- Deployment status accurate.
+- No unsupported effectiveness claims.
+
+**If public hosting, user research, contributor eligibility or deployment credentials are still pending, do not claim the product is fully publicly launched or contest-submitted.**
+
+---
+
+# 25. FINAL RESPONSE TO OWNER
+
+Return:
+
+## BRANCHCADE GPT ASTRA ENGINEERING REPORT
+
+**REPOSITORY**
+- Starting SHA.
+- Final SHA.
+- Branch.
+- Commits pushed.
+- Final CI URL.
+
+**INDEPENDENT AUDIT**
+- Total requirements reviewed.
+- Passed.
+- Failed.
+- Partial.
+- Blocked.
+- Not tested.
+
+**DEFECTS**
+- New issues found.
+- Opus issues independently verified.
+- P0/P1/P2/P3 counts.
+- Outstanding defects.
+
+**REPAIRS**
+- Root causes.
+- Files changed.
+- Behavior fixed.
+- Regression tests added.
+- Real browser evidence.
+
+**USER EXPERIENCE**
+- Screens reviewed.
+- Viewports tested.
+- Accessibility changes.
+- Responsiveness changes.
+- Visual findings.
+
+**PERFORMANCE**
+- Baseline measurements.
+- Improvements.
+- Remaining bottlenecks.
+
+**SECURITY AND DATA**
+- Concurrency test results.
+- Import/export integrity.
+- Privacy/network observations.
+- Storage risks.
+
+**TESTING**
+- Unit totals.
+- Chromium totals.
+- Firefox totals.
+- Other browsers.
+- Failures.
+- Flakes.
+- Skips.
+- Dependency vulnerabilities.
+
+**LOGO**
+- Integrated or blocked, with evidence.
+
+**PRODUCTION STATUS**
+- Engineering verification.
+- Deployment readiness.
+- Actual deployment.
+- Remaining owner actions.
+
+**NEXT DEVELOPMENT ROADMAP**
+- Only genuinely valuable improvements.
+- Expected impact.
+- Engineering complexity.
+- Architectural risk.
+- Required authorization.
+
+---
+
+# 26. START EXECUTING NOW
+
+You are authorized to perform this engineering assignment.
+
+**DO NOT STOP AFTER WRITING A PLAN.**
+
+Start with the latest GitHub synchronization.
+
+Run a clean baseline.
+
+Independently audit the application.
+
+Preserve findings.
+
+Compare Opus's work.
+
+Reproduce and fix real defects.
+
+Strengthen tests.
+
+Improve justified production and usability weaknesses.
+
+Run full verification.
+
+Commit and push safely to `main`.
+
+Inspect the exact GitHub CI result.
+
+Leave a rigorous handoff.
+
+Keep the application compatible with previous learner data.
+
+Make Branchcade genuinely more reliable and better engineered, rather than simply making its status reports look more impressive.

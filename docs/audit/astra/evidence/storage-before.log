@@ -1,0 +1,239 @@
+
+ RUN  v5.0.5 /Users/HrishiL/Desktop/Branchcade
+
+ ❯ tests/astra-storage.test.ts (6 tests | 6 failed) 90ms
+   × ASTRA-001 keeps disjoint concurrent annotations, not just the longer array 22ms
+   × ASTRA-001 rejects conflicting immutable execution evidence instead of choosing one 6ms
+   × ASTRA-002 preserves foreign records through two queued saves from one stale tab 12ms
+   × ASTRA-003 stale additions after erasure never create orphan learner records 22ms
+   × ASTRA-004 never replaces an existing envelope when a new writer has no base 21ms
+   × ASTRA-004 write stamps exceed the current stored revision even from a stale base 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/astra-storage.test.ts > ASTRA-001 keeps disjoint concurrent annotations, not just the longer array
+AssertionError: expected undefined to be true // Object.is equality
+
+- Expected:
+true
+
++ Received:
+undefined
+
+ ❯ tests/astra-storage.test.ts:17:33
+     15|   const actual = rebaseEnvelope(base, ours, theirs).attempts[0]!
+     16|   expect(actual.hintIds).toEqual(['hint-one'])
+     17|   expect(actual.experimentUsed).toBe(true)
+       |                                 ^
+     18| })
+     19|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/astra-storage.test.ts > ASTRA-001 rejects conflicting immutable execution evidence instead of choosing one
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/astra-storage.test.ts:25:52
+     23|   const ours = { ...base, attempts: [{ ...a, traceHash: '0'.repeat(64)…
+     24|   const theirs = { ...base, exportedAt: '2030-01-01T00:00:00.000Z', at…
+     25|   expect(() => rebaseEnvelope(base, ours, theirs)).toThrow(/conflict|i…
+       |                                                    ^
+     26| })
+     27|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/astra-storage.test.ts > ASTRA-002 preserves foreign records through two queued saves from one stale tab
+AssertionError: expected [ 'ij-record-0' ] to include 'foreign'
+ ❯ tests/astra-storage.test.ts:37:54
+     35|   const second = useSession.getState().replace({ ...useSession.getStat…
+     36|   await Promise.all([first, second])
+     37|   expect((await loadData()).attempts.map(a => a.id)).toContain('foreig…
+       |                                                      ^
+     38|   expect((await loadData()).profile?.nickname).toBe('Second')
+     39| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/astra-storage.test.ts > ASTRA-003 stale additions after erasure never create orphan learner records
+AssertionError: expected [ { schemaVersion: 1, …(14) } ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   {
++     "attemptIndex": 2,
++     "completedAt": "2026-10-25T06:26:08.547Z",
++     "diagnosticResponses": [],
++     "engineVersion": 2,
++     "goalOutcome": {
++       "facts": [
++         "Free exploration is not a scored mission",
++       ],
++       "passed": false,
++     },
++     "id": "ij-record-1",
++     "learnerId": "test-learner",
++     "missionId": "lab",
++     "prediction": {
++       "action": "move",
++       "branch": null,
++       "confidence": 3,
++       "distanceRange": null,
++       "id": "1f29954f-a023-4535-9e0f-980bc33fc303",
++       "learnerId": "test-learner",
++       "programHash": "2602923fd349c2ca6134e0ce1d4e3447334259e1a77f614743e1d7b1109599b3",
++       "question": "What will this program do first?",
++       "reasoning": "Synthetic I/J stress fixture; not student evidence.",
++       "recordedAt": "2026-10-25T06:26:08.547Z",
++       "schemaVersion": 1,
++       "worldHash": "c1d6c8a81196c061c76bb92df1e13158be044ac9fca5fe2451acf54f5d33496c",
++     },
++     "program": {
++       "body": [
++         {
++           "condition": {
++             "kind": "compare",
++             "left": {
++               "kind": "sensor",
++               "nodeId": "sensor",
++               "sensor": "distance",
++               "type": "number",
++             },
++             "nodeId": "condition",
++             "op": "<",
++             "right": {
++               "kind": "literal",
++               "nodeId": "threshold",
++               "type": "number",
++               "value": 16,
++             },
++             "type": "boolean",
++           },
++           "else": [
++             {
++               "distance": {
++                 "kind": "literal",
++                 "nodeId": "travel",
++                 "type": "number",
++                 "value": 10,
++               },
++               "kind": "move",
++               "nodeId": "move-clear",
++             },
++             {
++               "kind": "stop",
++               "nodeId": "stop-done",
++             },
++           ],
++           "kind": "if",
++           "nodeId": "decision",
++           "then": [
++             {
++               "kind": "stop",
++               "nodeId": "stop-close",
++             },
++           ],
++         },
++       ],
++       "id": "threshold-program",
++       "schemaVersion": 1,
++     },
++     "reassessment": null,
++     "schemaVersion": 1,
++     "startedAt": "2026-10-25T06:26:08.547Z",
++     "traceHash": "6adb50af3953ab9b13e09be0545fb1029969501eb9697b673a0a04a9f8d8a436",
++     "world": {
++       "collisionConstraints": {
++         "allowOverlap": false,
++         "stopOnCollision": true,
++       },
++       "difficulty": "beginner",
++       "floorZones": [],
++       "goals": [],
++       "heightCm": 100,
++       "id": "threshold-13",
++       "obstacles": [
++         {
++           "heightCm": 50,
++           "id": "obstacle",
++           "kind": "rectangle",
++           "material": "wood",
++           "position": {
++             "xCm": 59,
++             "yCm": 25,
++           },
++           "solid": true,
++           "widthCm": 8,
++         },
++       ],
++       "schemaVersion": 1,
++       "spawn": {
++         "headingDeg": 0,
++         "position": {
++           "xCm": 40,
++           "yCm": 50,
++         },
++         "radiusCm": 6,
++       },
++       "waypoints": [],
++       "widthCm": 180,
++     },
++   },
++ ]
+
+ ❯ tests/astra-storage.test.ts:48:27
+     46|   try { await saveRebased(base, { ...base, attempts: more.attempts }) …
+     47|   const stored = await loadData()
+     48|   expect(stored.attempts).toEqual([])
+       |                           ^
+     49|   expect(stored.profile).toBeNull()
+     50| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  tests/astra-storage.test.ts > ASTRA-004 never replaces an existing envelope when a new writer has no base
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/astra-storage.test.ts:56:39
+     54|   await saveRebased(null, a)
+     55|   await saveRebased(null, { ...emptyData(), profile: { ...a.profile!, …
+     56|   expect((await loadData()).attempts).toHaveLength(1)
+       |                                       ^
+     57| })
+     58|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  tests/astra-storage.test.ts > ASTRA-004 write stamps exceed the current stored revision even from a stale base
+AssertionError: expected 1792909568581 to be greater than 3786912000001
+ ❯ tests/astra-storage.test.ts:64:43
+     62|   const a = await saveRebased(base, future)
+     63|   const b = await saveRebased(base, { ...base, profile: { ...base.prof…
+     64|   expect(Date.parse(b.stored.exportedAt)).toBeGreaterThan(Date.parse(a…
+       |                                           ^
+     65| })
+     66|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  01:26:06
+   Duration  1.87s (environment 57%, import 15%, transform 12%, setup 10%, tests 5%)
+

@@ -1,0 +1,96 @@
+v24.22.1
+11.19.0
+npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 416 packages, and audited 417 packages in 6s
+
+149 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+npm warn install-scripts   fsevents@2.3.3 (install: (install scripts present))
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+> branchcade@0.1.0 check
+> npm run lint && npm run typecheck && npm run test -- --run && npm run build
+
+
+> branchcade@0.1.0 lint
+> eslint . --max-warnings 0
+
+
+> branchcade@0.1.0 typecheck
+> tsc -b --pretty false
+
+
+> branchcade@0.1.0 test
+> vitest --run
+
+
+ RUN  v5.0.5 /Users/HrishiL/Desktop/Branchcade
+
+
+ Test Files  36 passed (36)
+      Tests  457 passed (457)
+   Start at  01:25:33
+   Duration  19.98s (environment 47%, tests 22%, import 13%, transform 9%, setup 8%)
+
+Environment  jsdom was created 36 times · 59.20s total, 47% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+
+
+> branchcade@0.1.0 build
+> tsc -b && vite build
+
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2198 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                     1.02 kB │ gzip:   0.49 kB
+dist/assets/ibm-plex-mono-vietnamese-400-normal-DDuiU_S-.woff       5.62 kB
+dist/assets/ibm-plex-mono-cyrillic-ext-400-normal-DMdlQ8Kv.woff     5.82 kB
+dist/assets/ibm-plex-mono-vietnamese-400-normal-BulugwFq.woff2      5.86 kB
+dist/assets/ibm-plex-mono-cyrillic-ext-400-normal-xuaO2J-f.woff2    6.91 kB
+dist/assets/ibm-plex-mono-cyrillic-400-normal-CEL4l2ZJ.woff         7.20 kB
+dist/assets/geist-cyrillic-ext-wght-normal-DjL33-gN.woff2           7.42 kB
+dist/assets/geist-vietnamese-wght-normal-6IgcOCM7.woff2             8.00 kB
+dist/assets/ibm-plex-mono-cyrillic-400-normal-BSMlKf0J.woff2        8.35 kB
+dist/assets/ibm-plex-mono-latin-ext-400-normal-D3D2R8hC.woff       11.76 kB
+dist/assets/ibm-plex-mono-latin-400-normal-CvHOgSBP.woff           13.14 kB
+dist/assets/ibm-plex-mono-latin-ext-400-normal-BmRBH3aV.woff2      13.34 kB
+dist/assets/ibm-plex-mono-latin-400-normal-DMJ8VG8y.woff2          14.70 kB
+dist/assets/geist-cyrillic-wght-normal-BEAKL7Jp.woff2              15.08 kB
+dist/assets/geist-latin-ext-wght-normal-DC-KSUi6.woff2             16.51 kB
+dist/assets/geist-latin-wght-normal-BgDaEnEv.woff2                 29.40 kB
+dist/assets/local-records-CipOmRCE.css                              2.40 kB │ gzip:   0.85 kB
+dist/assets/LabLesson-OeD0T5bt.css                                 10.69 kB │ gzip:   2.52 kB
+dist/assets/index-DaEhxI5M.css                                     53.31 kB │ gzip:  11.79 kB
+dist/assets/predictions-CsSntA_8.js                                 0.41 kB │ gzip:   0.32 kB
+dist/assets/achievements-Bgvbn0-B.js                                0.92 kB │ gzip:   0.50 kB
+dist/assets/pseudocode-DSndTcv5.js                                  1.15 kB │ gzip:   0.49 kB
+dist/assets/invariants-dfLSwn4N.js                                  2.14 kB │ gzip:   1.18 kB
+dist/assets/AttemptReview-_t6-gLxA.js                               3.19 kB │ gzip:   1.31 kB
+dist/assets/LocalImport-CHSEuf-R.js                                 3.41 kB │ gzip:   1.50 kB
+dist/assets/About-DoZ6QEpb.js                                       6.17 kB │ gzip:   2.38 kB
+dist/assets/Settings-DDH8_cUk.js                                    8.18 kB │ gzip:   3.09 kB
+dist/assets/Progress-BGGSkkOE.js                                    9.23 kB │ gzip:   3.05 kB
+dist/assets/TraceView-BSlFxR05.js                                  10.56 kB │ gzip:   4.10 kB
+dist/assets/Instructor-CcIl67Ri.js                                 12.45 kB │ gzip:   3.99 kB
+dist/assets/Team-BdTAOvzs.js                                       21.39 kB │ gzip:   6.64 kB
+dist/assets/trace-GBaUAS_2.js                                      66.70 kB │ gzip:  22.43 kB
+dist/assets/LabLesson-CVmswmQ-.js                                  71.55 kB │ gzip:  22.07 kB
+dist/assets/button-B7NDbbW3.js                                    172.92 kB │ gzip:  50.24 kB
+dist/assets/dialog-BI7pFIxE.js                                    196.31 kB │ gzip:  52.71 kB
+dist/assets/index-CSSUhvOp.js                                     256.75 kB │ gzip:  80.90 kB
+dist/assets/BlocklyEditor-CSSDaQuK.js                             798.91 kB │ gzip: 214.00 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.42s
