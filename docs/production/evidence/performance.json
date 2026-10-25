@@ -1,0 +1,50 @@
+{
+  "browser": "153.0.8010.12",
+  "runs": {
+    "cold /": {
+      "medianDomContentLoadedMs": 174,
+      "medianLoadMs": 174,
+      "transferKb": 260,
+      "medianLongTasks": 1,
+      "medianLongestTaskMs": 90
+    },
+    "cold /missions": {
+      "medianDomContentLoadedMs": 180,
+      "medianLoadMs": 180,
+      "transferKb": 260,
+      "medianLongTasks": 1,
+      "medianLongestTaskMs": 88
+    },
+    "cold /missions/m01": {
+      "medianDomContentLoadedMs": 180,
+      "medianLoadMs": 180,
+      "transferKb": 291,
+      "medianLongTasks": 1,
+      "medianLongestTaskMs": 98
+    },
+    "cold /lab": {
+      "medianDomContentLoadedMs": 181,
+      "medianLoadMs": 181,
+      "transferKb": 291,
+      "medianLongTasks": 1,
+      "medianLongestTaskMs": 93
+    },
+    "cold /instructor": {
+      "medianDomContentLoadedMs": 191,
+      "medianLoadMs": 191,
+      "transferKb": 274,
+      "medianLongTasks": 1,
+      "medianLongestTaskMs": 97
+    },
+    "open Blockly editor (click → first block)": {
+      "samplesMs": [408, 327, 382, 360, 355],
+      "medianMs": 360
+    },
+    "10 consecutive M01 runs": {
+      "lockAndRunToVerdictMs": [126, 119, 106, 111, 103, 95, 95, 107, 126, 116],
+      "medianMs": 111,
+      "heapMbAfterGcByRun": [5.8, 7.3, 7.4, 7.4, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5],
+      "longTasksMsInLastPage": [83]
+    }
+  }
+}

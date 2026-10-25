@@ -1,5 +1,17 @@
 # Branchcade verification history
 
+## Final production acceptance (2026-10-25)
+
+| Check                                                  | Actual result                                                                                   |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| Start                                                  | `ae22d2e`: 478/478 unit tests, build OK                                                         |
+| Control activation (`scripts/final-control-crawl.mjs`) | 502 controls: 463 effect, 31 disabled with reason, 8 accounted; 0 broken, 0 errors              |
+| Unit                                                   | 486/486 in 40 files                                                                             |
+| Chromium E2E, local (`CI=1`, retries 0)                | 115/115 ([log](production/evidence/chromium-e2e.log))                                           |
+| Challenge pass on `1f195d6`                            | journeys 106/106, Blockly 21/21, missions 81/81, sweep 0 overflow / 0 axe / 0 errors            |
+| CI on `1f195d6`                                        | [40235203957](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40235203957) success |
+| Format, secrets, spec, docs guard, audit               | pass; 0 vulnerabilities                                                                         |
+
 ## Astra independent production hardening (2026-10-25)
 
 Source checkpoint **6d606d6a418f25a8bf5ac3aef141e89f4308ce05**, starting02ce0dd; independent initial findings045744c. Detailed reports: [Astra verification](audit/astra/FINAL_VERIFICATION.md), [matrix](audit/astra/REQUIREMENT_MATRIX.md), [repairs](audit/astra/REPAIR_REPORT.md).

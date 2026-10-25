@@ -1,0 +1,352 @@
+{
+  "browser": "153.0.8010.12",
+  "states": [
+    {
+      "state": "home",
+      "controls": [
+        {
+          "index": 0,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Skip to content",
+          "href": "#main-content",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click FAILED: locator.click: Timeout 3000ms exceeded.",
+          "effect": [],
+          "errors": []
+        },
+        {
+          "index": 1,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Branchcade home",
+          "href": "/",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": ["focus moved"],
+          "errors": []
+        },
+        {
+          "index": 2,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Missions",
+          "href": "/missions",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /missions",
+            "page content changed",
+            "control state changed",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 3,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Lab",
+          "href": "/lab",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /lab",
+            "page content changed",
+            "control state changed",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 4,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Team mode",
+          "href": "/team",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /team",
+            "page content changed",
+            "control state changed",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 5,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Progress",
+          "href": "/progress",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /progress",
+            "page content changed",
+            "control state changed",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 6,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Instructor",
+          "href": "/instructor",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /instructor",
+            "page content changed",
+            "control state changed",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 7,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "How it works",
+          "href": "/how-it-works",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /how-it-works",
+            "page content changed",
+            "control state changed",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 8,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Settings",
+          "href": "/settings",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /settings",
+            "page content changed",
+            "control state changed",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 9,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Try a mission",
+          "href": "/start",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /missions/m01",
+            "page content changed",
+            "control state changed"
+          ],
+          "errors": []
+        },
+        {
+          "index": 10,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Open the lab",
+          "href": "/lab",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": ["navigated / → /lab", "page content changed", "control state changed"],
+          "errors": []
+        },
+        {
+          "index": 11,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Open the guided mission",
+          "href": "/missions/m01",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /missions/m01",
+            "page content changed",
+            "control state changed"
+          ],
+          "errors": []
+        },
+        {
+          "index": 12,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "How Branchcade works",
+          "href": "/how-it-works",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /how-it-works",
+            "page content changed",
+            "control state changed"
+          ],
+          "errors": []
+        },
+        {
+          "index": 13,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Explore missions",
+          "href": "/missions",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": ["navigated / → /missions", "page content changed", "control state changed"],
+          "errors": []
+        },
+        {
+          "index": 14,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Instructor mode",
+          "href": "/instructor",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": ["navigated / → /instructor", "page content changed", "control state changed"],
+          "errors": []
+        },
+        {
+          "index": 15,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "About",
+          "href": "/how-it-works",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /how-it-works",
+            "page content changed",
+            "control state changed",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 16,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Privacy",
+          "href": "/settings#privacy",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "navigated / → /settings#privacy",
+            "page content changed",
+            "control state changed",
+            "scrolled",
+            "focus moved"
+          ],
+          "errors": []
+        },
+        {
+          "index": 17,
+          "tag": "button",
+          "type": "",
+          "role": "",
+          "label": "Credits",
+          "href": "",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": ["opened dialog", "page content changed", "scrolled", "focus moved"],
+          "errors": []
+        },
+        {
+          "index": 18,
+          "tag": "a",
+          "type": "",
+          "role": "",
+          "label": "Source / GitHub",
+          "href": "https://github.com/HrishikeshLenin13/Branchcade",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": [
+            "scrolled",
+            "focus moved",
+            "opened new tab https://github.com/HrishikeshLenin13/Branchcade"
+          ],
+          "errors": []
+        },
+        {
+          "index": 19,
+          "tag": "button",
+          "type": "",
+          "role": "",
+          "label": "Keyboard help",
+          "href": "",
+          "disabled": false,
+          "title": "",
+          "inDialog": false,
+          "action": "click",
+          "effect": ["opened dialog", "page content changed", "scrolled", "focus moved"],
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

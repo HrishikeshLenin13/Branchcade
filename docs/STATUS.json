@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Owner-authorized independent post-L Astra production hardening on updated A\u2013L; main only; local-first and historical compatibility preserved",
+  "scope": "Owner-authorized independent post-L Astra production hardening on updated A–L; main only; local-first and historical compatibility preserved",
   "branchPolicy": "main only",
   "parts": {
     "A": "verified",
@@ -13,8 +13,8 @@
     "H": "Implemented 2026-10-24: eight missions upgraded to data version 2 (scenarios, new goal kinds, curriculum, hint ladder, Show solution, second questions, capstone completion), v1 frozen for older records. 368 unit tests, 59 Chromium E2E locally; GitHub Actions green on c7e1091 (Chromium + Firefox). See PART_H_ACCEPTANCE.md.",
     "I": "Technical implementation and twelve-gate independent audit completed; final QA/CI evidence is recorded in TEST_REPORT and PARTS_IJ_ACCEPTANCE. Human review and hosting remain explicit external actions.",
     "J": "Persistent expanded unit, Chromium/Firefox CI, real interaction/visual, import/security and measured stress/performance coverage; see TEST_REPORT and PERFORMANCE_REPORT.",
-    "K": "Prepared K1\u2013K4 materials and software rehearsal; human actions remain pending. See PART_K_ACCEPTANCE.md.",
-    "L": "VERIFIED: L1\u2013L4 engineering/release-handoff checkpoint complete; final source CI passed396 unit+105 Chromium+105 Firefox with zero failed/flaky tests; human release/submission pending"
+    "K": "Prepared K1–K4 materials and software rehearsal; human actions remain pending. See PART_K_ACCEPTANCE.md.",
+    "L": "VERIFIED: L1–L4 engineering/release-handoff checkpoint complete; final source CI passed396 unit+105 Chromium+105 Firefox with zero failed/flaky tests; human release/submission pending"
   },
   "phases": [
     {
@@ -147,7 +147,7 @@
     },
     {
       "id": "08",
-      "name": "Local2\u20136 team learning",
+      "name": "Local2–6 team learning",
       "status": "verified",
       "technicalStatus": "VERIFIED",
       "proof": {
@@ -155,7 +155,7 @@
         "tests": [
           "ij-team/local-records/ij-achievements tests",
           "ij-team.spec.ts",
-          "all sizes2\u20136,6round role coverage, private answers/shared hints, immutable results/reload/export"
+          "all sizes2–6,6round role coverage, private answers/shared hints, immutable results/reload/export"
         ],
         "report": "docs/TEST_REPORT.md",
         "acceptance": "docs/PARTS_IJ_ACCEPTANCE.md"
@@ -240,7 +240,7 @@
   },
   "partK": {
     "documentation": "VERIFIED PREPARED:15 documents,93 local link targets,16 workbook concepts and25 targeted test paths checked; local gates passed; human actions pending",
-    "humanProtocol": "PREPARED; NOT YET CONDUCTED \u2014 AWAITING ACTUAL PARTICIPANTS",
+    "humanProtocol": "PREPARED; NOT YET CONDUCTED — AWAITING ACTUAL PARTICIPANTS",
     "sourceOwnershipInventory": "PREPARED; independent student implementation UNVERIFIED",
     "demoScript": "PREPARED; planned 2:48 and 2:35 alternate, not measured media",
     "demoSoftwareRehearsal": "VERIFIED: actual M01, probes, wall30/12, transfer32/35, durable Progress; synthetic choices only",
@@ -260,7 +260,7 @@
   "partL": {
     "status": "VERIFIED",
     "baselineCommit": "3d8b5f5c3fbc4a076c30d1c17bd03181dd306d1e",
-    "scope": "L1\u2013L4 verification and release/handoff records; future audit and account/sync/logo implementation not begun",
+    "scope": "L1–L4 verification and release/handoff records; future audit and account/sync/logo implementation not begun",
     "localUnitTests": 396,
     "localUnitFiles": 29,
     "localChromiumTests": 105,
@@ -271,7 +271,7 @@
     "releaseReadiness": "docs/RELEASE_READINESS.md",
     "auditProposal": "docs/POST_L_AUDIT_PLAN.md",
     "futureIndependentAudit": "Opus and Astra independent reports prepared; see docs/audit/",
-    "accountSyncImplementation": "NOT STARTED \u2014 proposal only",
+    "accountSyncImplementation": "NOT STARTED — proposal only",
     "logoIntegration": "BLOCKED: APPROVED LOGO ASSET REQUIRED (checked again 2026-10-25)",
     "acceptance": "docs/PART_L_ACCEPTANCE.md",
     "firstCi": {
@@ -290,10 +290,10 @@
   },
   "release": {
     "engineering": "Astra hardening source6d606d6 locally and exact-source CI verified; bounded gaps documented in docs/audit/astra/; final documentation CI checked separately",
-    "publicHosting": "NOT DEPLOYED \u2014 no authorized provider connection/public URL",
+    "publicHosting": "NOT DEPLOYED — no authorized provider connection/public URL",
     "video": "NOT RECORDED OR UPLOADED",
     "contest": "NOT SUBMITTED",
-    "studentContributionReview": "PENDING \u2014 extensive AI assistance; significant independent technical implementation unverified",
+    "studentContributionReview": "PENDING — extensive AI assistance; significant independent technical implementation unverified",
     "nextScope": "Owner release actions and explicitly authorized future work; no automatic cloud sync/deployment/submission"
   },
   "postLAudit": {
@@ -377,5 +377,28 @@
     "sourceCiSkippedTests": 0,
     "staticGates": "format/secrets/spec/K-doc/lint/typecheck passed",
     "supplementalExportDeleteRace": "Chromium/Firefox/WebKit all passed replay-validated coherent exports during deletion"
+  },
+  "finalAcceptance": {
+    "date": "2026-10-25",
+    "startCommit": "ae22d2eaa44775a0f0ceffa857521c1213fc77c3",
+    "finalSourceCommit": "1f195d6",
+    "ci": "https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40235203957 success",
+    "controls": {
+      "total": 502,
+      "effect": 463,
+      "disabledWithReason": 31,
+      "accounted": 8,
+      "broken": 0
+    },
+    "unitTests": 486,
+    "chromiumE2E": "115/115 local, retries 0",
+    "challengePass": "208/208 journeys; sweep clean",
+    "engineering": "ENGINEERING VERIFIED (local production build)",
+    "featureAcceptance": "NOT COMPLETE: logo BLOCKED, deployment NOT DONE",
+    "deployment": "NOT VERIFIED (no public origin)",
+    "eligibility": "LEGAL/ELIGIBILITY REVIEW PENDING (authorship risk)",
+    "submission": "NOT SUBMITTED",
+    "mcp": "Playwright MCP and Chrome DevTools MCP not available in this container",
+    "reports": ["docs/production/", "docs/compliance/"]
   }
 }

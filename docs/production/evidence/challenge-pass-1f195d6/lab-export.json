@@ -1,0 +1,41 @@
+{
+  "kind": "branchcade-world",
+  "schemaVersion": 1,
+  "checksum": "9f7ff619b1c7ebf0fd5c220622a12628700d6d52ac1fea3aa390cb58e03c8129",
+  "world": {
+    "schemaVersion": 1,
+    "id": "threshold-24",
+    "widthCm": 180,
+    "heightCm": 100,
+    "obstacles": [
+      {
+        "id": "obstacle",
+        "kind": "rectangle",
+        "position": {
+          "xCm": 83.5,
+          "yCm": 25
+        },
+        "widthCm": 8,
+        "heightCm": 50,
+        "solid": true,
+        "material": "wood"
+      }
+    ],
+    "floorZones": [],
+    "waypoints": [],
+    "spawn": {
+      "position": {
+        "xCm": 40,
+        "yCm": 50
+      },
+      "headingDeg": 0,
+      "radiusCm": 6
+    },
+    "goals": [],
+    "collisionConstraints": {
+      "stopOnCollision": true,
+      "allowOverlap": false
+    },
+    "difficulty": "beginner"
+  }
+}

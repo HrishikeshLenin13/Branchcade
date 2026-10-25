@@ -1,0 +1,535 @@
+{
+  "browser": "153.0.8010.12",
+  "steps": [
+    {
+      "name": "team 2: 2 members, 2 distinct roles",
+      "ok": true,
+      "detail": "driver,predictor"
+    },
+    {
+      "name": "team 2: Robot 1 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 2: Robot 1 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 2: Robot 2 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 2: Robot 2 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 2: huddle reveals every contribution only now",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 2: real shared run judged",
+      "ok": true,
+      "detail": "Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 ("
+    },
+    {
+      "name": "team 2: team run creates no individual attempts",
+      "ok": true,
+      "detail": "0 attempts"
+    },
+    {
+      "name": "team 2: rotation reassigns roles",
+      "ok": true,
+      "detail": "driver,predictor → predictor,sensor-reader"
+    },
+    {
+      "name": "team 2: round-1 result kept after rotation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 2: resumes at round 2 after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 2: no individual completion credited from team play",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 2: no page or console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: 3 members, 3 distinct roles",
+      "ok": true,
+      "detail": "driver,predictor,sensor-reader"
+    },
+    {
+      "name": "team 3: Robot 1 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: Robot 1 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: Robot 2 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: Robot 2 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: Robot 3 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: Robot 3 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: huddle reveals every contribution only now",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: real shared run judged",
+      "ok": true,
+      "detail": "Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 ("
+    },
+    {
+      "name": "team 3: team run creates no individual attempts",
+      "ok": true,
+      "detail": "0 attempts"
+    },
+    {
+      "name": "team 3: rotation reassigns roles",
+      "ok": true,
+      "detail": "driver,predictor,sensor-reader → predictor,sensor-reader,trace-reader"
+    },
+    {
+      "name": "team 3: round-1 result kept after rotation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: resumes at round 2 after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: no individual completion credited from team play",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 3: no page or console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: 4 members, 4 distinct roles",
+      "ok": true,
+      "detail": "driver,predictor,sensor-reader,trace-reader"
+    },
+    {
+      "name": "team 4: Robot 1 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: Robot 1 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: Robot 2 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: Robot 2 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: Robot 3 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: Robot 3 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: Robot 4 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: Robot 4 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: huddle reveals every contribution only now",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: real shared run judged",
+      "ok": true,
+      "detail": "Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 ("
+    },
+    {
+      "name": "team 4: team run creates no individual attempts",
+      "ok": true,
+      "detail": "0 attempts"
+    },
+    {
+      "name": "team 4: rotation reassigns roles",
+      "ok": true,
+      "detail": "driver,predictor,sensor-reader,trace-reader → predictor,sensor-reader,trace-reader,experimenter"
+    },
+    {
+      "name": "team 4: round-1 result kept after rotation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: resumes at round 2 after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: no individual completion credited from team play",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 4: no page or console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: 5 members, 5 distinct roles",
+      "ok": true,
+      "detail": "driver,predictor,sensor-reader,trace-reader,experimenter"
+    },
+    {
+      "name": "team 5: Robot 1 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 1 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 2 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 2 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 3 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 3 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 4 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 4 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 5 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: Robot 5 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: huddle reveals every contribution only now",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: real shared run judged",
+      "ok": true,
+      "detail": "Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 ("
+    },
+    {
+      "name": "team 5: team run creates no individual attempts",
+      "ok": true,
+      "detail": "0 attempts"
+    },
+    {
+      "name": "team 5: rotation reassigns roles",
+      "ok": true,
+      "detail": "driver,predictor,sensor-reader,trace-reader,experimenter → predictor,sensor-reader,trace-reader,experimenter,explainer"
+    },
+    {
+      "name": "team 5: round-1 result kept after rotation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: resumes at round 2 after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: no individual completion credited from team play",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 5: no page or console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: 6 members, 6 distinct roles",
+      "ok": true,
+      "detail": "driver,predictor,sensor-reader,trace-reader,experimenter,explainer"
+    },
+    {
+      "name": "team 6: Robot 1 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 1 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 2 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 2 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 3 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 3 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 4 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 4 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 5 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 5 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 6 sees a role task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: Robot 6 cannot see earlier private notes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: huddle reveals every contribution only now",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: real shared run judged",
+      "ok": true,
+      "detail": "Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 ("
+    },
+    {
+      "name": "team 6: team run creates no individual attempts",
+      "ok": true,
+      "detail": "0 attempts"
+    },
+    {
+      "name": "team 6: rotation reassigns roles",
+      "ok": true,
+      "detail": "driver,predictor,sensor-reader,trace-reader,experimenter,explainer → predictor,sensor-reader,trace-reader,experimenter,explainer,driver"
+    },
+    {
+      "name": "team 6: round-1 result kept after rotation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: resumes at round 2 after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: no individual completion credited from team play",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "team 6: no page or console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lab: example world reads 24.0 cm",
+      "ok": true,
+      "detail": "Robot world: distance 24.0 centimeters, heading 0 degrees"
+    },
+    {
+      "name": "lab: moving the obstacle to x=83.5 reads 37.5 cm (oracle 83.5 − 46)",
+      "ok": true,
+      "detail": "Robot world: distance 37.5 centimeters, heading 0 degrees"
+    },
+    {
+      "name": "lab: undo restores 24.0 cm",
+      "ok": true,
+      "detail": "Robot world: distance 24.0 centimeters, heading 0 degrees"
+    },
+    {
+      "name": "lab: redo returns to 37.5 cm",
+      "ok": true,
+      "detail": "Robot world: distance 37.5 centimeters, heading 0 degrees"
+    },
+    {
+      "name": "lab: run evaluates the edited reading (37.5 < 20 is false)",
+      "ok": true,
+      "detail": "37.5 < 20 is false"
+    },
+    {
+      "name": "lab: exported world contains the edited obstacle x=83.5",
+      "ok": true,
+      "detail": "{\"xCm\":83.5,\"yCm\":25}"
+    },
+    {
+      "name": "lab: world editing is locked after a run (SPEC F3)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lab: Stop & Edit unlocks world editing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lab: reset world returns to 24.0 cm",
+      "ok": true,
+      "detail": "Robot world: distance 24.0 centimeters, heading 0 degrees"
+    },
+    {
+      "name": "lab: importing the exported world restores 37.5 cm",
+      "ok": true,
+      "detail": "Robot world: distance 37.5 centimeters, heading 0 degrees"
+    },
+    {
+      "name": "lab: corrupt world import is rejected with a message",
+      "ok": true,
+      "detail": "[ { \"code\": \"invalid_value\", \"values\": [ 1 ], \"path\": [ \"schemaVersion\" ], \"message\": \"Invalid input: expected 1\" }, { \"expected\": \"string\", \"code\": \"invalid_type\", \"path\": [ \"id\" ], \"message\": \"Invalid input: expected string, received undefined\" }, { \"expected\": \"number\", \"code\": \"invalid_type\", \"p"
+    },
+    {
+      "name": "lab: corrupt import leaves the world unchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lab: no page or console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "returning: home offers a resume link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "returning: resume opens the saved mission",
+      "ok": true,
+      "detail": "http://127.0.0.1:4173/missions/m04"
+    },
+    {
+      "name": "returning: the run is saved after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "returning: no page errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "recovery: corrupt data import is rejected with a specific message",
+      "ok": true,
+      "detail": "Invalid record at exportedAt: Invalid input: expected string, received undefined Choose another file or cancel; current records remain saved."
+    },
+    {
+      "name": "recovery: unknown mission offers a way back",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "recovery: unknown deep route offers recovery links",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "recovery: no page errors",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

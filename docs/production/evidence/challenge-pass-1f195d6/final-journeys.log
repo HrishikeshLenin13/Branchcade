@@ -1,0 +1,106 @@
+PASS team 2: 2 members, 2 distinct roles — driver,predictor
+PASS team 2: Robot 1 sees a role task 
+PASS team 2: Robot 1 cannot see earlier private notes 
+PASS team 2: Robot 2 sees a role task 
+PASS team 2: Robot 2 cannot see earlier private notes 
+PASS team 2: huddle reveals every contribution only now 
+PASS team 2: real shared run judged — Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 (
+PASS team 2: team run creates no individual attempts — 0 attempts
+PASS team 2: rotation reassigns roles — driver,predictor → predictor,sensor-reader
+PASS team 2: round-1 result kept after rotation 
+PASS team 2: resumes at round 2 after reload 
+PASS team 2: no individual completion credited from team play 
+PASS team 2: no page or console errors 
+PASS team 3: 3 members, 3 distinct roles — driver,predictor,sensor-reader
+PASS team 3: Robot 1 sees a role task 
+PASS team 3: Robot 1 cannot see earlier private notes 
+PASS team 3: Robot 2 sees a role task 
+PASS team 3: Robot 2 cannot see earlier private notes 
+PASS team 3: Robot 3 sees a role task 
+PASS team 3: Robot 3 cannot see earlier private notes 
+PASS team 3: huddle reveals every contribution only now 
+PASS team 3: real shared run judged — Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 (
+PASS team 3: team run creates no individual attempts — 0 attempts
+PASS team 3: rotation reassigns roles — driver,predictor,sensor-reader → predictor,sensor-reader,trace-reader
+PASS team 3: round-1 result kept after rotation 
+PASS team 3: resumes at round 2 after reload 
+PASS team 3: no individual completion credited from team play 
+PASS team 3: no page or console errors 
+PASS team 4: 4 members, 4 distinct roles — driver,predictor,sensor-reader,trace-reader
+PASS team 4: Robot 1 sees a role task 
+PASS team 4: Robot 1 cannot see earlier private notes 
+PASS team 4: Robot 2 sees a role task 
+PASS team 4: Robot 2 cannot see earlier private notes 
+PASS team 4: Robot 3 sees a role task 
+PASS team 4: Robot 3 cannot see earlier private notes 
+PASS team 4: Robot 4 sees a role task 
+PASS team 4: Robot 4 cannot see earlier private notes 
+PASS team 4: huddle reveals every contribution only now 
+PASS team 4: real shared run judged — Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 (
+PASS team 4: team run creates no individual attempts — 0 attempts
+PASS team 4: rotation reassigns roles — driver,predictor,sensor-reader,trace-reader → predictor,sensor-reader,trace-reader,experimenter
+PASS team 4: round-1 result kept after rotation 
+PASS team 4: resumes at round 2 after reload 
+PASS team 4: no individual completion credited from team play 
+PASS team 4: no page or console errors 
+PASS team 5: 5 members, 5 distinct roles — driver,predictor,sensor-reader,trace-reader,experimenter
+PASS team 5: Robot 1 sees a role task 
+PASS team 5: Robot 1 cannot see earlier private notes 
+PASS team 5: Robot 2 sees a role task 
+PASS team 5: Robot 2 cannot see earlier private notes 
+PASS team 5: Robot 3 sees a role task 
+PASS team 5: Robot 3 cannot see earlier private notes 
+PASS team 5: Robot 4 sees a role task 
+PASS team 5: Robot 4 cannot see earlier private notes 
+PASS team 5: Robot 5 sees a role task 
+PASS team 5: Robot 5 cannot see earlier private notes 
+PASS team 5: huddle reveals every contribution only now 
+PASS team 5: real shared run judged — Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 (
+PASS team 5: team run creates no individual attempts — 0 attempts
+PASS team 5: rotation reassigns roles — driver,predictor,sensor-reader,trace-reader,experimenter → predictor,sensor-reader,trace-reader,experimenter,explainer
+PASS team 5: round-1 result kept after rotation 
+PASS team 5: resumes at round 2 after reload 
+PASS team 5: no individual completion credited from team play 
+PASS team 5: no page or console errors 
+PASS team 6: 6 members, 6 distinct roles — driver,predictor,sensor-reader,trace-reader,experimenter,explainer
+PASS team 6: Robot 1 sees a role task 
+PASS team 6: Robot 1 cannot see earlier private notes 
+PASS team 6: Robot 2 sees a role task 
+PASS team 6: Robot 2 cannot see earlier private notes 
+PASS team 6: Robot 3 sees a role task 
+PASS team 6: Robot 3 cannot see earlier private notes 
+PASS team 6: Robot 4 sees a role task 
+PASS team 6: Robot 4 cannot see earlier private notes 
+PASS team 6: Robot 5 sees a role task 
+PASS team 6: Robot 5 cannot see earlier private notes 
+PASS team 6: Robot 6 sees a role task 
+PASS team 6: Robot 6 cannot see earlier private notes 
+PASS team 6: huddle reveals every contribution only now 
+PASS team 6: real shared run judged — Shared program met the mission goals. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 (
+PASS team 6: team run creates no individual attempts — 0 attempts
+PASS team 6: rotation reassigns roles — driver,predictor,sensor-reader,trace-reader,experimenter,explainer → predictor,sensor-reader,trace-reader,experimenter,explainer,driver
+PASS team 6: round-1 result kept after rotation 
+PASS team 6: resumes at round 2 after reload 
+PASS team 6: no individual completion credited from team play 
+PASS team 6: no page or console errors 
+PASS lab: example world reads 24.0 cm — Robot world: distance 24.0 centimeters, heading 0 degrees
+PASS lab: moving the obstacle to x=83.5 reads 37.5 cm (oracle 83.5 − 46) — Robot world: distance 37.5 centimeters, heading 0 degrees
+PASS lab: undo restores 24.0 cm — Robot world: distance 24.0 centimeters, heading 0 degrees
+PASS lab: redo returns to 37.5 cm — Robot world: distance 37.5 centimeters, heading 0 degrees
+PASS lab: run evaluates the edited reading (37.5 < 20 is false) — 37.5 < 20 is false
+PASS lab: exported world contains the edited obstacle x=83.5 — {"xCm":83.5,"yCm":25}
+PASS lab: world editing is locked after a run (SPEC F3) 
+PASS lab: Stop & Edit unlocks world editing 
+PASS lab: reset world returns to 24.0 cm — Robot world: distance 24.0 centimeters, heading 0 degrees
+PASS lab: importing the exported world restores 37.5 cm — Robot world: distance 37.5 centimeters, heading 0 degrees
+PASS lab: corrupt world import is rejected with a message — [ { "code": "invalid_value", "values": [ 1 ], "path": [ "schemaVersion" ], "message": "Invalid input: expected 1" }, { "expected": "string", "code": "
+PASS lab: corrupt import leaves the world unchanged 
+PASS lab: no page or console errors 
+PASS returning: home offers a resume link 
+PASS returning: resume opens the saved mission — http://127.0.0.1:4173/missions/m04
+PASS returning: the run is saved after reload 
+PASS returning: no page errors 
+PASS recovery: corrupt data import is rejected with a specific message — Invalid record at exportedAt: Invalid input: expected string, received undefined Choose another file or cancel; current records remain saved.
+PASS recovery: unknown mission offers a way back 
+PASS recovery: unknown deep route offers recovery links 
+PASS recovery: no page errors 

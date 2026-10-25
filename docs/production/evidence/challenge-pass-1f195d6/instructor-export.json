@@ -1,0 +1,279 @@
+{
+  "assignments": [],
+  "attempts": [
+    {
+      "id": "96b23ea6-a4c5-408e-b391-f1861f7252b4",
+      "missionId": "m01",
+      "goalOutcome": {
+        "facts": [
+          "Goal 1 (branch): met",
+          "Goal 2 (distance): met",
+          "Goal 3 (programmed-stop): met",
+          "Goal 4 (final-distance): met",
+          "Scenario “wall 12 cm away”: met"
+        ],
+        "passed": true
+      }
+    },
+    {
+      "id": "d07d0d1a-08b3-486b-9205-66a6f8c4420a",
+      "missionId": "m02",
+      "goalOutcome": {
+        "facts": [
+          "Goal 1 (color-stop-within): not met",
+          "Goal 2 (programmed-stop): met",
+          "Goal 3 (reach): not met",
+          "Scenario “thin line 30 cm ahead”: not met (1 goal missed)"
+        ],
+        "passed": false
+      }
+    },
+    {
+      "id": "a68f6731-f140-4ab4-a556-f1b5a789f6c6",
+      "missionId": "m04",
+      "goalOutcome": {
+        "facts": [
+          "Goal 1 (reach): not met",
+          "Goal 2 (event): not met",
+          "Goal 3 (heading): not met",
+          "Goal 4 (event): not met",
+          "Goal 5 (path): met"
+        ],
+        "passed": false
+      }
+    },
+    {
+      "id": "5f5addee-b473-4d00-a183-4cc3c50c3f71",
+      "missionId": "m05",
+      "goalOutcome": {
+        "facts": [
+          "Goal 1 (programmed-stop): met",
+          "Goal 2 (final-distance): not met",
+          "Goal 3 (distance): not met",
+          "Goal 4 (reach): not met",
+          "Scenario “wall 60 cm away”: not met (1 goal missed)"
+        ],
+        "passed": false
+      }
+    },
+    {
+      "id": "436c00a5-5fcf-443a-9813-5187b88fca03",
+      "missionId": "m06",
+      "goalOutcome": {
+        "facts": [
+          "Goal 1 (event): not met",
+          "Goal 2 (reach): not met",
+          "Goal 3 (programmed-stop): met"
+        ],
+        "passed": false
+      }
+    },
+    {
+      "id": "ee8f426e-9119-4242-b14d-3b321d92951d",
+      "missionId": "m07",
+      "goalOutcome": {
+        "facts": [
+          "Goal 1 (branch): not met",
+          "Goal 2 (distance): not met",
+          "Goal 3 (programmed-stop): met",
+          "Scenario “far wall on black floor”: not met (1 goal missed)",
+          "Scenario “near wall on black floor”: met"
+        ],
+        "passed": false
+      }
+    },
+    {
+      "id": "78fe85c8-b0d8-4aec-a40d-b97203cc4c3c",
+      "missionId": "m08",
+      "goalOutcome": {
+        "facts": [
+          "Goal 1 (event): not met",
+          "Goal 2 (reach): not met",
+          "Goal 3 (heading): not met",
+          "Goal 4 (programmed-stop): met",
+          "Scenario “wall 50 cm away”: met"
+        ],
+        "passed": false
+      }
+    },
+    {
+      "id": "c22fee57-4eb0-4c46-9b7d-65ab7f2bde2b",
+      "missionId": "m01",
+      "goalOutcome": {
+        "facts": [
+          "Goal 1 (branch): met",
+          "Goal 2 (distance): met",
+          "Goal 3 (programmed-stop): met",
+          "Goal 4 (final-distance): met",
+          "Scenario “wall 12 cm away”: met"
+        ],
+        "passed": true
+      }
+    }
+  ],
+  "drafts": [],
+  "exportedAt": "2026-10-25T21:24:03.198Z",
+  "profile": {
+    "completedMissions": ["m01"],
+    "conceptProgress": [
+      {
+        "concept": "conditionals",
+        "distinctScenarioHashes": [],
+        "independentSuccesses": 0,
+        "status": "practicing"
+      },
+      {
+        "concept": "loops",
+        "distinctScenarioHashes": [],
+        "independentSuccesses": 0,
+        "status": "practicing"
+      },
+      {
+        "concept": "distance-sensors",
+        "distinctScenarioHashes": [],
+        "independentSuccesses": 0,
+        "status": "practicing"
+      },
+      {
+        "concept": "color-sensors",
+        "distinctScenarioHashes": [],
+        "independentSuccesses": 0,
+        "status": "practicing"
+      },
+      {
+        "concept": "functions",
+        "distinctScenarioHashes": [],
+        "independentSuccesses": 0,
+        "status": "practicing"
+      }
+    ],
+    "evidence": [],
+    "id": "fe102e7a-2aff-4491-abcd-4058a2617d78",
+    "nickname": "Robot FE10",
+    "responses": [
+      {
+        "action": "move",
+        "branch": null,
+        "confidence": 3,
+        "distanceRange": null,
+        "id": "0dd214a5-4fdb-46db-96e4-7c4907437800",
+        "learnerId": "fe102e7a-2aff-4491-abcd-4058a2617d78",
+        "programHash": "69c3e3434fa1caee6f873486cffa1738322dfdb6d9176f8241b8114057cd0257",
+        "question": "What will this program do first?",
+        "reasoning": "",
+        "recordedAt": "2026-10-25T21:23:43.555Z",
+        "schemaVersion": 1,
+        "uncertain": false,
+        "worldHash": "9b6cdcd7d0885fb04816f94c1095a424af1777eb450ff811c16eb340d86ac202"
+      },
+      {
+        "action": "stop",
+        "branch": null,
+        "confidence": 3,
+        "distanceRange": null,
+        "id": "c05cb926-4e57-47bf-858a-7bd4f839062a",
+        "learnerId": "fe102e7a-2aff-4491-abcd-4058a2617d78",
+        "programHash": "f1910d5283858c502212d36f39aa4807ad70718db0470e77b8cad27008fb76f5",
+        "question": "What will this program do first?",
+        "reasoning": "",
+        "recordedAt": "2026-10-25T21:23:45.964Z",
+        "schemaVersion": 1,
+        "uncertain": false,
+        "worldHash": "a5300aafb75ec83bbfd42238528d096dacdbe96dd2f29daf51b141b7afedf858"
+      },
+      {
+        "action": "move",
+        "branch": null,
+        "confidence": 3,
+        "distanceRange": null,
+        "id": "97f03447-7fe0-467f-bf90-94bcf7eaf415",
+        "learnerId": "fe102e7a-2aff-4491-abcd-4058a2617d78",
+        "programHash": "09e98108456b0edc7aaa7a4aa9309135c3884ee57f41df48116be4a34398f807",
+        "question": "What will this program do first?",
+        "reasoning": "",
+        "recordedAt": "2026-10-25T21:23:48.281Z",
+        "schemaVersion": 1,
+        "uncertain": false,
+        "worldHash": "b9aab10426480dc1e336de0884dd58060036de3487e0430b2d27d92ec94cc5db"
+      },
+      {
+        "action": "stop",
+        "branch": null,
+        "confidence": 3,
+        "distanceRange": null,
+        "id": "ea630493-98dc-4b7f-bb98-b8ec1beb200c",
+        "learnerId": "fe102e7a-2aff-4491-abcd-4058a2617d78",
+        "programHash": "560776da4fca9a92405d620e9bc5b6f727aa129f5eff97e8590ef7fdea02ebed",
+        "question": "What will this program do first?",
+        "reasoning": "",
+        "recordedAt": "2026-10-25T21:23:50.730Z",
+        "schemaVersion": 1,
+        "uncertain": false,
+        "worldHash": "76a7d90a2cbd4ce38be84dd5646c545ffd580f9c54b8e403cb2c510e9b292392"
+      },
+      {
+        "action": "stop",
+        "branch": null,
+        "confidence": 3,
+        "distanceRange": null,
+        "id": "ccd86d6e-d5d0-4a0b-b622-78b1b97d180d",
+        "learnerId": "fe102e7a-2aff-4491-abcd-4058a2617d78",
+        "programHash": "699878b39c52abfe755e12faac1f258585d59a11593cdc6e36c3b37e1b248573",
+        "question": "What will this program do first?",
+        "reasoning": "",
+        "recordedAt": "2026-10-25T21:23:53.245Z",
+        "schemaVersion": 1,
+        "uncertain": false,
+        "worldHash": "27df918ff70a5be15695a34ff13454052e75edff13207c024bd54146229d19ce"
+      },
+      {
+        "action": "stop",
+        "branch": null,
+        "confidence": 3,
+        "distanceRange": null,
+        "id": "f753e21b-8e59-4515-b286-1cc3242adc70",
+        "learnerId": "fe102e7a-2aff-4491-abcd-4058a2617d78",
+        "programHash": "0a47e13b224443932c45b1ab2f475503c2b2a46537499685a72f1f2f96b3941c",
+        "question": "What will this program do first?",
+        "reasoning": "",
+        "recordedAt": "2026-10-25T21:23:55.664Z",
+        "schemaVersion": 1,
+        "uncertain": false,
+        "worldHash": "4499a937a9404bf2ad5f471426d9125c5a6b80d5513bc1dbc3efdc4f76e3ae75"
+      },
+      {
+        "action": "move",
+        "branch": null,
+        "confidence": 3,
+        "distanceRange": null,
+        "id": "43cf9c85-51be-44ca-8a2d-27f8d0d2ee92",
+        "learnerId": "fe102e7a-2aff-4491-abcd-4058a2617d78",
+        "programHash": "8b267771b095519d3119a00e32369dded84b74b75982393cd608f33103d0a376",
+        "question": "What will this program do first?",
+        "reasoning": "",
+        "recordedAt": "2026-10-25T21:23:58.080Z",
+        "schemaVersion": 1,
+        "uncertain": false,
+        "worldHash": "0208cb99280c7e3bf0809a3011edcf3b3a3bb1ce65cf583263ba80e0380afdf7"
+      }
+    ],
+    "schemaVersion": 1,
+    "settings": {
+      "audioEnabled": false,
+      "highContrast": false,
+      "hintsMode": "guided",
+      "lastOpenedMission": "m01",
+      "reducedMotion": false,
+      "schemaVersion": 1,
+      "sensorLabels": true,
+      "shortcutsOverlay": true,
+      "textSize": "standard",
+      "theme": "light"
+    }
+  },
+  "profiles": [],
+  "savedLabs": [],
+  "schemaVersion": 1,
+  "sourceAppVersion": "0.1.0",
+  "teams": []
+}

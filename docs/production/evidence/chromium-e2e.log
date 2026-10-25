@@ -1,0 +1,125 @@
+[WebServer] [plugin builtin:vite-reporter] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+
+Running 115 tests using 2 workers
+
+[1/115] [chromium] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=false)
+[2/115] [chromium] › e2e/astra-storage.spec.ts:32:3 › Astra deletion prevents stale Save and Retry resurrection (BroadcastChannel=true)
+[3/115] [chromium] › e2e/astra-storage.spec.ts:81:1 › Astra concurrent tabs append attempts, JSON export is coherent, close/reopen preserves both
+[4/115] [chromium] › e2e/astra-storage.spec.ts:112:1 › Astra quota failure never announces a successful manual Save
+[5/115] [chromium] › e2e/final-acceptance.spec.ts:17:1 › every disabled workbench control explains itself, before and after a run
+[6/115] [chromium] › e2e/final-acceptance.spec.ts:37:1 › Free Lab world-edit controls explain why they are disabled
+[7/115] [chromium] › e2e/foundation.spec.ts:15:1 › new alias, actual branch, locked prediction, transfer, saved reload and instructor export/delete
+[8/115] [chromium] › e2e/foundation.spec.ts:46:1 › lab parameter changes, real Blockly editor, undo/redo, validated world export/import
+[9/115] [chromium] › e2e/foundation.spec.ts:75:1 › three teammates predict privately, run actual goals and rotate roles after refresh
+[10/115] [chromium] › e2e/foundation.spec.ts:105:1 › settings persist; export/import checked before replacement; malicious import preserves current data
+[11/115] [chromium] › e2e/foundation.spec.ts:134:1 › keyboard dialog focus, navigation and not-found recovery
+[12/115] [chromium] › e2e/foundation.spec.ts:148:1 › no learner-content requests during prediction, run and diagnosis
+[13/115] [chromium] › e2e/foundation.spec.ts:168:3 › layout 1440 has no global overflow and working navigation
+[14/115] [chromium] › e2e/foundation.spec.ts:168:3 › layout 1366 has no global overflow and working navigation
+[15/115] [chromium] › e2e/foundation.spec.ts:168:3 › layout 1024 has no global overflow and working navigation
+[16/115] [chromium] › e2e/foundation.spec.ts:168:3 › layout 390 has no global overflow and working navigation
+[17/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /
+[18/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /start
+[19/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /missions
+[20/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /missions/m01
+[21/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /lab
+[22/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /team
+[23/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /progress
+[24/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /instructor
+[25/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /settings
+[26/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /how-it-works
+[27/115] [chromium] › e2e/foundation.spec.ts:199:3 › accessibility /not-found
+[28/115] [chromium] › e2e/foundation.spec.ts:207:1 › storage blocked stays usable in an explicit in-memory session
+[29/115] [chromium] › e2e/foundation.spec.ts:224:1 › six-person team completes one real round without any account
+[30/115] [chromium] › e2e/foundation.spec.ts:247:1 › real pointer drag changes the same obstacle; keyboard position and world import roundtrip
+[31/115] [chromium] › e2e/foundation.spec.ts:280:1 › Chromebook primary run action is fully visible before scrolling
+[32/115] [chromium] › e2e/ij-blockly.spec.ts:11:1 › I/J actual Blockly duplicate, undo, redo and delete preserve the applied program
+[33/115] [chromium] › e2e/ij-blockly.spec.ts:43:1 › I/J deleting a required comparison input produces a focusable source error and Undo repairs it
+[34/115] [chromium] › e2e/ij-controls.spec.ts:5:1 › I/J layout, disclosure, copy and inspector controls produce their advertised states
+[35/115] [chromium] › e2e/ij-controls.spec.ts:66:1 › I/J colored-zone numeric controls change actual sensing and survive saved-world restore
+[36/115] [chromium] › e2e/ij-controls.spec.ts:133:1 › I/J preference alternatives and storage retry persist honest local state
+[37/115] [chromium] › e2e/ij-instructor.spec.ts:139:1 › I/J instructor filters actual local rows by learner, concept, dates and team; reset, teacher notes and replay work
+[38/115] [chromium] › e2e/ij-instructor.spec.ts:207:1 › I/J local assignment persists, selected CSV/JSON contain validated scoped records and print button calls browser print
+[39/115] [chromium] › e2e/ij-instructor.spec.ts:263:1 › I/J instructor import rejects future/corrupt records and merging the same local file never doubles actual counts
+[40/115] [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1920x1080
+[41/115] [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1440x900
+[42/115] [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1366x768
+[43/115] [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 1024x768
+[44/115] [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 768x1024
+[45/115] [chromium] › e2e/ij-interactions.spec.ts:28:3 › I/J all-route layout 390x844
+[46/115] [chromium] › e2e/ij-interactions.spec.ts:60:1 › I/J onboarding preserves edits, validates the name and honors a selected controls tutorial
+[47/115] [chromium] › e2e/ij-interactions.spec.ts:91:1 › I/J mission sorts, prerequisite practice and read-only preview have their intended results
+[48/115] [chromium] › e2e/ij-interactions.spec.ts:131:1 › I/J explanation trace, exact 24cm example and privacy anchor work through actual links
+[49/115] [chromium] › e2e/ij-interactions.spec.ts:151:1 › I/J credits and shortcut dialogs close with restored focus, and both not-found exits work
+[50/115] [chromium] › e2e/ij-interactions.spec.ts:179:1 › I/J controlled dialogs across library, mission, progress, instructor, settings and team restore focus
+[51/115] [chromium] › e2e/ij-interactions.spec.ts:214:1 › I/J every shell and explanation link alias follows its actual route and compact menu closes
+[52/115] [chromium] › e2e/ij-interactions.spec.ts:270:1 › I/J external attribution controls open their declared isolated destinations
+[53/115] [chromium] › e2e/ij-interactions.spec.ts:306:1 › I/J solo, team, instructor, tutorial and skip choices open the selected actual screen
+[54/115] [chromium] › e2e/ij-interactions.spec.ts:353:1 › I/J each mission concept chip toggles a real matching result set
+[55/115] [chromium] › e2e/ij-interactions.spec.ts:382:1 › I/J mission card start, result and retry links preserve real completed evidence
+[56/115] [chromium] › e2e/ij-lab-controls.spec.ts:20:1 › I/J camera toggles, four pan directions and fullscreen preserve physical readings
+[57/115] [chromium] › e2e/ij-lab-controls.spec.ts:72:1 › I/J legal object, zone and robot coordinate edits save and reset a named world
+[58/115] [chromium] › e2e/ij-lab-controls.spec.ts:129:1 › I/J every preset and world import preview/cancel/confirm changes actual validated geometry
+[59/115] [chromium] › e2e/ij-lab-controls.spec.ts:174:1 › I/J Save, Reset code, Run, Stop and Rewind preserve history; Reset everything unlocks a clean nominal lab
+[60/115] [chromium] › e2e/ij-learning-controls.spec.ts:18:1 › I/J optional branch and confidence lock into a real run; summary/share and code-change controls work
+[61/115] [chromium] › e2e/ij-learning-controls.spec.ts:54:1 › I/J progress concept evidence, replay, scoped export, retry and recommendation links follow real records
+[62/115] [chromium] › e2e/ij-learning-controls.spec.ts:85:1 › I/J experiment reset/return and transfer retry preserve old evidence while new attempts unlock prediction
+[63/115] [chromium] › e2e/ij-performance.spec.ts:64:1 › I/J production 1500-event inspector stays bounded, filters, pages and replays exact snapshots
+[64/115] [chromium] › e2e/ij-performance.spec.ts:115:1 › I/J 180-statement Blockly workspace survives apply, unmount and repeated route navigation
+[65/115] [chromium] › e2e/ij-performance.spec.ts:208:1 › I/J cold browser load and long timed replay remain responsive without changing logical clock
+[66/115] [chromium] › e2e/ij-performance.spec.ts:295:1 › I/J Blockly editing loads only bundled same-origin assets and never requests sound
+[67/115] [chromium] › e2e/ij-performance.spec.ts:330:1 › I/J fifty executed records import, render in Progress and survive reload
+[68/115] [chromium] › e2e/ij-progress.spec.ts:10:1 › three primary missions earn completion stamps only after real goal and fresh transfer checks
+[69/115] [chromium] › e2e/ij-progress.spec.ts:78:1 › evidence stamps follow a real saved investigation, remain learner scoped and clear with it
+[70/115] [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 2 local teammates preserve private handoffs, pause and reload before a real shared result
+[71/115] [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 3 local teammates preserve private handoffs, pause and reload before a real shared result
+[72/115] [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 4 local teammates preserve private handoffs, pause and reload before a real shared result
+[73/115] [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 5 local teammates preserve private handoffs, pause and reload before a real shared result
+[74/115] [chromium] › e2e/ij-team.spec.ts:59:3 › I/J 6 local teammates preserve private handoffs, pause and reload before a real shared result
+[75/115] [chromium] › e2e/ij-team.spec.ts:148:1 › I/J shared Blockly field edits affect actual judging and prior result snapshots survive repair
+[76/115] [chromium] › e2e/ij-team.spec.ts:196:1 › I/J shared hint ladder, confirmed solution and optional private second answer survive export/import without individual mastery
+[77/115] [chromium] › e2e/ij-team.spec.ts:277:1 › I/J roster sanitization, draft undo, learner switch, end and reset preserve other local learners
+[78/115] [chromium] › e2e/learning-g.spec.ts:65:1 › same first wrong answer + different follow-ups → different probes, ideas and experiments
+[79/115] [chromium] › e2e/learning-g.spec.ts:92:1 › investigation helpers, generated experiment slider, transfer and saved evidence after reload
+[80/115] [chromium] › e2e/learning-g.spec.ts:157:1 › a correct prediction is never forced into a diagnosis
+[81/115] [chromium] › e2e/learning-g.spec.ts:169:1 › free lab can generate a validated experiment from the current world and program
+[82/115] [chromium] › e2e/learning-g.spec.ts:183:1 › accessibility: investigation and experiment panels have no WCAG A/AA violations
+[83/115] [chromium] › e2e/missions-h.spec.ts:54:1 › every mission is completed by its verified reference program in the real workstation
+[84/115] [chromium] › e2e/missions-h.spec.ts:71:1 › flawed programs fail exactly the way the curriculum says
+[85/115] [chromium] › e2e/missions-h.spec.ts:92:1 › briefing shows the story, live readings, vocabulary, scenarios and teacher note
+[86/115] [chromium] › e2e/missions-h.spec.ts:106:1 › hint ladder ends in a related program, and the solution needs confirmation and is recorded
+[87/115] [chromium] › e2e/missions-h.spec.ts:132:1 › a wrong second answer opens the investigation even when the first action was right
+[88/115] [chromium] › e2e/missions-h.spec.ts:147:1 › capstone recap lists every criterion and completes only when all are met
+[89/115] [chromium] › e2e/missions-h.spec.ts:186:1 › without a written reason the capstone is not marked complete
+[90/115] [chromium] › e2e/opus-regressions.spec.ts:33:1 › OPUS-001 a stale second tab saving does not erase an attempt recorded in the first tab
+[91/115] [chromium] › e2e/opus-regressions.spec.ts:59:1 › OPUS-003 phone-width workstation has no axe violations and the cycle strip is keyboard-scrollable
+[92/115] [chromium] › e2e/opus-regressions.spec.ts:77:1 › OPUS-004 stage zoom and pan buttons are at least 24 px in both dimensions
+[93/115] [chromium] › e2e/opus-regressions.spec.ts:88:1 › OPUS-006 an unknown mission names itself and offers a styled way back
+[94/115] [chromium] › e2e/physics-debugger.spec.ts:40:1 › F code/tick steps, pause, rewind, exact explanation and4x replay preserve one attempt
+[95/115] [chromium] › e2e/physics-debugger.spec.ts:69:1 › F pause permits inspection only; Stop & Edit resets before code/world changes
+[96/115] [chromium] › e2e/physics-debugger.spec.ts:93:1 › F null comparisons stop at source block and guarded conditions run correctly
+[97/115] [chromium] › e2e/physics-debugger.spec.ts:111:1 › F nominal world, seeded noise and boundary options persist through world export/import
+[98/115] [chromium] › e2e/physics-debugger.spec.ts:145:1 › F panning/zoom hit transforms and SVG snapshot preserve actual world measurements
+[99/115] [chromium] › e2e/physics-debugger.spec.ts:170:1 › F a large looping run remains cancellable and returns to usable editing
+[100/115] [chromium] › e2e/physics-debugger.spec.ts:203:1 › F turn/wait programs expose every50ms tick instead of action-sized jumps
+[101/115] [chromium] › e2e/physics-debugger.spec.ts:241:1 › F Stop & Edit cancels active computation and unlocks editing in one action
+[102/115] [chromium] › e2e/physics-debugger.spec.ts:272:1 › F cache-independent source rebuild restores exact selected tick and does not add attempts
+[103/115] [chromium] › e2e/product.spec.ts:14:3 › m01 executes its authored program and distinct transfer without page errors
+[104/115] [chromium] › e2e/product.spec.ts:14:3 › m02 executes its authored program and distinct transfer without page errors
+[105/115] [chromium] › e2e/product.spec.ts:14:3 › m03 executes its authored program and distinct transfer without page errors
+[106/115] [chromium] › e2e/product.spec.ts:14:3 › m04 executes its authored program and distinct transfer without page errors
+[107/115] [chromium] › e2e/product.spec.ts:14:3 › m05 executes its authored program and distinct transfer without page errors
+[108/115] [chromium] › e2e/product.spec.ts:14:3 › m06 executes its authored program and distinct transfer without page errors
+[109/115] [chromium] › e2e/product.spec.ts:14:3 › m07 executes its authored program and distinct transfer without page errors
+[110/115] [chromium] › e2e/product.spec.ts:14:3 › m08 executes its authored program and distinct transfer without page errors
+[111/115] [chromium] › e2e/product.spec.ts:40:1 › library filters use authored metadata, OR concepts, preview and recovery
+[112/115] [chromium] › e2e/product.spec.ts:63:1 › lab edits retain physical sensor truth across world history and import preview
+[113/115] [chromium] › e2e/product.spec.ts:95:1 › replay, speed and camera controls preserve one attempt and exact branch evidence
+[114/115] [chromium] › e2e/product.spec.ts:120:1 › a bounded loop imported as synthetic practice stops safely and leaves the editor usable
+[115/115] [chromium] › e2e/product.spec.ts:173:1 › Chromebook keeps prediction action visible with reserved scrollbar space
+  115 passed (3.5m)

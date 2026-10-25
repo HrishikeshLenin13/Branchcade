@@ -1,5 +1,14 @@
 # Branchcade handoff
 
+## Current operational handoff — final production and CAC acceptance (2026-10-25)
+
+- **Branch:** main only. Fast-forwarded from `02ce0dd` to Astra's `ae22d2e`, preserving all Astra fixes. Final source checkpoint `1f195d6`: [CI 40235203957](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40235203957) success.
+- **Done:** activated all **502 controls** on 12 screens (0 broken, 0 errors). Fixed the disabled-with-no-reason controls with titles and a visible toolbar hint (`7bd8418`). Added the structural mission-judging test. Ran journeys, a 66-load sweep and performance measurements, plus a fresh challenge pass on `1f195d6` (208/208). Totals: 486 unit tests, 115/115 Chromium E2E locally. See [docs/production/](production/FINAL_RELEASE_ACCEPTANCE.md).
+- **Compliance:** [docs/compliance/](compliance/CAC_2026_COMPLIANCE_MATRIX.md). The authorship history (AI-authored) is the main contest risk; the owner must resolve it. The video, final answers and disclosure are not done. Submission was not attempted.
+- **Tools:** no Playwright MCP or Chrome DevTools MCP in this container; the Playwright library and CDP were used ([TOOL_MANIFEST](production/TOOL_MANIFEST.md)).
+- **Git:** this session's new commits are unsigned (repo-local `commit.gpgsign=false`), so they carry no "Unverified" badge. Earlier session-signed commits still show it; that can't change without rewriting history.
+- **Next:** owner actions in [CAC_SUBMISSION_CHECKLIST](compliance/CAC_SUBMISSION_CHECKLIST.md); the logo when supplied.
+
 ## Current operational handoff — Astra independent hardening (2026-10-25)
 
 - **Branch:** main only; clean fast-forward from `3d8b5f5` to `02ce0dd` at startup. Baseline independent findings committed/pushed as `045744c`. Preserve older sections below as history, not current scope.

@@ -1,0 +1,9 @@
+alias,mission,prediction,goal_met,completed_at
+"Robot FE10","m01","move","true","2026-10-25T21:23:43.557Z"
+"Robot FE10","m02","stop","false","2026-10-25T21:23:45.965Z"
+"Robot FE10","m04","move","false","2026-10-25T21:23:48.292Z"
+"Robot FE10","m05","stop","false","2026-10-25T21:23:50.731Z"
+"Robot FE10","m06","stop","false","2026-10-25T21:23:53.245Z"
+"Robot FE10","m07","stop","false","2026-10-25T21:23:55.665Z"
+"Robot FE10","m08","move","false","2026-10-25T21:23:58.081Z"
+"Robot FE10","m01","stop","true","2026-10-25T21:24:00.484Z"

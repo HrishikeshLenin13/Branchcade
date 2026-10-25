@@ -68,3 +68,14 @@ No Playwright MCP or Chrome DevTools MCP was available; ordinary Playwright scri
 Codex performed the owner-authorized post-L review, wrote new adversarial regressions, preserved initial findings at045744c, compared the detailed Opus reports, and implemented local storage/learning-cache/recovery/laptop-toolbar repairs. Source, tests, scripts and audit documentation are AI-assisted. Context7 idb transaction documentation, Playwright MCP real interactions, Chrome DevTools isolated console/network, GitHub MCP metadata, local Playwright/Vitest and GitHub CLI verification were actually used. No extra reviewer/subagent was spawned. Exact model branding in the requested report is a reviewer role, not independent proof of a specific serving model.
 
 No learner study or human authoring was invented; no independent student implementation or contest eligibility was certified. All QA aliases/data are synthetic. Historical Opus reports and frozen missions remain intact. Final raw test/CI outcomes are in docs/audit/astra/FINAL_VERIFICATION.md.
+
+## Final production and CAC acceptance, 2026-10-25 (Claude Opus 5.5, Claude Code cloud session)
+
+AI-authored:
+
+- the disabled-control reasons and toolbar hint (`7bd8418`);
+- `e2e/final-acceptance.spec.ts` and `tests/final-structural-judging.test.ts`;
+- `scripts/final-*.mjs`;
+- `docs/production/*` and `docs/compliance/*`.
+
+No MCP browser servers were available; the Playwright library and CDP were used. The compliance documents are engineering facts, not legal advice, and do not attest eligibility. No student work is claimed.
