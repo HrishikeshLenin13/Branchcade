@@ -1,0 +1,411 @@
+{
+  "browser": "153.0.8010.12",
+  "steps": [
+    {
+      "name": "m01 opens \"The Wall Problem\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m01 briefing states objective and success conditions",
+      "ok": true,
+      "detail": "The Wall Problem Observe → predict → execute → compare → investigate → experiment → reassess. Use the measured distance "
+    },
+    {
+      "name": "m01 three-step hint ladder",
+      "ok": true,
+      "detail": "3 hints"
+    },
+    {
+      "name": "m01 correct starter meets every goal and scenario",
+      "ok": true,
+      "detail": "Mission goal met by the executed trace. Goal 1 (branch): met Goal 2 (distance): met Goal 3 (programmed-stop): met Goal 4 (final-distance): met Scenario “wall 12"
+    },
+    {
+      "name": "m01 prediction matched the executed first action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m01 transfer revealed with an executed result",
+      "ok": true,
+      "detail": "32 < 35 is true. Then branch selected. The actual program stops. Your prediction matches the result."
+    },
+    {
+      "name": "m01 completion checklist fully met",
+      "ok": true,
+      "detail": "Completion checklist Done: Mission goals met in every scenario Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (not "
+    },
+    {
+      "name": "m01 \"Next mission\" link offered",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m01 exactly one new attempt saved",
+      "ok": true,
+      "detail": "0 → 1"
+    },
+    {
+      "name": "m01 verdict persists after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m02 opens \"Black Line Stop\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m02 briefing states objective and success conditions",
+      "ok": true,
+      "detail": "Black Line Stop Observe → predict → execute → compare → investigate → experiment → reassess. Stop by program instruction"
+    },
+    {
+      "name": "m02 three-step hint ladder",
+      "ok": true,
+      "detail": "3 hints"
+    },
+    {
+      "name": "m02 flawed starter does not meet the mission goal",
+      "ok": true,
+      "detail": "Mission goal not met yet. Goal 1 (color-stop-within): not met Goal 2 (programmed-stop): met Goal 3 (reach): not met Scenario “thin line 30 cm ahead”: not met (1"
+    },
+    {
+      "name": "m02 prediction matched the executed first action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m02 transfer revealed with an executed result",
+      "ok": true,
+      "detail": "white == white is true. WHILE: enter body; iteration 1. The actual program moves. Your prediction matches the result."
+    },
+    {
+      "name": "m02 completion withheld for the flawed program",
+      "ok": true,
+      "detail": "Completion checklist Not yet: Mission goals met in every scenario Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (n"
+    },
+    {
+      "name": "m02 no \"Next mission\" link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m02 exactly one new attempt saved",
+      "ok": true,
+      "detail": "1 → 2"
+    },
+    {
+      "name": "m02 verdict persists after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m04 opens \"The Extra Lap\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m04 briefing states objective and success conditions",
+      "ok": true,
+      "detail": "The Extra Lap Observe → predict → execute → compare → investigate → experiment → reassess. Repair the repeat count to fi"
+    },
+    {
+      "name": "m04 three-step hint ladder",
+      "ok": true,
+      "detail": "3 hints"
+    },
+    {
+      "name": "m04 flawed starter does not meet the mission goal",
+      "ok": true,
+      "detail": "Mission goal not met yet. Goal 1 (reach): not met Goal 2 (event): not met Goal 3 (heading): not met Goal 4 (event): not met Goal 5 (path): met"
+    },
+    {
+      "name": "m04 prediction matched the executed first action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m04 transfer revealed with an executed result",
+      "ok": true,
+      "detail": "No branch was executed. The actual program moves. Your prediction matches the result."
+    },
+    {
+      "name": "m04 completion withheld for the flawed program",
+      "ok": true,
+      "detail": "Completion checklist Not yet: Mission goals met Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (not “not sure yet”)"
+    },
+    {
+      "name": "m04 no \"Next mission\" link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m04 exactly one new attempt saved",
+      "ok": true,
+      "detail": "2 → 3"
+    },
+    {
+      "name": "m04 verdict persists after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m05 opens \"The Loop That Never Ends\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m05 briefing states objective and success conditions",
+      "ok": true,
+      "detail": "The Loop That Never Ends Observe → predict → execute → compare → investigate → experiment → reassess. Keep moving while "
+    },
+    {
+      "name": "m05 three-step hint ladder",
+      "ok": true,
+      "detail": "3 hints"
+    },
+    {
+      "name": "m05 flawed starter does not meet the mission goal",
+      "ok": true,
+      "detail": "Mission goal not met yet. Goal 1 (programmed-stop): met Goal 2 (final-distance): not met Goal 3 (distance): not met Goal 4 (reach): not met Scenario “wall 60 cm"
+    },
+    {
+      "name": "m05 prediction matched the executed first action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m05 transfer revealed with an executed result",
+      "ok": true,
+      "detail": "44 > 12 is true. WHILE: enter body; iteration 1. The actual program moves. Your prediction matches the result."
+    },
+    {
+      "name": "m05 completion withheld for the flawed program",
+      "ok": true,
+      "detail": "Completion checklist Not yet: Mission goals met in every scenario Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (n"
+    },
+    {
+      "name": "m05 no \"Next mission\" link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m05 exactly one new attempt saved",
+      "ok": true,
+      "detail": "3 → 4"
+    },
+    {
+      "name": "m05 verdict persists after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m06 opens \"Call the Helper\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m06 briefing states objective and success conditions",
+      "ok": true,
+      "detail": "Call the Helper Observe → predict → execute → compare → investigate → experiment → reassess. Call the helper and reach t"
+    },
+    {
+      "name": "m06 three-step hint ladder",
+      "ok": true,
+      "detail": "3 hints"
+    },
+    {
+      "name": "m06 solution shown only after confirmation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m06 flawed starter does not meet the mission goal",
+      "ok": true,
+      "detail": "Mission goal not met yet. Goal 1 (event): not met Goal 2 (reach): not met Goal 3 (programmed-stop): met"
+    },
+    {
+      "name": "m06 prediction matched the executed first action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m06 transfer revealed with an executed result",
+      "ok": true,
+      "detail": "No branch was executed. The actual program moves. Your prediction matches the result."
+    },
+    {
+      "name": "m06 completion withheld for the flawed program",
+      "ok": true,
+      "detail": "Completion checklist Not yet: Mission goals met Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (not “not sure yet”)"
+    },
+    {
+      "name": "m06 no \"Next mission\" link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m06 exactly one new attempt saved",
+      "ok": true,
+      "detail": "4 → 5"
+    },
+    {
+      "name": "m06 verdict persists after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m07 opens \"Color & Distance\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m07 briefing states objective and success conditions",
+      "ok": true,
+      "detail": "Color & Distance Observe → predict → execute → compare → investigate → experiment → reassess. Use AND so a close wall al"
+    },
+    {
+      "name": "m07 three-step hint ladder",
+      "ok": true,
+      "detail": "3 hints"
+    },
+    {
+      "name": "m07 flawed starter does not meet the mission goal",
+      "ok": true,
+      "detail": "Mission goal not met yet. Goal 1 (branch): not met Goal 2 (distance): not met Goal 3 (programmed-stop): met Scenario “far wall on black floor”: not met (1 goal "
+    },
+    {
+      "name": "m07 prediction matched the executed first action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m07 transfer revealed with an executed result",
+      "ok": true,
+      "detail": "Condition is false. Else branch selected. The actual program moves. Your prediction matches the result."
+    },
+    {
+      "name": "m07 completion withheld for the flawed program",
+      "ok": true,
+      "detail": "Completion checklist Not yet: Mission goals met in every scenario Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (n"
+    },
+    {
+      "name": "m07 no \"Next mission\" link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m07 exactly one new attempt saved",
+      "ok": true,
+      "detail": "5 → 6"
+    },
+    {
+      "name": "m07 verdict persists after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m08 opens \"Mystery Malfunction\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m08 briefing states objective and success conditions",
+      "ok": true,
+      "detail": "Mystery Malfunction Observe → predict → execute → compare → investigate → experiment → reassess. Trace the variable and "
+    },
+    {
+      "name": "m08 three-step hint ladder",
+      "ok": true,
+      "detail": "3 hints"
+    },
+    {
+      "name": "m08 flawed starter does not meet the mission goal",
+      "ok": true,
+      "detail": "Mission goal not met yet. Goal 1 (event): not met Goal 2 (reach): not met Goal 3 (heading): not met Goal 4 (programmed-stop): met Scenario “wall 50 cm away”: me"
+    },
+    {
+      "name": "m08 prediction matched the executed first action",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m08 transfer revealed with an executed result",
+      "ok": true,
+      "detail": "32 < 35 is true. Then branch selected. The actual program turns. Your prediction matches the result."
+    },
+    {
+      "name": "m08 completion withheld for the flawed program",
+      "ok": true,
+      "detail": "Capstone recap Not yet: Mission goals met in every scenario Done: A new-numbers challenge predicted correctly Done: Prediction committed before the run (not “no"
+    },
+    {
+      "name": "m08 no \"Next mission\" link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "m08 exactly one new attempt saved",
+      "ok": true,
+      "detail": "6 → 7"
+    },
+    {
+      "name": "m08 verdict persists after reload",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "retry adds a new M01 attempt and keeps the earlier one byte-identical",
+      "ok": true,
+      "detail": "2 M01 attempts"
+    },
+    {
+      "name": "Progress awards completion to M01 only, none to flawed starters",
+      "ok": true,
+      "detail": "Review completion evidence for M01"
+    },
+    {
+      "name": "CSV header",
+      "ok": true,
+      "detail": "alias,mission,prediction,goal_met,completed_at"
+    },
+    {
+      "name": "CSV has one row per stored attempt",
+      "ok": true,
+      "detail": "8 rows / 8 attempts"
+    },
+    {
+      "name": "every CSV row names the local alias",
+      "ok": true,
+      "detail": "Robot 1BDE"
+    },
+    {
+      "name": "CSV goal_met is true only for M01 rows",
+      "ok": true,
+      "detail": "\"m01\" \"move\" \"true\" | \"m02\" \"stop\" \"false\" | \"m04\" \"move\" \"false\" | \"m05\" \"stop\" \"false\" | \"m06\" \"stop\" \"false\" | \"m07\" \"stop\" \"false\" | \"m08\" \"move\" \"false\" | \"m01\" \"stop\" \"true\""
+    },
+    {
+      "name": "JSON export carries the same attempt ids as storage",
+      "ok": true,
+      "detail": "8 attempts"
+    },
+    {
+      "name": "after clearing, the learner has no rows in the CSV",
+      "ok": true,
+      "detail": "alias,mission,prediction,goal_met,completed_at"
+    },
+    {
+      "name": "IndexedDB holds no attempts for the cleared learner",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no page or console errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "errors": []
+}

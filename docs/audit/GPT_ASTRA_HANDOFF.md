@@ -41,10 +41,12 @@ Suggested protocol (from [POST_L_AUDIT_PLAN](../POST_L_AUDIT_PLAN.md)):
 
 ## Areas Opus did NOT test (treat as open)
 
-- Real Blockly gestures (drag, connect, context menu, undo/redo) by hand. Opus relied on the existing E2E only.
-- Team mode at each of the 2–6 sizes, by hand.
-- Step-by-step browser journeys for M02–M08, hints, Show solution, capstone recap.
-- Instructor CSV/JSON/print contents opened and inspected.
+- Team mode at each of the 2–6 sizes, by hand (existing E2E only).
+- Print output, and the M08 capstone _completion_ path (Opus only checked that the flawed M08 starter is withheld).
+- Blockly beyond the gap-closure script: keyboard-only block editing, very large workspaces, functions/variables blocks.
+
+Closed later in the gap-closure round, and worth re-checking independently: real Blockly drag/connect/detach/field/dropdown/undo gestures; browser journeys for every mission's starter; instructor CSV/JSON contents and learner deletion. See the addendum in OPUS_REQUIREMENT_MATRIX.
+
 - Firefox locally (CI only), WebKit/Safari, physical Chromebooks, touch.
 - Screen readers, dark mode, high contrast, large text, reduced motion.
 - Long-run memory growth and 1,500-event trace timing.

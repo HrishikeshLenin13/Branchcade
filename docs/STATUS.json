@@ -321,6 +321,7 @@
     "localFirefox": "NOT AVAILABLE in this container; CI only",
     "logoIntegration": "BLOCKED: APPROVED LOGO ASSET REQUIRED",
     "gptAstraReview": "NOT STARTED",
-    "reports": "docs/audit/"
+    "reports": "docs/audit/",
+    "gapClosure": "2026-10-25: real Blockly gestures 21/21, all-mission browser journeys + export/deletion 81/81 (scripts/opus-audit-blockly.mjs, scripts/opus-audit-missions.mjs); team sizes 2-6 still existing-E2E only"
   }
 }

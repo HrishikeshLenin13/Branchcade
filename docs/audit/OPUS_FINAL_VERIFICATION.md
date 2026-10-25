@@ -43,21 +43,32 @@ The failure-artifact upload step was skipped, which is consistent with no failur
 
 ## Acceptance criteria — honest status
 
-| Criterion                                       | Status                                                                      |
-| ----------------------------------------------- | --------------------------------------------------------------------------- |
-| Requirements mapped to audited results          | Done: 45-row matrix                                                         |
-| Key journeys exercised in a real browser        | Partly: Chromium only, scripted; see NOT TESTED rows                        |
-| All eight missions evaluated                    | Judges: all 8 (references + 152 mutants). Browser: by the existing E2E only |
-| Core Blockly editing genuinely tested           | **Not by Opus**; existing E2E only                                          |
-| Independent physics cases                       | Done: 26 oracle tests                                                       |
-| Diagnosis and counterexamples examined          | Done                                                                        |
-| Teams 2–6                                       | **Not by Opus**; existing E2E only                                          |
-| Progress/instructor, storage, import/export     | Partly (hostile imports, CSV source, multi-tab); exports not opened         |
-| Accessibility audited                           | axe + keyboard probes; no screen reader                                     |
-| Responsive UI visually reviewed                 | Done at 6 viewports (screenshots inspected for the main workstation)        |
-| Console/network recorded                        | Done                                                                        |
-| Confirmed P0/P1 repaired, with regression tests | Done                                                                        |
-| Approved logo                                   | **BLOCKED: APPROVED LOGO ASSET REQUIRED**                                   |
-| CI green on final source commit                 | Done (`e5ca1d5`); see the limit above on retry markers                      |
-| Human testing / contest submission              | Not claimed                                                                 |
-| GPT Astra verification                          | **Pending**                                                                 |
+| Criterion                                       | Status                                                                             |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Requirements mapped to audited results          | Done: 45-row matrix                                                                |
+| Key journeys exercised in a real browser        | Partly: Chromium only, scripted; see NOT TESTED rows                               |
+| All eight missions evaluated                    | Judges: all 8 (references + 152 mutants). Browser: all 8 in the gap-closure round  |
+| Core Blockly editing genuinely tested           | Done in the gap-closure round: real drag/connect/detach/field/dropdown/undo, 21/21 |
+| Independent physics cases                       | Done: 26 oracle tests                                                              |
+| Diagnosis and counterexamples examined          | Done                                                                               |
+| Teams 2–6                                       | **Not by Opus**; existing E2E only                                                 |
+| Progress/instructor, storage, import/export     | Done: exports opened and matched against storage; learner deletion verified        |
+| Accessibility audited                           | axe + keyboard probes; no screen reader                                            |
+| Responsive UI visually reviewed                 | Done at 6 viewports (screenshots inspected for the main workstation)               |
+| Console/network recorded                        | Done                                                                               |
+| Confirmed P0/P1 repaired, with regression tests | Done                                                                               |
+| Approved logo                                   | **BLOCKED: APPROVED LOGO ASSET REQUIRED**                                          |
+| CI green on final source commit                 | Done (`e5ca1d5`); see the limit above on retry markers                             |
+| Human testing / contest submission              | Not claimed                                                                        |
+| GPT Astra verification                          | **Pending**                                                                        |
+
+## Gap-closure round (after `7d9b8be`)
+
+Scripts `scripts/opus-audit-blockly.mjs` (21/21 checks) and `scripts/opus-audit-missions.mjs` (81/81 checks) ran against a fresh production build in Chromium 153, with 0 page or console errors. Evidence: `docs/audit/evidence/gap-closure/`. No application code changed in this round, and no new defect was found. Every first failure in this round was traced to the test script itself:
+
+- the toolbox flyout was counted as workspace blocks;
+- a block was dropped on the trash can;
+- the page had scrolled the workspace out of view;
+- M01 was assumed to have a flawed starter (it is a prediction mission whose starter is correct).
+
+The CI result for the containing commit should be checked on GitHub.

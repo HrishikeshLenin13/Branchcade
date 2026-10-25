@@ -1,0 +1,9 @@
+alias,mission,prediction,goal_met,completed_at
+"Robot 1BDE","m01","move","true","2026-10-25T05:25:37.050Z"
+"Robot 1BDE","m02","stop","false","2026-10-25T05:25:39.231Z"
+"Robot 1BDE","m04","move","false","2026-10-25T05:25:41.428Z"
+"Robot 1BDE","m05","stop","false","2026-10-25T05:25:43.648Z"
+"Robot 1BDE","m06","stop","false","2026-10-25T05:25:46.014Z"
+"Robot 1BDE","m07","stop","false","2026-10-25T05:25:48.331Z"
+"Robot 1BDE","m08","move","false","2026-10-25T05:25:50.515Z"
+"Robot 1BDE","m01","stop","true","2026-10-25T05:25:52.647Z"

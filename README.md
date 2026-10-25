@@ -144,11 +144,13 @@ Keyboard navigation, named native controls, dialog focus restoration/Escape, cod
 
 Current release/session evidence: [Part L acceptance](docs/PART_L_ACCEPTANCE.md), [release and submission readiness](docs/RELEASE_READINESS.md), [operational handoff](docs/HANDOFF.md) and [proposed future audit](docs/POST_L_AUDIT_PLAN.md). Hosting, human source review, video and contest submission have separate pending states; successful engineering checks do not complete them.
 
+**Independent post-L audit (2026-10-25):** a Claude Opus 5.5 audit of `617b83d` found and fixed one critical issue (a second open tab could erase saved attempts), one high one (M03 could be passed without moving; M03 is now mission data v3) and several accessibility issues, each with regression tests. After the fixes there are 457 unit tests and 109 Chromium + 109 Firefox E2E tests, and CI is green. See [docs/audit/](docs/audit/OPUS_INDEPENDENT_AUDIT.md). A second, GPT Astra review has **not** been done, and the approved logo has not been supplied.
+
 The fetched `abd9d0a` checkpoint has [successful cross-browser CI](https://github.com/HrishikeshLenin13/Branchcade/actions/runs/40129455981): **396 tests / 29 files**, **105 Chromium + 105 Firefox E2E**, no failed/flaky browser cases. The Part K reruns, current checked commits and CI are tracked separately in [TEST_REPORT](docs/TEST_REPORT.md) and [Part K acceptance](docs/PART_K_ACCEPTANCE.md); these links supersede historical counts.
 
 Known limits: six of fourteen ideas require optional investigation rather than a wrong first-action prediction; single-rule mental models and scoring need human educational validation; synchronous bounded search and cooperative main-thread interpretation are not worker execution; Blockly is a large lazy chunk (about 799 kB minified); no WebKit, physical Chromebook, causal learning study, cloud classroom, hardware control, service-worker/PWA or public deployment is claimed. Loaded/cached assets can work without new requests, but unloaded chunks may require the network. [Measured performance and bounds](docs/PERFORMANCE_REPORT.md).
 
-`npm run build` supplies `dist/` with SPA fallbacks for static hosting. Local preview is not publication. An owner-authorized hosting project and public deep-route smoke tests remain pending; see [DEPLOYMENT](docs/DEPLOYMENT.md). Part L has not been started.
+`npm run build` supplies `dist/` with SPA fallbacks for static hosting. Local preview is not publication. An owner-authorized hosting project and public deep-route smoke tests remain pending; see [DEPLOYMENT](docs/DEPLOYMENT.md).
 
 ## Human validation, ownership and credits
 

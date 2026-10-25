@@ -14,6 +14,7 @@ Baseline `617b83d` (CI [40140698354](https://github.com/HrishikeshLenin13/Branch
 | After repairs: local Chromium E2E (`CI=1`, retries 0, 2 workers) | 109/109 passed ([log](audit/evidence/after-repairs/chromium-e2e.log)). An earlier run of the same tree caught a 1366 px layout regression from the first OPUS-003 attempt (3 failures); it was fixed before commit |
 | OPUS-001 E2E against unrepaired source                           | Failed as intended: expected 1 attempt, received 0 ([log](audit/evidence/after-repairs/opus-001-e2e-on-unrepaired-source.log))                                                                                     |
 | After repairs: browser sweep                                     | 66 loads: 0 overflow, **0 axe violations**, 0 console/page errors, local-origin only                                                                                                                               |
+| Gap-closure browser round (after `7d9b8be`)                      | Real Blockly gestures 21/21; every mission starter plus M03 repaired by gestures, exports and deletion 81/81; 0 console errors; no app change ([evidence](audit/evidence/gap-closure/))                            |
 | Final gates and CI                                               | Recorded in [OPUS_FINAL_VERIFICATION](audit/OPUS_FINAL_VERIFICATION.md)                                                                                                                                            |
 
 ## Part L — fresh release verification (2026-10-24)
