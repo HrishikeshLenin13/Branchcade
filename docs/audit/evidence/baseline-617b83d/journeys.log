@@ -1,0 +1,15 @@
+corrupt: body text has notice? [ 'can’t be saved', 'can’t be saved', 'unreadable', 'Export' ] errors []
+corrupt: stored envelope after navigation {"schemaVersion":1,"attempts":"garbage"}
+unknown mission h1/h2: [ 'Investigation not found' ]
+reload m02 h1: Black Line Stop
+back -> /missions Small programs.
+Big discoveries.
+forward -> /missions/m02 Black Line Stop errors [
+  "Blocked attempt to show a 'beforeunload' confirmation panel for a frame that never had a user gesture since its load. https://www.chromestatus.com/feature/5082396709879808"
+]
+first Tab focus: Skip to content
+focus stays in dialog over 12 tabs: true
+focus restored to: Mission briefing
+Save focus outline: solid 3px rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0
+onboarding first panel: Your work stays on this device | A little curiosity. | No account required. | 01 | Your way | 02 | Lab name | 03 | First discovery | Who are you exploring as? | Pick a starting place. Every feature stays available to ev
+textboxes on first panel: 0

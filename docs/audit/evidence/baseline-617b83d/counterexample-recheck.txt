@@ -1,0 +1,94 @@
+m01: examined 15, ranked 15, rejected 0, noCandidate=-
+    obstacle-distance.obstacle=20 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=30 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    comparator.condition=<= q=first-action truth=move recheck=move changes=program.body.0.condition.op
+    obstacle-distance.obstacle=40 q=branch truth=else recheck=else changes=world.obstacles.0.position.xCm
+    threshold.threshold=19 q=first-action truth=move recheck=move changes=program.body.0.condition.right.value
+    obstacle-distance.obstacle=21 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    threshold.threshold=23 q=first-action truth=move recheck=move changes=program.body.0.condition.right.value
+    threshold.threshold=24 q=first-action truth=move recheck=move changes=program.body.0.condition.right.value
+    obstacle-distance.obstacle=60 q=branch truth=else recheck=else changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=10 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    comparator.condition=> q=branch truth=then recheck=then changes=program.body.0.condition.op
+    comparator.condition=>= q=branch truth=then recheck=then changes=program.body.0.condition.op
+    threshold.threshold=25 q=branch truth=then recheck=then changes=program.body.0.condition.right.value
+    obstacle-distance.obstacle=19 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    threshold.threshold=29 q=branch truth=then recheck=then changes=program.body.0.condition.right.value
+m02: examined 4, ranked 4, rejected 0, noCandidate=-
+    floor-color.black=white q=first-action truth=move recheck=move changes=program.body.0.condition.right.value
+    floor-color.black=red q=first-action truth=stop recheck=stop changes=program.body.0.condition.right.value
+    floor-color.zone:black-line=red q=first-action truth=stop recheck=stop changes=world.floorZones.0.color
+    floor-color.zone:black-line=white q=first-action truth=stop recheck=stop changes=world.floorZones.0.color
+m03: examined 16, ranked 15, rejected 1, noCandidate=-
+    obstacle-distance.obstacle=20 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    comparator.condition=>= q=first-action truth=move recheck=move changes=program.body.0.condition.op
+    threshold.threshold=17 q=first-action truth=move recheck=move changes=program.body.0.condition.right.value
+    obstacle-distance.obstacle=19 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    threshold.threshold=13 q=first-action truth=move recheck=move changes=program.body.0.condition.right.value
+    threshold.threshold=12 q=first-action truth=move recheck=move changes=program.body.0.condition.right.value
+    comparator.condition=< q=branch truth=then recheck=then changes=program.body.0.condition.op
+    comparator.condition=<= q=branch truth=then recheck=then changes=program.body.0.condition.op
+    obstacle-distance.obstacle=30 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=40 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=21 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    threshold.threshold=11 q=branch truth=then recheck=then changes=program.body.0.condition.right.value
+    obstacle-distance.obstacle=24 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    threshold.threshold=7 q=branch truth=then recheck=then changes=program.body.0.condition.right.value
+    obstacle-distance.obstacle=60 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+m04: examined 4, ranked 4, rejected 0, noCandidate=-
+    loop-count.lap-count=5 q=turn-count truth=5 recheck=5 changes=program.body.0.count.value
+    loop-count.lap-count=3 q=turn-count truth=3 recheck=3 changes=program.body.0.count.value
+    loop-count.lap-count=2 q=turn-count truth=2 recheck=2 changes=program.body.0.count.value
+    loop-count.lap-count=1 q=turn-count truth=1 recheck=1 changes=program.body.0.count.value
+m05: examined 16, ranked 13, rejected 3, noCandidate=-
+    comparator.room-to-move=> q=distance-travelled truth=32 recheck=32 changes=program.body.0.condition.op
+    comparator.room-to-move=>= q=distance-travelled truth=34 recheck=34 changes=program.body.0.condition.op
+    obstacle-distance.obstacle=40 q=distance-travelled truth=0 recheck=0 changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=30 q=distance-travelled truth=0 recheck=0 changes=world.obstacles.0.position.xCm
+    comparator.room-to-move=<= q=distance-travelled truth=0 recheck=0 changes=program.body.0.condition.op
+    obstacle-distance.obstacle=60 q=distance-travelled truth=0 recheck=0 changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=20 q=distance-travelled truth=0 recheck=0 changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=24 q=distance-travelled truth=0 recheck=0 changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=21 q=distance-travelled truth=0 recheck=0 changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=19 q=distance-travelled truth=0 recheck=0 changes=world.obstacles.0.position.xCm
+    threshold.safe-distance=39 q=distance-travelled truth=0 recheck=0 changes=program.body.0.condition.right.value
+    threshold.safe-distance=43 q=distance-travelled truth=0 recheck=0 changes=program.body.0.condition.right.value
+    threshold.safe-distance=44 q=first-action truth=stop recheck=stop changes=program.body.0.condition.right.value
+m06: examined 1, ranked 1, rejected 0, noCandidate=-
+    function-call.goCorner=with-call q=turn-count truth=1 recheck=1 changes=program.body.1.nodeId program.body.1.kind program.body.1.name program.body.2
+m07: examined 18, ranked 18, rejected 0, noCandidate=-
+    obstacle-distance.obstacle=20 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    comparator.condition=> q=first-action truth=move recheck=move changes=program.body.0.condition.left.op
+    comparator.condition=>= q=first-action truth=move recheck=move changes=program.body.0.condition.left.op
+    obstacle-distance.obstacle=30 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    threshold.threshold=12 q=first-action truth=move recheck=move changes=program.body.0.condition.left.right.value
+    obstacle-distance.obstacle=21 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    threshold.threshold=11 q=first-action truth=move recheck=move changes=program.body.0.condition.left.right.value
+    obstacle-distance.obstacle=24 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    threshold.threshold=7 q=first-action truth=move recheck=move changes=program.body.0.condition.left.right.value
+    obstacle-distance.obstacle=40 q=branch truth=else recheck=else changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=60 q=branch truth=else recheck=else changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=10 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    comparator.condition=<= q=branch truth=then recheck=then changes=program.body.0.condition.left.op
+    floor-color.black-value=red q=branch truth=then recheck=then changes=program.body.0.condition.right.right.value
+    threshold.threshold=17 q=branch truth=then recheck=then changes=program.body.0.condition.left.right.value
+    obstacle-distance.obstacle=19 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    threshold.threshold=13 q=branch truth=then recheck=then changes=program.body.0.condition.left.right.value
+    floor-color.black-value=white q=branch truth=then recheck=then changes=program.body.0.condition.right.right.value
+m08: examined 16, ranked 16, rejected 0, noCandidate=-
+    obstacle-distance.obstacle=30 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=20 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=24 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=21 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    variable-value.safe-constant=10 q=distance-travelled truth=10 recheck=10 changes=program.body.0.value.value
+    variable-value.safe-constant=30 q=distance-travelled truth=10 recheck=10 changes=program.body.0.value.value
+    comparator.route-condition=<= q=distance-travelled truth=10 recheck=10 changes=program.body.2.condition.op
+    function-call.escape=definition-only q=distance-travelled truth=10 recheck=10 changes=program.body.2.then.0
+    variable-value.safe-constant=15 q=distance-travelled truth=10 recheck=10 changes=program.body.0.value.value
+    variable-value.safe-constant=25 q=distance-travelled truth=10 recheck=10 changes=program.body.0.value.value
+    obstacle-distance.obstacle=40 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=60 q=first-action truth=move recheck=move changes=world.obstacles.0.position.xCm
+    comparator.route-condition=> q=turn-count truth=1 recheck=1 changes=program.body.2.condition.op
+    comparator.route-condition=>= q=turn-count truth=1 recheck=1 changes=program.body.2.condition.op
+    obstacle-distance.obstacle=10 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm
+    obstacle-distance.obstacle=19 q=branch truth=then recheck=then changes=world.obstacles.0.position.xCm

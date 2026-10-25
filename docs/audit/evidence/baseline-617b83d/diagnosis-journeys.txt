@@ -1,0 +1,34 @@
+after first wrong answer: summary=investigating slip=true wrong=1 headline="Your answers suggest 4 possible mix-ups. This next question can help us tell them apart."
+    SENSOR_IS_ACTION possible label="Need more examples" support=1 score=0.33
+    COMPARATOR_DIRECTION possible label="Need more examples" support=1 score=0.33
+    ELSE_EXECUTES_TOO possible label="Need more examples" support=1 score=0.33
+    ELSE_NEVER possible label="Need more examples" support=1 score=0.33
+    SENSOR_RANGE_REVERSED possible label="Need more examples" support=0 score=0.00
+    STRICT_VS_INCLUSIVE possible label="Need more examples" support=0 score=0.00
+    SENSOR_NULL_ZERO possible label="Need more examples" support=0 score=0.00
+chosen probe g.which-branch.40: groups [{"answer":"else","models":["SENSOR_IS_ACTION","NO_MISCONCEPTION"]},{"answer":"then","models":["COMPARATOR_DIRECTION"]},{"answer":"both","models":["ELSE_EXECUTES_TOO"]},{"answer":"neither","models":["ELSE_NEVER"]}]
+why: Your earlier answer fits 4 different ideas. This question gives different answers for different ideas: if the mix-up were sensor versus instruction, you would expect Only the “otherwise” part (move); if the mix-up were comparison direction, you would expect Only the “if” part (turn); if the mix-up were running both branches, you would expect “Both parts”; if the mix-up were skipping the “otherwise” part, you would expect “Neither part”. Someone who understands it would expect Only the “otherwise” part (move). Whatever you pick, it’s evidence, not a grade.
+learner A (correct follow-up): summary=investigating slip=true wrong=1 headline="One idea fits so far, but one answer is not enough. Let’s check with a different example."
+    SENSOR_IS_ACTION possible label="Need more examples" support=1 score=0.33
+    SENSOR_RANGE_REVERSED possible label="Need more examples" support=0 score=0.00
+    STRICT_VS_INCLUSIVE possible label="Need more examples" support=0 score=0.00
+    SENSOR_NULL_ZERO possible label="Need more examples" support=0 score=0.00
+    COMPARATOR_DIRECTION evidence_against label="No longer supported" support=1 score=0.00
+    ELSE_EXECUTES_TOO evidence_against label="No longer supported" support=1 score=0.00
+    ELSE_NEVER evidence_against label="No longer supported" support=1 score=0.00
+learner B (wrong follow-up): summary=might-be slip=false wrong=2 headline="Your answers point to one possible mix-up: comparison direction. It is still only a possibility. The experiment will test it."
+    COMPARATOR_DIRECTION evidence_for label="Might be" support=2 score=0.67
+    SENSOR_IS_ACTION possible label="Need more examples" support=1 score=0.17
+    ELSE_EXECUTES_TOO evidence_against label="No longer supported" support=1 score=0.00
+    ELSE_NEVER evidence_against label="No longer supported" support=1 score=0.00
+    SENSOR_RANGE_REVERSED evidence_against label="No longer supported" support=0 score=0.00
+    STRICT_VS_INCLUSIVE evidence_against label="No longer supported" support=0 score=0.00
+    SENSOR_NULL_ZERO evidence_against label="No longer supported" support=0 score=0.00
+learner C (same answer twice): summary=might-be slip=false wrong=3 headline="Your answers point to one possible mix-up: comparison direction. It is still only a possibility. The experiment will test it."
+    COMPARATOR_DIRECTION evidence_for label="Might be" support=2 score=0.67
+    SENSOR_IS_ACTION possible label="Need more examples" support=1 score=0.17
+    ELSE_EXECUTES_TOO evidence_against label="No longer supported" support=1 score=0.00
+    ELSE_NEVER evidence_against label="No longer supported" support=1 score=0.00
+    SENSOR_RANGE_REVERSED evidence_against label="No longer supported" support=0 score=0.00
+    STRICT_VS_INCLUSIVE evidence_against label="No longer supported" support=0 score=0.00
+    SENSOR_NULL_ZERO evidence_against label="No longer supported" support=0 score=0.00
