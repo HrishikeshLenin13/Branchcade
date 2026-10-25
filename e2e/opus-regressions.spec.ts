@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import AxeBuilder from '@axe-core/playwright'
 
 /** Stored envelope summary, read directly from IndexedDB (synthetic data only). */
 const stored = (page: Page) =>
@@ -53,4 +54,40 @@ test('OPUS-001 a stale second tab saving does not erase an attempt recorded in t
   const c = await context.newPage()
   await c.goto('/progress')
   expect((await stored(c))?.attempts).toBe(1)
+})
+
+test('OPUS-003 phone-width workstation has no axe violations and the cycle strip is keyboard-scrollable', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  for (const route of ['/missions/m01', '/lab']) {
+    await page.goto(route)
+    const cycle = page.getByRole('region', { name: 'Learning cycle' })
+    await expect(cycle).toBeVisible()
+    const results = await new AxeBuilder({ page }).analyze()
+    expect(results.violations.map((v) => v.id)).toEqual([])
+    await cycle.focus()
+    await expect(cycle).toBeFocused()
+    await page.keyboard.press('ArrowRight')
+    await page.keyboard.press('End')
+    await expect.poll(() => cycle.evaluate((e) => e.scrollLeft)).toBeGreaterThan(0)
+  }
+})
+
+test('OPUS-004 stage zoom and pan buttons are at least 24 px in both dimensions', async ({
+  page,
+}) => {
+  await page.goto('/missions/m01')
+  for (const name of ['Zoom out', 'Zoom in', 'Pan left', 'Pan right', 'Pan up', 'Pan down']) {
+    const box = await page.getByRole('button', { name, exact: true }).boundingBox()
+    expect(box!.width, name).toBeGreaterThanOrEqual(24)
+    expect(box!.height, name).toBeGreaterThanOrEqual(24)
+  }
+})
+
+test('OPUS-006 an unknown mission names itself and offers a styled way back', async ({ page }) => {
+  await page.goto('/missions/zz-not-a-mission')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mission not found')
+  await page.getByRole('link', { name: 'Back to missions', exact: true }).click()
+  await expect(page).toHaveURL(/\/missions$/)
 })

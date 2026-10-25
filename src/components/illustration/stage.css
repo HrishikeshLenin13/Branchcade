@@ -12,6 +12,8 @@
   color: #d6e6ec;
   font-size: 0.67rem;
   min-height: 32px;
+  /* Glyph-only zoom/pan buttons were 20 px wide (OPUS-004). */
+  min-width: 32px;
   padding: 4px 7px;
 }
 .stage-toolbar button:hover,

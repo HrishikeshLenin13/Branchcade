@@ -71,11 +71,11 @@ export default function LabLesson({ free = false }: { free?: boolean }) {
   if (!mission)
     return (
       <main className="page">
-        <h1>Investigation not found</h1>
+        <h1>Mission not found</h1>
         <p>Choose a published mission to return to the workbench.</p>
-        <Link className="button-link" to="/missions">
-          Back to missions
-        </Link>
+        <Button asChild>
+          <Link to="/missions">Back to missions</Link>
+        </Button>
       </main>
     )
   return <Workstation key={free ? 'lab' : mission.id} free={free} mission={mission} />
@@ -764,14 +764,19 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           {pendingWrites ? 'Saving…' : ephemeral ? 'In-memory session' : 'Saved on this device'}
         </span>
       </div>
-      <ol className="cycle" aria-label="Learning cycle">
-        {LEARNING_CYCLE.map((step, index) => (
-          <li key={step} aria-current={index === cycleIndex ? 'step' : undefined}>
-            <span>{index + 1}</span>
-            {step}
-          </li>
-        ))}
-      </ol>
+      {/* Scrolls sideways on phones; a focusable labelled region is the WAI pattern that
+          lets keyboard users scroll it (OPUS-003). */}
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+      <div className="cycle-scroll" role="region" aria-label="Learning cycle" tabIndex={0}>
+        <ol className="cycle">
+          {LEARNING_CYCLE.map((step, index) => (
+            <li key={step} aria-current={index === cycleIndex ? 'step' : undefined}>
+              <span>{index + 1}</span>
+              {step}
+            </li>
+          ))}
+        </ol>
+      </div>
       <div className="workstation-toolbar" aria-label="Workbench controls">
         <Button variant="outline" onClick={() => setDialog('briefing')}>
           Mission briefing
@@ -1749,9 +1754,9 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                   Finish
                 </Button>
                 {savedAttempt && missionComplete(savedAttempt, mission) && nextMission && (
-                  <Link className="button-link" to={`/missions/${nextMission.id}`}>
-                    Next mission
-                  </Link>
+                  <Button asChild>
+                    <Link to={`/missions/${nextMission.id}`}>Next mission</Link>
+                  </Button>
                 )}
                 <Link to="/progress">View my progress</Link>
               </div>
