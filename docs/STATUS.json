@@ -391,14 +391,15 @@
       "broken": 0
     },
     "unitTests": 486,
-    "chromiumE2E": "115/115 local, retries 0",
+    "chromiumE2E": "116/116 local, retries 0 (after logo)",
     "challengePass": "208/208 journeys; sweep clean",
     "engineering": "ENGINEERING VERIFIED (local production build)",
-    "featureAcceptance": "NOT COMPLETE: logo BLOCKED, deployment NOT DONE",
+    "featureAcceptance": "COMPLETE for the local release (logo integrated); deployment NOT DONE",
     "deployment": "NOT VERIFIED (no public origin)",
     "eligibility": "LEGAL/ELIGIBILITY REVIEW PENDING (authorship risk)",
     "submission": "NOT SUBMITTED",
     "mcp": "Playwright MCP and Chrome DevTools MCP not available in this container",
-    "reports": ["docs/production/", "docs/compliance/"]
+    "reports": ["docs/production/", "docs/compliance/"],
+    "logo": "INTEGRATED 2026-10-25 from the image shared by the project lead (docs/production/LOGO_INTEGRATION.md)"
   }
 }

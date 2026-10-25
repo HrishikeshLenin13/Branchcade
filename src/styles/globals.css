@@ -131,14 +131,18 @@ code {
   margin-left: -9px;
 }
 .brand-mark {
-  display: grid;
-  place-items: center;
-  transform: rotate(-8deg);
-  background: var(--primary);
-  color: var(--primary-foreground);
-  width: 32px;
+  display: block;
+  width: 34px;
   height: 34px;
   border-radius: 8px;
+}
+.footer-mark {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin-right: 6px;
+  vertical-align: -5px;
+  border-radius: 5px;
 }
 .desktop-nav {
   display: flex;

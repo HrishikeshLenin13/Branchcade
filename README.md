@@ -1,5 +1,7 @@
 # Branchcade
 
+<p align="center"><img src="public/brand/branchcade-logo.png" alt="Branchcade logo" width="320" /></p>
+
 **Make the logic click.** Branchcade helps beginner roboticists discover why their code behaves as it does through predictions, real sensor measurements, trace inspection and controlled experiments.
 
 ![Actual M01 production workbench: editable Blockly if/else program, robot stage with a 24 cm distance reading, and prediction choices before execution.](docs/evidence/k/readme-workbench.jpg)

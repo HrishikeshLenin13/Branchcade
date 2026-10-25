@@ -46,3 +46,28 @@ test('Free Lab world-edit controls explain why they are disabled', async ({ page
   await expect(page.getByRole('button', { name: 'Stop & Edit', exact: true })).toBeEnabled()
   expect(await disabledWithoutReason(page)).toEqual([])
 })
+
+test('the approved Branchcade logo loads in the header, footer and browser tab', async ({
+  page,
+  request,
+}) => {
+  await page.goto('/missions/m01')
+  for (const selector of ['img.brand-mark', 'img.footer-mark']) {
+    const size = await page
+      .locator(selector)
+      .evaluate((img: HTMLImageElement) => [img.naturalWidth, img.complete])
+    expect(size).toEqual([132, true])
+  }
+  // The visible wordmark keeps the link's accessible name; the mark itself is decorative.
+  await expect(page.getByRole('link', { name: 'Branchcade home', exact: true })).toBeVisible()
+  await expect(page.locator('img.brand-mark')).toHaveAttribute('alt', '')
+  for (const href of ['/favicon-32.png', '/favicon-16.png', '/brand/branchcade-mark.png']) {
+    const response = await request.get(href)
+    expect(response.status(), href).toBe(200)
+    expect(response.headers()['content-type'], href).toContain('image/png')
+  }
+  await expect(page.locator('link[rel="icon"][sizes="32x32"]')).toHaveAttribute(
+    'href',
+    '/favicon-32.png',
+  )
+})

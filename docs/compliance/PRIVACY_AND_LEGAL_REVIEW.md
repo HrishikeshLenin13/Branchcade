@@ -33,15 +33,15 @@ FERPA concerns schools' education records. Anonymous practice on a personal devi
 
 ## Intellectual property and licenses
 
-| Item                           | Finding                                                                                                                                                         | Status                       |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| Runtime npm dependencies       | 81 packages. Licenses: MIT 64, Apache-2.0 3 (incl. Blockly 13.4), ISC 3, BSD-2/3 4, MIT-0 2, OFL-1.1 2, BlueOak 1, CC0 1, 0BSD 1. All permissive; none copyleft | VERIFIED TECHNICAL FACT      |
-| Notices retained               | [LICENSE_NOTICES](../LICENSE_NOTICES.md); OFL texts in `public/assets/licenses/`; Blockly media notice                                                          | VERIFIED TECHNICAL FACT      |
-| Images, robot art, icons       | Robot/stage art is drawn in code (SVG). Icons are lucide-react (ISC). No LEGO/FIRST assets; the footer says "Not affiliated with LEGO or FIRST"                 | VERIFIED TECHNICAL FACT      |
-| Audio                          | None                                                                                                                                                            | NOT APPLICABLE               |
-| Logo                           | The current favicon/mark is in-repo; an approved final logo has not been supplied                                                                               | BLOCKED (asset)              |
-| Repository license             | No top-level LICENSE file for Branchcade's own code, so default copyright applies. The owner should choose whether to add one                                   | NEEDS OWNER CONFIRMATION     |
-| Ownership of AI-generated code | Covered under contest originality in [CAC_SOURCE_OWNERSHIP_GAPS](CAC_SOURCE_OWNERSHIP_GAPS.md)                                                                  | NEEDS OWNER/ORGANIZER REVIEW |
+| Item                           | Finding                                                                                                                                                                | Status                            |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| Runtime npm dependencies       | 81 packages. Licenses: MIT 64, Apache-2.0 3 (incl. Blockly 13.4), ISC 3, BSD-2/3 4, MIT-0 2, OFL-1.1 2, BlueOak 1, CC0 1, 0BSD 1. All permissive; none copyleft        | VERIFIED TECHNICAL FACT           |
+| Notices retained               | [LICENSE_NOTICES](../LICENSE_NOTICES.md); OFL texts in `public/assets/licenses/`; Blockly media notice                                                                 | VERIFIED TECHNICAL FACT           |
+| Images, robot art, icons       | Robot/stage art is drawn in code (SVG). Icons are lucide-react (ISC). No LEGO/FIRST assets; the footer says "Not affiliated with LEGO or FIRST"                        | VERIFIED TECHNICAL FACT           |
+| Audio                          | None                                                                                                                                                                   | NOT APPLICABLE                    |
+| Logo                           | The project lead supplied it on 2026-10-25; integrated from that image (docs/production/LOGO_INTEGRATION.md). Ownership/rights of the design are the team's to confirm | NEEDS OWNER CONFIRMATION (rights) |
+| Repository license             | No top-level LICENSE file for Branchcade's own code, so default copyright applies. The owner should choose whether to add one                                          | NEEDS OWNER CONFIRMATION          |
+| Ownership of AI-generated code | Covered under contest originality in [CAC_SOURCE_OWNERSHIP_GAPS](CAC_SOURCE_OWNERSHIP_GAPS.md)                                                                         | NEEDS OWNER/ORGANIZER REVIEW      |
 
 ## Claims in the app and docs
 

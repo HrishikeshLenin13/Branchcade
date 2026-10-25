@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Link, NavLink, useLocation } from 'react-router-dom'
-import { GitBranch, Menu, Settings2, X } from 'lucide-react'
+import { Menu, Settings2, X } from 'lucide-react'
 import { useSession } from './session'
 import { ErrorBoundary } from './ErrorBoundary'
 import Home from '../features/home/Home'
@@ -123,9 +123,14 @@ function Shell() {
       </a>
       <header className="site-header">
         <Link className="brand" to="/" aria-label="Branchcade home">
-          <span className="brand-mark">
-            <GitBranch size={21} />
-          </span>
+          {/* Owner-approved logo mark; the visible wordmark carries the accessible name. */}
+          <img
+            className="brand-mark"
+            src="/brand/branchcade-mark.png"
+            alt=""
+            width={34}
+            height={34}
+          />
           branchcade<span className="brand-dot">.</span>
         </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
@@ -272,6 +277,13 @@ function Shell() {
       </div>
       <footer className="site-footer">
         <div className="footer-brand">
+          <img
+            className="footer-mark"
+            src="/brand/branchcade-mark.png"
+            alt=""
+            width={22}
+            height={22}
+          />
           branchcade. <span className="muted">Make the logic click.</span>
           <p className="muted">
             A virtual robotics learning tool. Not affiliated with LEGO or FIRST.

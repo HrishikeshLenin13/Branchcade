@@ -35,7 +35,7 @@ Earlier P0/P1 issues (Opus OPUS-001/002, Astra ASTRA-001…006) stay fixed; thei
 
 ## Release decision (statuses as defined by the assignment)
 
-- **ENGINEERING VERIFIED** for the local production build. Every mandatory feature in [FEATURE_CONTRACT](FEATURE_CONTRACT.md) passes, except F15 (logo, BLOCKED) and F16 (public deployment, NOT DONE). So **FEATURE ACCEPTANCE COMPLETE is not claimed** while the logo is pending.
+- **ENGINEERING VERIFIED** for the local production build. Every mandatory feature in [FEATURE_CONTRACT](FEATURE_CONTRACT.md) passes, except F16 (public deployment, NOT DONE); the logo (F15) was integrated afterwards (see LOGO_INTEGRATION). Feature acceptance is complete for the local release, but deployment is not verified.
 - **DEPLOYMENT VERIFIED: NO.** No public origin exists.
 - **LEGAL/ELIGIBILITY REVIEW PENDING.** The authorship history is the main risk ([CAC_SOURCE_OWNERSHIP_GAPS](../compliance/CAC_SOURCE_OWNERSHIP_GAPS.md)).
 - **COMPETITION MATERIALS PREPARED: partly.** Drafts and checklist exist; the video, final answers and disclosure need the owner.

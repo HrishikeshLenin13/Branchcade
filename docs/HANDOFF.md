@@ -7,7 +7,8 @@
 - **Compliance:** [docs/compliance/](compliance/CAC_2026_COMPLIANCE_MATRIX.md). The authorship history (AI-authored) is the main contest risk; the owner must resolve it. The video, final answers and disclosure are not done. Submission was not attempted.
 - **Tools:** no Playwright MCP or Chrome DevTools MCP in this container; the Playwright library and CDP were used ([TOOL_MANIFEST](production/TOOL_MANIFEST.md)).
 - **Git:** this session's new commits are unsigned (repo-local `commit.gpgsign=false`), so they carry no "Unverified" badge. Earlier session-signed commits still show it; that can't change without rewriting history.
-- **Next:** owner actions in [CAC_SUBMISSION_CHECKLIST](compliance/CAC_SUBMISSION_CHECKLIST.md); the logo when supplied.
+- **Logo:** integrated from the image the project lead shared ([LOGO_INTEGRATION](production/LOGO_INTEGRATION.md)). Swap in the original file for print quality.
+- **Next:** owner actions in [CAC_SUBMISSION_CHECKLIST](compliance/CAC_SUBMISSION_CHECKLIST.md).
 
 ## Current operational handoff — Astra independent hardening (2026-10-25)
 
