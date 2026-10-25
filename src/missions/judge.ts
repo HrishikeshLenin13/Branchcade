@@ -1,6 +1,7 @@
 import type { Goal, Mission, Program, World } from '../domain/types'
 import { execute, executeRecorded, type RunResult } from '../interpreter/interpreter'
 import { describeGoal, judgeGoals } from './goals'
+import { legacyV2Rules } from './legacy-v2'
 import { legacyMission } from './legacy-v1'
 
 /** Goals that check the concept a mission teaches rather than where the robot ended up. */
@@ -47,7 +48,10 @@ export function judgeRecorded(
     const legacy = legacyMission(mission.id)
     return judgeGoals(world, run, legacy?.successPredicate ?? mission.successPredicate)
   }
-  if (missionVersion !== mission.version)
-    throw new Error(`Unsupported mission version ${missionVersion} for ${mission.id}`)
+  if (missionVersion !== mission.version) {
+    const v2 = missionVersion === 2 ? legacyV2Rules(mission.id) : undefined
+    if (!v2) throw new Error(`Unsupported mission version ${missionVersion} for ${mission.id}`)
+    return judgeMission({ ...mission, ...v2, version: 2 }, world, program, run)
+  }
   return judgeMission(mission, world, program, run)
 }

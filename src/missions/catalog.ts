@@ -432,6 +432,8 @@ const extraMissions = [
     })(),
     // v2: the repaired comparison must pick the right branch in three placements,
     // including the equality case where < and <= disagree.
+    // v3 (OPUS-002): in the far-wall scenarios the robot must also drive on, so an
+    // "otherwise: stop" program can no longer pass. v2 rules stay frozen in legacy-v2.
     [
       { kind: 'branch', expected: true },
       { kind: 'programmed-stop' },
@@ -441,19 +443,27 @@ const extraMissions = [
     thresholdProgram(),
     [10, 16, 20].map((d) => ({ world: makeWorld(d), program: thresholdProgram(d + 1) })),
     {
-      version: 2,
+      version: 3,
       successScenarios: [
         {
           id: 'equal-wall',
           label: 'wall exactly 20 cm away',
           world: makeWorld(20),
-          goals: [{ kind: 'branch', expected: false }, { kind: 'programmed-stop' }],
+          goals: [
+            { kind: 'branch', expected: false },
+            { kind: 'distance', minCm: 9.9 },
+            { kind: 'programmed-stop' },
+          ],
         },
         {
           id: 'far-wall',
           label: 'wall 30 cm away',
           world: makeWorld(30),
-          goals: [{ kind: 'branch', expected: false }, { kind: 'programmed-stop' }],
+          goals: [
+            { kind: 'branch', expected: false },
+            { kind: 'distance', minCm: 9.9 },
+            { kind: 'programmed-stop' },
+          ],
         },
       ],
     },

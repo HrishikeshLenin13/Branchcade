@@ -129,7 +129,8 @@ it('all eight missions are authored, upgraded and keep their v1 ids', async () =
   ])
   expect(LEGACY_V1.map((m) => m.id)).toEqual(authored.map((m) => m.id))
   for (const m of authored) {
-    expect(m.version).toBe(2)
+    // M03 moved to v3 for OPUS-002; its v2 rules are frozen in legacy-v2.
+    expect(m.version).toBe(m.id === 'm03' ? 3 : 2)
     // v1 variants are kept as a prefix so earlier transfer answers still match.
     const v1 = LEGACY_V1.find((x) => x.id === m.id)!
     expect(m.variants.slice(0, v1.variants.length)).toEqual(v1.variants)

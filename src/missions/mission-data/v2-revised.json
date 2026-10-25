@@ -1,0 +1,123 @@
+[
+  {
+    "id": "m03",
+    "version": 2,
+    "successPredicate": [
+      {
+        "kind": "branch",
+        "expected": true
+      },
+      {
+        "kind": "programmed-stop"
+      },
+      {
+        "kind": "reach",
+        "position": {
+          "xCm": 40,
+          "yCm": 50
+        },
+        "toleranceCm": 0.1
+      }
+    ],
+    "successScenarios": [
+      {
+        "id": "equal-wall",
+        "label": "wall exactly 20 cm away",
+        "world": {
+          "schemaVersion": 1,
+          "id": "threshold-20",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 66,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "goals": [
+          {
+            "kind": "branch",
+            "expected": false
+          },
+          {
+            "kind": "programmed-stop"
+          }
+        ]
+      },
+      {
+        "id": "far-wall",
+        "label": "wall 30 cm away",
+        "world": {
+          "schemaVersion": 1,
+          "id": "threshold-30",
+          "widthCm": 180,
+          "heightCm": 100,
+          "obstacles": [
+            {
+              "id": "obstacle",
+              "kind": "rectangle",
+              "position": {
+                "xCm": 76,
+                "yCm": 25
+              },
+              "widthCm": 8,
+              "heightCm": 50,
+              "solid": true,
+              "material": "wood"
+            }
+          ],
+          "floorZones": [],
+          "waypoints": [],
+          "spawn": {
+            "position": {
+              "xCm": 40,
+              "yCm": 50
+            },
+            "headingDeg": 0,
+            "radiusCm": 6
+          },
+          "goals": [],
+          "collisionConstraints": {
+            "stopOnCollision": true,
+            "allowOverlap": false
+          },
+          "difficulty": "beginner"
+        },
+        "goals": [
+          {
+            "kind": "branch",
+            "expected": false
+          },
+          {
+            "kind": "programmed-stop"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,35 @@
+m01: 17 mutants, 4 still pass:
+    body.0.condition <→<=
+    body.0.condition.right 20→21
+    body.0.condition.right 20→19
+    body.0.else.0.distance 10→11
+m02: 11 mutants, 2 still pass:
+    body.0.body.0.distance 1→2
+    body.0.body.0.distance 1→2
+m03: 17 mutants, 2 still pass:
+    body.0.condition.right 20→19
+    body.0.else.0.distance 10→11
+m04: 16 mutants, 1 still pass:
+    delete body.1 (stop)
+m05: 16 mutants, 5 still pass:
+    body.0.condition >→!=
+    body.0.condition.right 12→13
+    body.0.body.0.distance 2→1
+    body.0.body.0.distance 2→4
+    body.0.body.0.distance 2→1
+m06: 18 mutants, 0 still pass
+m07: 23 mutants, 5 still pass:
+    body.0.condition.left <→<=
+    body.0.condition.left.right 20→21
+    body.0.condition.left.right 20→19
+    body.0.condition.left.right 20→40
+    body.0.else.0.distance 10→11
+m08: 29 mutants, 8 still pass:
+    body.0.value 35→36
+    body.0.value 35→34
+    body.2.condition <→<=
+    delete body.2.else.0 (move)
+    body.2.else.0.distance 10→11
+    body.2.else.0.distance 10→9
+    body.2.else.0.distance 10→20
+    body.2.else.0.distance 10→5

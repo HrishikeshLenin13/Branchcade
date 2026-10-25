@@ -1,3 +1,4 @@
+import { supportedMissionVersion } from '../missions/legacy-v2'
 import type { TeamSession, World } from '../domain/types'
 import { TeamSessionSchema } from '../domain/schemas'
 import { opaqueId } from '../domain/invariants'
@@ -79,7 +80,7 @@ export function validateTeamLearning(team: TeamSession) {
   if (!mission) throw new Error('Unknown team mission')
   const detail = curriculumFor(mission.id)?.detail
   for (const h of team.assistance) {
-    if (h.missionVersion !== mission.version)
+    if (!supportedMissionVersion(mission, h.missionVersion))
       throw new Error('Unsupported team assistance mission version')
     if (
       h.afterRun &&
