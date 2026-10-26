@@ -78,9 +78,12 @@ test('I/J onboarding preserves edits, validates the name and honors a selected c
     page.getByRole('radio', { name: 'Join team on this device', exact: true }),
   ).toBeChecked()
   await page.getByRole('radio', { name: 'Explore free lab', exact: true }).check()
-  await page.getByRole('checkbox', { name: 'Show me the controls first', exact: true }).check()
+  await expect(
+    page.getByRole('checkbox', { name: 'Show me what each button does', exact: true }),
+  ).toBeChecked()
   await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
-  await expect(page).toHaveURL(/\/how-it-works$/)
+  await expect(page).toHaveURL(/\/lab\?tour=1$/)
+  await expect(page.getByTestId('button-tour')).toBeVisible()
   await page.goto('/progress')
   await expect(page.getByRole('combobox', { name: 'Local pseudonym', exact: true })).toHaveValue(
     /.+/,
@@ -322,11 +325,13 @@ test('I/J solo, team, instructor, tutorial and skip choices open the selected ac
   await setup('Learning solo')
   await page.getByRole('radio', { name: 'Guided first mission', exact: true }).check()
   await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
-  await expect(page).toHaveURL(/\/missions\/m01$/)
+  await expect(page).toHaveURL(/\/missions\/m01\?tour=1$/)
   await setup('Learning solo')
   await page.getByRole('radio', { name: 'Explore free lab', exact: true }).check()
+  await page.getByRole('checkbox', { name: 'Show me what each button does', exact: true }).uncheck()
   await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
   await expect(page).toHaveURL(/\/lab$/)
+  await expect(page.getByTestId('button-tour')).toHaveCount(0)
   await setup('Learning with a team')
   await page.getByRole('radio', { name: 'Join team on this device', exact: true }).check()
   await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()

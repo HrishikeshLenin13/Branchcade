@@ -15,6 +15,7 @@ import {
   RefreshCcw,
   RotateCcw,
   Save,
+  Sparkles,
   ScanLine,
   ShieldCheck,
   Square,
@@ -83,6 +84,7 @@ import { WorldEditor } from './WorldEditor'
 import { useEditHistory } from './history'
 import { positionObstacle } from './world-tools'
 import './workstation.css'
+import { ButtonTour } from './ButtonTour'
 const BlocklyEditor = lazy(() => import('./BlocklyEditor'))
 const ACTION_LABELS = { move: 'Move forward', stop: 'Stop in place', turn: 'Turn', wait: 'Wait' }
 
@@ -189,6 +191,10 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     [showEditor, setShowEditor] = useState(false),
     [showCode, setShowCode] = useState(true),
     [showTrace, setShowTrace] = useState(true),
+    // `?tour=1` (chosen during onboarding) opens the button tour on arrival.
+    [touring, setTouring] = useState(
+      () => new URLSearchParams(window.location.search).get('tour') === '1',
+    ),
     [selectedObject, setSelectedObject] = useState('obstacle'),
     [dialog, setDialog] = useState<'briefing' | 'help' | 'shortcuts' | null>(null),
     [hintIds, setHintIds] = useState<string[]>(saved?.hintIds ?? []),
@@ -339,6 +345,14 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     url.searchParams.delete('example')
     window.history.replaceState(window.history.state, '', url)
   }, [fresh])
+  const closeTour = useCallback(() => {
+    setTouring(false)
+    const url = new URL(window.location.href)
+    if (url.searchParams.has('tour')) {
+      url.searchParams.delete('tour')
+      window.history.replaceState(window.history.state, '', url)
+    }
+  }, [])
   const reset = () => {
     runControl.current?.abort()
     setPrediction(null)
@@ -811,18 +825,19 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       <div className="workstation-toolbar" aria-label="Workbench controls">
         <div className="tool-group tool-group-run" role="group" aria-label="Run">
           {playing ? (
-            <Button className="tool-run" onClick={() => setPlaying(false)}>
+            <Button className="tool-run" data-tour="run" onClick={() => setPlaying(false)}>
               <Pause aria-hidden size={18} />
               Pause
             </Button>
           ) : (
-            <Button className="tool-run" onClick={mainRun}>
+            <Button className="tool-run" data-tour="run" onClick={mainRun}>
               <Play aria-hidden size={18} />
               {result && cursor > 0 && cursor < result.events.length ? 'Resume' : 'Run'}
             </Button>
           )}
           <Button
             variant="outline"
+            data-tour="stop"
             disabled={!playing}
             title={playing ? 'Stop the replay here' : 'Available while a run or replay is playing'}
             onClick={() => {
@@ -835,6 +850,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="stop-edit"
             disabled={(busy && !executing) || (!editLocked && !executing)}
             title={
               executing || editLocked
@@ -858,6 +874,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <div className="tool-group" role="group" aria-label="Watch it step by step">
           <Button
             variant="outline"
+            data-tour="rewind"
             disabled={!result || cursor === 0}
             title={
               !result
@@ -873,6 +890,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="step-code"
             disabled={!result || cursor >= result.events.length}
             title={
               !result
@@ -888,6 +906,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="step-tick"
             disabled={!result?.status || tickTarget === cursor}
             title={
               !result
@@ -905,6 +924,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="replay"
             disabled={!result}
             title={
               result
@@ -921,7 +941,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             <RotateCcw aria-hidden size={16} />
             Replay
           </Button>
-          <label className="tool-speed">
+          <label className="tool-speed" data-tour="speed">
             <Gauge aria-hidden size={16} />
             Speed
             <select
@@ -943,6 +963,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         <div className="tool-group" role="group" aria-label="My program">
           <Button
             variant="outline"
+            data-tour="save"
             disabled={ephemeral}
             title={
               ephemeral
@@ -968,6 +989,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="reset-code"
             disabled={editLocked || busy}
             title={
               editLocked || busy
@@ -987,6 +1009,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="reset-sim"
             onClick={() => {
               selectCursor(0)
               setNotice(
@@ -999,12 +1022,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
         </div>
         <div className="tool-group" role="group" aria-label="View and help">
-          <Button variant="outline" onClick={() => setDialog('briefing')}>
+          <Button variant="outline" data-tour="briefing" onClick={() => setDialog('briefing')}>
             <BookOpen aria-hidden size={16} />
             Mission briefing
           </Button>
           <Button
             variant="outline"
+            data-tour="help"
             onClick={() => {
               setDialog('help')
               // Opening the ladder shows hint 1, so it is recorded as help (never a penalty).
@@ -1016,6 +1040,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="code"
             aria-pressed={showCode}
             onClick={() => setShowCode((value) => !value)}
           >
@@ -1024,6 +1049,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="trace"
             aria-pressed={showTrace}
             onClick={() => setShowTrace((value) => !value)}
           >
@@ -1032,6 +1058,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           </Button>
           <Button
             variant="outline"
+            data-tour="layout"
             onClick={() => {
               setLeftWidth(29)
               setRightWidth(25)
@@ -1042,9 +1069,13 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             <LayoutGrid aria-hidden size={16} />
             Reset layout
           </Button>
-          <Button variant="outline" onClick={() => setDialog('shortcuts')}>
+          <Button variant="outline" data-tour="shortcuts" onClick={() => setDialog('shortcuts')}>
             <Keyboard aria-hidden size={16} />
             Keyboard shortcuts
+          </Button>
+          <Button variant="outline" data-tour="tour" onClick={() => setTouring(true)}>
+            <Sparkles aria-hidden size={16} />
+            Button tour
           </Button>
         </div>
         {/* Disabled buttons cannot show hover tooltips, so say why they are unavailable. */}
@@ -2111,6 +2142,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           )}
         </DialogContent>
       </Dialog>
+      {touring && <ButtonTour onClose={closeTour} />}
     </main>
   )
 }

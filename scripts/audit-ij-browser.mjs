@@ -124,6 +124,7 @@ try {
     'Nickname saved; mission/lab/team choices and optional tutorial available.',
   )
   await page.getByRole('button', { name: 'Create my local alias & start', exact: true }).click()
+  await page.getByRole('button', { name: 'Skip tutorial', exact: true }).click()
   await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).waitFor()
   await capture(
     'mission-predict',

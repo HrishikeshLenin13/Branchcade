@@ -6,6 +6,9 @@ async function start(page: import('@playwright/test').Page) {
   await page.getByRole('button', { name: 'Next', exact: true }).click()
   await page.getByRole('button', { name: 'Create my local alias & start' }).click()
   await expect(page.getByRole('heading', { name: 'The Wall Problem', exact: true })).toBeVisible()
+  // New learners get the button tour; this journey skips it like a returning student would.
+  await page.getByRole('button', { name: 'Skip tutorial', exact: true }).click()
+  await expect(page.getByTestId('button-tour')).toHaveCount(0)
 }
 async function run(page: import('@playwright/test').Page, wrong = false) {
   if (wrong) await page.getByRole('radio', { name: 'Stop in place', exact: true }).check()

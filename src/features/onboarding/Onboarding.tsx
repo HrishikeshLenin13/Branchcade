@@ -31,6 +31,8 @@ export default function Onboarding() {
   const [nickname, setNickname] = useState(() => profile?.nickname ?? friendlyAlias())
   const [destination, setDestination] = useState<Destination>('mission')
   const [tutorial, setTutorial] = useState(false)
+  // Learners see the workbench button tour by default; it has its own Skip tutorial button.
+  const [tour, setTour] = useState(true)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   async function advance() {
@@ -70,15 +72,13 @@ export default function Onboarding() {
       })
       navigate(
         target ??
-          (tutorial && !skip
-            ? '/how-it-works'
-            : mode === 'instructor'
-              ? '/instructor'
-              : destination === 'team'
-                ? '/team'
-                : destination === 'lab'
-                  ? '/lab'
-                  : '/missions/m01'),
+          (mode === 'instructor'
+            ? tutorial && !skip
+              ? '/how-it-works'
+              : '/instructor'
+            : destination === 'team'
+              ? '/team'
+              : `${destination === 'lab' ? '/lab' : '/missions/m01'}${tour && !skip ? '?tour=1' : ''}`),
       )
     } catch {
       setError('We could not open your local profile. Please try again.')
@@ -213,14 +213,16 @@ export default function Onboarding() {
                     {label}
                   </label>
                 ))}
-                <label className="checkbox tutorial-choice">
-                  <input
-                    type="checkbox"
-                    checked={tutorial}
-                    onChange={(e) => setTutorial(e.target.checked)}
-                  />
-                  Show me the controls first
-                </label>
+                {destination !== 'team' && (
+                  <label className="checkbox tutorial-choice">
+                    <input
+                      type="checkbox"
+                      checked={tour}
+                      onChange={(e) => setTour(e.target.checked)}
+                    />
+                    Show me what each button does
+                  </label>
+                )}
               </fieldset>
             )}
           </>

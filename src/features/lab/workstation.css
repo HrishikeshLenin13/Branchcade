@@ -730,3 +730,81 @@
 .workstation-page .workstation-toolbar {
   gap: 6px;
 }
+
+/* Button tour: a non-blocking spotlight plus an explanation card. */
+.tour-spotlight,
+.tour-dim {
+  position: fixed;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+}
+.tour-spotlight {
+  border: 3px solid var(--focus);
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgb(10 20 28 / 0.45);
+  transition:
+    top var(--speed),
+    left var(--speed),
+    width var(--speed),
+    height var(--speed);
+}
+.tour-dim {
+  inset: 0;
+  background: rgb(10 20 28 / 0.45);
+}
+.tour-card {
+  position: fixed;
+  z-index: calc(var(--z-overlay) + 1);
+  left: 50%;
+  bottom: 16px;
+  width: min(520px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  padding: 1rem 1.15rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--focus);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.25);
+}
+.tour-card.tour-card-top {
+  top: 16px;
+  bottom: auto;
+}
+.tour-card h2 {
+  margin: 0.15rem 0 0.4rem;
+  font-size: 1.3rem;
+}
+.tour-card p {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+.tour-card .tour-count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.tour-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+.tour-actions button {
+  min-height: 44px;
+  font-size: 0.95rem;
+}
+.tour-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour-spotlight {
+    transition: none;
+  }
+}
+:root[data-motion='reduced'] .tour-spotlight {
+  transition: none;
+}

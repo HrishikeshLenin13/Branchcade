@@ -103,6 +103,50 @@ test('the workbench toolbar is grouped with large, labelled controls', async ({ 
   expect(short).toEqual([])
 })
 
+test('the button tour explains each control, can go back, finish, skip and be reopened', async ({
+  page,
+}) => {
+  await page.goto('/missions/m01?new=1&tour=1')
+  const tour = page.getByTestId('button-tour')
+  await expect(tour).toBeVisible()
+  await expect(tour.getByRole('heading')).toHaveText('Welcome to the workbench!')
+  await expect(tour.getByRole('button', { name: 'Back', exact: true })).toBeDisabled()
+  await expect(tour.locator('.tour-count')).not.toHaveText('Step 1 of 1')
+  const count = await tour.locator('.tour-count').innerText()
+  const total = Number(/of (\d+)/.exec(count)![1])
+  expect(total).toBeGreaterThanOrEqual(20)
+  await tour.getByRole('button', { name: 'Next', exact: true }).click()
+  await expect(tour.getByRole('heading')).toHaveText('The robot’s world')
+  await tour.getByRole('button', { name: 'Back', exact: true }).click()
+  await expect(tour.getByRole('heading')).toHaveText('Welcome to the workbench!')
+  // Walk every step; each one names a control that is really on the page.
+  const titles: string[] = []
+  for (let i = 1; i < total; i++) {
+    await tour.getByRole('button', { name: 'Next', exact: true }).click()
+    titles.push(await tour.getByRole('heading').innerText())
+    await expect(page.locator('.tour-spotlight')).toBeVisible()
+  }
+  expect(titles).toEqual(
+    expect.arrayContaining(['Run', 'Stop & Edit', 'Replay', 'Speed', 'Help', 'Keyboard shortcuts']),
+  )
+  await tour.getByRole('button', { name: 'Finish', exact: true }).click()
+  await expect(tour).toHaveCount(0)
+  expect(new URL(page.url()).searchParams.has('tour')).toBe(false)
+  // Reopen from the toolbar, then skip; Escape also closes it.
+  await page.getByRole('button', { name: 'Button tour', exact: true }).click()
+  await expect(tour).toBeVisible()
+  await expect(tour.getByRole('button', { name: 'Next', exact: true })).toBeFocused()
+  await tour.getByRole('button', { name: 'Skip tutorial', exact: true }).click()
+  await expect(tour).toHaveCount(0)
+  await page.getByRole('button', { name: 'Button tour', exact: true }).click()
+  await page.keyboard.press('Escape')
+  await expect(tour).toHaveCount(0)
+  // The tour never blocks the lesson itself.
+  await expect(
+    page.getByRole('button', { name: 'Lock prediction & run', exact: true }),
+  ).toBeVisible()
+})
+
 test('progress charts are drawn from the attempts saved on this device', async ({ page }) => {
   await page.goto('/missions/m01?new=1')
   await page.getByRole('radio', { name: 'Move forward', exact: true }).check()
