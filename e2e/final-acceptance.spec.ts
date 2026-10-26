@@ -102,3 +102,28 @@ test('the workbench toolbar is grouped with large, labelled controls', async ({ 
   )
   expect(short).toEqual([])
 })
+
+test('progress charts are drawn from the attempts saved on this device', async ({ page }) => {
+  await page.goto('/missions/m01?new=1')
+  await page.getByRole('radio', { name: 'Move forward', exact: true }).check()
+  await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
+  await expect(page.getByTestId('goal-outcome')).toBeVisible()
+  await page.getByRole('button', { name: 'Stop & Edit', exact: true }).click()
+  await page.getByRole('radio', { name: 'Stop in place', exact: true }).check()
+  await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
+  await expect(page.getByTestId('goal-outcome')).toBeVisible()
+  await page.goto('/progress')
+  await expect(page.getByTestId('progress-stats')).toContainText(
+    '1 of 2predictions matched the real run',
+  )
+  const bars = page.getByTestId('chart-by-mission')
+  await expect(bars.locator('.bar-row')).toHaveCount(1)
+  await expect(bars.locator('.bar-seg.series-matched')).toHaveCount(1)
+  await expect(bars.locator('.bar-seg.series-different')).toHaveCount(1)
+  await bars.getByText('Show these numbers as a table').click()
+  await expect(bars.getByRole('row', { name: /M01/ })).toContainText('110')
+  await expect(page.getByTestId('chart-timeline').getByRole('img')).toHaveAttribute(
+    'aria-label',
+    'After 2 attempts, 1 prediction matched the real run.',
+  )
+})

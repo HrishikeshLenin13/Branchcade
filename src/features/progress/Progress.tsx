@@ -14,6 +14,7 @@ import {
 } from '../../components/ui/dialog'
 import { downloadFile, exportJson, scopedData } from '../../storage/import-export'
 import { AttemptReview } from './AttemptReview'
+import { ProgressCharts } from './ProgressCharts'
 import { conceptEvidence } from '../../learning/mastery'
 import { recommend } from '../../learning/adaptive-planner'
 import { conceptTitle, missionConcepts, type ConceptId } from '../../learning/concepts'
@@ -116,6 +117,11 @@ export default function Progress() {
             {practiced.length} concepts practiced · {attempts.filter((a) => a.reassessment).length}{' '}
             transfer checks.
           </p>
+          <ProgressCharts
+            attempts={attempts}
+            completed={profile?.completedMissions.length ?? 0}
+            evidence={evidence}
+          />
           <section className="paper">
             <h2>Recommended next activity</h2>
             <h3>{recommendation.title}</h3>
