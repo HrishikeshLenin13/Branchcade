@@ -1,26 +1,62 @@
-# Static deployment handoff
+# Deployment
 
-The I/J continuation supplies a verified local production build and committed SPA fallbacks. It does **not** claim a public deployment. On 2026-10-24, the installed Vercel CLI reported no existing credentials; no Vercel or Netlify project link exists in this checkout. The identity command attempted its automatic login flow, which was stopped. No hosting account was authorized or public URL produced.
+Branchcade's production website is **[branchcade.vercel.app](https://branchcade.vercel.app)**.
 
-## Reproduce the build
+The Vercel project is connected to [HrishikeshLenin13/Branchcade](https://github.com/HrishikeshLenin13/Branchcade), using the `main` branch. Initial deployment was completed on **October 25, 2026**, from commit `b3437ba12abc6d4b388eb3184edb005d8766feaf`. Vercel reported the production build as **READY** and verified the `branchcade.vercel.app` domain. Password and Vercel sign-in protection were disabled so visitors do not need a Vercel account.
+
+This confirms successful publication on the hosting service. An independent logged-out, external-browser walkthrough of the public site has **not yet been recorded**.
+
+## Production configuration
+
+| Setting | Value |
+| --- | --- |
+| Host | Vercel |
+| Domain | [branchcade.vercel.app](https://branchcade.vercel.app) |
+| Repository | `HrishikeshLenin13/Branchcade` |
+| Production branch | `main` |
+| Framework | Vite / React / TypeScript |
+| Node version | `24.x` |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| App routing | `vercel.json` SPA rewrites |
+| Backend / hosted learner database | None |
+
+The project's source and deployment are linked through Vercel's Git integration. Changes pushed to the production branch trigger new deployments. The existing `vercel.json` preserves static asset requests and provides fallback routing for application pages, along with basic response headers.
+
+You can view or manage the project at [Vercel](https://vercel.com/hrishikeshlenin13-6391s-projects/branchcade). Deployment status and source checks are also visible from the GitHub repository's [Actions](https://github.com/HrishikeshLenin13/Branchcade/actions) page.
+
+## Verify the public website
+
+Before sharing the application with judges or students, use a browser that is **not** signed in to the Vercel account and check:
+
+1. [Home](https://branchcade.vercel.app) loads with the correct logo, fonts and navigation.
+2. [M01: The Wall Problem](https://branchcade.vercel.app/missions/m01), `/lab` and `/settings` open directly and still work after a refresh.
+3. The prediction → program run → trace → investigation → experiment → transfer flow works in M01.
+4. Blockly editing, bundled media, sensor display and saved progress work normally.
+5. Exporting and importing local records works, and the browser console shows no unexpected errors.
+
+The repository has extensive local and CI browser tests, but passing tests on a local preview does not replace this public-site walkthrough.
+
+## Local production build
+
+With Node 24 installed:
 
 ```bash
+nvm install
 nvm use
 npm ci
 npm run check
 npm run preview -- --port 4173 --strictPort
 ```
 
-Visit the actual local URL printed by Vite. The app uses a root-relative Vite base and hashed assets. The Playwright suite visits and reloads deep routes in this production preview. This proves local static behavior; the chosen public host must still apply its own rewrite configuration.
+Open the local address printed by Vite. `npm run check` builds the app first, and `npm run preview` serves that build. Rebuild after changes to avoid testing stale output.
 
-## Owner-authorized publication
+## Data and privacy
 
-For Vercel, the owner signs in to the intended hosting account, links this repository to the intended project, sets the build command to `npm run build` and output directory to `dist`, and publishes. The committed `vercel.json` rewrites app routes to `index.html` while allowing assets and the favicon through; it sets no-sniff, no-referrer and restricted camera/microphone/geolocation headers.
+Branchcade keeps learning records in the current browser's IndexedDB. They are not automatically synchronized between computers. Users may manually export and import their records. The application has no learner sign-in system or hosted classroom database. A web host may still log visitor IP addresses and page requests as part of delivering the site.
 
-Alternatively, publish `dist/` with an authorized Netlify or Cloudflare Pages project. `public/_redirects` is copied into the build with `/* /index.html 200`. Configure an equivalent SPA fallback on another static host. No backend, API keys or learner database is required.
+See [security and privacy](SECURITY_PRIVACY.md) and [release acceptance](production/FINAL_RELEASE_ACCEPTANCE.md). Documentation of technical verification should not be read as proof of a classroom learning outcome or contest eligibility.
 
-After publication, record the real URL and check Home; direct `/missions/m01`, `/lab` and `/settings` loads and refreshes; bundled fonts and Blockly media; the prediction → actual trace → investigation → experiment → transfer journey; export/reload/delete; and browser console/network errors. Do not equate localhost with a deployed site. Hosting access logs may include IP addresses/page paths even though the app does not transmit learner content.
+## Historical note
 
-## Remaining authorization
-
-Choose and authorize the hosting account/project, then publish and verify the resulting public URL. No credentials need to be pasted into chat. Part L rechecked the root-base build, local direct routes/assets, bundled Blockly/fonts and committed provider-specific configuration; it did not publish. No hosting project link, deployment credential or owner-authorized hosting connection was supplied. See [release readiness](RELEASE_READINESS.md) for exact configuration and public-site acceptance steps. In particular, the Netlify fallback file does not carry the Vercel security headers: configure equivalent headers at the chosen provider. Student review, actual owner-authorized publication, video and submission remain uncompleted human work.
+The earlier October 24 handoff in this file correctly reported that no hosting account or public URL was available at that time. That is superseded by the October 25 Vercel deployment described above. Other historical release reports may still describe their own earlier checkpoints.
