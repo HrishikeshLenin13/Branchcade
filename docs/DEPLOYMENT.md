@@ -8,18 +8,14 @@ This confirms successful publication on the hosting service. An independent logg
 
 ## Production configuration
 
-| Setting | Value |
-| --- | --- |
-| Host | Vercel |
-| Domain | [branchcade.vercel.app](https://branchcade.vercel.app) |
-| Repository | `HrishikeshLenin13/Branchcade` |
-| Production branch | `main` |
-| Framework | Vite / React / TypeScript |
-| Node version | `24.x` |
-| Build command | `npm run build` |
-| Output directory | `dist` |
-| App routing | `vercel.json` SPA rewrites |
-| Backend / hosted learner database | None |
+- **Host:** Vercel
+- **Domain:** [branchcade.vercel.app](https://branchcade.vercel.app)
+- **Repository:** `HrishikeshLenin13/Branchcade`, production branch `main`
+- **Framework:** Vite, React and TypeScript
+- **Runtime:** Node.js `24.x`
+- **Build:** `npm run build`, output in `dist`
+- **Routing:** `vercel.json` with SPA rewrites
+- **Backend:** No hosted learner database
 
 The project's source and deployment are linked through Vercel's Git integration. Changes pushed to the production branch trigger new deployments. The existing `vercel.json` preserves static asset requests and provides fallback routing for application pages, along with basic response headers.
 
