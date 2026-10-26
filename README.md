@@ -1,24 +1,16 @@
 # Branchcade
 
-<p align="center">
-  <img src="public/brand/branchcade-logo.png" alt="Branchcade" width="340" />
-</p>
+<p align="center"><img src="public/brand/branchcade-logo.png" alt="Branchcade logo" width="340" /></p>
 
-<p align="center"><strong>Make the logic click.</strong></p>
+**Make the logic click.**
 
-<p align="center">
-  <a href="https://branchcade.vercel.app"><strong>Try Branchcade</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://branchcade.vercel.app/missions/m01">Explore the first mission</a>
-  &nbsp;·&nbsp;
-  <a href="docs/ARCHITECTURE.md">How it works</a>
-</p>
+**[Try Branchcade](https://branchcade.vercel.app)** · [Start the first mission](https://branchcade.vercel.app/missions/m01) · [How it works](docs/ARCHITECTURE.md)
 
-Branchcade is a browser-based robotics learning app for beginners. Students build programs with Blockly, predict what a robot will do, then run the program and see *why* it behaved that way. When the result is surprising, they can investigate their reasoning and try an experiment instead of guessing at a fix.
+Branchcade is a browser-based robotics learning app for beginners. Students build programs with Blockly, predict what a robot will do, then run the program and see _why_ it behaved that way. When the result is surprising, they can investigate their reasoning and try an experiment instead of guessing at a fix.
 
 ![Branchcade's actual mission workbench, with Blockly code, the robot simulator and prediction choices.](docs/evidence/k/readme-workbench.jpg)
 
-*An actual local-build screenshot, not a mockup. The learner name shown is a demonstration alias.*
+_An actual local-build screenshot, not a mockup. The learner name shown is a demonstration alias._
 
 ## Why we made it
 
