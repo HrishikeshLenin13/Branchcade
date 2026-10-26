@@ -25,7 +25,7 @@ We wanted a place where students could slow down, make a prediction, look at wha
 3. **Investigate.** Follow-up questions explore different possible reasons for a surprising prediction. One incorrect answer is not treated as proof of what a student thinks.
 4. **Experiment.** Change one condition of the scenario and run it again. Then try a new problem to see whether the idea carries over.
 
-For example, suppose a robot sees a wall **24 cm** away. Its code says *if the distance is less than 20 cm, stop; otherwise, move forward 10 cm.* Branchcade shows that `24 < 20` is false, so the robot moves. The sensor reported a number; the condition determined what happened next. Students can change the wall distance and see when that decision flips.
+For example, suppose a robot sees a wall **24 cm** away. Its code says _if the distance is less than 20 cm, stop; otherwise, move forward 10 cm._ Branchcade shows that `24 < 20` is false, so the robot moves. The sensor reported a number; the condition determined what happened next. Students can change the wall distance and see when that decision flips.
 
 ## What's in Branchcade
 
