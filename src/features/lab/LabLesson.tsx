@@ -1,6 +1,27 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Play, Pause, RotateCcw, ScanLine, ShieldCheck } from 'lucide-react'
+import {
+  BookOpen,
+  CircleHelp,
+  Code,
+  Footprints,
+  Gauge,
+  Keyboard,
+  LayoutGrid,
+  ListTree,
+  PencilLine,
+  Play,
+  Pause,
+  RefreshCcw,
+  RotateCcw,
+  Save,
+  ScanLine,
+  ShieldCheck,
+  Square,
+  StepBack,
+  StepForward,
+  Undo2,
+} from 'lucide-react'
 import type {
   Attempt,
   Program,
@@ -786,217 +807,246 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           ))}
         </ol>
       </div>
+      {/* Grouped by what a learner is trying to do, with an icon beside every label. */}
       <div className="workstation-toolbar" aria-label="Workbench controls">
-        <Button variant="outline" onClick={() => setDialog('briefing')}>
-          Mission briefing
-        </Button>
-        <Button
-          variant="outline"
-          disabled={ephemeral}
-          title={
-            ephemeral
-              ? 'Storage unavailable. Export your work to keep it.'
-              : 'Save the world, code and learning stage locally'
-          }
-          onClick={() => {
-            void saveDraft()
-              .then(() =>
-                setNotice(
-                  useSession.getState().ephemeral
-                    ? 'Not saved. Export your current work before closing.'
-                    : 'World, code and learning stage saved on this device.',
-                ),
-              )
-              .catch((error: unknown) =>
-                setError(error instanceof Error ? error.message : 'Draft could not be saved.'),
-              )
-          }}
-        >
-          Save
-        </Button>
-        <Button
-          variant="outline"
-          disabled={editLocked || busy}
-          title={
-            editLocked || busy
-              ? 'Code is locked to the current run. Press Stop & Edit to change it.'
-              : 'Restore the starter program; earlier attempts stay saved'
-          }
-          onClick={() => {
-            if (
-              JSON.stringify(program) === JSON.stringify(mission.starterProgram) ||
-              window.confirm('Restore starter code? Previous attempts remain saved.')
-            )
-              changeProgram(mission.starterProgram)
-          }}
-        >
-          Reset code
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => {
-            selectCursor(0)
-            setNotice('Simulation reset to the initial snapshot. Saved run evidence is preserved.')
-          }}
-        >
-          Reset simulation
-        </Button>
-        {playing ? (
-          <Button onClick={() => setPlaying(false)}>
-            <Pause size={16} />
-            Pause
-          </Button>
-        ) : (
-          <Button onClick={mainRun}>
-            <Play size={16} />
-            {result && cursor > 0 && cursor < result.events.length ? 'Resume' : 'Run'}
-          </Button>
-        )}
-        <Button
-          variant="outline"
-          disabled={!result || cursor >= result.events.length}
-          title={
-            !result
-              ? 'Run a program before stepping through its statements'
-              : cursor >= result.events.length
-                ? 'At the end of the run; use Rewind or Replay to step again'
-                : 'Play the next statement or branch, including its 50 ms motor ticks'
-          }
-          onClick={stepAction}
-        >
-          Step code
-        </Button>
-        <Button
-          variant="outline"
-          disabled={!result?.status || tickTarget === cursor}
-          title={
-            !result
-              ? 'Run a program before stepping its physics ticks'
-              : !result.status
-                ? 'Legacy attempts retain action snapshots; start a new run for fixed-tick stepping'
-                : tickTarget === cursor
-                  ? 'No physics ticks remain; use Step code for terminal events'
-                  : 'Advance exactly one 50 ms physics tick'
-          }
-          onClick={() => result && selectCursor(tickTarget)}
-        >
-          Step tick
-        </Button>
-        <Button
-          variant="outline"
-          disabled={(busy && !executing) || (!editLocked && !executing)}
-          title={
-            executing || editLocked
-              ? 'Stop this run and unlock the code and world for editing'
-              : 'Nothing to stop yet: code and world are already editable'
-          }
-          onClick={() => {
-            if (executing) {
-              editAfterCancel.current = true
-              runControl.current?.abort()
-            } else reset()
-          }}
-        >
-          Stop &amp; Edit
-        </Button>
-        {executing && <Button onClick={() => runControl.current?.abort()}>Cancel execution</Button>}
-        <Button
-          variant="outline"
-          disabled={!playing}
-          title={playing ? 'Stop the replay here' : 'Available while a run or replay is playing'}
-          onClick={() => {
-            setPlaying(false)
-            setNotice('Stopped by learner. The recorded outcome stays unchanged.')
-          }}
-        >
-          Stop
-        </Button>
-        <Button
-          variant="outline"
-          disabled={!result || cursor === 0}
-          title={
-            !result
-              ? 'Run the program first; Rewind steps back through a recorded run'
-              : cursor === 0
-                ? 'Already at the start of the run'
-                : 'Step back one recorded event'
-          }
-          onClick={() => selectCursor(Math.max(0, cursor - 1))}
-        >
-          Rewind
-        </Button>
-        <Button
-          variant="outline"
-          disabled={!result}
-          title={
-            result
-              ? 'Replay the exact saved run; no new attempt is added'
-              : 'Run the program first; Replay re-plays a recorded run'
-          }
-          onClick={() => {
-            setCursor(0)
-            setStepTarget(undefined)
-            setPlaying(true)
-            setNotice('Replaying the exact saved trace. No new attempt or score is added.')
-          }}
-        >
-          Replay
-        </Button>
-        <label>
-          Speed
-          <select
-            aria-label="Simulation speed"
-            value={speed}
-            onChange={(event) => {
-              preferredSpeed = Number(event.target.value)
-              setSpeed(preferredSpeed)
+        <div className="tool-group tool-group-run" role="group" aria-label="Run">
+          {playing ? (
+            <Button className="tool-run" onClick={() => setPlaying(false)}>
+              <Pause aria-hidden size={18} />
+              Pause
+            </Button>
+          ) : (
+            <Button className="tool-run" onClick={mainRun}>
+              <Play aria-hidden size={18} />
+              {result && cursor > 0 && cursor < result.events.length ? 'Resume' : 'Run'}
+            </Button>
+          )}
+          <Button
+            variant="outline"
+            disabled={!playing}
+            title={playing ? 'Stop the replay here' : 'Available while a run or replay is playing'}
+            onClick={() => {
+              setPlaying(false)
+              setNotice('Stopped by learner. The recorded outcome stays unchanged.')
             }}
           >
-            {SPEEDS.map((value) => (
-              <option key={value} value={value}>
-                {value}×{value === 0.25 ? ' (slow)' : ''}
-              </option>
-            ))}
-          </select>
-        </label>
-        <Button
-          variant="outline"
-          aria-pressed={showCode}
-          onClick={() => setShowCode((value) => !value)}
-        >
-          {showCode ? 'Hide code' : 'Show code'}
-        </Button>
-        <Button
-          variant="outline"
-          aria-pressed={showTrace}
-          onClick={() => setShowTrace((value) => !value)}
-        >
-          {showTrace ? 'Hide trace' : 'Show trace'}
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => {
-            setLeftWidth(29)
-            setRightWidth(25)
-            setShowCode(true)
-            setShowTrace(true)
-          }}
-        >
-          Reset layout
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => {
-            setDialog('help')
-            // Opening the ladder shows hint 1, so it is recorded as help (never a penalty).
-            if (!free) recordHint(`hint-${hintLevel + 1}`)
-          }}
-        >
-          Help
-        </Button>
-        <Button variant="outline" onClick={() => setDialog('shortcuts')}>
-          Keyboard shortcuts
-        </Button>
+            <Square aria-hidden size={16} />
+            Stop
+          </Button>
+          <Button
+            variant="outline"
+            disabled={(busy && !executing) || (!editLocked && !executing)}
+            title={
+              executing || editLocked
+                ? 'Stop this run and unlock the code and world for editing'
+                : 'Nothing to stop yet: code and world are already editable'
+            }
+            onClick={() => {
+              if (executing) {
+                editAfterCancel.current = true
+                runControl.current?.abort()
+              } else reset()
+            }}
+          >
+            <PencilLine aria-hidden size={16} />
+            Stop &amp; Edit
+          </Button>
+          {executing && (
+            <Button onClick={() => runControl.current?.abort()}>Cancel execution</Button>
+          )}
+        </div>
+        <div className="tool-group" role="group" aria-label="Watch it step by step">
+          <Button
+            variant="outline"
+            disabled={!result || cursor === 0}
+            title={
+              !result
+                ? 'Run the program first; Rewind steps back through a recorded run'
+                : cursor === 0
+                  ? 'Already at the start of the run'
+                  : 'Step back one recorded event'
+            }
+            onClick={() => selectCursor(Math.max(0, cursor - 1))}
+          >
+            <StepBack aria-hidden size={16} />
+            Rewind
+          </Button>
+          <Button
+            variant="outline"
+            disabled={!result || cursor >= result.events.length}
+            title={
+              !result
+                ? 'Run a program before stepping through its statements'
+                : cursor >= result.events.length
+                  ? 'At the end of the run; use Rewind or Replay to step again'
+                  : 'Play the next statement or branch, including its 50 ms motor ticks'
+            }
+            onClick={stepAction}
+          >
+            <StepForward aria-hidden size={16} />
+            Step code
+          </Button>
+          <Button
+            variant="outline"
+            disabled={!result?.status || tickTarget === cursor}
+            title={
+              !result
+                ? 'Run a program before stepping its physics ticks'
+                : !result.status
+                  ? 'Legacy attempts retain action snapshots; start a new run for fixed-tick stepping'
+                  : tickTarget === cursor
+                    ? 'No physics ticks remain; use Step code for terminal events'
+                    : 'Advance exactly one 50 ms physics tick'
+            }
+            onClick={() => result && selectCursor(tickTarget)}
+          >
+            <Footprints aria-hidden size={16} />
+            Step tick
+          </Button>
+          <Button
+            variant="outline"
+            disabled={!result}
+            title={
+              result
+                ? 'Replay the exact saved run; no new attempt is added'
+                : 'Run the program first; Replay re-plays a recorded run'
+            }
+            onClick={() => {
+              setCursor(0)
+              setStepTarget(undefined)
+              setPlaying(true)
+              setNotice('Replaying the exact saved trace. No new attempt or score is added.')
+            }}
+          >
+            <RotateCcw aria-hidden size={16} />
+            Replay
+          </Button>
+          <label className="tool-speed">
+            <Gauge aria-hidden size={16} />
+            Speed
+            <select
+              aria-label="Simulation speed"
+              value={speed}
+              onChange={(event) => {
+                preferredSpeed = Number(event.target.value)
+                setSpeed(preferredSpeed)
+              }}
+            >
+              {SPEEDS.map((value) => (
+                <option key={value} value={value}>
+                  {value}×{value === 0.25 ? ' (slow)' : ''}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div className="tool-group" role="group" aria-label="My program">
+          <Button
+            variant="outline"
+            disabled={ephemeral}
+            title={
+              ephemeral
+                ? 'Storage unavailable. Export your work to keep it.'
+                : 'Save the world, code and learning stage locally'
+            }
+            onClick={() => {
+              void saveDraft()
+                .then(() =>
+                  setNotice(
+                    useSession.getState().ephemeral
+                      ? 'Not saved. Export your current work before closing.'
+                      : 'World, code and learning stage saved on this device.',
+                  ),
+                )
+                .catch((error: unknown) =>
+                  setError(error instanceof Error ? error.message : 'Draft could not be saved.'),
+                )
+            }}
+          >
+            <Save aria-hidden size={16} />
+            Save
+          </Button>
+          <Button
+            variant="outline"
+            disabled={editLocked || busy}
+            title={
+              editLocked || busy
+                ? 'Code is locked to the current run. Press Stop & Edit to change it.'
+                : 'Restore the starter program; earlier attempts stay saved'
+            }
+            onClick={() => {
+              if (
+                JSON.stringify(program) === JSON.stringify(mission.starterProgram) ||
+                window.confirm('Restore starter code? Previous attempts remain saved.')
+              )
+                changeProgram(mission.starterProgram)
+            }}
+          >
+            <Undo2 aria-hidden size={16} />
+            Reset code
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              selectCursor(0)
+              setNotice(
+                'Simulation reset to the initial snapshot. Saved run evidence is preserved.',
+              )
+            }}
+          >
+            <RefreshCcw aria-hidden size={16} />
+            Reset simulation
+          </Button>
+        </div>
+        <div className="tool-group" role="group" aria-label="View and help">
+          <Button variant="outline" onClick={() => setDialog('briefing')}>
+            <BookOpen aria-hidden size={16} />
+            Mission briefing
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setDialog('help')
+              // Opening the ladder shows hint 1, so it is recorded as help (never a penalty).
+              if (!free) recordHint(`hint-${hintLevel + 1}`)
+            }}
+          >
+            <CircleHelp aria-hidden size={16} />
+            Help
+          </Button>
+          <Button
+            variant="outline"
+            aria-pressed={showCode}
+            onClick={() => setShowCode((value) => !value)}
+          >
+            <Code aria-hidden size={16} />
+            {showCode ? 'Hide code' : 'Show code'}
+          </Button>
+          <Button
+            variant="outline"
+            aria-pressed={showTrace}
+            onClick={() => setShowTrace((value) => !value)}
+          >
+            <ListTree aria-hidden size={16} />
+            {showTrace ? 'Hide trace' : 'Show trace'}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setLeftWidth(29)
+              setRightWidth(25)
+              setShowCode(true)
+              setShowTrace(true)
+            }}
+          >
+            <LayoutGrid aria-hidden size={16} />
+            Reset layout
+          </Button>
+          <Button variant="outline" onClick={() => setDialog('shortcuts')}>
+            <Keyboard aria-hidden size={16} />
+            Keyboard shortcuts
+          </Button>
+        </div>
         {/* Disabled buttons cannot show hover tooltips, so say why they are unavailable. */}
         <p className="toolbar-hint" data-testid="toolbar-hint">
           {!result

@@ -86,3 +86,19 @@ test('mission playback starts slower (0.5×), offers 0.25× and keeps the choice
     '0.25',
   )
 })
+
+test('the workbench toolbar is grouped with large, labelled controls', async ({ page }) => {
+  await page.goto('/missions/m01?new=1')
+  const toolbar = page.locator('.workstation-toolbar')
+  await expect(toolbar.getByRole('group')).toHaveCount(4)
+  for (const name of ['Run', 'Watch it step by step', 'My program', 'View and help']) {
+    await expect(toolbar.getByRole('group', { name, exact: true })).toBeVisible()
+  }
+  // Kid-sized targets: every toolbar button and the speed menu are at least 40 px tall.
+  const short = await toolbar.evaluate((bar) =>
+    [...bar.querySelectorAll('button, select')]
+      .filter((el) => el.getBoundingClientRect().height < 40)
+      .map((el) => el.textContent?.trim() ?? ''),
+  )
+  expect(short).toEqual([])
+})

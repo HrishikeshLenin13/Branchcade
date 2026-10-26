@@ -564,10 +564,8 @@
   .workstation-progress > :last-child {
     margin-left: 0;
   }
-  .workstation-toolbar {
-    max-height: 150px;
-    overflow-y: auto;
-  }
+  /* Phones show every control instead of a small separately scrolling box (easier for
+     young learners on touch screens). */
 }
 .workstation-page .workbench-notice:empty {
   display: none;
@@ -672,21 +670,50 @@
   padding-inline-start: 20px;
 }
 
-/* Laptop toolbar: two deliberate rows rather than a lone wrapped help control.
-   Wide desktops retain the compact flex layout; narrow screens keep natural wrapping. */
-@media (min-width: 1300px) and (max-width: 1599px) {
-  .workstation-toolbar {
-    display: grid;
-    grid-template-columns: repeat(9, minmax(0, 1fr));
-    align-items: stretch;
-  }
-  .workstation-toolbar > button {
-    width: 100%;
-    padding-inline: 6px;
-  }
-  .workstation-toolbar > label {
-    justify-content: center;
-  }
+/* Kid-friendly toolbar: controls grouped by purpose, an icon beside every word, 40 px
+   targets, a bold Run button and clearly "not yet" disabled buttons. */
+.workstation-toolbar .tool-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--paper) 70%, transparent);
+}
+.workstation-toolbar .tool-group button {
+  min-height: 40px;
+  gap: 6px;
+  padding-inline: 11px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.workstation-toolbar .tool-group button.tool-run {
+  padding-inline: 20px;
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+.workstation-toolbar .tool-group button:disabled {
+  opacity: 0.5;
+  border-style: dashed;
+}
+.workstation-toolbar .tool-speed,
+.workstation-page .workstation-toolbar .tool-speed {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+  margin: 0;
+  gap: 6px;
+  padding-inline: 6px 2px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.workstation-toolbar .tool-speed select {
+  width: auto;
+  min-height: 40px;
+  font-size: 0.8rem;
 }
 /* Says why disabled controls are unavailable; sits in the toolbar's free space. */
 .toolbar-hint {
@@ -699,4 +726,7 @@
 }
 .toolbar-hint:empty {
   display: none;
+}
+.workstation-page .workstation-toolbar {
+  gap: 6px;
 }
