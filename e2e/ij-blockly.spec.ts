@@ -5,7 +5,9 @@ const topBlocks = (page: Page) =>
 async function openEditor(page: Page) {
   await page.goto('/lab?example=24')
   await page.getByRole('slider', { name: 'Editor panel width', exact: true }).fill('38')
-  await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
+  // Blocks start open on laptop-size screens; open them only if they are closed.
+  if (await page.getByRole('button', { name: 'Open block editor', exact: true }).count())
+    await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await expect(page.locator('.blocklySvg')).toBeVisible()
 }
 test('I/J actual Blockly duplicate, undo, redo and delete preserve the applied program', async ({

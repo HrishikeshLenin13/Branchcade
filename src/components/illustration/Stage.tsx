@@ -363,14 +363,16 @@ export function Stage({
             r={world.spawn.radiusCm + 2}
             strokeDasharray="2 2"
           />
+          {/* Below the start ring (above it near the bottom edge), so the robot sitting on
+              the start never covers the word. */}
           <text
-            x={
-              world.spawn.position.xCm > 4 * labelSize
-                ? world.spawn.position.xCm - world.spawn.radiusCm - 2
-                : world.spawn.position.xCm + world.spawn.radiusCm + 2
+            x={world.spawn.position.xCm}
+            textAnchor="middle"
+            y={
+              world.spawn.position.yCm + world.spawn.radiusCm + 3 + labelSize <= world.heightCm
+                ? world.spawn.position.yCm + world.spawn.radiusCm + 2 + labelSize
+                : world.spawn.position.yCm - world.spawn.radiusCm - 3
             }
-            textAnchor={world.spawn.position.xCm > 4 * labelSize ? 'end' : 'start'}
-            y={world.spawn.position.yCm + labelSize * 0.35}
             fill="#9EE2ED"
             stroke="none"
             fontSize={labelSize}

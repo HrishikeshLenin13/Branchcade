@@ -739,7 +739,7 @@ fieldset:disabled {
 }
 .trace-event {
   display: grid;
-  grid-template-columns: 100px 70px 1fr;
+  grid-template-columns: 1fr;
   text-align: left;
   width: 100%;
   padding: 13px 24px;
@@ -747,9 +747,17 @@ fieldset:disabled {
   border-top: 1px solid var(--line);
   color: var(--ink);
   background: var(--paper);
-  gap: 12px;
+  gap: 3px;
   font-size: 0.76rem;
   align-items: start;
+}
+/* Plain sentence first; the exact recorded facts stay underneath. */
+.trace-event strong {
+  font-size: 0.86rem;
+  font-weight: 650;
+}
+.trace-event .trace-detail {
+  color: var(--muted);
 }
 .trace-event.selected {
   background: color-mix(in srgb, var(--focus) 8%, var(--paper));
@@ -1156,11 +1164,7 @@ th {
     padding: 0 16px;
   }
   .trace-event {
-    grid-template-columns: 80px 1fr;
     padding: 12px 16px;
-  }
-  .trace-event > span:last-child {
-    grid-column: 1/-1;
   }
   .trace-panel > .button-row {
     padding: 0 16px 16px;
@@ -1668,7 +1672,7 @@ button:disabled {
   margin-bottom: 24px;
 }
 .status-chip {
-  font-size: 0.67rem;
+  font-size: 0.78rem;
   font-weight: 550;
   color: var(--muted);
   padding: 6px 9px;
@@ -1689,7 +1693,7 @@ button:disabled {
   gap: 12px;
   width: 100%;
   color: var(--muted);
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   margin-bottom: 12px;
 }
 .mission-card-meta > span:last-child {
@@ -1701,20 +1705,20 @@ button:disabled {
   font-size: 1.25rem;
 }
 .mission-card > p {
-  font-size: 0.83rem;
+  font-size: 0.92rem;
 }
 .mission-card .mission-concepts {
-  font-size: 0.7rem;
+  font-size: 0.82rem;
   color: var(--focus);
   margin-bottom: 12px;
 }
 .mission-card .verified-outcome {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   color: var(--muted);
   margin-bottom: 20px;
 }
 .mission-card .prerequisite-note {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   color: var(--muted);
   border-left: 2px solid var(--line);
   padding-left: 12px;
@@ -1724,10 +1728,11 @@ button:disabled {
   gap: 8px;
 }
 .mission-card [data-slot='button'] {
-  font-size: 0.74rem;
+  min-height: 40px;
+  font-size: 0.86rem;
 }
 .mission-card .text-link {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
 }
 .free-practice-toggle {
   margin: 28px 0 8px;

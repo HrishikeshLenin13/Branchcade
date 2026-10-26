@@ -51,7 +51,9 @@ try {
   const { buildProbe } = await loader.ssrLoadModule('/src/learning/probe-templates.ts')
   await page.goto('http://127.0.0.1:4173/missions/m01?new=1')
   await expect(page.locator('main h1')).toHaveText('The Wall Problem')
-  await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
+  // Blocks start open on wide screens.
+  if (await page.getByRole('button', { name: 'Open block editor', exact: true }).count())
+    await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await expect(page.locator('.blocklySvg')).toBeVisible()
   await page.getByText('View pseudocode', { exact: true }).click()
   await page.evaluate(() => window.scrollTo(0, 400))

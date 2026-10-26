@@ -279,10 +279,10 @@ test('I/J roster sanitization, draft undo, learner switch, end and reset preserv
 }) => {
   await page.goto('/progress')
   await page
-    .getByRole('textbox', { name: 'New anonymous alias (optional)', exact: true })
+    .getByRole('textbox', { name: 'New lab name (optional)', exact: true })
     .fill('Synthetic Solo Learner')
-  await page.getByRole('button', { name: 'Create another anonymous learner', exact: true }).click()
-  await expect(page.getByRole('combobox', { name: 'Local pseudonym', exact: true })).toContainText(
+  await page.getByRole('button', { name: 'Add another learner', exact: true }).click()
+  await expect(page.getByRole('combobox', { name: 'Your lab name', exact: true })).toContainText(
     'Synthetic Solo Learner',
   )
   await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
@@ -350,7 +350,7 @@ test('I/J roster sanitization, draft undo, learner switch, end and reset preserv
   await page.getByRole('button', { name: 'Confirm reset', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Set up your group', exact: true })).toBeVisible()
   await page.goto('/progress')
-  await expect(page.getByRole('combobox', { name: 'Local pseudonym', exact: true })).toContainText(
+  await expect(page.getByRole('combobox', { name: 'Your lab name', exact: true })).toContainText(
     'Synthetic Solo Learner',
   )
 })

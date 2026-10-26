@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { KIND_NAME, plainEvent } from './event-words'
 import type { ExecutionEvent, World, Program, RobotState } from '../../domain/types'
 import { readSensors } from '../../engine/sensors'
 import { readSensors as legacySensors } from '../../interpreter/legacy/sensors'
@@ -237,7 +238,9 @@ export function TraceView({
                 >
                   <option value="all">All events</option>
                   {[...new Set(events.map((event) => event.kind))].map((name) => (
-                    <option key={name}>{name}</option>
+                    <option key={name} value={name}>
+                      {KIND_NAME[name]}
+                    </option>
                   ))}
                 </select>
               </label>
@@ -246,18 +249,16 @@ export function TraceView({
               {filtered.slice(safePage * pageSize, (safePage + 1) * pageSize).map((event) => (
                 <li key={event.seq}>
                   <button
-                    aria-label={`Event ${event.seq + 1}: ${event.kind}, ${event.elapsedMs} milliseconds, block ${event.nodeId}. ${event.facts.join('. ')}`}
                     className={cursor === event.seq + 1 ? 'trace-event selected' : 'trace-event'}
                     aria-pressed={cursor === event.seq + 1}
                     onClick={() => onCursor(event.seq + 1)}
                   >
-                    <span className="mono">
-                      {String(event.seq + 1).padStart(2, '0')} / {event.elapsedMs}ms
+                    <span className="mono trace-meta">
+                      {String(event.seq + 1).padStart(2, '0')} · {event.elapsedMs} ms · {event.kind}{' '}
+                      · {event.nodeId}
                     </span>
-                    <strong>
-                      {event.kind} · {event.nodeId}
-                    </strong>
-                    <span>{event.facts.join('. ')}</span>
+                    <strong>{plainEvent(event)}</strong>
+                    <span className="trace-detail">{event.facts.join('. ')}</span>
                   </button>
                 </li>
               ))}
@@ -287,9 +288,9 @@ export function TraceView({
               </div>
             )}
             <p className="muted">
-              Each row is a preserved event. New movement, turn and wait rows each advance one 50 ms
-              tick. Legacy attempts retain their original action snapshots. Select a row to restore
-              its exact snapshot and highlight its program node.
+              Each row is one thing the robot or program did, in order. Moving, turning and waiting
+              take one 50 ms tick per row. Click a row to put the robot back to that moment and
+              light up the block that did it.
             </p>
           </>
         )}

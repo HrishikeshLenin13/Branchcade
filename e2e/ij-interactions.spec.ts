@@ -85,9 +85,7 @@ test('I/J onboarding preserves edits, validates the name and honors a selected c
   await expect(page).toHaveURL(/\/lab\?tour=1$/)
   await expect(page.getByTestId('button-tour')).toBeVisible()
   await page.goto('/progress')
-  await expect(page.getByRole('combobox', { name: 'Local pseudonym', exact: true })).toHaveValue(
-    /.+/,
-  )
+  await expect(page.getByRole('combobox', { name: 'Your lab name', exact: true })).toHaveValue(/.+/)
   await expect(page.getByRole('option', { name: 'Curious Zebra 12', exact: true })).toBeAttached()
 })
 

@@ -2,19 +2,26 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 2px;
-  padding: 5px 8px;
+  gap: 4px;
+  padding: 6px 8px;
   background: #14212a;
   color: #d6e6ec;
 }
+/* Outlined, finger-sized camera buttons so they read as buttons on the dark bar. */
 .stage-toolbar button,
 .stage-detail-buttons button {
   color: #d6e6ec;
-  font-size: 0.67rem;
-  min-height: 32px;
+  font-size: 0.78rem;
+  min-height: 36px;
   /* Glyph-only zoom/pan buttons were 20 px wide (OPUS-004). */
-  min-width: 32px;
-  padding: 4px 7px;
+  min-width: 36px;
+  padding: 4px 9px;
+  border: 1px solid #36505e;
+  border-radius: 8px;
+}
+.stage-toolbar button[aria-label^='Pan'],
+.stage-toolbar button[aria-label^='Zoom'] {
+  font-size: 1rem;
 }
 .stage-toolbar button:hover,
 .stage-toolbar button[aria-pressed='true'],
@@ -23,7 +30,7 @@
   color: #fff;
 }
 .stage-toolbar .mono {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
 }
 .stage-wrap > .world {
   width: 100%;

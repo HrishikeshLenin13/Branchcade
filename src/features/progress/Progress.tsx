@@ -20,7 +20,10 @@ import { recommend } from '../../learning/adaptive-planner'
 import { conceptTitle, missionConcepts, type ConceptId } from '../../learning/concepts'
 import { attemptDiagnosis } from '../../learning/investigation'
 import { soloAchievements } from '../../learning/achievements'
+import { ACTION_LABELS } from '../../domain/constants'
 import './local-records.css'
+/** "1 mission", "2 missions". */
+const count = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`
 export default function Progress() {
   const data = useSession((s) => s.data),
     selectLearner = useSession((s) => s.selectLearner),
@@ -54,14 +57,13 @@ export default function Progress() {
       <span className="section-index">Real evidence on this device</span>
       <h1>Your learning notebook</h1>
       <section className="paper">
-        <h2>Current local learner</h2>
+        <h2>Who is learning?</h2>
         <p>
-          This page shows only the selected pseudonym’s solo attempts. Team activity has its own
-          local report.
+          Pick your lab name. This page shows only that name’s own work; team work has its own page.
         </p>
         <div className="toolbar">
           <label>
-            Local pseudonym
+            Your lab name
             <select
               value={profile?.id ?? ''}
               disabled={!people.length}
@@ -82,7 +84,7 @@ export default function Progress() {
             </select>
           </label>
           <label>
-            New anonymous alias (optional)
+            New lab name (optional)
             <input maxLength={32} value={alias} onChange={(e) => setAlias(e.target.value)} />
           </label>
           <Button
@@ -97,7 +99,7 @@ export default function Progress() {
                 )
             }
           >
-            Create another anonymous learner
+            Add another learner
           </Button>
         </div>
       </section>
@@ -112,10 +114,10 @@ export default function Progress() {
       ) : (
         <>
           <p className="lead">
-            {profile?.nickname} · {started.size} missions started ·{' '}
-            {profile?.completedMissions.length ?? 0} completed guided investigations ·{' '}
-            {practiced.length} concepts practiced · {attempts.filter((a) => a.reassessment).length}{' '}
-            transfer checks.
+            Hi {profile?.nickname}! {count(started.size, 'mission')} started ·{' '}
+            {count(profile?.completedMissions.length ?? 0, 'mission')} finished ·{' '}
+            {count(practiced.length, 'concept')} practiced ·{' '}
+            {count(attempts.filter((a) => a.reassessment).length, 'new-numbers challenge')} tried.
           </p>
           <ProgressCharts
             attempts={attempts}
@@ -190,9 +192,10 @@ export default function Progress() {
                   <div>
                     <h3>{conceptTitle(c.concept)}</h3>
                     <p>
-                      <strong>{c.label}</strong> · {c.attempts} attempts · {c.correctIndependent}{' '}
-                      correct without help · {c.transfersCorrect} new-numbers challenge
-                      {c.transfersCorrect === 1 ? '' : 's'} correct · {c.hints} hints
+                      <strong>{c.label}</strong> · {count(c.attempts, 'attempt')} ·{' '}
+                      {c.correctIndependent} right without help ·{' '}
+                      {count(c.transfersCorrect, 'new-numbers challenge')} right ·{' '}
+                      {count(c.hints, 'hint')}
                     </p>
                     <p className="muted">{c.rule}</p>
                   </div>
@@ -224,15 +227,19 @@ export default function Progress() {
                 return (
                   <div className="evidence-entry" key={a.id}>
                     <p>
-                      {a.missionId} · prediction{' '}
-                      {a.prediction.uncertain ? 'not sure yet' : a.prediction.action} · goal{' '}
-                      {a.goalOutcome.passed ? 'met' : 'not met'} · {a.diagnosticResponses.length}{' '}
-                      questions · {a.experimentResponses?.length ?? 0} experiments · transfer{' '}
+                      {a.missionId.toUpperCase()} · you predicted{' '}
+                      {a.prediction.uncertain
+                        ? '“not sure yet”'
+                        : `“${ACTION_LABELS[a.prediction.action]}”`}{' '}
+                      · goal {a.goalOutcome.passed ? 'met' : 'not met yet'} ·{' '}
+                      {count(a.diagnosticResponses.length, 'question')} ·{' '}
+                      {count(a.experimentResponses?.length ?? 0, 'experiment')} · new-numbers
+                      challenge{' '}
                       {a.reassessment
                         ? a.reassessment.correct
-                          ? 'matched'
+                          ? 'right'
                           : 'different'
-                        : 'not attempted'}
+                        : 'not tried'}
                     </p>
                     {ideas.map((h) => (
                       <p key={h.code} className="muted">
@@ -253,14 +260,14 @@ export default function Progress() {
           )}
           <div className="table-wrap">
             <table>
-              <caption>Actual local attempts · {profile?.nickname}</caption>
+              <caption>Every attempt by {profile?.nickname}</caption>
               <thead>
                 <tr>
-                  <th>Investigation</th>
-                  <th>Prediction</th>
+                  <th>Mission</th>
+                  <th>You predicted</th>
                   <th>Goal met</th>
-                  <th>Transfer</th>
-                  <th>Recorded</th>
+                  <th>New-numbers challenge</th>
+                  <th>When</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -270,16 +277,18 @@ export default function Progress() {
                     <td>
                       {MISSION_CATALOG.find((m) => m.id === a.missionId)?.title ?? 'Free lab'}
                     </td>
-                    <td>{a.prediction.uncertain ? 'Not sure yet' : a.prediction.action}</td>
+                    <td>
+                      {a.prediction.uncertain ? 'Not sure yet' : ACTION_LABELS[a.prediction.action]}
+                    </td>
                     <td>
                       {a.missionId === 'lab' ? 'Not scored' : a.goalOutcome.passed ? 'Yes' : 'No'}
                     </td>
                     <td>
                       {a.reassessment
                         ? a.reassessment.correct
-                          ? 'Matches'
-                          : 'Needs practice'
-                        : 'Not attempted'}
+                          ? 'Right'
+                          : 'Try another'
+                        : 'Not tried'}
                     </td>
                     <td>{new Date(a.completedAt).toLocaleString()}</td>
                     <td>

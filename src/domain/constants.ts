@@ -32,3 +32,10 @@ export const LEARNING_CYCLE = [
   'Reassess',
 ] as const
 export const COLORS = ['white', 'black', 'red', 'blue', 'green', 'yellow'] as const
+/** Learner-facing names for the robot's first action. */
+export const ACTION_LABELS = {
+  move: 'Move forward',
+  stop: 'Stop in place',
+  turn: 'Turn',
+  wait: 'Wait',
+} as const

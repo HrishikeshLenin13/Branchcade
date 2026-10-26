@@ -97,6 +97,8 @@ test('the workbench toolbar is grouped with large, labelled controls', async ({ 
   // Kid-sized targets: every toolbar button and the speed menu are at least 40 px tall.
   const short = await toolbar.evaluate((bar) =>
     [...bar.querySelectorAll('button, select')]
+      // "More controls" only appears on phones.
+      .filter((el) => el.getClientRects().length > 0)
       .filter((el) => el.getBoundingClientRect().height < 40)
       .map((el) => el.textContent?.trim() ?? ''),
   )

@@ -60,10 +60,14 @@ test('every mission is completed by its verified reference program in the real w
   await loadDrafts(page, REFERENCE_PROGRAMS)
   for (const mission of MISSION_CATALOG) {
     const outcome = await runMission(page, mission.id, REFERENCE_PROGRAMS[mission.id]!)
-    await expect(outcome, mission.id).toContainText('Mission goal met by the executed trace.')
-    await expect(outcome, mission.id).not.toContainText('not met')
+    await expect(outcome, mission.id).toContainText('Mission goal met — the robot really did it!')
+    await expect(outcome.locator('.goal-fact-not-met'), mission.id).toHaveCount(0)
+    // The checklist shows plain sentences; each item keeps the saved fact it came from.
     for (const scenario of mission.successScenarios ?? [])
-      await expect(outcome, mission.id).toContainText(`Scenario “${scenario.label}”: met`)
+      await expect(
+        outcome.locator(`[data-fact="Scenario “${scenario.label}”: met"]`),
+        mission.id,
+      ).toHaveCount(1)
   }
   expect(errors).toEqual([])
 })
@@ -85,7 +89,7 @@ test('flawed programs fail exactly the way the curriculum says', async ({ page }
     const variant = CURRICULUM[m]!.mistakeVariants.find((x) => x.id === v)!
     const outcome = await runMission(page, m, variant.program)
     await expect(outcome, `${m}/${v}`).toContainText('Mission goal not met yet.')
-    await expect(outcome, `${m}/${v}`).toContainText(variant.fails)
+    await expect(outcome.locator(`[data-fact^="${variant.fails}"]`), `${m}/${v}`).toHaveCount(1)
   }
 })
 
@@ -180,7 +184,7 @@ test('capstone recap lists every criterion and completes only when all are met',
   await page.reload()
   await expect(page.getByTestId('completion-checklist')).toContainText('Capstone recap')
   await page.getByRole('link', { name: 'Progress', exact: true }).click()
-  await expect(page.getByText(/1 completed guided investigations/)).toBeVisible()
+  await expect(page.getByText(/1 mission finished/)).toBeVisible()
 })
 
 test('without a written reason the capstone is not marked complete', async ({ page }) => {
@@ -198,5 +202,5 @@ test('without a written reason the capstone is not marked complete', async ({ pa
   await page.getByRole('button', { name: 'Finish', exact: true }).click()
   await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
   await page.getByRole('link', { name: 'Progress', exact: true }).click()
-  await expect(page.getByText(/0 completed guided investigations/)).toBeVisible()
+  await expect(page.getByText(/0 missions finished/)).toBeVisible()
 })

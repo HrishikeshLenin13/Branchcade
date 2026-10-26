@@ -4,10 +4,12 @@ import {
   BookOpen,
   CircleHelp,
   Code,
+  Ellipsis,
   Footprints,
   Gauge,
   Keyboard,
   LayoutGrid,
+  MoveHorizontal,
   ListTree,
   PencilLine,
   Play,
@@ -32,7 +34,7 @@ import type {
   ExperimentResponse,
   Mission,
 } from '../../domain/types'
-import { LEARNING_CYCLE } from '../../domain/constants'
+import { ACTION_LABELS, LEARNING_CYCLE } from '../../domain/constants'
 import { WorldSchema } from '../../domain/schemas'
 import { immutable, opaqueId, stableHash } from '../../domain/invariants'
 import { makeDefaultWorld } from '../../engine/world'
@@ -85,14 +87,21 @@ import { useEditHistory } from './history'
 import { positionObstacle } from './world-tools'
 import './workstation.css'
 import { ButtonTour } from './ButtonTour'
+import { conceptLabel } from '../missions/library-model'
+import { GoalFacts } from './GoalFacts'
 const BlocklyEditor = lazy(() => import('./BlocklyEditor'))
-const ACTION_LABELS = { move: 'Move forward', stop: 'Stop in place', turn: 'Turn', wait: 'Wait' }
 
 /** Playback speeds. 1× is real time (the robot drives 20 cm/s), which is too quick to follow
  * a short mission, so runs start at 0.5×. Speed changes only the playback clock, never the
  * recorded physics or branch results (SPEC E4). The last choice is kept for this visit only. */
 const SPEEDS = [0.25, 0.5, 1, 2, 4] as const
 let preferredSpeed: number = 0.5
+/** The coding blocks are the main way to program, so they start open where there is room
+ * (phones keep the compact pseudocode view). A learner's open/close choice is kept for the visit. */
+let preferredBlocks: boolean | null = null
+const blocksByDefault = () =>
+  preferredBlocks ??
+  (typeof window.matchMedia === 'function' && window.matchMedia('(min-width: 900px)').matches)
 
 export default function LabLesson({ free = false }: { free?: boolean }) {
   const { slug } = useParams(),
@@ -188,9 +197,10 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
     [executing, setExecuting] = useState(false),
     [error, setError] = useState(''),
     [notice, setNotice] = useState(''),
-    [showEditor, setShowEditor] = useState(false),
+    [showEditor, setShowEditor] = useState(blocksByDefault),
     [showCode, setShowCode] = useState(true),
     [showTrace, setShowTrace] = useState(true),
+    [moreTools, setMoreTools] = useState(false),
     // `?tour=1` (chosen during onboarding) opens the button tour on arrival.
     [touring, setTouring] = useState(
       () => new URLSearchParams(window.location.search).get('tour') === '1',
@@ -309,21 +319,31 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
   useEffect(() => {
     saveRef.current = saveDraft
   }, [saveDraft])
+  // Reaching a new learning stage (or a new attempt) is saved at once; smaller edits such as
+  // moving the replay cursor wait for a short pause so typing and playback do not thrash storage.
+  const milestone = `${result ? stage : 'predict'}|${attemptId}|${transferIndex}`
+  const savedMilestone = useRef(milestone)
   useEffect(() => {
     draftDirty.current = true
     const revision = ++draftRevision.current
-    const timer = window.setTimeout(() => {
-      void saveDraft()
-        .then(() => {
-          if (draftRevision.current === revision && !useSession.getState().ephemeral)
-            draftDirty.current = false
-        })
-        .catch((error) =>
-          setError(error instanceof Error ? error.message : 'Draft could not be saved.'),
-        )
-    }, 450)
+    // Stays urgent until a save for this milestone has actually started.
+    const urgent = savedMilestone.current !== milestone
+    const timer = window.setTimeout(
+      () => {
+        savedMilestone.current = milestone
+        void saveDraft()
+          .then(() => {
+            if (draftRevision.current === revision && !useSession.getState().ephemeral)
+              draftDirty.current = false
+          })
+          .catch((error) =>
+            setError(error instanceof Error ? error.message : 'Draft could not be saved.'),
+          )
+      },
+      urgent ? 0 : 450,
+    )
     return () => window.clearTimeout(timer)
-  }, [saveDraft])
+  }, [saveDraft, milestone])
   useEffect(() => {
     const guard = (event: BeforeUnloadEvent) => {
       if (draftDirty.current) {
@@ -711,6 +731,14 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         ),
       )
   }
+  // The single highlighted action after a run.
+  const nextStep: 'investigate' | 'transfer' | 'new' | null = free
+    ? 'new'
+    : !correct
+      ? 'investigate'
+      : showTransfer
+        ? null
+        : 'transfer'
   const nextMission =
     MISSION_CATALOG[MISSION_CATALOG.findIndex((item) => item.id === mission.id) + 1]
   const nextUp = useMemo(
@@ -780,7 +808,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           <span className="section-index">
             {free
               ? 'Your open workbench'
-              : `${mission.id.toUpperCase()} / ${mission.conceptGoals.join(' · ')}`}
+              : `Mission ${Number(mission.id.slice(1))} · ${[...new Set(mission.conceptGoals.map(conceptLabel))].join(' · ')}`}
           </span>
           <h1>{free ? 'The sensor lab' : mission.title}</h1>
         </div>
@@ -796,7 +824,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             void saveRef.current()
           }}
         >
-          Back to missions
+          {free ? 'Leave the lab' : 'Back to missions'}
         </Link>
         <strong>{LEARNING_CYCLE[cycleIndex]}</strong>
         <span>
@@ -822,7 +850,10 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         </ol>
       </div>
       {/* Grouped by what a learner is trying to do, with an icon beside every label. */}
-      <div className="workstation-toolbar" aria-label="Workbench controls">
+      <div
+        className={`workstation-toolbar ${moreTools || touring ? 'show-more' : ''}`}
+        aria-label="Workbench controls"
+      >
         <div className="tool-group tool-group-run" role="group" aria-label="Run">
           {playing ? (
             <Button className="tool-run" data-tour="run" onClick={() => setPlaying(false)}>
@@ -960,7 +991,17 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             </select>
           </label>
         </div>
-        <div className="tool-group" role="group" aria-label="My program">
+        {/* Phones show the run and step controls first; the rest fold behind this button. */}
+        <Button
+          variant="outline"
+          className="tool-more"
+          aria-expanded={moreTools || touring}
+          onClick={() => setMoreTools((value) => !value)}
+        >
+          <Ellipsis aria-hidden size={16} />
+          {moreTools || touring ? 'Fewer controls' : 'More controls'}
+        </Button>
+        <div className="tool-group tool-extra" role="group" aria-label="My program">
           <Button
             variant="outline"
             data-tour="save"
@@ -1021,10 +1062,10 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             Reset simulation
           </Button>
         </div>
-        <div className="tool-group" role="group" aria-label="View and help">
+        <div className="tool-group tool-extra" role="group" aria-label="View and help">
           <Button variant="outline" data-tour="briefing" onClick={() => setDialog('briefing')}>
             <BookOpen aria-hidden size={16} />
-            Mission briefing
+            {free ? 'Lab briefing' : 'Mission briefing'}
           </Button>
           <Button
             variant="outline"
@@ -1157,11 +1198,36 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
               >
                 Redo code
               </Button>
-              <Button variant="outline" onClick={() => setShowEditor((value) => !value)}>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  preferredBlocks = !showEditor
+                  setShowEditor(preferredBlocks)
+                }}
+              >
                 {showEditor ? 'Close block editor' : 'Open block editor'}
               </Button>
             </div>
-            <details open className="pseudocode-details">
+            {showEditor && (
+              <Suspense fallback={<p role="status">Loading the local block editor…</p>}>
+                <BlocklyEditor
+                  program={program}
+                  activeNodeId={focusedNode ?? result?.events[cursor - 1]?.nodeId}
+                  readOnly={editLocked || busy}
+                  focusNonce={focusNonce}
+                  onProgram={(next) => {
+                    changeProgram(next)
+                    setNotice('Validated block program applied.')
+                  }}
+                />
+              </Suspense>
+            )}
+            {/* With the blocks showing, the text version starts folded away. */}
+            <details
+              key={String(showEditor)}
+              open={!showEditor || undefined}
+              className="pseudocode-details"
+            >
               <summary>View pseudocode</summary>
               <pre className="code-preview" aria-label="Inert program preview">
                 {pseudocode(program)}
@@ -1188,22 +1254,9 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                 </>
               )}
             </p>
-            {showEditor && (
-              <Suspense fallback={<p role="status">Loading the local block editor…</p>}>
-                <BlocklyEditor
-                  program={program}
-                  activeNodeId={focusedNode ?? result?.events[cursor - 1]?.nodeId}
-                  readOnly={editLocked || busy}
-                  focusNonce={focusNonce}
-                  onProgram={(next) => {
-                    changeProgram(next)
-                    setNotice('Validated block program applied.')
-                  }}
-                />
-              </Suspense>
-            )}
             <label className="resize-control">
-              Editor panel width
+              <MoveHorizontal aria-hidden size={14} />
+              Panel width
               <input
                 aria-label="Editor panel width"
                 type="range"
@@ -1607,19 +1660,39 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                     className={goalOutcome?.passed ? 'goal-passed' : 'goal-pending'}
                     data-testid="goal-outcome"
                   >
-                    <p>
+                    <p className="goal-headline">
                       {goalOutcome?.passed
-                        ? 'Mission goal met by the executed trace.'
-                        : 'Mission goal not met yet.'}
+                        ? 'Mission goal met — the robot really did it!'
+                        : 'Mission goal not met yet. Check the circles below.'}
                     </p>
-                    <ul className="goal-facts">
-                      {goalOutcome?.facts.map((fact) => (
-                        <li key={fact}>{fact}</li>
-                      ))}
-                    </ul>
+                    <GoalFacts facts={goalOutcome?.facts ?? []} goals={mission.successPredicate} />
                   </div>
                 )}
-                <div className="button-row">
+                {/* One clear next step; everything else is smaller underneath. */}
+                <div className="next-step">
+                  <span className="next-step-label">Next step</span>
+                  {nextStep === 'investigate' && (
+                    <Button
+                      onClick={() => {
+                        setShowInvestigation(true)
+                        setShowExperiment(false)
+                      }}
+                    >
+                      Investigate why
+                    </Button>
+                  )}
+                  {nextStep === 'transfer' && (
+                    <Button onClick={() => setShowTransfer(true)}>Try a different challenge</Button>
+                  )}
+                  {nextStep === 'new' && (
+                    <Button onClick={reset}>
+                      <RotateCcw size={16} />
+                      Start a new attempt
+                    </Button>
+                  )}
+                  {nextStep === null && <p className="muted">Answer the new challenge below.</p>}
+                </div>
+                <div className="button-row more-actions">
                   <Button
                     variant="outline"
                     onClick={() => {
@@ -1630,7 +1703,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                   >
                     Show decision in timeline
                   </Button>
-                  {!free && (
+                  {!free && nextStep !== 'investigate' && (
                     <Button
                       variant="outline"
                       onClick={() => {
@@ -1641,13 +1714,12 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                       Investigate why
                     </Button>
                   )}
-                  {correct && !free && !showTransfer && (
-                    <Button onClick={() => setShowTransfer(true)}>Try a different challenge</Button>
+                  {nextStep !== 'new' && (
+                    <Button variant="outline" onClick={reset}>
+                      <RotateCcw size={16} />
+                      Start a new attempt
+                    </Button>
                   )}
-                  <Button variant="outline" onClick={reset}>
-                    <RotateCcw size={16} />
-                    Start a new attempt
-                  </Button>
                   <Button
                     variant="outline"
                     onClick={() => {
@@ -1657,12 +1729,6 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                     }}
                   >
                     Change code
-                  </Button>
-                  <Button variant="outline" onClick={saveSummary}>
-                    Save summary
-                  </Button>
-                  <Button variant="outline" onClick={saveSummary}>
-                    Share progress
                   </Button>
                   {free && (
                     <Button
@@ -1675,6 +1741,15 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
                       Generate experiment
                     </Button>
                   )}
+                </div>
+                <div className="button-row file-actions">
+                  <Button variant="ghost" onClick={saveSummary}>
+                    <Save aria-hidden size={16} />
+                    Save summary
+                  </Button>
+                  <Button variant="ghost" onClick={saveSummary}>
+                    Share progress
+                  </Button>
                 </div>
               </div>
             )}
@@ -1709,7 +1784,8 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
             </section>
           )}
           <label className="resize-control">
-            Inspector panel width
+            <MoveHorizontal aria-hidden size={14} />
+            Panel width
             <input
               aria-label="Inspector panel width"
               type="range"

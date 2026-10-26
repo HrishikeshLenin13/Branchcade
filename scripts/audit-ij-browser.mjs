@@ -211,7 +211,9 @@ try {
     'free-lab',
     'World controls, same authoritative interpreter, optional prediction mode and recovery.',
   )
-  await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
+  // Blocks start open on wide screens.
+  if (await page.getByRole('button', { name: 'Open block editor', exact: true }).count())
+    await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await page.locator('.blocklySvg').waitFor()
   await capture(
     'blockly',

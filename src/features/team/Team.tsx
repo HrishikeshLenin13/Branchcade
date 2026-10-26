@@ -1,3 +1,4 @@
+import { X } from 'lucide-react'
 import { lazy, Suspense, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSession } from '../../app/session'
@@ -45,6 +46,7 @@ import {
 } from '../../components/ui/dialog'
 import { TraceView } from '../inspector/TraceView'
 import '../progress/local-records.css'
+import { GoalFacts } from '../lab/GoalFacts'
 const BlocklyEditor = lazy(() => import('../lab/BlocklyEditor'))
 const generatedAliases = [
   'Amber Finch',
@@ -168,48 +170,60 @@ export default function Team() {
       {!team ? (
         <section className="paper settings-form">
           <h2>Set up your group</h2>
-          <label>
-            Team name (optional)
-            <input maxLength={30} value={name} onChange={(e) => setName(e.target.value)} />
-          </label>
-          <label>
-            Number of teammates
-            <select
-              aria-label="Number of teammates"
-              value={aliases.length}
-              onChange={(e) =>
-                setAliases(
-                  Array.from(
-                    { length: Number(e.target.value) },
-                    (_, i) => aliases[i] ?? `Robot ${i + 1}`,
-                  ),
-                )
-              }
-            >
-              {[2, 3, 4, 5, 6].map((n) => (
-                <option key={n}>{n}</option>
-              ))}
-            </select>
-          </label>
+          <div className="team-setup-row">
+            <label>
+              Team name (optional)
+              <input maxLength={30} value={name} onChange={(e) => setName(e.target.value)} />
+            </label>
+            <label className="team-size">
+              Number of teammates
+              <select
+                aria-label="Number of teammates"
+                value={aliases.length}
+                onChange={(e) =>
+                  setAliases(
+                    Array.from(
+                      { length: Number(e.target.value) },
+                      (_, i) => aliases[i] ?? `Robot ${i + 1}`,
+                    ),
+                  )
+                }
+              >
+                {[2, 3, 4, 5, 6].map((n) => (
+                  <option key={n}>{n}</option>
+                ))}
+              </select>
+            </label>
+          </div>
           <div className="roster-fields">
             {aliases.map((alias, i) => (
-              <label key={i}>
-                Teammate {i + 1}
-                <input
-                  maxLength={32}
-                  value={alias}
-                  onChange={(e) =>
-                    setAliases(aliases.map((a, j) => (i === j ? e.target.value : a)))
-                  }
-                />
-                <Button
-                  variant="outline"
-                  disabled={aliases.length <= 2}
-                  onClick={() => setAliases(aliases.filter((_, j) => j !== i))}
-                >
-                  Remove teammate {i + 1}
-                </Button>
-              </label>
+              <div className="roster-field" key={i}>
+                <label htmlFor={`teammate-${i}`}>Teammate {i + 1}</label>
+                <div className="roster-row">
+                  <input
+                    id={`teammate-${i}`}
+                    maxLength={32}
+                    value={alias}
+                    onChange={(e) =>
+                      setAliases(aliases.map((a, j) => (i === j ? e.target.value : a)))
+                    }
+                  />
+                  {/* A small remove button beside the name instead of a full-width one. */}
+                  <Button
+                    variant="ghost"
+                    aria-label={`Remove teammate ${i + 1}`}
+                    title={
+                      aliases.length <= 2
+                        ? 'A team needs at least 2 people'
+                        : `Remove teammate ${i + 1}`
+                    }
+                    disabled={aliases.length <= 2}
+                    onClick={() => setAliases(aliases.filter((_, j) => j !== i))}
+                  >
+                    <X aria-hidden size={18} />
+                  </Button>
+                </div>
+              </div>
             ))}
           </div>
           <div className="button-row">
@@ -452,18 +466,25 @@ export default function Team() {
                     <p>Team hypothesis: {team.teamHypothesis}</p>
                     {lastResult && (
                       <>
-                        <p data-testid="team-goal-outcome">
-                          {lastResult.goalPassed
-                            ? 'Shared program met the mission goals.'
-                            : 'Shared program needs another test.'}{' '}
-                          {judgeRecorded(
-                            mission,
-                            lastResult.missionVersion,
-                            (lastResult.world ?? mission.world) as typeof mission.world,
-                            lastResult.program ?? teamProgram,
-                            lastResult.engineVersion,
-                          ).facts.join(' ')}
-                        </p>
+                        <div data-testid="team-goal-outcome">
+                          <p className="goal-headline">
+                            {lastResult.goalPassed
+                              ? 'Shared program met the mission goals.'
+                              : 'Shared program needs another test.'}
+                          </p>
+                          <GoalFacts
+                            facts={
+                              judgeRecorded(
+                                mission,
+                                lastResult.missionVersion,
+                                (lastResult.world ?? mission.world) as typeof mission.world,
+                                lastResult.program ?? teamProgram,
+                                lastResult.engineVersion,
+                              ).facts
+                            }
+                            goals={mission.successPredicate}
+                          />
+                        </div>
                         <p>
                           Assistance before this run:{' '}
                           {lastResult.assistanceIds === undefined

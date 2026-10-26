@@ -76,7 +76,9 @@ test('F pause permits inspection only; Stop & Edit resets before code/world chan
   await expect(
     page.getByRole('slider', { name: 'Obstacle distance (cm)', exact: true }),
   ).toBeDisabled()
-  await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
+  // Blocks start open on laptop-size screens; open them only if they are closed.
+  if (await page.getByRole('button', { name: 'Open block editor', exact: true }).count())
+    await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Apply blocks', exact: true })).toBeDisabled()
   await page.getByRole('button', { name: 'Stop & Edit', exact: true }).click()
   await expect(
@@ -196,7 +198,9 @@ test('F a large looping run remains cancellable and returns to usable editing', 
   await page.getByRole('button', { name: 'Cancel execution', exact: true }).click()
   await expect(page.getByRole('alert').filter({ hasText: 'Run cancelled' }).first()).toBeVisible()
   await page.getByRole('button', { name: 'Stop & Edit', exact: true }).click()
-  await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
+  // Blocks start open on laptop-size screens; open them only if they are closed.
+  if (await page.getByRole('button', { name: 'Open block editor', exact: true }).count())
+    await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await expect(page.locator('.blocklySvg')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Apply blocks', exact: true })).toBeEnabled()
 })

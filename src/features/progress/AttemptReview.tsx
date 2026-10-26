@@ -5,6 +5,9 @@ import { actualAction, branchFacts } from '../../interpreter/trace'
 import { initialRobot } from '../../engine/robot'
 import { Stage } from '../../components/illustration/Stage'
 import { TraceView } from '../inspector/TraceView'
+import { GoalFacts } from '../lab/GoalFacts'
+import { ACTION_LABELS } from '../../domain/constants'
+import { MISSION_CATALOG } from '../../missions/catalog'
 import { PROBES } from '../../learning/probes'
 import { answerLabel, buildProbe } from '../../learning/probe-templates'
 import type { QuestionKind } from '../../learning/mental-models'
@@ -15,6 +18,7 @@ export function AttemptReview({ attempt }: { attempt: Attempt }) {
     ),
     [cursor, setCursor] = useState(0)
   const robot = result.events[cursor - 1]?.after ?? initialRobot(attempt.world)
+  const mission = MISSION_CATALOG.find((m) => m.id === attempt.missionId)
   return (
     <section className="paper attempt-review" aria-label={`Attempt ${attempt.attemptIndex} replay`}>
       <h2>Attempt {attempt.attemptIndex}: actual trace</h2>
@@ -25,14 +29,16 @@ export function AttemptReview({ attempt }: { attempt: Attempt }) {
       <p>
         Prediction:{' '}
         <strong>
-          {attempt.prediction.uncertain ? 'Not sure yet (unanswered)' : attempt.prediction.action}
+          {attempt.prediction.uncertain
+            ? 'Not sure yet (unanswered)'
+            : ACTION_LABELS[attempt.prediction.action]}
         </strong>{' '}
-        · actual first action: <strong>{actualAction(result.events)}</strong> · confidence{' '}
-        {attempt.prediction.confidence}/5.
+        · actual first action: <strong>{ACTION_LABELS[actualAction(result.events)]}</strong> ·
+        confidence {attempt.prediction.confidence}/5.
       </p>
       <p>{attempt.prediction.reasoning || 'No prediction reasoning recorded.'}</p>
       <p className="fact">{branchFacts(result.events)}</p>
-      <p>{attempt.goalOutcome.facts.join('. ')}</p>
+      {mission && <GoalFacts facts={attempt.goalOutcome.facts} goals={mission.successPredicate} />}
       <Stage
         world={attempt.world}
         robot={robot}

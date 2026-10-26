@@ -146,3 +146,42 @@
   flex: 1 1 160px;
   min-width: min(100%, 160px);
 }
+/* Team setup: name and size side by side; each teammate gets a small remove button. */
+.team-setup-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: end;
+}
+.local-records .team-size select {
+  width: auto;
+  min-width: 7rem;
+}
+.roster-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.roster-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.roster-row input {
+  flex: 1;
+  min-width: 0;
+}
+.roster-row [data-slot='button'] {
+  flex: none;
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+}
+@media (max-width: 560px) {
+  .team-setup-row {
+    grid-template-columns: 1fr;
+  }
+}
+.local-records td [data-slot='button'] + .text-link {
+  margin-left: 0.6rem;
+}

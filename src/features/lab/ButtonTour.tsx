@@ -88,8 +88,8 @@ export const WORKBENCH_TOUR: TourStep[] = [
   },
   {
     target: '[data-tour="briefing"]',
-    title: 'Mission briefing',
-    body: 'Shows the goal of this mission again.',
+    title: 'Briefing',
+    body: 'Shows what to do here again: the mission goal, or how the Free Lab works.',
   },
   {
     target: '[data-tour="help"]',

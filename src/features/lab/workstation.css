@@ -82,16 +82,25 @@
   padding-block: 12px;
   font-size: 0.85rem;
 }
-.resize-control {
-  padding: 10px 12px;
-  font-size: 0.7rem;
-  display: block;
-  border-top: 1px solid var(--border, #dde2e4);
+/* A quiet, one-line width control at the foot of a panel. */
+.resize-control,
+.workstation-page .resize-control {
+  flex-direction: row;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 0.75rem;
+  white-space: nowrap;
   color: var(--muted-foreground, #596675);
 }
-.resize-control input {
-  width: 100%;
-  margin-block: 5px;
+.resize-control input,
+.workstation-page .resize-control input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  accent-color: var(--focus);
 }
 .workstation-grid .world-panel {
   overflow: hidden;
@@ -177,11 +186,11 @@
 }
 .prediction-comparison span {
   display: block;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: var(--muted-foreground, #596675);
 }
 .prediction-comparison strong {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
 }
 .workstation-grid .readout-row {
   gap: 10px;
@@ -202,19 +211,26 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 2px;
-  padding: 5px 8px;
+  gap: 4px;
+  padding: 6px 8px;
   background: #14212a;
   color: #d6e6ec;
 }
+/* Outlined, finger-sized camera buttons so they read as buttons on the dark bar. */
 .stage-toolbar button,
 .stage-detail-buttons button {
   color: #d6e6ec;
-  font-size: 0.67rem;
-  min-height: 32px;
+  font-size: 0.78rem;
+  min-height: 36px;
   /* Glyph-only zoom/pan buttons were 20 px wide (OPUS-004). */
-  min-width: 32px;
-  padding: 4px 7px;
+  min-width: 36px;
+  padding: 4px 9px;
+  border: 1px solid #36505e;
+  border-radius: 8px;
+}
+.stage-toolbar button[aria-label^='Pan'],
+.stage-toolbar button[aria-label^='Zoom'] {
+  font-size: 1rem;
 }
 .stage-toolbar button:hover,
 .stage-toolbar button[aria-pressed='true'],
@@ -223,7 +239,7 @@
   color: #fff;
 }
 .stage-toolbar .mono {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
 }
 .stage-wrap > .world {
   width: 100%;
@@ -418,14 +434,14 @@
   grid-template-columns: 1fr;
   padding: 10px;
   gap: 3px;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
 }
 .workstation-grid .trace-event .mono {
   font-size: 0.65rem;
 }
 .workstation-grid .trace-panel .muted {
   padding: 10px;
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   line-height: 1.6;
 }
 .inspector-copy,
@@ -512,7 +528,7 @@
   height: 480px;
 }
 .goal-passed {
-  color: #23735d;
+  color: var(--success);
 }
 .goal-pending {
   color: var(--muted-foreground, #596675);
@@ -662,10 +678,6 @@
 .vocabulary dd {
   margin: 0;
 }
-.goal-facts {
-  margin: 4px 0 0;
-  padding-inline-start: 20px;
-}
 .completion-checklist ul {
   padding-inline-start: 20px;
 }
@@ -807,4 +819,68 @@
 }
 :root[data-motion='reduced'] .tour-spotlight {
   transition: none;
+}
+
+/* After a run: the result sits right under the heading (no empty ruled gap), then one
+   clearly highlighted next step, then smaller extras. */
+.prediction-panel .result-block {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+.next-step {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 14px 0 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--focus) 6%, var(--paper));
+}
+.next-step-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.result-block .next-step [data-slot='button'] {
+  width: 100%;
+  min-height: 46px;
+  margin: 0;
+  font-size: 0.98rem;
+}
+.result-block .next-step p {
+  margin: 0;
+}
+.result-block .more-actions {
+  gap: 8px;
+}
+.result-block .more-actions [data-slot='button'],
+.result-block .file-actions [data-slot='button'] {
+  margin: 0;
+}
+.result-block .file-actions {
+  margin-top: 6px;
+  gap: 4px;
+}
+.goal-headline {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* "More controls" only exists on phones, where it folds the program and view groups away. */
+.workstation-toolbar .tool-more {
+  display: none;
+}
+@media (max-width: 760px) {
+  .workstation-toolbar .tool-more {
+    display: inline-flex;
+    min-height: 40px;
+  }
+  .workstation-toolbar:not(.show-more) .tool-extra {
+    display: none;
+  }
 }

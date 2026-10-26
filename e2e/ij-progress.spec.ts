@@ -61,7 +61,7 @@ test('three primary missions earn completion stamps only after real goal and fre
     )
   }
   await page.goto('/progress')
-  await expect(page.getByText(/3 completed guided investigations/)).toBeVisible()
+  await expect(page.getByText(/3 missions finished/)).toBeVisible()
   for (const id of ids)
     await expect(
       page.getByRole('button', {
@@ -95,13 +95,13 @@ test('evidence stamps follow a real saved investigation, remain learner scoped a
   await page.reload()
   await expect(page.getByTestId('evidence-stamps')).toContainText('First Trace · Recorded')
   const original = await page
-    .getByRole('combobox', { name: 'Local pseudonym', exact: true })
+    .getByRole('combobox', { name: 'Your lab name', exact: true })
     .inputValue()
-  await page.getByLabel('New anonymous alias (optional)', { exact: true }).fill('QA New Notebook')
-  await page.getByRole('button', { name: 'Create another anonymous learner', exact: true }).click()
+  await page.getByLabel('New lab name (optional)', { exact: true }).fill('QA New Notebook')
+  await page.getByRole('button', { name: 'Add another learner', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'A fresh page', exact: true })).toBeVisible()
   await expect(page.getByTestId('evidence-stamps')).toHaveCount(0)
-  await page.getByRole('combobox', { name: 'Local pseudonym', exact: true }).selectOption(original)
+  await page.getByRole('combobox', { name: 'Your lab name', exact: true }).selectOption(original)
   await expect(page.getByTestId('evidence-stamps')).toContainText('First Trace · Recorded')
   await page.getByRole('button', { name: 'Clear my progress', exact: true }).click()
   await page.getByRole('button', { name: 'Clear this learner only', exact: true }).click()

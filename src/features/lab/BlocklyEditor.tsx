@@ -5,6 +5,8 @@ import { pseudocode } from '../../interpreter/pseudocode'
 import { thresholdProgram } from '../../missions/catalog'
 import { Button } from '../../components/ui/button'
 import { editableProgram, FULL_TOOLBOX, programWorkspace, blockForNode } from './program-workspace'
+
+const LOCKED_REASON = 'Blocks are locked to this run. Press Stop & Edit to change them.'
 export default function BlocklyEditor({
   onProgram,
   program = thresholdProgram(),
@@ -72,6 +74,18 @@ export default function BlocklyEditor({
     })
     Blockly.serialization.workspaces.load(programWorkspace(initial.current), ws)
     ws.clearUndo()
+    // Blockly's own zoom buttons would share the names "Zoom in"/"Zoom out" with the robot
+    // world's camera buttons, so screen readers could not tell them apart.
+    for (const [selector, label] of [
+      ['.blocklyZoomIn', 'Zoom blocks in'],
+      ['.blocklyZoomOut', 'Zoom blocks out'],
+      ['.blocklyZoomReset', 'Reset block zoom'],
+    ] as const)
+      container.current.querySelector(selector)?.setAttribute('aria-label', label)
+    // Blockly measures text with an off-screen canvas appended to <body>; it is not content.
+    document
+      .querySelectorAll('canvas.blocklyComputeCanvas')
+      .forEach((canvas) => canvas.setAttribute('aria-hidden', 'true'))
     const listener = () => {
       setUndo(ws.getUndoStack().length > 0)
       setRedo(ws.getRedoStack().length > 0)
@@ -139,7 +153,13 @@ export default function BlocklyEditor({
           <Button
             variant="outline"
             disabled={!undo || readOnly}
-            title={!undo ? 'No block edit to undo' : 'Undo the last block edit'}
+            title={
+              readOnly
+                ? LOCKED_REASON
+                : !undo
+                  ? 'No block edit to undo'
+                  : 'Undo the last block edit'
+            }
             onClick={() => workspace.current?.undo(false)}
           >
             Undo
@@ -147,12 +167,22 @@ export default function BlocklyEditor({
           <Button
             variant="outline"
             disabled={!redo || readOnly}
-            title={!redo ? 'No block edit to redo' : 'Redo the last block edit'}
+            title={
+              readOnly
+                ? LOCKED_REASON
+                : !redo
+                  ? 'No block edit to redo'
+                  : 'Redo the last block edit'
+            }
             onClick={() => workspace.current?.undo(true)}
           >
             Redo
           </Button>
-          <Button onClick={apply} disabled={readOnly}>
+          <Button
+            onClick={apply}
+            disabled={readOnly}
+            title={readOnly ? LOCKED_REASON : 'Use these blocks as your program'}
+          >
             Apply blocks
           </Button>
         </div>
@@ -176,6 +206,7 @@ export default function BlocklyEditor({
         <Button
           variant="outline"
           disabled={readOnly}
+          title={readOnly ? LOCKED_REASON : 'Line the blocks up neatly'}
           onClick={() => {
             workspace.current?.cleanUp()
             setStatus('Connected program blocks arranged vertically.')
@@ -185,11 +216,9 @@ export default function BlocklyEditor({
         </Button>
       </div>
       <p className="muted">
-        Movement, sensors, logic, loops, variables, helpers and debug blocks become a bounded,
-        validated program. Unapplied workspace edits do not run; the main program preview is the
-        executed AST. Names use letters, numbers, underscores or hyphens. Generated pseudocode is
-        read-only. For keyboard or screen reader use, inspect the text steps; Blockly’s spatial
-        editing may need a pointer.
+        Drag blocks from the list into your program, then press <strong>Apply blocks</strong> to use
+        them. Changes you have not applied will not run. Names can use letters, numbers, _ and -.
+        Using a keyboard or screen reader? “View pseudocode” shows the same program as text.
       </p>
       <div
         className="blockly-container"

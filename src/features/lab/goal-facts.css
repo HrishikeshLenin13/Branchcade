@@ -1,0 +1,24 @@
+/* Mission goal checklist (missions, team results and attempt review). */
+.goal-facts {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 4px;
+  padding: 0;
+  list-style: none;
+}
+.goal-fact {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.goal-fact svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--muted);
+}
+.goal-fact-met svg {
+  color: var(--success);
+}

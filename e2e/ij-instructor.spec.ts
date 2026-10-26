@@ -52,7 +52,7 @@ async function importFixture(page: Page): Promise<AppExport> {
   await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
   await page.goto('/progress')
   await page
-    .getByRole('combobox', { name: 'Local pseudonym', exact: true })
+    .getByRole('combobox', { name: 'Your lab name', exact: true })
     .selectOption('ij-teacher-elm')
   await expect(page.getByRole('status', { name: 'Local save status' })).toHaveText('Saved locally.')
   const draft = {
@@ -154,7 +154,7 @@ test('I/J instructor filters actual local rows by learner, concept, dates and te
   await expect(table).not.toContainText(ELM)
   await page.getByRole('button', { name: 'Inspect attempt 1', exact: true }).click()
   const replay = page.getByRole('region', { name: 'Attempt 1 replay', exact: true })
-  await expect(replay).toContainText('actual first action: move')
+  await expect(replay).toContainText('actual first action: Move forward')
   await replay.getByRole('button', { name: 'Step forward', exact: true }).click()
   await replay.getByText('Reproducibility checksums', { exact: true }).click()
   await expect(replay).toContainText('Trace SHA-256:')

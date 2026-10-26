@@ -30,6 +30,8 @@ test('I/J layout, disclosure, copy and inspector controls produce their advertis
     await button.click()
     await expect(button).toHaveAttribute('aria-expanded', 'false')
   }
+  // The text version is folded away while the blocks are showing.
+  await page.getByText('View pseudocode', { exact: true }).click()
   await page.getByRole('button', { name: 'Copy pseudocode', exact: true }).click()
   await expect(
     page.getByText(

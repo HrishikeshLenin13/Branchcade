@@ -166,7 +166,9 @@ test('a bounded loop imported as synthetic practice stops safely and leaves the 
   await expect(
     page.getByRole('alert').filter({ hasText: 'Run budget reached' }).first(),
   ).toBeVisible()
-  await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
+  // Blocks start open on laptop-size screens; open them only if they are closed.
+  if (await page.getByRole('button', { name: 'Open block editor', exact: true }).count())
+    await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await expect(page.locator('.blocklySvg')).toBeVisible()
 })
 

@@ -84,7 +84,7 @@ describe('trace inspector presents preserved evidence', () => {
         runId="actual-run"
       />,
     )
-    fireEvent.click(screen.getByRole('button', { name: /Event 3: branch/ }))
+    fireEvent.click(screen.getByRole('button', { name: /^03 · .* · branch · / }))
     expect(selected).toEqual([3])
     fireEvent.click(screen.getByRole('tab', { name: 'Why?' }))
     expect(screen.getByText(/24 < 20 is false/)).toBeVisible()

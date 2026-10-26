@@ -136,6 +136,12 @@ test('I/J 180-statement Blockly workspace survives apply, unmount and repeated r
         dom: await cdp.send('Memory.getDOMCounters'),
       }
     : null
+  // Blocks start open on laptop-size screens: close them first so the timing below still
+  // measures a cold open of the editor.
+  if (await page.getByRole('button', { name: 'Close block editor', exact: true }).count()) {
+    await page.getByRole('button', { name: 'Close block editor', exact: true }).click()
+    await expect(blocklySvg).toHaveCount(0)
+  }
   const begin = performance.now()
   await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await expectBlocklyVisible()
@@ -312,7 +318,9 @@ test('I/J Blockly editing loads only bundled same-origin assets and never reques
       missing.push(response.url())
   })
   await page.goto('/lab?example=24')
-  await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
+  // Blocks start open on laptop-size screens; open them only if they are closed.
+  if (await page.getByRole('button', { name: 'Open block editor', exact: true }).count())
+    await page.getByRole('button', { name: 'Open block editor', exact: true }).click()
   await expect(page.locator('.blocklySvg')).toBeVisible()
   await page.getByRole('button', { name: 'Code preview', exact: true }).click()
   await expect(page.getByLabel('Block code preview', { exact: true })).toContainText('distanceCm')
