@@ -65,6 +65,12 @@ import './workstation.css'
 const BlocklyEditor = lazy(() => import('./BlocklyEditor'))
 const ACTION_LABELS = { move: 'Move forward', stop: 'Stop in place', turn: 'Turn', wait: 'Wait' }
 
+/** Playback speeds. 1× is real time (the robot drives 20 cm/s), which is too quick to follow
+ * a short mission, so runs start at 0.5×. Speed changes only the playback clock, never the
+ * recorded physics or branch results (SPEC E4). The last choice is kept for this visit only. */
+const SPEEDS = [0.25, 0.5, 1, 2, 4] as const
+let preferredSpeed: number = 0.5
+
 export default function LabLesson({ free = false }: { free?: boolean }) {
   const { slug } = useParams(),
     mission = free ? FIRST_MISSION : findMission(slug ?? '')
@@ -149,7 +155,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         : 0,
     ),
     [playing, setPlaying] = useState(false),
-    [speed, setSpeed] = useState(1),
+    [speed, setSpeed] = useState(preferredSpeed),
     [stepTarget, setStepTarget] = useState<number | undefined>(),
     [editLocked, setEditLocked] = useState(Boolean(saved)),
     [focusedNode, setFocusedNode] = useState<string | undefined>(),
@@ -587,11 +593,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         next.profile = {
           ...next.profile,
           completedMissions:
-            !free &&
-            missionComplete(
-              next.attempts.find((item) => item.id === attemptId)!,
-              mission,
-            )
+            !free && missionComplete(next.attempts.find((item) => item.id === attemptId)!, mission)
               ? [...new Set([...next.profile.completedMissions, mission.id])]
               : next.profile.completedMissions,
           responses: [
@@ -941,11 +943,14 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
           <select
             aria-label="Simulation speed"
             value={speed}
-            onChange={(event) => setSpeed(Number(event.target.value))}
+            onChange={(event) => {
+              preferredSpeed = Number(event.target.value)
+              setSpeed(preferredSpeed)
+            }}
           >
-            {[0.5, 1, 2, 4].map((value) => (
+            {SPEEDS.map((value) => (
               <option key={value} value={value}>
-                {value}×
+                {value}×{value === 0.25 ? ' (slow)' : ''}
               </option>
             ))}
           </select>

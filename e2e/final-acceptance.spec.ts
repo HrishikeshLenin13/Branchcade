@@ -71,3 +71,18 @@ test('the approved Branchcade logo loads in the header, footer and browser tab',
     '/favicon-32.png',
   )
 })
+
+test('mission playback starts slower (0.5×), offers 0.25× and keeps the choice between missions', async ({
+  page,
+}) => {
+  await page.goto('/missions/m01?new=1')
+  const speed = page.getByRole('combobox', { name: 'Simulation speed', exact: true })
+  await expect(speed).toHaveValue('0.5')
+  await expect(speed.locator('option')).toHaveText(['0.25× (slow)', '0.5×', '1×', '2×', '4×'])
+  await speed.selectOption('0.25')
+  await page.getByRole('link', { name: 'Missions', exact: true }).first().click()
+  await page.getByRole('link', { name: 'Lab', exact: true }).first().click()
+  await expect(page.getByRole('combobox', { name: 'Simulation speed', exact: true })).toHaveValue(
+    '0.25',
+  )
+})
