@@ -593,7 +593,11 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
         next.profile = {
           ...next.profile,
           completedMissions:
-            !free && missionComplete(next.attempts.find((item) => item.id === attemptId)!, mission)
+            !free &&
+            missionComplete(
+              next.attempts.find((item) => item.id === attemptId)!,
+              mission,
+            )
               ? [...new Set([...next.profile.completedMissions, mission.id])]
               : next.profile.completedMissions,
           responses: [
