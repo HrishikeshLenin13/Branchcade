@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import type { Attempt, ExperimentResponse, Mission } from '../../domain/types'
 import { Button } from '../../components/ui/button'
 import { Stage } from '../../components/illustration/Stage'
@@ -60,7 +60,10 @@ export function Experiment({
   onBack: () => void
   onTransfer: () => void
 }) {
-  const plan = useMemo(() => experimentPlan(attempt, state), [attempt, state])
+  // The experiment list is fixed when this step opens. Saving an answer updates the attempt and
+  // its diagnosis; recomputing the plan then swapped in a different experiment while the locked
+  // prediction and its "matches / differs" verdict still described the one the learner ran.
+  const [plan] = useState(() => experimentPlan(attempt, state))
   const [index, setIndex] = useState(0)
   const candidate = plan?.search.ranked[index]
   const [value, setValue] = useState<string | undefined>()

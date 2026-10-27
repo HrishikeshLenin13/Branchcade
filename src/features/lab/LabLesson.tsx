@@ -1819,6 +1819,7 @@ function Workstation({ free, mission }: { free: boolean; mission: Mission }) {
       )}
       {showExperiment && savedAttempt && diagnosis && (
         <Experiment
+          key={savedAttempt.id}
           attempt={savedAttempt}
           mission={free ? undefined : mission}
           state={diagnosis}

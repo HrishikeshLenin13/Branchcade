@@ -173,3 +173,32 @@ test('progress charts are drawn from the attempts saved on this device', async (
     'After 2 attempts, 1 prediction matched the real run.',
   )
 })
+
+test('a correct experiment prediction keeps its own result instead of jumping to another experiment', async ({
+  page,
+}) => {
+  await page.goto('/missions/m01?new=1')
+  await page.getByRole('radio', { name: 'Stop in place', exact: true }).check()
+  await page.getByRole('button', { name: 'Lock prediction & run', exact: true }).click()
+  await expect(page.getByTestId('goal-outcome')).toBeVisible()
+  await page
+    .locator('.next-step')
+    .getByRole('button', { name: 'Investigate why', exact: true })
+    .click()
+  await page.getByRole('button', { name: 'Only the “otherwise” part (move)', exact: true }).click()
+  await page.getByRole('button', { name: 'Continue to experiment', exact: true }).click()
+  const wall = page.getByLabel('Wall distance value', { exact: true })
+  const before = await wall.inputValue()
+  await page.getByRole('radio', { name: 'It moves forward', exact: true }).check()
+  await page.getByRole('button', { name: 'Lock experiment prediction', exact: true }).click()
+  await page.getByRole('button', { name: 'Run experiment', exact: true }).click()
+  const facts = page.getByTestId('experiment-facts')
+  await expect(facts).toContainText(`${before} < 20 is false`)
+  await expect(facts).toContainText('matches')
+  // Saving the answer used to swap in the next experiment a moment later, judged against the
+  // old locked prediction ("Your prediction differs…").
+  await page.waitForTimeout(1500)
+  await expect(wall).toHaveValue(before)
+  await expect(facts).toContainText(`${before} < 20 is false`)
+  await expect(facts).toContainText('matches')
+})
